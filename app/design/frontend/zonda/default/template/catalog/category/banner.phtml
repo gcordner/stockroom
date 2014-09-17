@@ -1,0 +1,38 @@
+
+<?php
+$zonda = $this->helper('zonda');
+$b = $zonda->getConfigGroup();
+
+if($b['category']['banner_position'] == 'top') : ?>
+    <?php
+    $_helper    = $this->helper('catalog/output');
+    $_category  = $this->getCurrentCategory();
+    $_imgHtml   = '';
+    if ($_imgUrl = $_category->getImageUrl()) {
+        $_imgHtml = '<p class="category-image"><img src="'.$_imgUrl.'" alt="'.$this->htmlEscape($_category->getName()).'" title="'.$this->htmlEscape($_category->getName()).'" /></p>';
+        $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
+    }
+?>    
+
+    <div class="category-banner">
+         <?php if($_imgUrl): ?>
+            <div class="banner-image">
+                <?php  echo $_imgHtml ?>
+            </div>
+            <?php $img_data = getimagesize($_imgUrl); ?>
+            <style type="text/css">
+            .category-banner {
+                min-height: 120px;
+                background : url(<?php echo $_imgUrl ?>) no-repeat center center;
+                margin: 0 auto;
+                height: <?php echo $img_data[1] ?>px;
+            }
+            .header-container {
+                position: absolute;
+            }
+            </style>
+        <?php endif; ?>
+            
+        
+    </div>
+<?php endif; ?>

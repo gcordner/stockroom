@@ -1,0 +1,194 @@
+<?php 
+$zonda = $this->helper('zonda');
+$b = $zonda->getConfigGroup();
+$spanClass = 'col';
+$brands = $this->helper('eternal_brands');
+?> 
+<?php
+if (!$brands->getConfig('slider/custom_enable') || !$b['footer']['show_two_lows']) :
+    $footer_banner = $this->getChildHtml('footer-banner');
+    if ($footer_banner) : ?>
+    <div class="footer-banner">
+        <?php echo $footer_banner; ?>
+    </div>
+<?php endif; 
+    endif;
+?>
+<div class="footer">
+    <?php if ($b['footer']['show_tweets']) : ?>
+        <?php $tt_html = $this->getChildHtml('social_twitter_tweets'); ?>
+        <?php if ($tt_html): ?>
+        <div class="footer-tweets">
+            <?php echo $tt_html; ?>
+        </div>
+        <?php endif; ?>
+    <?php endif; ?>
+    <?php if ($b['footer']['show_two_lows']) : ?>
+    <?php        
+        if ($b['footer']['footer_col_5'] == 'facebook' || $b['footer']['footer_col_6'] == 'facebook' || $b['footer']['footer_col_7'] == 'facebook' || $b['footer']['footer_col_8'] == 'facebook')
+            $fb_html = $this->getChildHtml('social_facebook_fans');            
+        if ($b['footer']['footer_col_5'] == 'twitter' || $b['footer']['footer_col_6'] == 'twitter' || $b['footer']['footer_col_7'] == 'twitter' || $b['footer']['footer_col_8'] == 'twitter'){
+            $tt_html = $this->getChildHtml('social_twitter_tweets_footer');
+        }
+            
+        if ($b['footer']['footer_col_5'] == 'googlemap' || $b['footer']['footer_col_6'] == 'googlemap' || $b['footer']['footer_col_7'] == 'googlemap' || $b['footer']['footer_col_8'] == 'googlemap')
+            $gm_html = $this->getChildHtml('google_map');                    
+        if ($b['footer']['footer_col_5'] == 'default' || $b['footer']['footer_col_6'] == 'default' || $b['footer']['footer_col_7'] == 'default' || $b['footer']['footer_col_8'] == 'default')   
+            $links_html = $this->getChildHtml('footer_links');
+        
+        $cols_top = array();
+        $col_top_count = 0;
+        for ($i = 5; $i <= 8; $i++) {
+            $col = array();
+            switch ($b['footer']['footer_col_'.$i]) {
+                case 'default': 
+                    if ($links_html) {
+                        $col['title'] = $this->__('Links');          
+                        $col['content'] = $links_html; 
+                    }
+                    break;
+                case 'twitter': 
+                    if ($tt_html) {
+                        $col['title'] = $this->__('Latest Tweets');   
+                        $col['content'] = $tt_html; 
+                    }
+                    break;
+                case 'facebook': 
+                    if ($fb_html) {
+                        $col['title'] = '';
+                        $col['content'] = $fb_html; 
+                    }
+                    break;
+                case 'googlemap':
+                    if ($gm_html) {
+                        $col['title'] = '';
+                        $col['content'] = $gm_html;
+                    }
+                    break;
+                default: 
+                    $block_id = $b['footer']['footer_col_'.$i.'_block'];
+                    if ($block_id) {
+                        $block = Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load($block_id);
+                        if ($block) {
+                            $col['title'] = $block->getTitle();
+                            $col['content'] = $block->getContent();
+                        }
+                    }
+            }
+            if (!empty($col)) {
+                $cols_top[] = $col;
+                $col_top_count++;
+            }   
+        }
+        $col_top_class = $spanClass.(12/$col_top_count);
+        $i = 1;
+        ?>
+    <div class="footer-top">
+            <?php
+            if ($brands->getConfig('slider/custom_enable') && $b['footer']['show_two_lows']) {                
+                $footer_banner = $this->getChildHtml('footer-banner');                
+                if ($footer_banner) {?>
+                <div class="footer-banner">
+                    <?php echo $footer_banner; ?>
+                </div>
+        <?php } 
+            }
+        ?>
+        <div class="container">
+            <div class="row clearfix">
+                <?php foreach ($cols_top as $col) : ?>
+                <div class="<?php echo $col_top_class ?> footer_column footer-column-<?php echo $i; $i++; ?>">
+                    <?php if ($col['title']) : ?><h3 class="title"><?php echo $col['title'] ?></h3><?php endif; ?>
+                    <?php echo $col['content'] ?>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+    <?php endif;?>
+        <?php              
+        if ($b['footer']['footer_col_1'] == 'facebook' || $b['footer']['footer_col_2'] == 'facebook' || $b['footer']['footer_col_3'] == 'facebook' || $b['footer']['footer_col_4'] == 'facebook')
+            $fb_html = $this->getChildHtml('social_facebook_fans');            
+        if ($b['footer']['footer_col_1'] == 'twitter' || $b['footer']['footer_col_2'] == 'twitter' || $b['footer']['footer_col_3'] == 'twitter' || $b['footer']['footer_col_4'] == 'twitter')
+            $tt_html = $this->getChildHtml('social_twitter_tweets_footer');            
+        if ($b['footer']['footer_col_1'] == 'googlemap' || $b['footer']['footer_col_2'] == 'googlemap' || $b['footer']['footer_col_3'] == 'googlemap' || $b['footer']['footer_col_4'] == 'googlemap')
+            $gm_html = $this->getChildHtml('google_map');
+        if ($b['footer']['footer_col_1'] == 'default' || $b['footer']['footer_col_2'] == 'default' || $b['footer']['footer_col_3'] == 'default' || $b['footer']['footer_col_4'] == 'default')   
+            $links_html = $this->getChildHtml('footer_links');
+        
+        $cols_main = array();
+        $col_main_count = 0;
+        for ($i = 1; $i <= 4; $i++) {
+            $col = array();
+            switch ($b['footer']['footer_col_'.$i]) {
+                case 'default': 
+                    if ($links_html) {
+                        $col['title'] = $this->__('Links');          
+                        $col['content'] = $links_html; 
+                    }
+                    break;
+                case 'twitter': 
+                    if ($tt_html) {
+                        $col['title'] = $this->__('Latest Tweets');   
+                        $col['content'] = $tt_html; 
+                    }
+                    break;
+                case 'facebook': 
+                    if ($fb_html) {
+                        $col['title'] = '';
+                        $col['content'] = $fb_html; 
+                    }
+                    break;
+                case 'googlemap': 
+                    if ($gm_html) {
+                        $col['title'] = '';
+                        $col['content'] = $gm_html; 
+                    }
+                    break;
+                default: 
+                    $block_id = $b['footer']['footer_col_'.$i.'_block'];
+                    if ($block_id) {
+                        $block = Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load($block_id);
+                        if ($block) {
+                            $col['title'] = $block->getTitle();
+                            $col['content'] = $block->getContent();
+                        }
+                    }
+            }
+            if (!empty($col)) {
+                $cols_main[] = $col;
+                $col_main_count++;
+            }   
+        }
+        $col_main_class = $spanClass.(12/$col_main_count);
+        $i = 1;
+        ?>
+    <div class="footer-main">        
+        <div class="container">
+            <div class="row clearfix">
+                <?php foreach ($cols_main as $col) : ?>
+                <div class="<?php echo $col_main_class ?> footer_column footer-column-<?php echo $i; $i++; ?>">
+                    <?php if ($col['title']) : ?><h3 class="title"><?php echo $col['title'] ?></h3><?php endif; ?>
+                    <?php echo $col['content'] ?>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-social social-links">
+                    <?php echo $this->getChildHtml('block_footer_social_links') ?>
+                </div>
+                <div class="col-copy copyright">
+                    <address><?php echo $this->getCopyright() ?></address>
+                    <?php echo $this->getChildHtml('store_switcher') ?>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    
+</script>

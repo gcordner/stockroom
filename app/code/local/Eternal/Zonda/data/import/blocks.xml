@@ -1,0 +1,1240 @@
+<root>
+	<blocks>
+		<cms_block>
+			<title>Electronics Landing</title>
+			<identifier>electronics-landing</identifier>
+			<content><![CDATA[<div class="left" style="width:284px; margin-right:25px;">
+<h3 style="margin-bottom:0;"><a href="{{store direct_url="electronics/cell-phones.html"}}"><img src="{{skin url='images/media/head_electronics_cellphones.gif}}" alt="Cell Phones" style="display:block; border:0;"/></h3>
+<p><img src="{{skin url='images/media/electronics_cellphones.jpg}}" alt="" usemap="#Map" border="0"/></p>
+</div>
+<div class="left" style="width:284px;">
+<h3 style="margin-bottom:0;"><a href="{{store direct_url="electronics/cameras/digital-cameras.html"}}"><img src="{{skin url='images/media/head_electronics_digicamera.gif}}" alt="Digital Cameras" style="display:block; border:0;"/></a></h3>
+<p><img src="{{skin url='images/media/electronics_digitalcameras.jpg}}" alt="" usemap="#Map2" border="0"/></p>
+</div>
+<div class="right" style="width:284px;">
+<h3 style="margin-bottom:0;"><a href="{{store direct_url="electronics/computers/laptops.html"}}"><img src="{{skin url='images/media/head_electronics_laptops.gif}}" alt="Laptops" style="display:block; border:0;"/></a></h3>
+<p><img src="{{skin url='images/media/electronics_laptops.jpg}}" alt="" usemap="#Map3" border="0"/></p>
+</div>
+<div class="clear"></div>
+
+<map name="Map">
+  <area shape="rect" coords="14,154,78,182" href="{{store direct_url="electronics/cell-phones.html?manufacturer=3"}}">
+  <area shape="rect" coords="12,177,80,209" href="{{store direct_url="electronics/cell-phones.html?manufacturer=20"}}">
+  <area shape="rect" coords="104,158,167,181" href="{{store direct_url="electronics/cell-phones.html?manufacturer=2"}}">
+  <area shape="rect" coords="103,181,179,208" href="{{store direct_url="electronics/cell-phones.html?manufacturer=101"}}">
+ <area shape="rect" coords="16,203,273,432" href="{{store direct_url="electronics/cell-phones/blackberry-8100-pearl.html"}}">
+</map>
+
+<map name="Map2">
+  <area shape="rect" coords="14,152,75,179" href="{{store direct_url="electronics/cameras/digital-cameras.html?manufacturer=33"}}">
+  <area shape="rect" coords="109,154,163,183" href="{{store direct_url="electronics/cameras/digital-cameras.html?manufacturer=31"}}">
+  <area shape="rect" coords="14,177,73,208" href="{{store direct_url="electronics/cameras/digital-cameras.html?manufacturer=32"}}">
+  <area shape="rect" coords="106,180,177,211" href="{{store direct_url="electronics/cameras/digital-cameras.html?manufacturer=34"}}">
+</map>
+
+
+<map name="Map3">
+  <area shape="rect" coords="15,155,58,179" href="{{store direct_url="electronics/computers/laptops?computer_manufacturers=79"}}">
+  <area shape="rect" coords="114,152,159,180" href="{{store direct_url="electronics/computers/laptops?computer_manufacturers=76"}}">
+  <area shape="rect" coords="13,178,67,205" href="{{store direct_url="electronics/computers/laptops?computer_manufacturers=77"}}">
+  <area shape="rect" coords="114,180,178,205" href="{{store direct_url="electronics/computers/laptops?computer_manufacturers=74"}}">
+  <area shape="rect" coords="13,310,154,434" href="{{store direct_url="electronics/computers/laptops/acer-ferrari-3200-notebook-computer-pc.html"}}">
+  <area shape="rect" coords="167,310,279,440" href="{{store direct_url="electronics/computers/laptops/toshiba-satellite-a135-s4527-155-4-notebook-pc-intel-pentium-dual-core-processor-t2080-1-gb-ram-120-gb-hard-drive-supermulti-dvd-drive-vista-premium.html"}}">
+</map>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Cellphones Landing</title>
+			<identifier>cellphones-landing</identifier>
+			<content><![CDATA[<a href="{{store direct_url="electronics/cell-phones/sony-ericsson-w810i.html"}}"><img src="{{skin url='images/media/cell_phone_landing_banner1.jpg}}" alt=""/></a>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Footer Links</title>
+			<identifier>footer_links</identifier>
+			<content><![CDATA[<ul>
+<li><a href="{{store direct_url="about-magento-demo-store"}}">About Us</a></li>
+<li><a href="{{store direct_url="customer-service"}}">Customer Service</a></li>
+<li class="last privacy"><a href="{{store direct_url="privacy-policy-cookie-restriction-mode"}}">Privacy Policy</a></li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Information</title>
+			<identifier>block_footer_links</identifier>
+			<content><![CDATA[<ul class="links">
+<li class="first"><a title="New products" href="#">New products</a></li>
+<li><a title="Top sellers" href="#">Top sellers</a></li>
+<li><a title="Specials" href="#">Specials</a></li>
+<li><a title="Manufactures" href="#">Manufacuters</a></li>
+<li><a title="Suppliers" href="#">Suppliers</a></li>
+<li class=" last"><a title="Our stores" href="#">Our stores</a></li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Contact Information</title>
+			<identifier>block_footer_contact</identifier>
+			<content><![CDATA[<div class="fn org"><strong>ZONDA LTD</strong></div>
+<div class="adr">
+<div class="country">United Kingdom</div>
+<div class="locality">Greater London</div>
+<div class="region">London 02587</div>
+<div class="street-address">Oxford Street 48/188</div>
+</div>
+<div class="working-days">Working Days: Mon. - Sun.</div>
+<div class="working-hours">Working Hours: 9.00AM - 8.00PM</div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Footer Social Links</title>
+			<identifier>block_footer_social_links</identifier>
+			<content><![CDATA[<div class="social-links"><a title="Facebook" href="#"><span class="icon icon-facebook">&nbsp;</span></a> <a title="Twitter" href="#"><span class="icon icon-twitter">&nbsp;</span></a> <a title="RSS" href="#"><span class="icon icon-rss">&nbsp;</span></a> <a title="Delicious" href="#"><span class="icon icon-delicious">&nbsp;</span></a> <a title="LinkedIn" href="#"><span class="icon icon-linkedin">&nbsp;</span></a> <a title="Blog" href="#"><span class="icon icon-blog">&nbsp;</span></a> <a title="Skype" href="#"><span class="icon icon-skype">&nbsp;</span></a> <a title="Email" href="#"><span class="icon icon-email">&nbsp;</span></a></div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>About Us</title>
+			<identifier>block_about_us</identifier>
+			<content><![CDATA[<div>Lorem ipsum dolor sit amet, conse adipiscing elit. Donec in sagittis sem. Aliquam vitae egestas odio. Praesent euismod nunc vitae sapien cursus accumsan.</div>
+<div>Pellentesque habitant morbi tristiq senectus et netus. Proin ornare nisl at enim vestibulum nec cursus risus fer mentum. Curabitur vestibulum odiow.</div>
+]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Your Account</title>
+			<identifier>block_account_info</identifier>
+			<content><![CDATA[<ul class="links">
+<li class="first"><a href="#">Your Account</a></li>
+<li><a href="#">Personal information</a></li>
+<li><a href="#">Address</a></li>
+<li><a href="#">Discount</a></li>
+<li class="last"><a href="#">Orders History</a></li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Our Offers</title>
+			<identifier>block_our_offers</identifier>
+			<content><![CDATA[<ul class="links">
+<li class="first"><a href="#">New products</a></li>
+<li><a href="#">Top sellers</a></li>
+<li><a href="#">Specials</a></li>
+<li><a href="#">Manufacturers</a></li>
+<li class="last"><a href="#">Suppliers</a></li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Contact Us</title>
+			<identifier>block_contact_us</identifier>
+			<content><![CDATA[<div>
+<div class="contact-tel"><span class="icon-con icon-con-tel"></span>
+<div class="contact-detail">
+<p>020-45-85-98</p>
+<p>020-45-85-35</p>
+</div>
+</div>
+<div class="contact-mob"><span class="icon-con icon-con-mob"></span>
+<div class="contact-detail">
+<p>445-585-657-58</p>
+<p>445-578-359-42</p>
+</div>
+</div>
+<div class="contact-mail"><span class="icon-con icon-con-mail"></span>
+<div class="contact-detail">
+<p>Zonda@gmail.com</p>
+<p>Zonda_sup@gmail.com</p>
+</div>
+</div>
+<div class="contact-sky"><span class="icon-con icon-con-sky"></span>
+<div class="contact-detail">
+<p>Zonda_shop</p>
+<p>Zonda_support</p>
+</div>
+</div>
+</div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>ads 1</title>
+			<identifier>right_ads_1</identifier>
+			<content><![CDATA[<p><a href="#"><img src="{{media url="wysiwyg/ads_1.png"}}" alt="" /></a></p>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>ads 2</title>
+			<identifier>right_ads_2</identifier>
+			<content><![CDATA[<p><a href="#"><img src="{{media url="wysiwyg/ads_2.png"}}" alt="" /></a></p>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>ads 3</title>
+			<identifier>right_ads_3</identifier>
+			<content><![CDATA[<p><a href="#"><img src="{{media url="wysiwyg/ads_3.png"}}" alt="" /></a></p>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>ads 4</title>
+			<identifier>right_ads_4</identifier>
+			<content><![CDATA[<p><a href="#"><img src="{{media url="wysiwyg/ads_4.png"}}" alt="" /></a></p>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Contact Info</title>
+			<identifier>block_contact_details</identifier>
+			<content><![CDATA[<p class="contact-title"><strong>North America Region</strong></p>
+<p>225 E Jhon Carpenter Freeway, Suite 1500</p>
+<p>Irving, Texas 75062 U.S.A</p>
+<p>phon: +1 (827) 545-8978&nbsp;</p>
+<p>&nbsp;</p>
+<p class="contact-title"><strong>Canada Headquarters</strong></p>
+<p>40 Hines Road, Suite 200 Ottawa, Ontario, Canada K2K 2M5</p>
+<p>Tel: (613) 149-3571&nbsp;</p>
+<p>&nbsp;</p>
+<p class="contact-title"><strong>Cupertino, &nbsp;California</strong></p>
+<p><strong></strong>10101 N. De Anza Blvd Cupertino, California 95014 U.S.A.</p>
+<p>Phone: +1 (407) 478-2487</p>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (Revolution Slider 1)</title>
+			<identifier>block_homeslider1</identifier>
+			<content><![CDATA[<ul>
+<li data-transition="fade" data-slotamount="15" data-masterspeed="300" data-delay="7500"><img src="{{media url="wysiwyg/slider_1.png"}}" alt="" />
+<div class="tp-caption black_text lft" style="z-index: 6;" data-x="90" data-y="294" data-speed="1000" data-start="1500" data-easing="easeInOutQuint" data-endspeed="300">online excclusive</div>
+<div class="tp-caption white_large_text lfl" style="z-index: 7;" data-x="44" data-y="344" data-start="2000" data-speed="1000" data-easing="easeInOutQuint" data-endspeed="300">extra 30% off</div>
+<div class="tp-caption white_large_text skewfromleft start" data-x="-460" data-y="415" data-speed="800" data-easing="Power4.easeOut" data-endspeed="300" data-endeasing="Power1.easeIn" data-captionhidden="off"><img src="{{media url="wysiwyg/slider_1_caption_bg.png"}}" alt="" /></div>
+<div class="tp-caption white_large_text  tp-fade" style="z-index: 8;" data-x="27" data-y="442" data-start="3000" data-speed="2000" data-easing="easeOutExpo" data-endspeed="300"><img src="{{media url="wysiwyg/slider_1_caption.png"}}" alt="" /></div>
+<div class="tp-caption black_medium_text lfb" style="z-index: 9;" data-x="83" data-y="617" data-start="3200" data-speed="1500" data-easing="easeInOutQuint" data-endspeed="300">4 days left</div>
+<div class="tp-caption small-button lfb" style="z-index: 10;" data-x="283" data-y="615" data-start="3600" data-speed="1500" data-easing="easeInOutQuint" data-endspeed="300"><a href="#">Shop All Sale</a></div>
+</li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider  (Revolution Slider 2)</title>
+			<identifier>block_homeslider2</identifier>
+			<content><![CDATA[<ul>
+<li data-transition="fade" data-slotamount="10"><img src="{{media url="wysiwyg/slider_2.png"}}" alt="" />
+<div class="tp-caption lft black_text more_big_text" data-x="185" data-y="292" data-start="3300" data-speed="1000" data-endspeed="300" data-easing="Bounce.easeOut">fall</div>
+<div class="tp-caption lft white_large_text" style="z-index: 12;" data-x="75" data-y="346" data-start="2800" data-speed="1000" data-endspeed="300" data-easing="Bounce.easeOut" data-endeasing="easeOutQuad">must - have</div>
+<div class="caption lft" data-x="-460" data-y="415" data-speed="1500" data-start="700" data-endspeed="300" data-easing="Bounce.easeOut"><img src="{{media url="wysiwyg/slider_2_caption_bg.png"}}" alt="" /></div>
+<div class="tp-caption white_large_text customin customout start" data-x="43" data-y="442" data-speed="1000" data-start="2300" data-customin="x:0;y:0;z:0;rotationX:90;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:200;transformOrigin:50% 0%;"
+						data-customout="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0.75;scaleY:0.75;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;" data-easing="Back.easeInOut"><img src="{{media url="wysiwyg/slider_2_caption.png"}}" alt="" /></div>
+<div class="caption lft skewtoleft black_medium_text capt" data-x="97" data-y="617" data-start="1800" data-speed="1000" data-endspeed="300" data-easing="Bounce.easeOut">from $20.<sup>00</sup></div>
+<div class="caption lft small-button" data-x="283" data-y="628" data-start="1800" data-speed="1000" data-endspeed="300" data-easing="Bounce.easeOut"><a href="#">get the look</a></div>
+</li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (Revolution Slider 3)</title>
+			<identifier>block_homeslider3</identifier>
+			<content><![CDATA[<ul>
+<li data-transition="fade" data-slotamount="10"><img src="{{media url="wysiwyg/slider_3.png"}}" alt="" />
+<div class="tp-caption black_text big_text  sft" style="z-index: 11;" data-x="99" data-y="288" data-start="3000" data-speed="1000" data-endspeed="300" data-easing="easeOutQuad">New Arrivals</div>
+<div class="tp-caption skewtoleft white_large_text sft" style="z-index: 12;" data-x="170" data-y="348" data-start="2000" data-speed="1000" data-endspeed="300" data-easing="easeOutQuad" data-endeasing="easeOutQuad">enjoy</div>
+<div class="caption lfr" data-x="-460" data-y="415" data-start="500" data-speed="1300" data-endspeed="300" data-easing="easeOutExpo"><img src="{{media url="wysiwyg/slider_2_caption_bg.png"}}" alt="" /></div>
+<div class="caption sft" data-x="31" data-y="438" data-speed="1000" data-start="1300" data-easing="easeOutExpo"><img src="{{media url="wysiwyg/slider_3_caption.png"}}" alt="" /></div>
+<div class="caption sfb white_small_text" data-x="215" data-y="559" data-speed="1300" data-start="1300" data-easing="easeOutExpo">when you spend $100 or more</div>
+<div class="caption skewtoleft very_fat_white_text sfb" data-x="128" data-y="589" data-start="2000" data-speed="1000" data-endspeed="300" data-easing="easeOutExpo">shipping<sup>*</sup></div>
+<div class="caption skewtoleft small-button sfb" data-x="189" data-y="660" data-start="3000" data-speed="1000" data-endspeed="300" data-easing="easeOutExpo"><a href="#">shop now</a></div>
+</li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (IOS Slider - 4)</title>
+			<identifier>block_homeslider_ios_4</identifier>
+			<content><![CDATA[<div class="item item1"><img src="{{media url="wysiwyg/slider_1.png"}}" alt="" />
+<div class="sub-container">
+<div class="text1">Online Exclusive</div>
+<div class="text2">Extra 30% off</div>
+<div class="text3 colored-bg"><img src="{{media url="wysiwyg/slider_1_caption.png"}}" alt="" /></div>
+<div class="text4">4 Days left</div>
+<a class="slider-button" href="#"> shop all sale </a></div>
+</div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (IOS Slider - 5)</title>
+			<identifier>block_homeslider_ios_5</identifier>
+			<content><![CDATA[<div class="item item2"><img src="{{media url="wysiwyg/slider_2.png"}}" alt="" />
+<div class="sub-container">
+<div class="text1 fromright">Fall</div>
+<div class="text2 fromright">Must-have</div>
+<div class="text3 colored-bg fromright"><img src="{{media url="wysiwyg/slider_2_caption.png"}}" alt="" /></div>
+<div class="text4">From $20.<sup>00</sup></div>
+<a class="slider-button" href="#"> Get the look </a></div>
+</div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (IOS Slider - 6)</title>
+			<identifier>block_homeslider_ios_6</identifier>
+			<content><![CDATA[<div class="item item3"><img src="{{media url="wysiwyg/slider_3.png"}}" alt="" />
+<div class="sub-container">
+<div class="text1">New Arribals</div>
+<div class="text2">Enjoy</div>
+<div class="text3 colored-bg"><img src="{{media url="wysiwyg/slider_3_caption.png"}}" alt="" />
+<div class="white-span">When you spend $100 or more</div>
+</div>
+<div class="text4">Shipping<sup>*</sup></div>
+<a class="slider-button" href="#"> Show now </a></div>
+</div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (IOS Slider - 1)</title>
+			<identifier>block_homeslider_ios_1</identifier>
+			<content><![CDATA[<div class="item item1">
+<img src="{{media url="wysiwyg/slider_4.jpg"}}" alt="" />
+                        <div class="sub-container normal">
+							<div class="slider-desc">
+								<div class="slider-desc-title font-eff">
+									Morder Classics
+								</div>
+								<div class="slider-desc-content line-eff">
+									Vestibulum quis adipiscing augue. Nunc malesuada orci vitae venenatis accumsan. Donec eget turpis felis, a pellentesque. Etiam at neque laoreet eros aliquam consequat ut nec. Curabitur mattis risus et tortor pretium nec...
+								</div>
+							</div>
+							<div class='blank-dark'>
+							</div>
+                        </div>
+                    </div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (IOS Slider - 2)</title>
+			<identifier>block_homeslider_ios_2</identifier>
+			<content><![CDATA[<div class="item item2">
+                        <img src="{{media url="wysiwyg/slider_5.jpg"}}" alt="" />
+                        <div class="sub-container fromtop">
+							<div class="slider-desc">
+								<div class="slider-desc-title">
+									New Arrivalse.
+								</div>
+								<div class="slider-desc-content">
+									Quisque et turpis placerat, elementum sem vitae, viverra mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur tellus leo, tincidunt ac tellus nec, aliquet sodales ipsum. 
+								</div>
+							</div>
+							<div class='blank-dark'>
+							</div>
+                        </div>
+                    </div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (IOS Slider - 3)</title>
+			<identifier>block_homeslider_ios_3</identifier>
+			<content><![CDATA[<div class="item item3">
+                        <img src="{{media url="wysiwyg/slider_6.jpg"}}" alt="" />
+						<div class="sub-container fromside">
+							<div class="slider-desc">
+								<div class="slider-desc-title">
+									Jump <span class="small-text">into</span> Autumn.
+								</div>
+								<div class="slider-desc-content">
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae vulputate dui. Suspendisse et lectus aliquam,
+	pretium tellus sed, ornare tellus. Phasellus tincidunt augue ac luctus mollis.  Fusce ac fermentum magna.
+								</div>
+							</div>
+							<div class='blank-dark'>
+							</div>
+						</div>
+                    </div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (Background Slider 1)</title>
+			<identifier>block_homeslider_bg1</identifier>
+			<content><![CDATA[<ul>
+<li data-transition="fade" data-slotamount="15" data-masterspeed="500" data-delay="7500"><img src="{{media url="wysiwyg/slider_7.jpg"}}" alt="" />
+<div class="tp-caption white_text white_big_text sfl" data-x="0" data-y="376" data-start="800" data-speed="1000" data-easing="easeInOutQuart" data-endspeed="500">One day</div>
+<div class="tp-caption black_text caption_picture  sfr" data-x="0" data-y="444" data-start="800" data-speed="1000" data-easing="easeInOutQuart" data-endspeed="500"><img src="{{media url="wysiwyg/slider_4_caption.png"}}" alt="" /></div>
+<div class="tp-caption white_text white_more_small_text sfl" data-x="0" data-y="576" data-start="800" data-speed="1000" data-easing="easeInOutQuart" data-endspeed="500">Paenean blandit lorem et gravida bibendum. Nam imperdiet est ante,<br /> eu ultricies dolor interdum quis. Integer aliquam pulvinar dui, quis <br />ulputate urna tincidunt sit amet. Aenean commodo, risus nec luctus <br />eleifend, odio quam aliquam sapien, quis commodo.</div>
+<div class="tp-caption small-button sfr" data-x="0" data-y="682" data-start="800" data-speed="1000" data-easing="easeInOutQuart" data-endspeed="500"><a href="#">Shop All Sale</a></div>
+</li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (Background Slider 2)</title>
+			<identifier>block_homeslider_bg2</identifier>
+			<content><![CDATA[<ul>
+<li data-transition="fade" data-slotamount="15" data-masterspeed="300" data-delay="7500"><img src="{{media url="wysiwyg/slider_8.jpg"}}" alt="" />
+<div class="tp-caption black_text black_spec_text caption_picture customin" data-x="0" data-y="438" data-start="800" data-speed="1000" data-easing="easeOutBounce" data-endspeed="500" data-customin="x:0;y:0;z:0;rotationX:-180;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:0% 0%;">The Edit</div>
+<div class="tp-caption white_text white_big_text customin" data-x="0" data-y="460" data-start="1100" data-speed="1000" data-easing="easeOutQuad" data-endspeed="500" data-customin="x:0;y:0;z:0;rotationX:-180;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:0% 0%;">Modern</div>
+<div class="tp-caption black_text caption_picture  customin" data-x="0" data-y="534" data-start="1400" data-speed="1000" data-easing="easeOutQuad" data-endspeed="500" data-customin="x:0;y:0;z:0;rotationX:-180;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:0% 0%;"><img src="{{media url="wysiwyg/slider_5_caption.png"}}" alt="" /></div>
+<div class="tp-caption white_text white_more_small_text customin" data-x="0" data-y="637" data-start="1700" data-speed="1000" data-easing="easeOutQuad" data-endspeed="500" data-customin="x:0;y:0;z:0;rotationX:-180;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:0% 0%;">Phasellus metus quam, sagittis eget justo at, mattis consequat diam.<br /> Mauris vitae lacus tincidunt, dignissim nisi nec, elementum metus. Donec <br />quis euismod felis. Integer in ante et magna hendrerit sollicitudin. Aenean <br />tempus dolor eros, at facilisis sem facilisis sed.</div>
+<div class="tp-caption small-button customin" data-x="0" data-y="732" data-start="2000" data-speed="1000" data-easing="easeOutQuad" data-endspeed="500" data-customin="x:0;y:0;z:0;rotationX:-180;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:0% 0%;"><a href="#">Get the Look</a></div>
+</li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (Background Slider 3)</title>
+			<identifier>block_homeslider_bg3</identifier>
+			<content><![CDATA[<ul>
+<li data-transition="fade" data-slotamount="15" data-masterspeed="300" data-delay="7500"><img src="{{media url="wysiwyg/slider_9.jpg"}}" alt="" />
+<div class="tp-caption white_text white_big_text sft" data-x="0" data-y="389" data-start="800" data-speed="1000" data-easing="Power3.easeInOut" data-endspeed="500">Modern</div>
+<div class="tp-caption black_text caption_picture  sft" data-x="0" data-y="462" data-start="1100" data-speed="1000" data-easing="Power3.easeInOut" data-endspeed="500"><img src="{{media url="wysiwyg/slider_6_caption.png"}}" alt="" /></div>
+<div class="tp-caption white_text white_more_small_text sft" data-x="0" data-y="576" data-start="1400" data-speed="1000" data-easing="Power3.easeInOut" data-endspeed="500">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non risus in<br />massa congue faucibus quis eu turpis. Vivamus cursus lorem eu <br />dignissim molestie. Morbi turpis neque, volutpat et justo sit amet,<br />rhoncus scelerisque dolor. Pellentesque vestibulum...</div>
+<div class="tp-caption small-button sft" data-x="0" data-y="682" data-start="1700" data-speed="1000" data-easing="Power3.easeInOut" data-endspeed="500"><a href="#">Discover More</a></div>
+</li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Advertising Block</title>
+			<identifier>block_home_advertising</identifier>
+			<content><![CDATA[<div class="home-adv">
+<ul class="bx-slider">
+<li>
+<div class="home-adv-container">
+<div class="home-adv-photo"><img src="{{media url="wysiwyg/home_ads_photo1.jpg"}}" alt="" /></div>
+<div class="home-adv-content">
+<div class="home-adv-title">Perfect Day Dresses</div>
+<div class="home-adv-msg">Up to 70% Off</div>
+<div class="home-adv-button"><a class="button" href="#">Shop now</a></div>
+</div>
+</div>
+</li>
+<li>
+<div class="home-adv-container">
+<div class="home-adv-photo"><img src="{{media url="wysiwyg/home_ads_photo2.jpg"}}" alt="" /></div>
+<div class="home-adv-content">
+<div class="home-adv-title">All Gold Everything!</div>
+<div class="home-adv-msg">Starting at $4.<sup>50</sup></div>
+<div class="home-adv-button"><a class="button" href="#">Browse Now</a></div>
+</div>
+</div>
+</li>
+<li>
+<div class="home-adv-container">
+<div class="home-adv-photo"><img src="{{media url="wysiwyg/home_ads_photo3.jpg"}}" alt="" /></div>
+<div class="home-adv-content">
+<div class="home-adv-title">In Season New For Fall</div>
+<div class="home-adv-msg">Enjoy free shipping</div>
+<div class="home-adv-button"><a class="button" href="#">Shop Men</a></div>
+</div>
+</div>
+</li>
+<li>
+<div class="home-adv-container">
+<div class="home-adv-photo"><img src="{{media url="wysiwyg/home_ads_photo1.jpg"}}" alt="" /></div>
+<div class="home-adv-content">
+<div class="home-adv-title">Perfect Day Dresses</div>
+<div class="home-adv-msg">Up to 70% Off</div>
+<div class="home-adv-button"><a class="button" href="#">Shop now</a></div>
+</div>
+</div>
+</li>
+<li>
+<div class="home-adv-container">
+<div class="home-adv-photo"><img src="{{media url="wysiwyg/home_ads_photo2.jpg"}}" alt="" /></div>
+<div class="home-adv-content">
+<div class="home-adv-title">All Gold Everything!</div>
+<div class="home-adv-msg">Starting at $4.<sup>50</sup></div>
+<div class="home-adv-button"><a class="button" href="#">Browse Now</a></div>
+</div>
+</div>
+</li>
+<li>
+<div class="home-adv-container">
+<div class="home-adv-photo"><img src="{{media url="wysiwyg/home_ads_photo3.jpg"}}" alt="" /></div>
+<div class="home-adv-content">
+<div class="home-adv-title">In Season New For Fall</div>
+<div class="home-adv-msg">Enjoy free shipping</div>
+<div class="home-adv-button"><a class="button" href="#">Shop Men</a></div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<script type="text/javascript">
+jQuery(".home-adv .bx-slider").bxSlider({mode: 'vertical',minSlides: 3,slideMargin:1,moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false })
+</script>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (Revolution Slider 4)</title>
+			<identifier>block_homeslider4</identifier>
+			<content><![CDATA[<ul>
+<li data-transition="fade" data-slotamount="15" data-masterspeed="300" data-delay="7500"><img src="{{media url="wysiwyg/slider_10.jpg"}}" alt="" />
+<div class="tp-caption custom_text white_light_text sfl" data-x="0" data-y="159" data-start="700" data-speed="800" data-easing="easeOutExpo" data-endspeed="500">fall</div>
+<div class="tp-caption custom_text green_medium_text sfl" data-x="0" data-y="229" data-start="1000" data-speed="800" data-easing="easeOutExpo" data-endspeed="500">Must Haves</div>
+<div class="tp-caption custom_text white_medium_text sfl" data-x="0" data-y="291" data-start="1300" data-speed="800" data-easing="easeOutExpo" data-endspeed="500">At Jaw-Dropping Prices!</div>
+<div class="tp-caption small-button sfl" data-x="0" data-y="332" data-start="1700" data-speed="1600" data-easing="easeOutExpo" data-endspeed="500"><a href="#">Shop Now</a></div>
+<div class="tp-caption custom_text randomrotate" data-x="713" data-y="142" data-start="2000" data-speed="800" data-easing="Power4.easeOut" data-endspeed="300" data-endeasing="Power1.easeIn" data-captionhidden="off"><img src="{{media url="wysiwyg/product_1.png"}}" alt="" /></div>
+<div class="tp-caption custom_text randomrotate" data-x="775" data-y="224" data-start="2300" data-speed="800" data-easing="Power4.easeOut" data-endspeed="300" data-endeasing="Power1.easeIn" data-captionhidden="off"><img src="{{media url="wysiwyg/product_2.png"}}" alt="" /></div>
+<div class="tp-caption custom_text randomrotate" data-x="524" data-y="167" data-start="2600" data-speed="800" data-easing="Power4.easeOut" data-endspeed="300" data-endeasing="Power1.easeIn" data-captionhidden="off"><img src="{{media url="wysiwyg/product_3.png"}}" alt="" /></div>
+<div class="tp-caption custom_text randomrotate" data-x="629" data-y="68" data-start="2900" data-speed="800" data-easing="Power4.easeOut" data-endspeed="300" data-endeasing="Power1.easeIn" data-captionhidden="off"><img src="{{media url="wysiwyg/product_4.png"}}" alt="" /></div>
+<div class="tp-caption custom_text randomrotate" data-x="826" data-y="171" data-start="3200" data-speed="800" data-easing="Power4.easeOut" data-endspeed="300" data-endeasing="Power1.easeIn" data-captionhidden="off"><img src="{{media url="wysiwyg/product_5.png"}}" alt="" /></div>
+<div class="tp-caption custom_text randomrotate" data-x="589" data-y="241" data-start="3500" data-speed="800" data-easing="Power4.easeOut" data-endspeed="300" data-endeasing="Power1.easeIn" data-captionhidden="off"><img src="{{media url="wysiwyg/product_6.png"}}" alt="" /></div>
+<div class="tp-caption custom_text randomrotate" data-x="685" data-y="206" data-start="3800" data-speed="800" data-easing="Power4.easeOut" data-endspeed="300" data-endeasing="Power1.easeIn" data-captionhidden="off"><img src="{{media url="wysiwyg/product_7.png"}}" alt="" /></div>
+<div class="tp-caption custom_text randomrotate" data-x="775" data-y="97" data-start="4100" data-speed="800" data-easing="Power4.easeOut" data-endspeed="300" data-endeasing="Power1.easeIn" data-captionhidden="off"><img src="{{media url="wysiwyg/product_8.png"}}" alt="" /></div>
+<div class="tp-caption custom_text randomrotate" data-x="550" data-y="117" data-start="4400" data-speed="800" data-easing="Power4.easeOut" data-endspeed="300" data-endeasing="Power1.easeIn" data-captionhidden="off"><img src="{{media url="wysiwyg/product_9.png"}}" alt="" /></div>
+<div class="tp-caption custom_text randomrotate" data-x="599" data-y="160" data-start="4700" data-speed="800" data-easing="Power4.easeOut" data-endspeed="300" data-endeasing="Power1.easeIn" data-captionhidden="off"><img src="{{media url="wysiwyg/product_10.png"}}" alt="" /></div>
+<div class="tp-caption custom_text randomrotate" data-x="719" data-y="133" data-start="5000" data-speed="800" data-easing="Power4.easeOut" data-endspeed="300" data-endeasing="Power1.easeIn" data-captionhidden="off"><img src="{{media url="wysiwyg/product_11.png"}}" alt="" /></div>
+</li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (Revolution Slider 5)</title>
+			<identifier>block_homeslider5</identifier>
+			<content><![CDATA[<ul>
+<li data-transition="fade" data-slotamount="15" data-masterspeed="300" data-delay="7500"><img src="{{media url="wysiwyg/slider_11.jpg"}}" alt="" />
+<div class="tp-caption custom_text lft" data-x="352" data-y="-5" data-start="700" data-speed="800" data-easing="easeOutExpo" data-endeasing="linear" data-endspeed="500"><img src="{{media url="wysiwyg/feet_1.png"}}" alt="" /></div>
+<div class="tp-caption custom_text lft" data-x="668" data-y="-2" data-start="1000" data-speed="800" data-easing="easeOutExpo" data-endeasing="linear" data-endspeed="500"><img src="{{media url="wysiwyg/feet_2.png"}}" alt="" /></div>
+<div class="tp-caption custom_text green_light_text customin" data-x="0" data-y="170" data-start="1600" data-speed="1000" data-easing="easeOutQuad" data-endspeed="500" data-customin="x:0;y:0;z:0;rotationX:-180;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:0% 0%;">Hot New</div>
+<div class="tp-caption custom_text white_tall_text customin" data-x="0" data-y="220" data-start="2000" data-speed="1000" data-easing="easeOutQuad" data-endspeed="500" data-customin="x:0;y:0;z:0;rotationX:-180;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:0% 0%;">Heels</div>
+<div class="tp-caption custom_text white_more_small_text customin" data-x="0" data-y="323" data-start="2600" data-speed="1000" data-easing="easeOutQuad" data-endspeed="500" data-customin="x:0;y:0;z:0;rotationX:-180;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:0% 0%;">From wedges &amp; courts to shoe boots &amp; sandals, elevate<br />your style this season with our have-to-have heels.</div>
+<div class="tp-caption small-button customin" data-x="0" data-y="370" data-start="3000" data-speed="1000" data-easing="easeOutQuad" data-endspeed="500" data-customin="x:0;y:0;z:0;rotationX:-180;rotationY:0;rotationZ:0;scaleX:1;scaleY:1;skewX:0;skewY:0;opacity:0;transformPerspective:0;transformOrigin:0% 0%;"><a href="#">Shop Heels</a></div>
+</li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (Revolution Slider 6)</title>
+			<identifier>block_homeslider6</identifier>
+			<content><![CDATA[<ul>
+<li data-transition="fade" data-slotamount="15" data-masterspeed="300" data-delay="7500"><img src="{{media url="wysiwyg/slider_12.jpg"}}" alt="" />
+<div class="tp-caption custom_text lfl" data-x="left" data-y="-19" data-start="700" data-speed="1000" data-easing="easeOutQuart" data-endspeed="500"><img src="{{media url="wysiwyg/women_1.png"}}" alt="" /></div>
+<div class="tp-caption custom_text lfb" data-x="center" data-y="-10" data-start="700" data-speed="1000" data-easing="easeOutQuart" data-endspeed="500"><img src="{{media url="wysiwyg/women_2.png"}}" alt="" /></div>
+<div class="tp-caption custom_text lfr" data-x="right" data-y="-8" data-start="700" data-speed="1000" data-easing="easeOutQuart" data-endspeed="500"><img src="{{media url="wysiwyg/women_3.png"}}" alt="" /></div>
+<div class="tp-caption custom_text sft" data-x="center" data-y="142" data-start="1300" data-speed="1500" data-easing="easeOutExpo" data-endspeed="500"><img src="{{media url="wysiwyg/green_number.png"}}" alt="" /></div>
+<div class="tp-caption custom_text sft" data-x="center" data-y="338" data-start="1600" data-speed="1500" data-easing="easeOutExpo" data-endspeed="500"><img src="{{media url="wysiwyg/white_text.png"}}" alt="" /></div>
+<div class="tp-caption small-button sfb" data-x="center" data-y="406" data-start="1900" data-speed="1500" data-easing="easeOutExpo" data-endspeed="500"><a href="#">Shop Now</a></div>
+</li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>about theme</title>
+			<identifier>about_theme</identifier>
+			<content><![CDATA[<div class="about_theme_container">
+<div class="about_theme_title">Zonda is premium Magento theme.</div>
+<div class="about_theme_content">With advanced admin module. It's extremely customizable, easy to use and fully responsive.</div>
+<div class="centered_border"></div>
+</div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Theme Feature</title>
+			<identifier>block_theme_featured</identifier>
+			<content><![CDATA[<div class="block-feature clearfix">
+<div class="container">
+<div class="row">
+<div class="col3 block-desc block-desc-1">
+<div class="block-desc-container">
+<div class="block-desc-icon">&nbsp;</div>
+<div class="block-desc-title">Responsive Design</div>
+<div class="block-desc-content">Cars pellentesque, nisi ac tempus pellentesque, orici sem commodo urna, amet engestas ipsum orci sit amet tellus mauris eu ante.</div>
+<div class="block-desc-link"><a href="#">Learn More</a></div>
+</div>
+</div>
+<div class="col3 block-desc block-desc-2">
+<div class="block-desc-container">
+<div class="block-desc-icon">&nbsp;</div>
+<div class="block-desc-title">Powerful Admin Panel</div>
+<div class="block-desc-content">Etiam dapibus mattis sapien, blan molestie nunc veneatis ut. Phasellus imperdiet lacinia est, convallis dolor aliquet ac.</div>
+<div class="block-desc-link"><a href="#">Learn More</a></div>
+</div>
+</div>
+<div class="col3 block-desc block-desc-3">
+<div class="block-desc-container">
+<div class="block-desc-icon">&nbsp;</div>
+<div class="block-desc-title">Awesome Sliders</div>
+<div class="block-desc-content">Duis a dignissim nulla. phasellus lacinia aliquam lorem, a consequat erat interdum nec. Aenean ut leo sem, id gravida tortor.</div>
+<div class="block-desc-link"><a href="#">Learn More</a></div>
+</div>
+</div>
+<div class="col3 block-desc block-desc-4">
+<div class="block-desc-container">
+<div class="block-desc-icon">&nbsp;</div>
+<div class="block-desc-title">Premium Support</div>
+<div class="block-desc-content">Pellentesque ut libero in nibh aliquet pretium eget elementum felis. integer dapibus auctor tincidunt suspendisse.</div>
+<div class="block-desc-link"><a href="#">Learn More</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Block</title>
+			<identifier>block_home_static</identifier>
+			<content><![CDATA[<div class="block-socials">
+<div class="container clearfix">
+<div class="row">
+<div class="col4">
+<div class="social-block">
+<div class="social-block-title">We are social</div>
+<div class="social-block-border">&nbsp;</div>
+<div class="social-block-content">We want to be able to listen to what you are talking about and join those conversations you might be having.</div>
+<div class="social-block-links"><a href="#"><img src="{{media url="wysiwyg/cms_social_fb.png"}}" alt="facebook" /></a> <a href="#"><img src="{{media url="wysiwyg/cms_social_twitter.png"}}" alt="twitter" /></a> <a href="#"><img src="{{media url="wysiwyg/cms_social_inta.png"}}" alt="instagram" /></a> <a href="#"><img src="{{media url="wysiwyg/cms_social_youtube.png"}}" alt="youtube" /></a></div>
+</div>
+</div>
+<div class="col4">
+<div id="social-book-slider" class="bxslider">
+<div class="item-book"><img src="{{media url="wysiwyg/cms_book1.png"}}" alt="women" />
+<p class="button-wrapper"><a class="button" href="#">show more</a></p>
+</div>
+<div class="item-book"><img src="{{media url="wysiwyg/cms_book2.png"}}" alt="man" />
+<p class="button-wrapper"><a class="button" href="#">show more</a></p>
+</div>
+<div class="item-book"><img src="{{media url="wysiwyg/cms_book3.png"}}" alt="girl" />
+<p class="button-wrapper"><a class="button" href="#">show more</a></p>
+</div>
+</div>
+<script type="text/javascript">
+                    jQuery('#social-book-slider').bxSlider({minSlides: 1, maxSlides: 1,slideWidth:308,  slideMargin: 0, moveSlides: 1, controls:false, pager: true });
+</script>
+</div>
+<div class="col4">
+{{block type="newsletter/subscribe" template="newsletter/subscribe.phtml"}}
+</div>
+</div>
+</div>
+</div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Recent Porjects</title>
+			<identifier>block_recent_products</identifier>
+			<content><![CDATA[<div class="block-recent-products">
+<div class="container">
+<div class="small-upper-title">Recent Projects</div>
+<ul id="block-recent-bx" class="block-recent-slider bx-slider">
+<li>
+<div class="block-recent-container">
+<div class="block-recent-photo"><img src="{{media url="wysiwyg/recent_photo1.jpg"}}" alt="" /></div>
+<div class="block-recent-name">Spring Collection</div>
+<div class="block-recent-type">Photography</div>
+</div>
+</li>
+<li>
+<div class="block-recent-container">
+<div class="block-recent-photo"><img src="{{media url="wysiwyg/recent_photo2.jpg"}}" alt="" /></div>
+<div class="block-recent-name">Womenswear</div>
+<div class="block-recent-type">Fashion</div>
+</div>
+</li>
+<li>
+<div class="block-recent-container">
+<div class="block-recent-photo"><img src="{{media url="wysiwyg/recent_photo3.jpg"}}" alt="" /></div>
+<div class="block-recent-name">New For Fall</div>
+<div class="block-recent-type">Prints</div>
+</div>
+</li>
+<li>
+<div class="block-recent-container">
+<div class="block-recent-photo"><img src="{{media url="wysiwyg/recent_photo4.jpg"}}" alt="" /></div>
+<div class="block-recent-name">Just Arrived</div>
+<div class="block-recent-type">Photography</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<script type="text/javascript">
+var recent_timer;    
+                var recent_slider;
+                var winwidth = jQuery(window).outerWidth();
+                if (winwidth < 992 && winwidth >= 768){
+                    recent_slider = jQuery('#block-recent-bx').bxSlider({minSlides: 3, maxSlides: 3, slideWidth:235, slideMargin: 20, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                }else if(winwidth < 768){
+                    recent_slider  = jQuery('#block-recent-bx').bxSlider({minSlides: 1, maxSlides: 1, slideWidth:235, slideMargin: 20, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                }else {
+                    recent_slider = jQuery('#block-recent-bx').bxSlider({minSlides: 4, maxSlides: 4, slideWidth:235, slideMargin: 20, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                }
+                jQuery(window).resize(function(e){
+                    e.preventDefault();
+                    winwidth = jQuery(window).outerWidth();
+                    if(recent_timer) clearTimeout(recent_timer);
+                    recent_timer = setTimeout(function(){
+                        if (winwidth < 992 && winwidth >= 768){
+                            recent_slider.reloadSlider({minSlides: 2, maxSlides: 2, slideWidth: 235, slideMargin: 20, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                        }else if(winwidth < 768){
+                            recent_slider.reloadSlider({minSlides: 1, maxSlides: 1, slideWidth: 235, slideMargin: 20, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                        }else {
+                            recent_slider.reloadSlider({minSlides: 4, maxSlides: 4, slideWidth: 235, slideMargin: 20, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                        }}, 300
+                    );
+                });
+</script>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Banner 1</title>
+			<identifier>home_banner1</identifier>
+			<content><![CDATA[<div class="container banner-4 clearfix">
+<div class="col4"><a href="#"><img src="{{media url="wysiwyg/banner_1.jpg"}}" alt="" /></a></div>
+<div class="col8">
+<div class="row">
+<div class="col6"><a href="#"><img src="{{media url="wysiwyg/banner_2.jpg"}}" alt="" /></a></div>
+<div class="col6"><a href="#"><img src="{{media url="wysiwyg/banner_3.jpg"}}" alt="" /></a></div>
+<div class="col12 full-width-img">
+<div class="home-banner-container-1"><img src="{{media url="wysiwyg/banner_4.png"}}" alt="" />
+<div class="home-banner-content">
+<div class="home-banner-title">All Gold</div>
+<div class="home-banner-msg"><img src="{{media url="wysiwyg/banner_content_msg.png"}}" alt="" /></div>
+<div class="home-banner-shop-container">
+<div class="home-banner-shop-title">Starting at $7.50</div>
+<div class="home-shop-button"><a href="#">show now</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Testimonials</title>
+			<identifier>block_testimonials</identifier>
+			<content><![CDATA[<div class="block-testminial">
+<div class="container">
+<div class="block-sub-title">Testminials</div>
+<div id="minial-slider" class="bxslider">
+<div class="minial-item clearfix">
+<div class="minial-sub-item clearfix">
+<div class="minial-photo left"><img src="{{media url="wysiwyg/minial_person1.png"}}" alt=" Amnanda Flores" /></div>
+<div class="minial-comments right">
+<div class="minial-arrow">&nbsp;</div>
+<div class="minial-ccontent">Curabitur elit tellus, cursus dapibus posuere eget, facilisis nec dui. Duis interdum, est ut vehicula eleifend, sem turpis imperdiet nisl, at tempor orci nisi sit amet dui. Etiam magna enim pulvinar gravida.</div>
+<div class="minial-pname">Amnanda Flores</div>
+</div>
+</div>
+</div>
+<div class="minial-item clearfix">
+<div class="minial-sub-item clearfix">
+<div class="minial-photo left"><img src="{{media url="wysiwyg/minial_person1.png"}}" alt=" Amnanda Flores" /></div>
+<div class="minial-comments right">
+<div class="minial-arrow">&nbsp;</div>
+<div class="minial-ccontent">Curabitur elit tellus, cursus dapibus posuere eget, facilisis nec dui. Duis interdum, est ut vehicula eleifend, sem turpis imperdiet nisl, at tempor orci nisi sit amet dui. Etiam magna enim pulvinar gravida.</div>
+<div class="minial-pname">Amnanda Flores</div>
+</div>
+</div>
+</div>
+<div class="minial-item clearfix">
+<div class="minial-sub-item clearfix">
+<div class="minial-photo left"><img src="{{media url="wysiwyg/minial_person1.png"}}" alt=" Amnanda Flores" /></div>
+<div class="minial-comments right">
+<div class="minial-arrow">&nbsp;</div>
+<div class="minial-ccontent">Curabitur elit tellus, cursus dapibus posuere eget, facilisis nec dui. Duis interdum, est ut vehicula eleifend, sem turpis imperdiet nisl, at tempor orci nisi sit amet dui. Etiam magna enim pulvinar gravida.</div>
+<div class="minial-pname">Amnanda Flores</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    var minial_slider;
+    var winwidth = jQuery(window).outerWidth();
+    if (winwidth > 991)
+        minial_slider = jQuery('#minial-slider').bxSlider({minSlides: 2, maxSlides: 2, slideWidth:480, slideMargin: 20, moveSlides: 1, controls:false, pager: true });
+    else {
+        minial_slider = jQuery('#minial-slider').bxSlider({minSlides: 1, maxSlides: 1, slideWidth:480, slideMargin: 20, moveSlides: 1, controls:false, pager: true });
+    }
+    var minial_time;
+    jQuery(window).resize(function(e){
+        e.preventDefault();
+        winwidth = jQuery(window).outerWidth();
+       if (minial_time) clearTimeout(minial_time);
+       minial_time = setTimeout(function(){           
+           if (winwidth < 992)
+            minial_slider.reloadSlider({minSlides: 1, maxSlides: 1, slideWidth:480, slideMargin: 20, moveSlides: 1, controls:false, pager: true});
+           else 
+            minial_slider.reloadSlider({minSlides: 2, maxSlides: 2, slideWidth:480, slideMargin: 20, moveSlides: 1, controls:false, pager: true});
+       },300); 
+    });
+</script>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>From the Blog</title>
+			<identifier>block_from_blog</identifier>
+			<content><![CDATA[<div class="block-from-blog">
+<div class="container">
+<div class="small-upper-title">From the Blog</div>
+<ul id="block-blog-bx" class="block-blog-slider bx-slider">
+<li>
+<div class="heading">Duis Tincdunt Augue Purus</div>
+<div class="block-from-blog-container">
+<div class="block-from-blog-photo"><img src="{{media url="wysiwyg/blog_photo1.jpg"}}" alt="" /></div>
+<div class="block-from-blog-desc">Duis tincidunt augue purus, sagittis consectetur risus. Nulla consequat risus vel nibh elementum vitae adipiscing magna tempus.</div>
+<a class="block-content-link" href="#">read more</a></div>
+</li>
+<li>
+<div class="heading">Nunc Lobortis Faucibus Quis</div>
+<div class="block-from-blog-container">
+<div class="block-from-blog-photo"><img src="{{media url="wysiwyg/blog_photo2.jpg"}}" alt="" /></div>
+<div class="block-from-blog-desc">Quisque faucibus, ligula in consequat interdum, ipsum mi pharetra tortor, in posuere turpis loremfermentum erat. Vestibulum nec vehicula.</div>
+<a class="block-content-link" href="#">read more</a></div>
+</li>
+<li>
+<div class="heading">Mauris Quam Lorem Corper</div>
+<div class="block-from-blog-container">
+<div class="block-from-blog-photo"><img src="{{media url="wysiwyg/blog_photo3.jpg"}}" alt="" /></div>
+<div class="block-from-blog-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse et tellus sapien. Mauris orci eros, rutrum non tellus in, tempus...</div>
+<a class="block-content-link" href="#">read more</a></div>
+</li>
+</ul>
+</div>
+</div>
+<script type="text/javascript">
+var blog_timer;    
+                var blog_slider;
+                var winwidth = jQuery(window).outerWidth();
+                if (winwidth < 992 && winwidth >= 768){
+                    blog_slider = jQuery('#block-blog-bx').bxSlider({minSlides: 2, maxSlides: 2, slideWidth:310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                }else if(winwidth < 768){
+                    blog_slider  = jQuery('#block-blog-bx').bxSlider({minSlides: 1, maxSlides: 1, slideWidth:310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                }else {
+                    blog_slider = jQuery('#block-blog-bx').bxSlider({minSlides: 3, maxSlides: 3, slideWidth:310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                }
+                jQuery(window).resize(function(e){
+                    e.preventDefault();
+                    winwidth = jQuery(window).outerWidth();
+                    if(blog_timer) clearTimeout(blog_timer);
+                    blog_timer = setTimeout(function(){
+                        if (winwidth < 992 && winwidth >= 768){
+                            blog_slider.reloadSlider({minSlides: 2, maxSlides: 2, slideWidth: 310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                        }else if(winwidth < 768){
+                            blog_slider.reloadSlider({minSlides: 1, maxSlides: 1, slideWidth: 310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                        }else {
+                            blog_slider.reloadSlider({minSlides: 3, maxSlides: 3, slideWidth: 310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                        }}, 300
+                    );
+                });
+</script>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Banner 2</title>
+			<identifier>home_banner2</identifier>
+			<content><![CDATA[<div class="container banner-4 clearfix">
+<div class="col4"><a href="#"><img src="{{media url="wysiwyg/banner_5.jpg"}}" alt="" /></a></div>
+<div class="col4"><a href="#"><img src="{{media url="wysiwyg/banner_6.jpg"}}" alt="" /></a></div>
+<div class="col4"><a href="#"><img src="{{media url="wysiwyg/banner_7.jpg"}}" alt="" /></a></div>
+</div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Banner 3</title>
+			<identifier>home_banner3</identifier>
+			<content><![CDATA[<div class="container banner-4 clearfix">
+<div class="col4"><a href="#"><img src="{{media url="wysiwyg/banner_8.jpg"}}" alt="" /></a></div>
+<div class="col4"><a href="#"><img src="{{media url="wysiwyg/banner_9.jpg"}}" alt="" /></a></div>
+<div class="col4"><a href="#"><img src="{{media url="wysiwyg/banner_10.jpg"}}" alt="" /></a></div>
+</div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Meat Our Team</title>
+			<identifier>block_meet_ourteam</identifier>
+			<content><![CDATA[<div class="block-meet">
+<div class="container">
+<div class="block-sub-title">Meet Our Team</div>
+<ul id="meet-bx-slider" class="bxslider">
+<li>
+<div class="item-content">
+<div class="photo-container"><a href="#"> <img class="primary-image" src="{{media url="wysiwyg/person_1.png"}}" alt="Austin Bryant" /> <img class="hover-image" src="{{media url="wysiwyg/person_1_hover.png"}}" alt="Austin Bryant" /></a></div>
+<div class="person-info">
+<div class="person-name">Austin Bryant</div>
+<div class="person-duty">General Director</div>
+</div>
+</div>
+<div class="block-meet-button"><a class="button more-button" href="#">more...</a></div>
+</li>
+<li>
+<div class="item-content">
+<div class="photo-container"><a href="#"><img class="primary-image" src="{{media url="wysiwyg/person_2.png"}}" alt="Julian Patterson" /> <img class="hover-image" src="{{media url="wysiwyg/person_2_hover.png"}}" alt="Julian Patterson" /></a></div>
+<div class="person-info">
+<div class="person-name">Julian Patterson</div>
+<div class="person-duty">Director of Engineering</div>
+</div>
+</div>
+<div class="block-meet-button"><a class="button more-button" href="#">more...</a></div>
+</li>
+<li>
+<div class="item-content">
+<div class="photo-container"><a href="#"> <img class="primary-image" src="{{media url="wysiwyg/person_3.png"}}" alt="Katie Campbell" /> <img class="hover-image" src="{{media url="wysiwyg/person_3_hover.png"}}" alt="Katie Campbell" /></a></div>
+<div class="person-info">
+<div class="person-name">Katie Campbell</div>
+<div class="person-duty">Sales Manager</div>
+</div>
+</div>
+<div class="block-meet-button"><a class="button more-button" href="#">more...</a></div>
+</li>
+</ul>
+</div>
+</div>
+<script type="text/javascript">
+    var meet_timer;    
+    var meet_slider;
+    var winwidth = jQuery(window).outerWidth();
+    if (winwidth < 992 && winwidth >= 768){
+        meet_slider = jQuery('.block-meet .bxslider').bxSlider({minSlides: 2, maxSlides: 2, slideWidth: 310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+    }else if(winwidth < 768){
+        meet_slider = jQuery('.block-meet .bxslider').bxSlider({minSlides: 1, maxSlides: 1, slideWidth: 310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+    }else {
+        meet_slider = jQuery('.block-meet .bxslider').bxSlider({minSlides: 3, maxSlides: 3, slideWidth: 310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+    }
+    jQuery(window).resize(function(e){
+        e.preventDefault();
+        winwidth = jQuery(window).outerWidth();
+        if(meet_timer) clearTimeout(meet_timer);
+        meet_timer = setTimeout(function(){
+            if (winwidth < 992 && winwidth >= 768){
+                meet_slider.reloadSlider({minSlides: 2, maxSlides: 2, slideWidth: 310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+            }else if(winwidth < 768){
+                meet_slider.reloadSlider({minSlides: 1, maxSlides: 1, slideWidth: 310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+            }else {
+                meet_slider.reloadSlider({minSlides: 3, maxSlides: 3, slideWidth: 310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+            }}, 300
+        );
+    });
+</script>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>From the Blog</title>
+			<identifier>block_from_blog_short</identifier>
+			<content><![CDATA[<div class="block-from-blog">
+<div class="container">
+<div class="col8">
+<div class="small-upper-title">From the Blog</div>
+<ul id="block-blog-bx" class="block-blog-slider bx-slider">
+<li>
+<div class="heading">Duis Tincdunt Augue Purus</div>
+<div class="block-from-blog-container">
+<div class="block-from-blog-photo"><img src="{{media url="wysiwyg/blog_photo1.jpg"}}" alt="" /></div>
+<div class="block-from-blog-desc">Duis tincidunt augue purus, sagittis consectetur risus. Nulla consequat risus vel nibh elementum vitae adipiscing magna tempus.</div>
+<a class="block-content-link" href="#">read more</a></div>
+</li>
+<li>
+<div class="heading">Nunc Lobortis Faucibus Quis</div>
+<div class="block-from-blog-container">
+<div class="block-from-blog-photo"><img src="{{media url="wysiwyg/blog_photo2.jpg"}}" alt="" /></div>
+<div class="block-from-blog-desc">Quisque faucibus, ligula in consequat interdum, ipsum mi pharetra tortor, in posuere turpis loremfermentum erat. Vestibulum nec vehicula.</div>
+<a class="block-content-link" href="#">read more</a></div>
+</li>
+<li>
+<div class="heading">Mauris Quam Lorem Corper</div>
+<div class="block-from-blog-container">
+<div class="block-from-blog-photo"><img src="{{media url="wysiwyg/blog_photo3.jpg"}}" alt="" /></div>
+<div class="block-from-blog-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse et tellus sapien. Mauris orci eros, rutrum non tellus in, tempus...</div>
+<a class="block-content-link" href="#">read more</a></div>
+</li>
+</ul>
+</div>
+<div class="col4">
+<div class="block-socials in-blog">
+{{block type="newsletter/subscribe" template="newsletter/subscribe.phtml" }}
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+var blog_timer;    
+                var blog_slider;
+                var winwidth = jQuery(window).outerWidth();
+                if (winwidth < 992 && winwidth >= 768){
+                    blog_slider= jQuery('#block-blog-bx').bxSlider({minSlides: 2, maxSlides: 2, slideWidth:310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                }else if(winwidth < 768){
+                    blog_slider= jQuery('#block-blog-bx').bxSlider({minSlides: 1, maxSlides: 1, slideWidth:310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                }else {
+                    blog_slider= jQuery('#block-blog-bx').bxSlider({minSlides: 2, maxSlides: 2, slideWidth:310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                }
+                jQuery(window).resize(function(e){
+                    e.preventDefault();
+                    winwidth = jQuery(window).outerWidth();
+                    if(blog_timer) clearTimeout(blog_timer);
+                    blog_timer = setTimeout(function(){
+                        if (winwidth < 992 && winwidth >= 768){
+                            blog_slider.reloadSlider({minSlides: 2, maxSlides: 2, slideWidth: 310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                        }else if(winwidth < 768){
+                            blog_slider.reloadSlider({minSlides: 1, maxSlides: 1, slideWidth: 310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                        }else {
+                            blog_slider.reloadSlider({minSlides: 2, maxSlides: 2, slideWidth: 310, slideMargin: 35, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                        }}, 300
+                    );
+                });
+</script>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Who We Are</title>
+			<identifier>block_who_we</identifier>
+			<content><![CDATA[<div class="block-we">
+<div class="container">
+<div class="img-slider">
+<ul class="bxslider">
+<li><img src="{{media url="wysiwyg/who_we1.png"}}" alt="" /></li>
+<li><img src="{{media url="wysiwyg/who_we2.png"}}" alt="" /></li>
+</ul>
+</div>
+<div class="who-we-content">
+<div class="who-we-title">Who we are?</div>
+<div class="who-we-details">Aenean in ormare nisl. Etiam malesuada dui velit, nec consectetur nisi pharetra at. Nullam bibendum ante ac lacus iaculis, in cursus odio consectetur. Quisque sollicitudin, metus non pellentesque elementun, purus ante pulvinar libero, a dignissim augue metus fermentum turpis. Donec in massa dolor. Aenean consequat ipsum a augue fermentum, et tempor diam tincidunt. Maecenas viverra diam sit amet enim hendrerit rutrum. Morbi non turpis posuere,
+<div class="quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet manuris mattis, commodo elit id, aliquet sem. Praesent <span class="colored">hendrerit dui</span> vitae nisi consectetur, non pretium uma semper. Curabitur in est turpis. Quisque facilisis ac velit gravida rutrum.</div>
+Maecenas aliquet justo a quam gravida, tempus dignissim libero malesuada. Cras ac odio a nibh faucibus lacinia sit amet sit amet augue. Cras sapien massa, scelerisque vita.</div>
+</div>
+<div class="who-we-bottom">Loerm ipsum dolor sit amet, consectetur adipiscing elit. Praesent lacinia gravida tortor. Mauris consequat neque magna. Ut venenatis condimentum paretra. Suspendisse at laoreet erat. Suspendisse varius velit tincidunt felis placerat, nec tristique erat viverra. Fusce id cursus lectus. Fusce eleifend, lectus at pulvinar pulvinar, lectus magna vulputate est, at sodales risus metus id metus. Cras quis nunc <span class="colored">aliquam risus</span> tristique tristique eget vitae diam. Ut vitae adipiscing eros. Praesent rhoncus turpis in felis dapibus bibendum. Quisque vestibulum tortor tincidunt interdum bibendum. Ner imperdiet iaculis augue.</div>
+</div>
+</div>
+<script type="text/javascript">
+    var us_timer;    
+    var us_slider;
+    var winwidth = jQuery(window).outerWidth();
+    if (winwidth < 768 && winwidth >= 480){
+        us_slider = jQuery('.block-we .bxslider').bxSlider({minSlides: 1, maxSlides: 1, slideWidth: 460, slideMargin: 0, moveSlides: 1, pager: true });
+    }else if(winwidth < 480){
+        us_slider = jQuery('.block-we .bxslider').bxSlider({minSlides: 1, maxSlides: 1, slideWidth: 290, slideMargin: 0, moveSlides: 1, pager: true });
+    }else {
+        us_slider = jQuery('.block-we .bxslider').bxSlider({minSlides: 1, maxSlides: 1, slideWidth: 550, slideMargin: 0, moveSlides: 1, pager: true });
+    }
+    jQuery(window).resize(function(e){
+        e.preventDefault();
+        winwidth = jQuery(window).outerWidth();
+        if(us_timer) clearTimeout(us_timer);
+        us_timer = setTimeout(function(){
+            if (winwidth < 768 && winwidth >= 480){
+                us_slider.reloadSlider({minSlides: 1, maxSlides: 1, slideWidth: 460, slideMargin: 0, moveSlides: 1, pager: true });
+            }else if(winwidth < 480){
+                us_slider.reloadSlider({minSlides: 1, maxSlides: 1, slideWidth: 290, slideMargin: 0, moveSlides: 1, pager: true });
+            }else {
+                us_slider.reloadSlider({minSlides: 1, maxSlides: 1, slideWidth: 550, slideMargin: 0, moveSlides: 1, pager: true });
+            }}, 300
+        );
+    });
+</script>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (Showcase - 1)</title>
+			<identifier>block_homeslider_sh1</identifier>
+			<content><![CDATA[<ul>
+<li data-transition="fade" data-slotamount="15" data-masterspeed="300" data-delay="7500"><img src="{{media url="wysiwyg/slider_13.jpg"}}" alt="" />
+<div class="tp-caption custom_text green_light_text  green_tall_text sfl" data-x="50" data-y="176" data-start="700" data-speed="800" data-easing="easeOutExpo" data-endspeed="500">New</div>
+<div class="tp-caption white_text custom_text custom_border_text custom_white_text sfl" data-x="50" data-y="240" data-start="700" data-speed="800" data-easing="easeOutExpo" data-endspeed="500">Arrivals</div>
+<div class="tp-caption white_text custom_text custom_white_small_text sfl" data-x="50" data-y="343" data-start="700" data-speed="800" data-easing="easeOutExpo" data-endspeed="500">Create your autumn style arrangement.</div>
+<div class="tp-caption small-button sfl" data-x="50" data-y="384" data-start="1700" data-speed="1600" data-easing="easeOutExpo" data-endspeed="500"><a href="#">Shop New In</a></div>
+<div class="tp-caption  customin show-case-plus" data-productid="girl-shirt" data-productpos="left-top" data-x="655" data-y="126" data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;" data-speed="500" data-start="1400" data-easing="Power3.easeInOut" data-endspeed="300">&nbsp;</div>
+<div id="girl-shirt" class="tp-caption show-case-product">
+<div class="show-product-container">
+<div class="show-product-img"><img src="{{media url="wysiwyg/im2.jpg"}}" alt="" /></div>
+<div class="show-product-price">$471.00</div>
+<div class="show-product-name">Sirimione Bandeau Playsuit</div>
+</div>
+</div>
+<div class="tp-caption  customin show-case-plus" data-productid="girl-trouser" data-productpos="left-bottom" data-x="565" data-y="346" data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;" data-speed="500" data-start="1400" data-easing="Power3.easeInOut" data-endspeed="300">&nbsp;</div>
+<div id="girl-trouser" class="tp-caption show-case-product">
+<div class="show-product-container">
+<div class="show-product-img"><img src="{{media url="wysiwyg/638744_main.jpg"}}" alt="" /></div>
+<div class="show-product-price">$358.00</div>
+<div class="show-product-name">Sirimione Bandeau</div>
+</div>
+</div>
+<div class="tp-caption  customin show-case-plus" data-productid="girl-shose" data-productpos="left-bottom" data-x="676" data-y="534" data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;" data-speed="500" data-start="1400" data-easing="Power3.easeInOut" data-endspeed="300">&nbsp;</div>
+<div id="girl-shose" class="tp-caption show-case-product">
+<div class="show-product-container">
+<div class="show-product-img"><img src="{{media url="wysiwyg/conversecdg_ctlowblack.jpg"}}" alt="" /></div>
+<div class="show-product-price">$531.00</div>
+<div class="show-product-name">Sirimione Bandeau Playsuit</div>
+</div>
+</div>
+</li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (Showcase - 2)</title>
+			<identifier>block_homeslider_sh2</identifier>
+			<content><![CDATA[<ul>
+<li data-transition="fade" data-slotamount="15" data-masterspeed="300" data-delay="7500"><img src="{{media url="wysiwyg/slider_14.jpg"}}" alt="" />
+<div class="tp-caption custom_text custom_white_normal_text sfl" data-x="50" data-y="197" data-start="700" data-speed="800" data-easing="easeOutExpo" data-endspeed="500">New For Fall</div>
+<div class="tp-caption white_text custom_text custom_border_text  custom_black_text sfl" data-x="50" data-y="240" data-start="700" data-speed="800" data-easing="easeOutExpo" data-endspeed="500">State of teh Art</div>
+<div class="tp-caption white_text custom_text custom_white_small_text sfl" data-x="50" data-y="327" data-start="700" data-speed="800" data-easing="easeOutExpo" data-endspeed="500">Shop this season's latest arrivals in Zonda.</div>
+<div class="tp-caption small-button sfl" data-x="50" data-y="366" data-start="1700" data-speed="1600" data-easing="easeOutExpo" data-endspeed="500"><a href="#">Get the look</a></div>
+<div class="tp-caption  customin show-case-plus" data-productid="man-shirt" data-productpos="left-top" data-x="755" data-y="86" data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;" data-speed="500" data-start="1400" data-easing="Power3.easeInOut" data-endspeed="300">&nbsp;</div>
+<div id="man-shirt" class="tp-caption show-case-product">
+<div class="show-product-container">
+<div class="show-product-img"><img src="{{media url="wysiwyg/9727_fk_dark_cherry_l_z.jpg"}}" alt="" /></div>
+<div class="show-product-price">$147.00</div>
+<div class="show-product-name">Sirimione Bandeau Playsuit</div>
+</div>
+</div>
+<div class="tp-caption  customin show-case-plus" data-productid="man-trouser" data-productpos="left-bottom" data-x="568" data-y="279" data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;" data-speed="500" data-start="1400" data-easing="Power3.easeInOut" data-endspeed="300">&nbsp;</div>
+<div id="man-trouser" class="tp-caption show-case-product">
+<div class="show-product-container">
+<div class="show-product-img"><img src="{{media url="wysiwyg/9600_barren_land_s_z.jpg"}}" alt="" /></div>
+<div class="show-product-price">$200.00</div>
+<div class="show-product-name">Sirimione Bandeau</div>
+</div>
+</div>
+<div class="tp-caption  customin show-case-plus" data-productid="man-bag" data-productpos="left-bottom" data-x="686" data-y="508" data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;" data-speed="500" data-start="1400" data-easing="Power3.easeInOut" data-endspeed="300">&nbsp;</div>
+<div id="man-bag" class="tp-caption show-case-product">
+<div class="show-product-container">
+<div class="show-product-img"><img src="{{media url="wysiwyg/1376255551_Oslo_-_Travel_44_4699.jpg"}}" alt="" /></div>
+<div class="show-product-price">$331.00</div>
+<div class="show-product-name">Sirimione Bandeau Playsuit</div>
+</div>
+</div>
+</li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>Home Slider (Showcase - 3)</title>
+			<identifier>block_homeslider_sh3</identifier>
+			<content><![CDATA[<ul>
+<li data-transition="fade" data-slotamount="15" data-masterspeed="300" data-delay="7500"><img src="{{media url="wysiwyg/slider_15.jpg"}}" alt="" />
+<div class="tp-caption custom_text  custom_white_big_text sfl" data-x="50" data-y="143" data-start="700" data-speed="800" data-easing="easeOutExpo" data-endspeed="500">New For Fall</div>
+<div class="tp-caption white_text custom_text custom_border_text  custom_green_large_text sfl" data-x="90" data-y="206" data-start="700" data-speed="800" data-easing="easeOutExpo" data-endspeed="500">Sale</div>
+<div class="tp-caption white_text custom_text custom_white_more_small_text sfl" data-x="50" data-y="348" data-start="700" data-speed="800" data-easing="easeOutExpo" data-endspeed="500">PLUS free shipping on all orders over $150.</div>
+<div class="tp-caption white_text custom_text custom_white_more_small_text sfl" data-x="50" data-y="373" data-start="700" data-speed="800" data-easing="easeOutExpo" data-endspeed="500">Use code <span class="colored_green">Free 150</span>.</div>
+<div class="tp-caption small-button sfl" data-x="50" data-y="410" data-start="1700" data-speed="1600" data-easing="easeOutExpo" data-endspeed="500"><a href="#">Shop now</a></div>
+<div class="tp-caption  customin show-case-plus" data-productid="man-jacket" data-productpos="left-top" data-x="565" data-y="126" data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;" data-speed="500" data-start="1400" data-easing="Power3.easeInOut" data-endspeed="300">&nbsp;</div>
+<div id="man-jacket" class="tp-caption show-case-product">
+<div class="show-product-container">
+<div class="show-product-img"><img src="{{media url="wysiwyg/toes-on-the-nose_mens_jacket_logger-jacket_blk.jpg"}}" alt="" /></div>
+<div class="show-product-price">$245.00</div>
+<div class="show-product-name">Sirimione Bandeau Playsuit</div>
+</div>
+</div>
+<div class="tp-caption  customin show-case-plus" data-productid="girl-jacket" data-productpos="right-top" data-x="795" data-y="116" data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;" data-speed="500" data-start="1400" data-easing="Power3.easeInOut" data-endspeed="300">&nbsp;</div>
+<div id="girl-jacket" class="tp-caption show-case-product">
+<div class="show-product-container">
+<div class="show-product-img"><img src="{{media url="wysiwyg/m3_605430.jpg"}}" alt="" /></div>
+<div class="show-product-price">$210.00</div>
+<div class="show-product-name">Sirimione Bandeau</div>
+</div>
+</div>
+<div class="tp-caption  customin show-case-plus" data-productid="man-cloth" data-productpos="left-bottom" data-x="729" data-y="300" data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;" data-speed="500" data-start="1400" data-easing="Power3.easeInOut" data-endspeed="300">&nbsp;</div>
+<div id="man-cloth" class="tp-caption show-case-product">
+<div class="show-product-container">
+<div class="show-product-img"><img src="{{media url="wysiwyg/rip-curl_womens_pant_pins-hi-color_ink.jpg"}}" alt="" /></div>
+<div class="show-product-price">$331.00</div>
+<div class="show-product-name">Sirimione Bandeau Playsuit</div>
+</div>
+</div>
+<div class="tp-caption  customin show-case-plus" data-productid="girl-cloth" data-productpos="left-bottom" data-x="673" data-y="459" data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;" data-speed="500" data-start="1400" data-easing="Power3.easeInOut" data-endspeed="300">&nbsp;</div>
+<div id="girl-cloth" class="tp-caption show-case-product">
+<div class="show-product-container">
+<div class="show-product-img"><img src="{{media url="wysiwyg/billabong_mens_pant_outsider-jean_tobacco.jpg"}}" alt="" /></div>
+<div class="show-product-price">$131.00</div>
+<div class="show-product-name">Sirimione Bandeau Playsuit</div>
+</div>
+</div>
+</li>
+</ul>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+<cms_block>
+			<title>custom</title>
+			<identifier>block_custom_menu</identifier>
+			<content><![CDATA[<div class="block-feature block-custom-menu clearfix">
+<div class="container">
+<div class="row">
+<div class="col3 block-desc block-desc-1">
+<div class="block-desc-container">
+<div class="block-desc-icon">&nbsp;</div>
+<div class="block-desc-title">Responsive Design</div>
+<div class="block-desc-content">Cars pellentesque, nisi ac tempus pellentesque, orici sem commodo urna, amet engestas ipsum orci sit amet tellus mauris eu ante.</div>
+<div class="block-desc-link"><a href="#">Learn More</a></div>
+</div>
+</div>
+<div class="col3 block-desc block-desc-2">
+<div class="block-desc-container">
+<div class="block-desc-icon">&nbsp;</div>
+<div class="block-desc-title">Powerful Admin Panel</div>
+<div class="block-desc-content">Etiam dapibus mattis sapien, blan molestie nunc veneatis ut. Phasellus imperdiet lacinia est, convallis dolor aliquet ac.</div>
+<div class="block-desc-link"><a href="#">Learn More</a></div>
+</div>
+</div>
+<div class="col3 block-desc block-desc-3">
+<div class="block-desc-container">
+<div class="block-desc-icon">&nbsp;</div>
+<div class="block-desc-title">Awesome Sliders</div>
+<div class="block-desc-content">Duis a dignissim nulla. phasellus lacinia aliquam lorem, a consequat erat interdum nec. Aenean ut leo sem, id gravida tortor.</div>
+<div class="block-desc-link"><a href="#">Learn More</a></div>
+</div>
+</div>
+<div class="col3 block-desc block-desc-4">
+<div class="block-desc-container">
+<div class="block-desc-icon">&nbsp;</div>
+<div class="block-desc-title">Premium Support</div>
+<div class="block-desc-content">Pellentesque ut libero in nibh aliquet pretium eget elementum felis. integer dapibus auctor tincidunt suspendisse.</div>
+<div class="block-desc-link"><a href="#">Learn More</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+		<cms_block>
+			<title>About Us</title>
+			<identifier>block_about_us_short</identifier>
+			<content><![CDATA[<div>Lorem ipsum dolor sit amet, conse adipiscing elit. Donec in sagittis sem. Aliquam vitae egestas odio. Praesent euismod nunc vitae sapien cursus accumsan.</div>
+<div>Pellentesque habitant morbi tristiq senectus et netus. Proin ornare...</div>]]></content>
+			<is_active>1</is_active>
+			<stores><item>0</item></stores>
+		</cms_block>
+	</blocks>
+</root>

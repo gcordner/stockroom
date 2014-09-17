@@ -1,0 +1,104 @@
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+?>
+<?php
+$zonda = $this->helper('zonda');
+$b = $zonda->getConfigGroup();
+$_productCollection=$this->getLoadedProductCollection();
+$_uid = $this->getFrontHash();
+$homeslider = Mage::helper('eternal_homeslider');
+$_helper = $this->helper('catalog/output');
+//Default image size
+$imgWidth = 154;
+$imgHeight = 154;
+
+$blockName = $this->getBlockName();
+$blockDescription = $this->getBlockDescription();
+$blockId = $this->getFrontHash();
+?>
+<?php if($homeslider->getConfig('general/active_fp')):?>
+    <?php if($_productCollection->count()):?>
+    <div class="container">
+        <div class="featured-products-container">
+            <?php foreach ($_productCollection as $_product): ?>
+                <div class="product-item">
+                    <div class="product-item-container clearfix">
+                        <div class="product-item-image">
+                            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>">
+                                <img src="<?php echo $zonda->getImage($_product, $imgWidth, $imgHeight, 'small_image'); ?>" alt="" />
+                            </a>
+                            <div class="product-item-reviews">
+                                <?php if($_product->getRatingSummary()): ?>
+                                <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                                <?php endif; ?>
+                            </div> 
+                        </div>
+                        <div class="product-item-info">
+                            <div class="product-item-name"><?php echo $this->htmlEscape($_product->getName()) ?></div>
+                            <div class="product-item-price"><?php echo $this->getPriceHtml($_product, true, '-featured-slider') ?></div>
+                            <div class="product-item-description">
+                                <?php 
+                                $prod = Mage::getModel('catalog/product')->load($_product->getId());
+                                if (strlen($prod->getDescription()) > 100) {
+                                    echo substr($prod->getDescription(), 0, 100).'...';
+                                } else {
+                                    echo $prod->getDescription();    
+                                }
+                                 ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-item-actions">
+                        <div class="item-buttons">
+                        <?php if($_product->isSaleable()): ?>
+                            <div class="item-button">
+                                <?php  if ( !($_product->getData('has_options') || $_product->isGrouped()) ) :  ?>
+                                    <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="item-cart" onclick="<?php if(Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code)):?>setLocationAjax('<?php echo $this->getAddToCartUrl($_product) ?>')<?php else: ?>setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')<?php endif; ?>"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                                <?php else : ?>
+                                    <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="item-cart" onclick="<?php if(Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code)):?>showOptions('<?php echo $_product->getId()?>')<?php else: ?>setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')<?php endif; ?>"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                                    <a href='<?php echo $this->getUrl('ajaxcart/index/options',array('product_id'=>$_product->getId()));?>' class='fancybox' id='fancybox<?php echo $_product->getId()?>' style='display:none'>Options</a>
+                                <?php endif;?>                                
+                            </div>
+                        <?php endif; ?>
+                        <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+                            <div class="item-button">                              
+                              <a href="<?php if(Mage::getStoreConfig("ajaxcart/addtolinks/enablecategory", $code)):?>javascript:ajaxCompare('<?php echo $_compareUrl ?>','<?php echo $_product->getId()?>');<?php else: ?><?php echo $_compareUrl ?><?php endif; ?>" class="item-compare" title="<?php echo $this->__('Add to Compare') ?>"><?php echo $this->__('Add to Compare') ?></a>
+                            </div>  
+                        <?php endif; ?>                        
+                        <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                            <div class="item-button">                                
+                                <a href="<?php if(Mage::getStoreConfig("ajaxcart/addtolinks/enableothers", $code)):?>javascript:ajaxWishlist('<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>','<?php echo $_product->getId()?>');<?php else: ?><?php echo $this->helper('wishlist')->getAddUrl($_product) ?><?php endif; ?>" class="item-wishlist" title="<?php echo $this->__('Add to Wishlist') ?>"><?php echo $this->__('Add to Wishlist') ?></a>
+                            </div>
+                        <?php endif; ?>
+                        <div class="item-button">
+                            <li><a href="<?php echo $this->getUrl('quickview/index/view',array('path'=>basename($_product->getProductUrl()))) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" class="quick-view item-product-link"><?php echo $this->__('quick view')?></a></li>                            
+                        </div>
+                        <div class="item-button">
+                            <li><a href="<?php echo $zonda->getImage($_product, 400, 400*$b['product']['image_ratio'], 'small_image'); ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_product, 'small_image')) ?>" class="view-product product-item-detail last"><?php echo $this->__('view product')?></a></li>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>       
+            </div>
+        </div>
+        <?php ?>
+            <script type=text/javascript>
+                jQuery(function(){
+                featured_nice = jQuery('.featured-products-container').niceScroll(
+                    {horizrailenabled:false,
+                     autohidemode:false,
+                     scrollspeed:150,
+                     cursorfixedheight:'64',
+                     cursorcolor:'#cccccc',
+                     cursorbor:'1px solid rgba(178, 178, 178, .55)', cursorwidth:24});
+                     featured_nice.rail.addClass('featured-rail');
+                });
+            </script>
+        <?php ?>
+    <?php endif; ?>
+<?php endif; ?>

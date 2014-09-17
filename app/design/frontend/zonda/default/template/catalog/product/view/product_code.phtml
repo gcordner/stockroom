@@ -1,0 +1,7 @@
+<?php
+  
+?>
+<?php $_code = $this->getProduct()->getSku();?>
+<?php if ($_code): ?>
+    <p class="product-code"><span class="item-title"><?php echo $this->__('Product Code:') ?></span><span><?php echo $_code ?></span></p>
+<?php endif; ?>

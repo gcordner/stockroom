@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <zonda_setting translate="title" module="zonda">
+                                        <title>Theme Settings</title>
+                                        <sort_order>1</sort_order> 
+                                    </zonda_setting>
+                                    <zonda_design translate="title" module="zonda">
+                                        <title>Theme Design</title>
+                                        <sort_order>2</sort_order>
+                                    </zonda_design>
+									<zonda_data translate="title" module="zonda">
+                                        <title>Theme Import</title>
+                                        <sort_order>3</sort_order>
+                                    </zonda_data>
+                                </children>                                
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

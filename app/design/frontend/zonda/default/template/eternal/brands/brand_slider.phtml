@@ -1,0 +1,69 @@
+<?php 
+$helper = Mage::helper('eternal_brands'); 
+$zonda = $this->helper('zonda');
+if ($helper->getConfig('slider/enable')): 
+    $brands = $this->getBrands();
+    if (count($brands) > 0) :
+?>
+<div class="container clearfix">    
+    <div class="brand-slider-wrap">        
+        <div id="brand-slider" class="large-icons">
+            <div class="left-border-cover"></div>
+            <ul class="slides bxslider">
+            <?php foreach ($brands as $brand) : ?>
+                <li>
+                    <?php $brand_url = $this->getBrandUrl($brand); ?>
+                    <?php if ($brand_url != '') : ?>
+                        <a href="<?php echo $brand_url ?>" title="<?php echo $brand ?>">
+                            <img src="<?php echo $this->getBrandImageUrl($brand) ?>" alt="<?php echo $brand ?>"/>
+                        </a>
+                    <?php else : ?>
+                        <img src="<?php echo $this->getBrandImageUrl($brand) ?>" alt="<?php echo $brand ?>"/>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+            <div class="right-border-cover"></div>
+        </div>
+        <script type="text/javascript">
+        //<![CDATA[
+        var item_counter;
+        <?php if ($helper->getConfig('slider/custom_enable') && $zonda->getConfig(show_two_lows) ): ?>                
+            item_counter = 6;
+        <?php else: ?>
+            item_counter = 7;
+        <?php endif; ?>
+        var winwidth = jQuery(window).outerWidth();
+        var brand_slides;
+        var brandtimer;
+        if (winwidth < 480) {
+            brand_slides = jQuery('#brand-slider .bxslider').bxSlider({minSlides: 2, maxSlides: 2, slideWidth:130, slideMargin: 0, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false, auto: true });
+        } else if (winwidth <= 767 && winwidth > 480){
+            brand_slides = jQuery('#brand-slider .bxslider').bxSlider({minSlides: 4, maxSlides: 4, slideWidth:130, slideMargin: 0, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false, auto: true });
+        } else if(winwidth <= 992 && winwidth > 768 ) {
+            brand_slides = jQuery('#brand-slider .bxslider').bxSlider({minSlides: item_counter - 1, maxSlides: item_counter - 1, slideWidth:130, slideMargin: 0, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false , auto: true});
+        } else {
+            brand_slides = jQuery('#brand-slider .bxslider').bxSlider({minSlides: item_counter, maxSlides: item_counter, slideWidth:130, slideMargin: 0, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false, auto: true });
+        }
+        jQuery(window).resize(function(e){
+                    e.preventDefault();
+                    winwidth = jQuery(window).outerWidth();
+                    if(brandtimer) clearTimeout(brandtimer);
+                    brandtimer = setTimeout(function(){
+                        if (winwidth <= 480){
+                            brand_slides.reloadSlider({minSlides: 2, maxSlides: 2, slideWidth:130, slideMargin: 0, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false, auto: true });
+                        }else if(winwidth <= 767 && winwidth > 480){
+                            brand_slides.reloadSlider({minSlides: 4, maxSlides: 4, slideWidth:130, slideMargin: 0, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false, auto: true });
+                        }else if(winwidth <= 992 && winwidth > 768){
+                            brand_slides.reloadSlider({minSlides: item_counter - 1, maxSlides: item_counter - 1, slideWidth:130, slideMargin: 0, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false, auto: true });
+                        }else {
+                brand_slides.reloadSlider({minSlides: item_counter, maxSlides: item_counter, slideWidth:130, slideMargin: 0, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false , auto: true});    
+            }}, 300
+                    );
+                });
+        //]]>
+        </script>
+    </div>
+</div>
+<?php endif; ?>
+<?php endif; ?>

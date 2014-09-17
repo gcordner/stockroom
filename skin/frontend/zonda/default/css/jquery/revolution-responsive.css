@@ -1,0 +1,40 @@
+
+/***************************************
+    -    RESPONSIVE SETTINGS     -
+****************************************/
+
+@media only screen and (min-width: 0px) and (max-width: 479px) {
+                .responsive .tp-bullets    {    display:none}
+                .responsive .tparrows    {    display:none;}
+    }
+
+@media (min-width: 1200px) {
+    
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    
+}
+
+@media (max-width: 767px) {
+    .small-button {
+        display: none;   
+    }
+    .tp-caption.white_more_small_text {
+        display: none;
+    }
+    .tp-caption.white_big_text,
+    .tp-caption.caption_picture  {
+        left: 10% !important;
+    }
+    .tp-caption.black_medium_text {
+        left: 17% !important;
+    }
+    .show-case-plus {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    
+}

@@ -1,0 +1,10 @@
+.footer-main .fb-person img {
+    border: none;
+}
+.fb-person a:hover img{
+    border: none;
+}
+.labels.spec-pro .spec-pro-text {
+    margin-top: 5px;
+    margin-right: 14px;
+}

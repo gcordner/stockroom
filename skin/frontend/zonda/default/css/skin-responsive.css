@@ -1,0 +1,25 @@
+@media (max-width: 1680px) {
+.featured-products-container {
+        max-height: 384px;
+    }
+}
+@media (max-width: 991px) {
+.featured-products-container {
+    display: none;
+}
+/*banner*/
+    .container.banner-4 {
+        padding: 32px 0 16px;
+    }
+    .container.banner-4 .col4 {
+        width: 100%;
+    }
+}
+@media (max-width: 767px){
+        #homeslider-revolution .container {
+            display: none;
+        }    
+        .home-banner-content {
+            display: none;
+        }
+}

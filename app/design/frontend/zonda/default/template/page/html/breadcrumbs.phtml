@@ -1,0 +1,28 @@
+<?php
+$zonda = $this->helper('zonda');
+$b = $zonda->getConfigGroup();
+$c = $zonda->getConfigGroupDesign();
+?>
+<?php if($crumbs && is_array($crumbs)): ?>
+<div class="breadcrumbs <?php if ($this->getChildHtml('page.title')): echo 'title-show'; endif;?>">
+    <div class="container clearfix">
+        <ul <?php if ($this->getChildHtml('page.title')): echo 'class="ul-right"'; endif;?>>
+            <?php foreach($crumbs as $_crumbName=>$_crumbInfo): ?>
+                <li class="<?php echo $_crumbName ?>">
+                <?php if($_crumbInfo['link']): ?>
+                    <a href="<?php echo $_crumbInfo['link'] ?>" title="<?php echo $this->htmlEscape($_crumbInfo['title']) ?>"><?php echo $this->htmlEscape($_crumbInfo['label']) ?></a>
+                <?php elseif($_crumbInfo['last']): ?>
+                    <strong><?php echo $this->htmlEscape($_crumbInfo['label']) ?></strong>
+                <?php else: ?>
+                    <?php echo $this->htmlEscape($_crumbInfo['label']) ?>
+                <?php endif; ?>
+                <?php if(!$_crumbInfo['last']): ?>
+                    <span><?php echo $c['breadcrumbs']['separator'] ?> </span>
+                <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php echo $this->getChildHtml('page.title'); ?>
+    </div>
+</div>
+<?php endif; ?>

@@ -1,0 +1,53 @@
+<?php
+/**
+ * @see Mage_Page_Block_Template_Links
+ */
+?>    
+<?php $_links = $this->getLinks(); ?>
+<?php $helper = Mage::helper('customer'); ?>
+<?php if(count($_links)>0): ?>
+<ul class="toplinks login-container-big">
+    <li>
+    <?php if ($helper->isLoggedIn()): ?>
+            <a href="<?php echo $helper->getLogoutUrl(); ?>" class="logout-link"><?php echo $this->__('Logout');?></a>
+        <?php else: ?>
+            <a href="<?php echo $helper->getLoginUrl(); ?>" class="login-link"><?php echo $this->__('Login');?></a>/<a href="<?php echo $helper->getRegisterUrl(); ?>" class="register-link"><?php echo $this->__('Register');?></a>
+        <?php endif; ?> 
+    </li>
+</ul>
+<ul class="toplinks links"<?php if($this->getName()): ?> id="<?php echo $this->getName() ?>"<?php endif;?>>
+    <?php foreach($_links as $_link): ?>
+        <?php if ($_link instanceof Mage_Core_Block_Abstract):?>
+            <?php echo $_link->toHtml() ?>
+        <?php else: ?>            
+			<?php
+            $classes = '';
+            
+           if ($_link->getIsFirst())
+            {
+                $classes .= 'first';
+            }            
+            if ($_link->getIsLast())
+            {
+                $classes .= ' last';
+            }
+
+            $label = $_link->getLabel();
+            $icon_class = strtolower(current(explode("(", preg_replace('/\s+/', '', $label), 2)));
+            $title = current(explode("(", $label, 2));
+            $count = (int)str_replace($title.'(', '', $label);
+            $count = $count > 0 ? '<span class="count">(' . $count . ')</span>' : '';
+            ?>            
+            <li <?php if($classes): ?>class="<?php echo $classes; ?>"<?php endif;?> <?php echo $_link->getLiParams() ?>><?php echo $_link->getBeforeText() ?><a href="<?php echo $_link->getUrl() ?>" title="<?php echo $_link->getTitle() ?>" <?php echo $_link->getAParams() ?>><span><?php echo $title . $count; ?></span></a><?php echo $_link->getAfterText() ?></li>
+        <?php endif;?>
+    <?php endforeach; ?>        
+    <li class="login-container">
+        <?php if ($helper->isLoggedIn()): ?>
+            <a href="<?php echo $helper->getLogoutUrl(); ?>" class="logout-link"><?php echo $this->__('Logout');?></a>
+        <?php else: ?>
+            <a href="<?php echo $helper->getLoginUrl(); ?>" class="login-link"><?php echo $this->__('Login');?></a>/<a href="<?php echo $helper->getRegisterUrl(); ?>" class="register-link"><?php echo $this->__('Register');?></a>
+        <?php endif; ?> 
+
+    </li>
+</ul>
+<?php endif; ?>

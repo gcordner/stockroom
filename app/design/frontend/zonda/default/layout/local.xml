@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <default>    
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+            <block type="core/text_list" name="main-slider" as="main-slider" translate="label">
+                <label>Page Slider</label>
+            </block>
+            <block type="core/text_list" name="main-banner" as="main-banner" translate="label">
+                <label>Page Banner</label>
+            </block>
+            <block type="zonda/social_twittertweets" name="social_twitter_tweets" template="eternal/zonda/twitter_tweets.phtml"/>
+            <block type="page/switch" name="store_switcher" as="store_switcher" template="page/switch/stores.phtml"/>
+        </reference>
+        
+        <reference name="head">
+
+        <!-- add javascript -->
+            <!--<action method="addJs"><script>eternal/jquery/jquery-1.8.2.min.js</script></action>
+            <action method="addJs"><script>eternal/jquery/jquery-noconflict.js</script></action>-->
+            <action method="addJs"><script>eternal/jquery/jquery-ui-1.9.2.min.js</script></action>
+            <!-- bootstrap plugins -->
+            <action method="addJs"><script>eternal/bootstrap/bootstrap-hover-dropdown.min.js</script></action>
+            <action method="addJs"><script>eternal/bootstrap/bootstrap-select.min.js</script></action>
+            <action method="addJs"><script>eternal/bootstrap/bootstrap.min.js</script></action>
+            
+            <action method="addItem"><type>js</type><name>eternal/html5shiv.js</name><params/><if>lt IE 9</if></action> 
+            <action method="addJs"><script>eternal/jquery/ajaxaddto.js</script></action>
+            <action method="addJs"><script>eternal/jquery/fancybox/jquery.fancybox.pack.js</script></action>
+            <action method="addItem"><type>js_css</type><name>eternal/jquery/fancybox/jquery.fancybox.css</name></action>
+            <action method="addItem"><type>skin_css</type><name>css/jquery/ajaxaddto.css</name></action>
+            <block type="core/template" name="ajaxcart_head" template="ajaxcart/head.phtml"/>           
+            <!-- jquery plugins -->
+            <action method="addJs"><script>eternal/jquery/jquery.easing.min.js</script></action>
+			<action method="addJs"><script>eternal/jquery/jquery.selectbox-0.2.min.js</script></action>
+            <action method="addJs"><script>eternal/jquery/jquery.imgpreload.min.js</script></action>
+            <action method="addJs"><script>eternal/jquery/jquery.bgpos.js</script></action>
+            <action method="addJs"><script>eternal/jquery/jquery.mousewheel.js</script></action>
+            <action method="addJs"><script>eternal/jquery/jquery.flexslider.min.js</script></action>
+            <action method="addJs"><script>eternal/jquery/jquery.bxslider.min.js</script></action>
+            <action method="addJs"><script>eternal/jquery/jquery.colorbox-min.js</script></action>
+            <action method="addJs"><script>eternal/jquery/jquery.jscrollpane.min.js</script></action>
+            <action method="addJs"><script>eternal/jquery/prettyCheckable.js</script></action>
+            <action method="addJs"><script>eternal/jquery/scrolltopcontrol.js</script></action>
+            <action method="addJs"><script>eternal/jquery/lightbox-2.6.min.js</script></action>  
+            <action method="addJs"><script>eternal/jquery/jquery.nicescroll.js</script></action>                                                
+            <!-- custom script -->            
+            <action method="addJs"><script>eternal/zonda.js</script></action>
+        <!-- add stylesheet -->
+            <action method="addItem"><type>skin_css</type><name>css/jquery/flexslider.css</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>css/jquery/jquery.selectbox.css</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>css/jquery/lightbox.css</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>css/jquery/bxslider-responsive.css</name><params/></action>
+            
+            <!-- base style -->            
+            <action method="addCss"><stylesheet>css/eternal/jquery-ui-1.9.2.css</stylesheet></action>
+            <action method="addItem"><type>skin_css</type><name>css/styles-zonda.css</name><params/></action>
+            <action method="addItem"><type>skin_css</type><name>css/skin.css</name><params/></action>
+            <!-- system config design -->
+            <action method="addCss"><stylesheet helper="zonda/config/getCssFile" /></action>
+            <action method="addCss"><stylesheet helper="zonda/config/getCssResponsiveFile" /></action>
+            <action method="addCss"><stylesheet helper="zonda/config/getCssSkinResponsiveFile" /></action>
+            
+            <!-- CSS for IE -->
+            <action method="addCssIe"><css>css/styles-ie.css</css></action>            
+            <!-- Respond JS -->
+            <action method="addItem"><type>js</type><name>eternal/respond.min.js</name><params/><if>lt IE 9</if></action>
+            
+            
+        </reference>
+        <!-- header -->
+        <reference name="header">
+            <!-- add currency switcher -->
+            <block type="directory/currency" as="currency" name="currency" template="directory/currency.phtml"/>
+            
+            <!-- add mini cart to the header : new template -->
+            <block type="checkout/cart_sidebar" name="cart_sidebar" template="checkout/cart/mini.phtml" before="-">
+                <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/sidebar/default.phtml</template></action>
+                <block type="core/text_list" name="cart_sidebar.extra_actions" as="extra_actions" translate="label" module="checkout">
+                    <label>Shopping Cart Sidebar Extra Actions</label>
+                </block>
+            </block>
+            
+        </reference>
+        
+        <!-- top links -->
+        <reference name="top.links">
+            <!-- change top links template -->
+            <action method="setTemplate">
+                <template>page/template/top_links.phtml</template>
+            </action>
+            <!-- remove checkout links -->
+            <remove name="checkout_cart_link" />
+        </reference>
+        
+        <!-- footer -->
+        <reference name="footer">
+            <!-- Social blocks -->            
+            <block type="zonda/social_twittertweets" name="social_twitter_tweets_footer" template="eternal/zonda/twitter_tweets_footer.phtml"/>
+            <block type="zonda/social_facebookfans" name="social_facebook_fans" template="eternal/zonda/facebook_fans.phtml"/>
+            <block type="core/template" name="google_map" template="eternal/zonda/google_map.phtml" />
+            
+            <!-- custom social links -->
+            <block type="cms/block" name="block_footer_social_links">
+                <action method="setBlockId"><block_id>block_footer_social_links</block_id></action>
+            </block>
+            <block type="core/text_list" name="footer-banner" as="footer-banner" translate="label">
+                <label>Page Footer Banner</label>
+            </block>
+            <action method="unsetChild"><name>store_switcher</name></action>
+        </reference>
+        
+        <!-- remove unnecessary blocks -->
+        <remove name="right.permanent.callout"/>
+        <remove name="left.permanent.callout"/>
+        <remove name="product.clone_prices"/>
+        <remove name="catalog.compare.sidebar"/>
+        <remove name="wishlist_sidebar"/>
+        <remove name="tags_popular"/>
+        <remove name="reorder"/>
+
+        <!-- remove sidebar blocks -->
+        <remove name="paypal.partner.right.logo"/>
+        <remove name="right.poll"/>
+        <!-- uncomment these tags to remove selected blocks -->
+        <remove name="right.reports.product.viewed" />
+        <remove name="left.reports.product.viewed" />
+        <!-- left -->
+                
+        <!-- right -->
+        <reference name="right">
+            <action method="unsetChild"><name>cart_sidebar</name></action>
+            
+            <!-- featured products(new products) -->            
+            <!-- add advertising block in right sidebar -->
+            <!-- folder: {skin_folder}/images/ad -->
+            
+        </reference>
+        <reference name="left">
+            <action method="unsetChild"><name>left.newsletter</name></action>
+        </reference>
+    </default>
+	<cms_index_index>
+		<reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="footer">
+            <action method="unsetChild" ifconfig="zonda_setting/twitter/show_in_bottom"><name>social_twitter_tweets_footer</name></action>
+            <action method="insert" ifconfig="zonda_setting/twitter/show_in_bottom"><name>social_twitter_tweets</name></action>
+        </reference>
+	</cms_index_index>
+    <customer_account_login>
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <params helper="eternal_all/getHomeUrl" />
+            </action>
+            <action method="addCrumb">
+                <crumbName>Login or Register</crumbName>
+                <crumbInfo><label>Login or Register</label><title>Login or Register</title></crumbInfo>
+            </action>
+            <block type="zonda/pagetitle" name="page.title">
+                <action method="setPageTitle"><title>Login or Create an Account</title></action>
+            </block>
+        </reference>
+    </customer_account_login>
+    <customer_account_create>
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <params helper="eternal_all/getHomeUrl" />
+            </action>
+            <action method="addCrumb">
+                <crumbName>Login or Register</crumbName>
+                <crumbInfo><label>Login or Register</label><title>Login or Register</title></crumbInfo>
+            </action>
+            <block type="zonda/pagetitle" name="page.title">
+                <action method="setPageTitle"><title>Create an Account</title></action>
+            </block>
+        </reference>
+    </customer_account_create>
+    <!-- Customer logged in -->
+    <customer_logged_in>
+        <reference name="top.links">
+            <action method="removeLinkByUrl"><url helper="customer/getLogoutUrl"/></action>
+        </reference>
+    </customer_logged_in>
+
+    <!-- Customer logged out -->
+    <customer_logged_out>
+        <reference name="top.links">
+            <action method="removeLinkByUrl"><url helper="customer/getLoginUrl"/></action>
+        </reference>
+    </customer_logged_out>
+    
+    <!-- Customer account -->
+    <customer_account> 
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <params helper="eternal_all/getHomeUrl" />
+            </action>
+            <action method="addCrumb">
+                <crumbName>My Account</crumbName>
+                <crumbInfo><label>My Account</label><title>My Account</title></crumbInfo>
+            </action>
+            <block type="zonda/pagetitle" name="page.title">
+                <action method="setPageTitle"><title>My Account</title></action>
+            </block>
+        </reference>
+        <reference name="left">
+            <!-- remove cart sidebar -->
+            <action method="unsetChild"><name>cart_sidebar</name></action>
+        </reference> 
+    </customer_account>
+    <customer_account_index>
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <params helper="eternal_all/getHomeUrl" />
+            </action>
+            <action method="addCrumb">
+                <crumbName>My Dashboard</crumbName>
+                <crumbInfo><label>My Dashboard</label><title>My Dashboard</title></crumbInfo>
+            </action>
+            <block type="zonda/pagetitle" name="page.title">
+                <action method="setPageTitle"><title>My Dashboard</title></action>
+            </block>
+        </reference>
+    </customer_account_index>
+    
+    <!-- CATALOG -->
+    <catalog_category_default>
+    
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+            <block type="catalog/category_view" name="category.banner" template="catalog/category/banner.phtml"/>
+        </reference>
+        
+        <reference name="head">
+			<action method="addJs"><script>eternal/jquery/jquery.akordeon.js</script></action>
+			<action method="addJs"><script>eternal/jquery/jquery.slides.min.js</script></action>
+            <action method="addJs"><script>eternal/jquery/jquery-noconflict.js</script></action>
+            <action method="addCss"><stylesheet>css/eternal/jquery.akordeon.css</stylesheet></action>
+        </reference>        
+        <reference name="left">
+            <!-- remove left navigation -->
+            <remove name="catalog.leftnav"/>
+            <!-- remove currency switcher -->
+            <action method="unsetChild"><name>currency</name></action>
+        </reference>        
+        
+        <reference name="right">
+            <block type="catalog/navigation" name="catalog.category" before="-" template="catalog/navigation/category_nav.phtml"/>
+            <block type="catalog/layer_view" name="catalog.rightnav" after="catalog.category" template="catalog/layer/view.phtml">
+                <action method="unsetChild">
+                    <name>category_filter</name>
+                </action>
+            </block>            
+            <block type="filterproducts/special_home_list" name="special" template="catalog/navigation/special_product.phtml" />
+            <block type="core/template" name="right.zonda.ads" template="eternal/zonda/advertising.phtml"/>
+        </reference>
+        
+    </catalog_category_default>
+    
+    <!-- Category with layered navigation -->
+    <catalog_category_layered>
+        
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+            <block type="catalog/category_view" name="category.banner" template="catalog/category/banner.phtml"/>
+        </reference>
+        
+        <reference name="head">
+			<action method="addJs"><script>eternal/jquery/jquery.akordeon.js</script></action>
+            <action method="addJs"><script>eternal/jquery/jquery.slides.min.js</script></action>
+            <action method="addJs"><script>eternal/jquery/jquery-noconflict.js</script></action>
+            <action method="addCss"><stylesheet>css/eternal/jquery.akordeon.css</stylesheet></action>
+        </reference>
+        
+        <reference name="left">
+            <block type="catalog/navigation" name="catalog.category" before="-" template="catalog/navigation/category_nav.phtml"/>                       
+            <block type="filterproducts/special_home_list" name="special" template="catalog/navigation/special_product.phtml" />
+            <block type="core/template" name="right.zonda.ads" template="eternal/zonda/advertising.phtml"/>
+            <remove name="catalog.leftnav" />
+            <!-- remove currency switcher -->
+            <action method="unsetChild"><name>currency</name></action>
+        </reference> 
+        
+        <reference name="right">
+            <block type="catalog/navigation" name="catalog.category" before="-" template="catalog/navigation/category_nav.phtml"/>
+            <block type="catalog/layer_view" name="catalog.rightnav" after="catalog.category" template="catalog/layer/view.phtml">
+                <action method="unsetChild">
+                    <name>category_filter</name>
+                </action>
+            </block>            
+            <block type="filterproducts/special_home_list" name="special" template="catalog/navigation/special_product.phtml" />
+            <block type="core/template" name="right.zonda.ads" template="eternal/zonda/advertising.phtml"/>
+        </reference>
+           
+    </catalog_category_layered>  
+    <catalog_product_view>
+        
+        <!-- change default template -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addCss"><stylesheet>css/eternal/tabs.css</stylesheet></action>
+        </reference>
+        <!-- insert related products into product view and remove them from the right sidebar -->
+        <reference name="right">
+            <action method="unsetChild"><name>catalog.product.related</name></action>
+        </reference>
+        
+        <reference name="product.info">
+            <action method="insert">
+                <block>catalog.product.related</block>
+            </action>
+            
+            <block type="catalog/product_view_attributes" name="product_brand" template="catalog/product/view/brand.phtml"/>
+            <block type="catalog/product_view_attributes" name="product_code" template="catalog/product/view/product_code.phtml" />
+            
+            <!-- add tabs -->
+            <block type="catalog/product_view_tabs" name="product.info.tabs" as="info_tabs" template="catalog/product/view/tabs.phtml" >
+                <!-- short description -->
+                <action method="addTab" translate="title" module="catalog"><alias>short_description</alias><title>Overview</title><block>catalog/product_view_description</block><template>catalog/product/view/short_description.phtml</template></action>
+                
+                <!-- description -->
+                <action method="addTab" translate="title" module="catalog"><alias>description</alias><title>Description</title><block>catalog/product_view_description</block><template>catalog/product/view/description.phtml</template></action>
+                <action method="addTab" translate="title" module="catalog"><alias>additional</alias><title>Additional Info</title><block>catalog/product_view_attributes</block><template>catalog/product/view/attributes.phtml</template></action>
+                
+                <!-- add reviews -->
+                <!-- see the second part: reference name="tabreviews".  Do not change 'tabreviews' alias. It is needed in JS script in catalog/product/view.phtml -->
+                <action method="addTab" translate="title" module="catalog"><alias>tabreviews</alias><title>Reviews</title><block>review/product_view_list</block><template>review/product/view/list.phtml</template></action>
+                
+                <!-- cross sell products -->
+                <action method="addTab" translate="title" module="catalog"><alias>crosssell</alias><title>Cross Sells</title><block>catalog/product_view</block><template>catalog/product/view/crosssell.phtml</template></action>
+                
+                <!-- add tags -->
+                <action method="addTab" translate="title" module="tag"><alias>product.tags</alias><title>Product Tags</title><block>tag/product_list</block><template>tag/list.phtml</template></action>
+                
+            </block>
+            
+            <!-- up sell products: set columns count and max number of displayed items -->
+            <block type="catalog/product_list_upsell" name="product.info.upsell" as="upsell_products" template="catalog/product/list/upsell.phtml">
+                <action method="setColumnCount"><columns>4</columns></action>
+                <action method="setItemLimit"><type>upsell</type><limit>24</limit></action>
+            </block>
+        </reference>
+        
+        <!-- reviews tab -->
+        <reference name="tabreviews">
+            <block type="review/form" name="product.review.form" as="review_form">
+                <block type="page/html_wrapper" name="product.review.form.fields.before" as="form_fields_before" translate="label">
+                    <label>Review Form Fields Before</label>
+                    <action method="setMayBeInvisible"><value>1</value></action>
+                </block>
+            </block>
+        </reference>
+        
+        <!-- remove product tags block (already inserted as a tab) -->
+        <reference name="product.info.additional">
+            <action method="unsetChild"><name>product_tag_list</name></action>
+        </reference>
+        <reference name="product.info.options.wrapper.bottom">
+            <action method="unsetChild"><name>product.tierprices</name></action>
+        </reference>
+        <!-- remove "add to wishlist/compare" links from options box. It is already inserted on product view. -->
+        
+    </catalog_product_view>  
+    <catalog_product_compare_index translate="label">
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <params helper="eternal_all/getHomeUrl" />
+            </action>
+            <action method="addCrumb">
+                <crumbName>Compare Product</crumbName>
+                <crumbInfo><label>Compare Product</label><title>Compare Product</title></crumbInfo>
+            </action>
+            <block type="zonda/pagetitle" name="page.title">
+                <action method="setPageTitle"><title>Compare Product</title></action>
+            </block>
+        </reference>
+    </catalog_product_compare_index>
+	<!--catalog search results-->
+	<catalogsearch_result_index>
+		<reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+	</catalogsearch_result_index>
+    <!-- Reviews -->
+    <review_product_list>
+        <!-- same as catalog_product_view -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>        
+    </review_product_list>
+    
+    <checkout_cart_index>
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <params helper="eternal_all/getHomeUrl" />
+            </action>
+            <action method="addCrumb">
+                <crumbName>Shopping Cart</crumbName>
+                <crumbInfo><label>Shopping Cart</label><title>Shopping Cart</title></crumbInfo>
+            </action>
+            <block type="zonda/pagetitle" name="page.title">
+                <action method="setPageTitle"><title>Shopping Cart</title></action>
+            </block>
+        </reference>
+    </checkout_cart_index>
+    <contacts_index_index translate="label">
+        <reference name="root">
+            <block type="core/template" name="contact_google_map" template="eternal/zonda/contact_google_map.phtml" />
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="right.zonda.contacts" template="eternal/zonda/contact_details.phtml"/>
+        </reference>
+    </contacts_index_index>
+    <cms_index_noroute tranlate="label">
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Home</label><title>Home</title><link>/home</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>Shopping Cart</crumbName>
+                <crumbInfo><label>404 page</label><title>404 page</title></crumbInfo>
+            </action>
+        </reference>
+        <reference name="content">
+            <action method="unsetChild"><name>cms.wrapper</name></action>
+            <block type="core/template" name="error.page">
+                <action method="setTemplate">
+                    <template>eternal/zonda/404.phtml</template>
+                </action>
+            </block>
+        </reference>
+        <remove name="right"/>
+        <remove name="footer" />
+        <remove name="left" />
+    </cms_index_noroute>
+    <ajaxcart_index_options>
+        <reference name="root">
+            <action method="setTemplate"><template>page/empty.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>varien/product.js</script></action>
+            <action method="addJs"><script>varien/configurable.js</script></action>
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
+            <remove name="ajaxcart_head"/>
+        </reference>
+        <reference name="content">
+            <block type="catalog/product_view" name="product.info" template="ajaxcart/catalog/product/options.phtml">
+            <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="ajaxcart/catalog/product/view/addtocart.phtml"/>
+            <block type="catalog/product_view" name="product.info.options.wrapper" as="product_options_wrapper" template="catalog/product/view/options/wrapper.phtml" translate="label">
+            <label>Info Column Options Wrapper</label>
+            <block type="core/template" name="options_js" template="catalog/product/view/options/js.phtml"/>
+            <block type="catalog/product_view_options" name="product.info.options" as="product_options" template="catalog/product/view/options.phtml">
+                <action method="addOptionRenderer"><type>text</type><block>catalog/product_view_options_type_text</block><template>catalog/product/view/options/type/text.phtml</template></action>
+                <action method="addOptionRenderer"><type>file</type><block>catalog/product_view_options_type_file</block><template>catalog/product/view/options/type/file.phtml</template></action>
+                <action method="addOptionRenderer"><type>select</type><block>catalog/product_view_options_type_select</block><template>catalog/product/view/options/type/select.phtml</template></action>
+                <action method="addOptionRenderer"><type>date</type><block>catalog/product_view_options_type_date</block><template>catalog/product/view/options/type/date.phtml</template></action>
+            </block>
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+            </block>
+            <block type="catalog/product_view" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="catalog/product/view/options/wrapper/bottom.phtml" translate="label">
+                <label>Bottom Block Options Wrapper</label>
+                <action method="insert"><block>product.tierprices</block></action>
+                <block type="catalog/product_view" name="product.clone_prices" as="prices" template="catalog/product/view/price_clone.phtml"/>
+                    <action method="append"><block>product.info.addtocart</block></action>
+                    <action method="append"><block>product.info.addto</block></action>
+                </block>
+
+                <block type="core/template_facade" name="product.info.container1" as="container1">
+                    <action method="setDataByKey"><key>alias_in_layout</key><value>container1</value></action>
+                    <action method="setDataByKeyFromRegistry"><key>options_container</key><key_in_registry>product</key_in_registry></action>
+                    <action method="append"><block>product.info.options.wrapper</block></action>
+                    <action method="append"><block>product.info.options.wrapper.bottom</block></action>
+                </block>
+                <block type="core/template_facade" name="product.info.container2" as="container2">
+                    <action method="setDataByKey"><key>alias_in_layout</key><value>container2</value></action>
+                    <action method="setDataByKeyFromRegistry"><key>options_container</key><key_in_registry>product</key_in_registry></action>
+                    <action method="append"><block>product.info.options.wrapper</block></action>
+                    <action method="append"><block>product.info.options.wrapper.bottom</block></action>
+                </block>
+                <action method="unsetCallChild"><child>container1</child><call>ifEquals</call><if>0</if><key>alias_in_layout</key><key>options_container</key></action>
+                <action method="unsetCallChild"><child>container2</child><call>ifEquals</call><if>0</if><key>alias_in_layout</key><key>options_container</key></action>
+            </block>
+        </reference>
+    </ajaxcart_index_options>
+</layout>

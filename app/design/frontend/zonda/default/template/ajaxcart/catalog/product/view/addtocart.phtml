@@ -1,0 +1,26 @@
+<?php $_product = $this->getProduct(); ?>
+<?php $buttonTitle = $this->__('Add to Cart'); ?>
+<?php if($_product->isSaleable()): ?>
+    <div class="add-to-cart">
+        <?php if(!$_product->isGrouped()): ?>
+            <label for="qty">Qty:</label>
+            <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+            <a href="javascript:void(0)" class="button button-up"><span>+</span></a>
+        
+        <script type="text/javascript">
+        //<![CDATA[
+        jQuery(function($) {
+            $('.add-to-cart .button-up').click(function() {
+                $qty = $(this).parent().find('.qty');
+                qty = parseInt($qty.val()) + 1;
+                $qty.val(qty);
+            });
+        });
+        //]]>
+        </script>
+        <?php endif; ?>
+        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
+        <span id='ajax_loader' style='display:none'><img src='<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif')?>'/></span>
+		<?php echo $this->getChildHtml('', true, true) ?>
+    </div>
+<?php endif; ?>

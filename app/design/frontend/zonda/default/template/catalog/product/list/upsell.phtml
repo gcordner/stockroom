@@ -1,0 +1,136 @@
+<?php
+/**
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php 
+$zonda = $this->helper('zonda');
+$_items = $this->getItemCollection()->getItems(); 
+$b = $zonda->getConfigGroup();
+//Default image size
+$imgWidth = 205;
+$imgHeight = 205;
+
+//Aspect Ratio
+if ($b['product']['aspect_ratio'])
+    $imgHeight = $imgWidth * $b['product']['image_ratio'];
+?>
+<?php if($_items && count($_items) > 0): ?>
+<div class="box-collateral box-up-sell">
+    <h1 class="subtitle"><?php echo $this->__('Up Sells') ?></h1>
+    <div class="under-lines"></div>
+    <div id="upsell-products-list" class="upsell-products products-grid large-icons">
+    <ul class="bxslider">
+    <?php $this->resetItemsIterator() ?>
+    <?php for($_i=0;$_i<$this->getRowCount();$_i++): ?>
+        <?php for($_j=0;$_j<$this->getColumnCount();$_j++): ?>
+            <?php if($_link=$this->getIterableItem()): ?>
+            <li class="item"><div class="item-inner">
+                <div class="product-image">
+                    <div class="product-image-thumbnail">
+			            <?php 
+                        if ($b['category']['hover_image'])
+                            $hoverImgHtml = $zonda->getHoverImageHtml($_link, $imgWidth, $imgHeight); 
+                        ?>            
+			            <a href="<?php echo $_link->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_link, 'small_image')) ?>">
+                            <img<?php if ($hoverImgHtml) echo ' class="primary-image"'; ?> src="<?php echo $zonda->getImage($_link, $imgWidth, $imgHeight, 'small_image'); ?>" alt="<?php echo $this->htmlEscape($_link->getName()) ?>" />
+                            <?php echo $hoverImgHtml; ?>
+			            </a>
+                    </div>        
+
+                    <div class="more-info">                        
+                        <a href="<?php echo $zonda->getImage($_link, 400, 400*$b['product']['image_ratio'], 'small_image'); ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_link, 'small_image')) ?>" class="view-product">View Product</a>
+                        <a href="<?php echo $this->getUrl('quickview/index/view',array('path'=>basename($_link->getProductUrl()))) ?>" title="<?php echo $this->htmlEscape($this->getImageLabel($_link, 'small_image')) ?>" class="quick-view">image 1</a>
+                    </div>
+                    <div class="reviews-wrap">
+                        <?php echo $this->getReviewsSummaryHtml($_link, 'short') ?>
+                    </div>  
+                </div>                                  
+                <?php                         
+                $labels_tl = ''; $labels_tr = '';
+                if ($b['product']['new_label']) {
+                    // New Product 
+                    $newsFromDate = $_link->getNewsFromDate();
+                    $newsToDate = $_link->getNewsToDate();
+                    $new_html= '';
+                    if ($newsFromDate && $newsToDate && Mage::app()->getLocale()->IsStoreDateInInterval(Mage::app()->getStore(), $newsFromDate, $newsToDate)){
+                        $new_html = '<div class="labels new-pro"></div>';
+                        $labels_tr = $new_html;
+                    }
+                }
+                if ($b['product']['sale_label']) {
+                    // Special Product
+//                            
+                    $specialPriceFromDate = $_link->getSpecialFromDate();
+                    $specialPriceToDate = $_link->getSpecialToDate();
+                    $sales_html = '';
+                    if ($specialPriceFromDate && $specialPriceToDate && Mage::app()->getLocale()->isStoreDateInInterval(Mage::app()->getStore(), $specialPriceFromDate, $specialPriceToDate)) {
+                        $specialprice = $_link->getSpecialPrice();
+                        $sales_html = '<div class="labels sale-pro"></div>';
+                        $labels_tl = $sales_html;
+                    }
+                }
+                if ($labels_tl)
+                    echo $labels_tl;
+                if ($labels_tr)
+                    echo $labels_tr;
+                ?>
+                <div class="price-review">
+                    <h3 class="product-name"><a href="<?php echo $_link->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_link->getName()) ?>"><?php echo $this->htmlEscape($_link->getName()) ?></a></h3>
+                    <?php echo $this->getPriceHtml($_link, true, '-upsell') ?>
+                    <div class="actions clearfix">
+                        <?php if($_link->isSaleable()): ?>
+                            <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_link) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                        <?php else: ?>
+                            <span class="availability out-of-stock"><span><?php echo $this->__('Out of Stock') ?></span></span>
+                        <?php endif; ?>
+                        <span class="add-to-links">
+                            <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                                <a href="<?php echo $this->helper('wishlist')->getAddUrl($_link) ?>" class="button link-wishlist" title="<?php echo $this->__('Add to Wishlist') ?>"><?php echo $this->__('Add to Wishlist') ?></a>
+                            <?php endif; ?>
+                            <?php if($_compareUrl=$this->getAddToCompareUrl($_link)): ?>
+                                <a href="<?php echo $_compareUrl ?>" class="button link-compare" title="<?php echo $this->__('Add to Compare') ?>"><?php echo $this->__('Add to Compare') ?></a>
+                            <?php endif; ?>
+                        </span>
+                    </div>
+		</div>
+	    </li>
+            <?php endif; ?>
+        <?php endfor; ?>
+    <?php endfor; ?>
+    </ul></div>
+    <script type="text/javascript">decorateList('upsell-products-list', 'none-recursive')</script>
+    <script type="text/javascript">
+    // <![CDATA[
+            jQuery(document).ready(function($){
+                var winwidth = $(window).outerWidth();
+                var upsell_slider;
+                if (winwidth < 992 && winwidth >= 768) {
+                    upsell_slider = $('.box-up-sell .bxslider').bxSlider({minSlides: 3, maxSlides: 3, slideWidth: 232, slideMargin: 24, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                } else if (winwidth < 768) {
+                    upsell_slider = $('.box-up-sell .bxslider').bxSlider({minSlides: 1, maxSlides: 1, slideWidth: 232, slideMargin: 24, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                } else {
+                    upsell_slider = $('.box-up-sell .bxslider').bxSlider({minSlides: 4, maxSlides: 4, slideWidth: 232, slideMargin: 24, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                }
+                $(window).resize(function(e){
+                    e.preventDefault();
+                    var winwidth = $(window).outerWidth();
+                    var time_out;
+                    if(time_out) clearTimeout(time_out);
+                    time_out = setTimeout(function(){
+                        if (winwidth < 992 && winwidth >= 768) {
+                            upsell_slider.reloadSlider({minSlides: 3, maxSlides: 3, slideWidth: 232, slideMargin: 24, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                        } else if (winwidth < 768) {
+                            upsell_slider.reloadSlider({minSlides: 1, maxSlides: 1, slideWidth: 232, slideMargin: 24, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                        } else {
+                            upsell_slider.reloadSlider({minSlides: 4, maxSlides: 4, slideWidth: 232, slideMargin: 24, moveSlides: 1, nextText: "<i class='icon-brand-arrow'>&nbsp;</i>", prevText: "<i class='icon-brand-arrow'>&nbsp;</i>", pager: false });
+                        }
+                    }, 100);
+                });
+            });
+// ]]></script>
+</div>
+<?php endif; ?>

@@ -1,0 +1,33 @@
+<?php
+/**
+ * Language switcher template
+ *
+ * @see Mage_Page_Block_Switch
+ */
+?>
+<?php if(count($this->getStores())>1): ?>
+<?php
+// store name
+$store_name = Mage::app()->getStore()->getName();
+
+// store code
+$store_code = Mage::app()->getStore()->getCode();
+?>
+<div class="block block-language">
+    <div class="block-title">
+        <span><?php echo $this->__('Select Your Language') ?></span>
+    </div>
+    <div class="block-content dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="false" title="<?php echo $this->__('Select Your Language') ?>">
+            <span class="item-name">Language: </span><span class="item-value"><?php echo substr($store_name, 0, 3); ?></span><span class="icon-dropdown"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <?php foreach ($this->getStores() as $_lang): ?>
+                <?php if ($_lang->getId() != $this->getCurrentStoreId()): ?>
+                    <li><a tabindex="-1" href="<?php echo $_lang->getCurrentUrl() ?>"><span class="mobile-hide-inline"><?php echo $this->htmlEscape($_lang->getName()) ?></span><span class="mobile-show-inline"><?php echo substr($this->htmlEscape($_lang->getName()), 0, 3); ?></span><span class="icon-flag" style="background-image:url(<?php echo $this->getSkinUrl('images/flags/'. $_lang->getCode() .'.png'); ?>)"></span></a></li>
+                <?php endif; ?>
+            <?php endforeach; ?>            
+        </ul>
+    </div>
+</div>
+<?php endif; ?>

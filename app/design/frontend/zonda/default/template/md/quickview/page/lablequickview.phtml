@@ -1,0 +1,13 @@
+<?php
+    $_dialogWidth   = Mage::helper('quickview/quickview')->getDialogWidth();
+    $_dialogHeight  = 'auto';
+	$loading_img = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'md/quickview/'.Mage::getStoreConfig('quickview/viewsetting/loading_icon');
+	$currentUrl =  Mage::helper("core/url")->getCurrentUrl();
+	if (strpos($currentUrl,'index.php') !== false) {
+		$url = $this->getUrl();
+	}else{
+
+		$url = str_replace('index.php/','',$this->getUrl());
+	}
+?>
+

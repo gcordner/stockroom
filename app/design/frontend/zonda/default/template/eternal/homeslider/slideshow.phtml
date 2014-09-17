@@ -1,0 +1,214 @@
+<?php
+/**
+ * @var $this Eternal_HomeSlider_Block_Slideshow
+ */
+ /** edited slider height to 600 px */
+?>
+<?php
+$zonda = $this->helper('zonda');
+$b = $zonda->getConfigGroup();
+$helper = $this->helper('eternal_homeslider');
+$responsive = $helper->getConfig('general/active_responsive') == 1 ? 'true' : 'false';
+$controls = $helper->getConfig('general/show_controls') == 1 ? 'true' : 'false';
+$pager = $helper->getConfig('general/show_pager') == 1 ? 'true' : 'false';
+$transaction = $helper->getConfig('general/transaction');
+$speed = $helper->getConfig('general/speed');
+$auto_play = $helper->getConfig('general/auto_play') == 1 ? 'true' : 'false';
+$timeout = $helper->getConfig('general/timeout');
+$pause_hover = $helper->getConfig('general/pause_hover') == 1 ? 'true' : 'false';
+$fullscreen = $helper->getConfig('general/slider_type') == 'background' ? 'on' : 'off';
+if ($helper->getConfig('general/enabled')): ?>
+
+    <?php
+    $block_ids = $this->getBlockIds();
+    $plugin = $helper->getConfig('general/block_plugin');
+    ?>
+    <?php // Sequence Modern Slide In
+    if ((($helper->getConfig('general/slider_type') == 'normal') && ($plugin == 'revolution')) || ($helper->getConfig('general/slider_type') == 'background')) : ?>
+        <div id="homeslider-revolution">
+            <?php if ($helper->getConfig('general/slider_type') == 'background') :?>
+                <?php
+                $adv_id = $this->getAdvBlockId();
+                if ($adv_id): ?>
+                <div class="container">
+                <?php
+                echo $this->getLayout()->createBlock('cms/block')->setBlockId($adv_id)->toHtml();
+                ?>
+                </div>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            <div class="revolution-slider">
+                <ul>
+                <?php $i = 0; foreach ($block_ids as $block_id): ?>
+                    <?php if (!empty($block_id)): ?>
+                        <?php $html = $this->getLayout()->createBlock('cms/block')->setBlockId($block_id)->toHtml();
+                        $html = str_replace('<ul>', '', $html);
+                        $html = str_replace('</ul>', '', $html);
+                        echo $html;
+                        ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                </ul>
+                <!--<div class="tp-bannertimer"></div>-->
+            </div>
+
+        </div>
+
+        <script type="text/javascript">
+        //<![CDATA[
+        jQuery(document).ready(function($){
+            if ($.fn.cssOriginal!=undefined)
+                $.fn.css = $.fn.cssOriginal;
+
+            $('.revolution-slider').revolution({
+                delay:<?php echo $timeout ?>,
+                startwidth:1000,
+                startheight:<?php if($helper->getConfig('general/slider_position')=='top'): echo '600'; else: echo '550'; endif;?>,
+                hideThumbs:200,
+                navigationType:"bullet",
+                navigationArrows:"<?php if ($controls == 'true'){ if ($helper->getConfig('general/slider_position')=='top') { echo 'nexttobullets'; } else {echo 'solo'; }  } else { echo 'none'; }?>",
+                <?php if (($controls == 'true') && ($helper->getConfig('general/slider_position')=='under') && ($helper->getConfig('general/slider_type') != 'background')) :?>
+                soloArrowLeftHalign:"left",
+                soloArrowLeftValign:"center",
+                soloArrowLeftHOffset:0,
+                soloArrowLeftVOffset:0,
+
+                soloArrowRightHalign:"right",
+                soloArrowRightValign:"center",
+                soloArrowRightHOffset:0,
+                soloArrowRightVOffset:0,
+                <?php endif; ?>
+                navigationStyle:"square ",
+                navigationHOffset:0,
+                navigationVOffset:20,
+                touchenabled:"on",
+                onHoverStop:"<?php if ($pause_hover == 'true') echo 'on'; else echo 'off'; ?>",
+                stopAtSlide:-1,
+                stopAfterLoops:-1,
+                shadow:0,
+                fullWidth:"on",
+                fullScreen: "<?php echo $fullscreen ?>"
+            });
+        });
+        //]]>
+        </script>
+    <?php  // IOS Slide In
+    elseif ($plugin == 'ios' && ($helper->getConfig('general/slider_type') == 'normal')) : ?>
+        <div class="sliderwrapper">
+            <div class="iosSlider">
+                <div class="slider">
+                    <?php $i = 0; foreach ($block_ids as $block_id): ?>
+                        <?php if (!empty($block_id)): ?>
+                                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId($block_id)->toHtml(); ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+                <?php if ($controls == 'true'): ?>
+                <div class="container">
+                    <div class = 'slideSelectors'>
+                        <div class = 'prev'></div>
+                        <div class="toggle-button"></div>
+                        <div class = 'next'></div>
+                    </div>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <script type="text/javascript">
+        //<![CDATA[
+	jQuery(document).ready(function($) {
+	    $('.slideSelectors .toggle-button').click(function(){
+		    if ($('.slideSelectors .toggle-button').hasClass('on'))
+		    {
+		        $('.iosSlider').iosSlider('autoSlidePlay');
+		    }else{
+		        $('.iosSlider').iosSlider('autoSlidePause');
+		    }
+	    });
+	$('.iosSlider').iosSlider({
+	    desktopClickDrag: true,
+	    snapToChildren: true,
+	    infiniteSlider: true,
+	    snapSlideCenter: true,
+	    responsiveSlideContainer: <?php echo $responsive?>,
+	    responsiveSlides: <?php echo $responsive?>,
+	    autoSlideToggleSelector: $('.slideSelectors .toggle-button'),
+	    navPrevSelector: $('.sliderwrapper .slideSelectors .prev'),
+	    navNextSelector: $('.sliderwrapper .slideSelectors .next'),
+	    onSlideComplete: slideComplete,
+	    onSliderLoaded: sliderLoaded,
+	    onSlideChange: slideChange,
+	    autoSlide: <?php echo $auto_play ?>,
+	    scrollbar: false,
+	    autoSlideTimer: <?php echo $timeout ?>,
+	    keyboardControls: true,
+	    autoSlideHoverPause: <?php echo $pause_hover ?>
+	});
+	});
+        //]]>
+        </script>
+    <?php  // Showcase Slider In
+    elseif ($helper->getConfig('general/slider_type') == 'showcase') : ?>
+        <div class="container">
+            <div class="home-show-case-slider">
+                <div class="revolution-slider">
+                    <ul>
+                    <?php $i = 0; foreach ($block_ids as $block_id): ?>
+                        <?php if (!empty($block_id)): ?>
+                            <?php $html = $this->getLayout()->createBlock('cms/block')->setBlockId($block_id)->toHtml();
+                            $html = str_replace('<ul>', '', $html);
+                            $html = str_replace('</ul>', '', $html);
+                            echo $html;
+                            ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                    </ul>
+                    <!--<div class="tp-bannertimer"></div>-->
+                </div>
+                <script type="text/javascript">
+                //<![CDATA[
+                jQuery(document).ready(function($){
+                    if ($.fn.cssOriginal!=undefined)
+                        $.fn.css = $.fn.cssOriginal;
+
+                    $('.revolution-slider').revolution({
+                        delay:<?php echo $timeout ?>,
+                        startwidth:1000,
+                        startheight:600,
+                        hideThumbs:200,
+                        navigationType:"none",
+                        navigationArrows: "solo",
+                        navigationHAlign:"center",
+                        navigationVAlign:"bottom",
+                        navigationHOffset:0,
+                        navigationVOffset:20,
+
+                        soloArrowLeftHalign:"right",
+                        soloArrowLeftValign:"bottom",
+                        soloArrowLeftHOffset:63,
+                        soloArrowLeftVOffset:20,
+
+                        soloArrowRightHalign:"right",
+                        soloArrowRightValign:"bottom",
+                        soloArrowRightHOffset:20,
+                        soloArrowRightVOffset:20,
+                        touchenabled:"on",
+                        onHoverStop:"on",
+                        stopAtSlide:-1,
+                        stopAfterLoops:-1,
+                        shadow:0,
+                        fullWidth:"on",
+                        fullScreen: "off"
+                    });
+                });
+                //]]>
+                </script>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($helper->getConfig('general/slider_type') == 'normal') : ?>
+        <?php echo $this->getChildHtml('slider.featured'); ?>
+    <?php endif; ?>
+<?php endif; ?>

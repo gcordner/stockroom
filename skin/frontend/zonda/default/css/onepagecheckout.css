@@ -1,0 +1,219 @@
+/* v 2.2.4 */
+@import url(http://fonts.googleapis.com/css?family=Carme);
+@import url(http://fonts.googleapis.com/css?family=Molengo);
+
+.onepagecheckout_loginarea .onepagecheckout_loginlink{
+    line-height: 2;
+}
+.form_fields:before,
+.form_fields:after{
+    display: table;
+    content: " ";
+}
+.form_fields:after{
+    clear: both;
+}
+.check-col {
+    width: 100%;
+}
+.check-col .heading {
+    font-family: 'Molengo', sans-serif;
+}
+.check-col-left {
+    width: 630px;
+    float: left;
+}
+.check-col-right {
+    width: 330px;
+    float: right;
+    position: relative;
+}
+.check-col .form_fields {
+    margin: -5px -10px 0 -10px;
+}
+.check-col .full {
+    width: 100%;
+    clear: both;
+    padding: 10px;
+}
+.check-col .short {
+    float: left;
+    width: 50%;
+    padding: 0 10px;
+    margin-top: 5px;
+    min-height: 78px;
+}
+.check-col .short input.input-text,
+.check-col .discount input.input-text,
+.check-col .full .input-text
+{
+    width: 100%;
+}
+.check-col .short .data_area {
+    clear: both;
+}
+.check-col .sbHolder {
+    width: 285px;
+    margin: 0;
+}
+.check-col .sbToggle {
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    padding: 7px;
+    background-position: 6px;
+}
+.check-col .sbToggleOpen {
+    background-position: -18px;
+}
+.check-col .sbSelector {
+    height: auto;
+    padding: 6px 15px;
+    width: 245px;
+}
+.check-col .form-list li {
+    margin: 0;
+}
+.check-col .sbOptions {
+    width: 285px;
+    max-height: 200px !important;
+    overflow-y: auto !important;
+    top: 40px !important;
+}
+.check-col .full textarea {
+    min-height: 80px;
+}
+.check-col label,
+.check-col .form-list label
+ {
+    font-family: 'carme', sans-serif;
+    font-size: 14px;
+    padding-bottom: 10px;
+    padding-top: 5px;
+    margin: 0;
+    font-weight: normal;
+    float: none;
+}
+.check-col label.full-width-label {
+    display: block;
+}
+.check-col sup {
+    font-family: 'carme', sans-serif;
+    font-size: 14px;
+    color: #add4d9;
+}
+.check-col .buttons-set .button {
+    font-size: 15px;
+    padding: 0 20px;
+}
+.check-col .login-button {
+    float: left;
+}
+.check-col .onepagecheckout_forgotlink {
+    float: right;
+} 
+.check-col .discount .input-box {
+    width: 420px;
+    float: left;
+}
+.check-col .discount .buttons-set {
+    clear: none;
+    float: right;
+    margin: 0;
+    padding: 0;
+}
+.check-col .tool-tip-content img {
+    width: 100%;
+}
+#payment_form_ccsave li {
+    padding: 10px 0;
+}
+.sp-methods .form-list {
+    padding: 0;
+}
+#payment_form_ccsave .sbOptions li {
+    padding: 10px;
+}
+.v-fix {
+    height: 50px;
+    float: none;
+}
+.sp-methods input.cvv {
+    width: 100% !important;
+}
+.order-products-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+.order-products-table th,
+.order-products-table td {
+    text-align: left;
+    padding: 15px 20px;
+    vertical-align: top;
+}
+.order-products-table .review-product {
+    float: left;
+}
+.order-products-table .review-product .review-product-img {
+    width: 65px;
+}
+.order-products-table .review-product .review-product-img img {
+    width: 100%;
+}
+.order-products-table .review-product-name,
+.order-products-table .review-product-qty {
+    margin-left: 75px;
+}
+#checkout-review .content {
+    padding: 0;
+}
+.order-products-table tr {
+    border-bottom: solid 2px #f2f2f0;
+}
+.order-products-table th,
+.order-products-table tfoot td,
+.order-products-table .price {
+    font-family: "carme",sans-serif;
+    font-size: 15px;
+    color: #888888;
+}
+.review-product-name,
+.review-product-name a
+ {
+    font-size: 15px;
+    color: #66b1b8;
+    font-weight: bold;
+    line-height: 0.9;
+}
+.review-product-qty {
+    font-size: 15px;
+    font-family: "Josefin sans", sans-serif;
+    color: #777777;
+}
+.order-products-table tfoot tr.last td {
+    text-transform: uppercase;
+    color: #666666;
+    font-size: 13px;
+}
+.order-products-table tfoot tr.last td .price {
+    color: #add4d9;
+}
+#checkout-review-submit .buttons-set .button {
+    width: 100%;
+}
+.onepagecheckout_datafields .loading { 
+    background-image: url(../images/onepagecheckout/loader.gif);
+    background-repeat:no-repeat;
+    background-position: 50% 50%;
+}
+/*.v-fix .sbHolder,
+.v-fix .sbOptions {
+    width: 144px;
+}
+.v-fix .sbSelector {
+    width: 104px;
+    padding: 6px 0 6px 3px;
+}
+.form-list .v-fix input.input-text,
+.sp-methods input.cvv {
+    width: 290px !important;
+}*/
