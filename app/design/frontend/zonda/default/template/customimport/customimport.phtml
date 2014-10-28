@@ -100,11 +100,11 @@ catch(Exception $e)
 
 
 
-die;
+/*
 
 //PRODUCT IMPORT
 
-/* Code Start for import Products */
+
 try
 {
 	$products =  $this->showProducts();
@@ -125,7 +125,7 @@ catch(Exception $e)
 	}
    	echo '<br/><br/>Error in import Products: '.$e->getMessage().'<br/><br/>';
 }
-/* Code End for import Products */
+
 
 
 // ASSOCIATIONS <categoryProducts>
@@ -144,7 +144,7 @@ if($associatedProductsProducts){
     echo 'Product-Product association not found';
 }
 
-
+*/
 foreach($this->_log_array as $msg){
     echo $msg.'<br>';
 }
