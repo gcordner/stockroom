@@ -20,9 +20,18 @@ ob_start();
 ?>
 
 <?php
-//$xmlPath = Mage::getBaseDir().DS.'gec-catalog-export-draft.xml';
+$dir_root=Mage::getBaseDir();
 
- $xmlPath = Mage::getBaseDir().DS.'gec-catalog-export-draft.xml';	//catalog-large.xml
+//$xmlPath = Mage::getBaseDir().DS.'gec-catalog-export-draft.xml';
+$xmlPath = $dir_root.DS.'xmlfiles'.DS.'import.xml';	//catalog-large.xml
+
+$today_date = date("Y-m-d H:i:s"); 
+$current_file_path=$xmlPath;
+
+$new_error_file_path=$dir_root.DS.'xmlfiles'.DS.'import_'.$today_date.'_error.xml';
+$new_completed_file_path=$dir_root.DS.'xmlfiles'.DS.'import_'.$today_date.'_completed.xml';
+
+//$xmlPath = Mage::getBaseDir().DS.'gec-catalog-export-draft.xml';	//catalog-large.xml
 
 $t0=microtime(true);
 $this->parseXml($xmlPath);
@@ -30,40 +39,93 @@ $this->parseXml($xmlPath);
 //// CATAGORY AND CATEGORYRELATION IMPORT
 
 $categories =  $this->showCategory();
-if($categories){
-     $this->importAllCategory($categories);
-}
 
-$this->parseAllCategoryRelation();
+/* Code start for import categories */
+try
+{
+	if($categories)
+	{
+       $this->importAllCategory($categories);
+	}
+
+	$this->parseAllCategoryRelation();
+	echo "<br/><br/>Categories are successfully imported<br/><br/>";
+}
+catch(Exception $e)
+{
+	$is_exist=file_exists($current_file_path);
+	if($is_exist=='1')
+	{
+		rename($current_file_path, $new_error_file_path);
+	}
+   	echo '<br/><br/>Error in import categories: '.$e->getMessage().'<br/><br/>';
+}
+/* Code End for import categories */
+
 
 // ATTRIBUTE , ATTRIBUTE SET , ATTRIBUTE GROUP IMPORT
 
 
 // ATTRIBUTE IMPORT
-$parsedAttribute = $this->parseAttribute();
-if($parsedAttribute){
-      $this->importAttribute($parsedAttribute);
+
+/* Code Start for import attributes */
+try
+{
+	$parsedAttribute = $this->parseAttribute();
+	if($parsedAttribute){
+	      $this->importAttribute($parsedAttribute);
+	}
+	// ATTRIBUTE SET IMPORT
+	$parsedAttributeSet = $this->parseAttributeSet();
+	if($parsedAttributeSet){
+	     $this->importAttributeSet($parsedAttributeSet);
+	}
+	// ATTRIBUTE GROUP IMPORT
+	$parseAttributegrp = $this->parseAttributegrp();
+	if($parseAttributegrp){
+	      $this->importAttributeGrp($parseAttributegrp);
+	}
+	echo "<br/><br/>Attributes are successfully imported<br/><br/>";
 }
-// ATTRIBUTE SET IMPORT
-$parsedAttributeSet = $this->parseAttributeSet();
-if($parsedAttributeSet){
-     $this->importAttributeSet($parsedAttributeSet);
+catch(Exception $e)
+{
+	$is_exist=file_exists($current_file_path);
+	if($is_exist=='1')
+	{
+		rename($current_file_path, $new_error_file_path);
+	}
+   	echo '<br/><br/>Error in import Attributes: '.$e->getMessage().'<br/><br/>';
 }
-// ATTRIBUTE GROUP IMPORT
-$parseAttributegrp = $this->parseAttributegrp();
-if($parseAttributegrp){
-      $this->importAttributeGrp($parseAttributegrp);
-}
+/* Code End for import attributes */
+
+
+
+die;
 
 //PRODUCT IMPORT
 
-$products =  $this->showProducts();
-if($products){
-    $this->importAllProducts($products);
+/* Code Start for import Products */
+try
+{
+	$products =  $this->showProducts();
+	if($products){
+	    $this->importAllProducts($products);
+	    echo "<br/><br/>Products are successfully imported<br/><br/>";
+	}
+	else{
+	    echo 'no product available';
+	}
 }
-else{
-    echo 'no product available';
+catch(Exception $e)
+{
+	$is_exist=file_exists($current_file_path);
+	if($is_exist=='1')
+	{
+		rename($current_file_path, $new_error_file_path);
+	}
+   	echo '<br/><br/>Error in import Products: '.$e->getMessage().'<br/><br/>';
 }
+/* Code End for import Products */
 
 
 // ASSOCIATIONS <categoryProducts>
@@ -91,6 +153,10 @@ foreach($this->_log_array as $msg){
 $t1 = microtime(true);
 $time = $t1-$t0;
 echo "It took $time sec" ;
+
+
+
+
 
 // CODE FOR INDEXING
 $indexingProcesses = Mage::getSingleton('index/indexer')->getProcessesCollection();
