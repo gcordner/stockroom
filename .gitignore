@@ -3,3 +3,7 @@ app/design/adminhtml/default/default/template/pagecache/cache
 media/catalog/product/cache
 var/cache
 var/session
+var/locks
+var/package
+var/locks/*
+var/package/*
