@@ -21,6 +21,7 @@ ob_start();
 
 <?php
 $dir_root=Mage::getBaseDir();
+$flag='0';
 
 //$xmlPath = Mage::getBaseDir().DS.'gec-catalog-export-draft.xml';
 $xmlPath = $dir_root.DS.'xmlfiles'.DS.'import.xml';	//catalog-large.xml
@@ -53,12 +54,7 @@ try
 }
 catch(Exception $e)
 {
-	$is_exist=file_exists($current_file_path);
-	if($is_exist=='1')
-	{
-		rename($current_file_path, $new_error_file_path);
-	}
-   	echo '<br/><br/>Error in import categories: '.$e->getMessage().'<br/><br/>';
+	$flag='1';
 }
 /* Code End for import categories */
 
@@ -89,22 +85,15 @@ try
 }
 catch(Exception $e)
 {
-	$is_exist=file_exists($current_file_path);
-	if($is_exist=='1')
-	{
-		rename($current_file_path, $new_error_file_path);
-	}
-   	echo '<br/><br/>Error in import Attributes: '.$e->getMessage().'<br/><br/>';
+	$flag='1';
 }
 /* Code End for import attributes */
 
 
 
-/*
-
 //PRODUCT IMPORT
 
-
+/* Code Start for import Products */
 try
 {
 	$products =  $this->showProducts();
@@ -118,33 +107,64 @@ try
 }
 catch(Exception $e)
 {
+	$flag='1';
+}
+/* Code End for import Products */
+
+
+// ASSOCIATIONS <categoryProducts>
+try
+{
+	$associatedProductsCategory =  $this->associatedProductsCategory();
+	if($associatedProductsCategory){
+	    $this->associateProducts($associatedProductsCategory);
+	}else{
+	    echo 'Category-Product association not found';
+	}
+}
+catch(Exception $e)
+{
+	$flag='1';
+}
+
+// ASSOCIATION  <productAssociations>
+try
+{
+	$associatedProductsProducts =  $this->associatedProductsProducts();
+	if($associatedProductsProducts){
+	       $this->associatePdtPdt($associatedProductsProducts);
+	}else{
+	    echo 'Product-Product association not found';
+	}
+}
+catch(Exception $e)
+{
+	$flag='1';
+}
+
+
+
+/* code for change file name after complete start */
+if($flag=='1')
+{
 	$is_exist=file_exists($current_file_path);
 	if($is_exist=='1')
 	{
 		rename($current_file_path, $new_error_file_path);
 	}
-   	echo '<br/><br/>Error in import Products: '.$e->getMessage().'<br/><br/>';
+   	echo '<br/><br/>Error in xml file to import'.'<br/><br/>';
 }
+else
+{
+	$is_exist=file_exists($current_file_path);
+	if($is_exist=='1')
+	{
+		rename($current_file_path, $new_completed_file_path);
+	}
+   	echo '<br/><br/>Successfully import to magento'.'<br/><br/>';
+}	
+/* code for change file name after complete ende */
 
-
-
-// ASSOCIATIONS <categoryProducts>
-$associatedProductsCategory =  $this->associatedProductsCategory();
-if($associatedProductsCategory){
-    $this->associateProducts($associatedProductsCategory);
-}else{
-    echo 'Category-Product association not found';
-}
-
-// ASSOCIATION  <productAssociations>
-$associatedProductsProducts =  $this->associatedProductsProducts();
-if($associatedProductsProducts){
-       $this->associatePdtPdt($associatedProductsProducts);
-}else{
-    echo 'Product-Product association not found';
-}
-
-*/
 foreach($this->_log_array as $msg){
     echo $msg.'<br>';
 }
@@ -153,9 +173,6 @@ foreach($this->_log_array as $msg){
 $t1 = microtime(true);
 $time = $t1-$t0;
 echo "It took $time sec" ;
-
-
-
 
 
 // CODE FOR INDEXING

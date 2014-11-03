@@ -287,11 +287,22 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
           //  Mage::log('sku not found for product record #:'.$this->_current_row, null, 'catalogimport.log');
             return false;
         }
+        
+        /* code for default attribute set id start */
+        
+    	if(($item->attributeSetId)=='')
+        {
+        	$item->attributeSetId='Default';
+        }
+        /* code for default attribute set id end */
+        
+        /*
         if(!isset($item->attributeSetId) || trim($item->attributeSetId)==''){
             $this->createLog('AttributesetId not found for product Id # '.$item->id, "error");
          //   Mage::log('AttributesetId not found for product record #:'.$this->_current_row, null, 'catalogimport.log');
             return false;
         }
+        */
         if(!isset($item->type) || trim($item->type)==''){
             $this->createLog('Product type not found for product record # '.$item->id, "error");
          //   Mage::log('Product type not found for product record #:'.$this->_current_row, null, 'catalogimport.log');
@@ -781,10 +792,24 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     }
 
     public function getItemIds($item){
-        $external_set_id =  (string)$item->attributeSetId;
+        //$external_set_id =  (string)$item->attributeSetId;
+    	
+        //Default Attribute set for product
+    	if($external_set_id=='')
+    	{
+    		$external_set_id='Default';
+    	}
+    	else
+    	{
+    		$external_set_id =  (string)$item->attributeSetId;
+    	}
+    	
+    	
         $mapObj =  Mage::getModel('customimport/customimport');
-        $magento_set_id = $mapObj->getAttributeSetIdByExternalId($external_set_id);
-
+        //$magento_set_id = $mapObj->getAttributeSetIdByExternalId($external_set_id);
+        $attributeSetName = $external_set_id; 
+        $magento_set_id = Mage::getModel('eav/entity_setup','core_setup')->getAttributeSetId('catalog_product',$attributeSetName);
+        
         $sku=(string)$item->id;
         if($sku!= $this->_curitemids["sku"]){
             //try to find item ids in db
@@ -1214,7 +1239,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         //Load the particular attribute by id
         $attr = $model->loadByCode('catalog_product',(string)$attribute->id);
         $attr_id = $attr->getAttributeId();
-
+        
         if($attr_id !=''){
             $attr->addData($_attribute_data);
             $option['attribute_id'] = $attr_id;
@@ -1260,6 +1285,26 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             $model->setIsUserDefined(1);
             try {
                 $model->save();
+                
+                /* Code for assigned Attribute Set to Attribute Start*/ 
+                $attribute_set_name = 'Default';
+				$group_name = 'general';
+				$attribute_code = (string)$attribute->id;
+				$setup = new Mage_Eav_Model_Entity_Setup('core_setup');
+				//-------------- add attribute to set and group
+	            $attribute_set_id=$setup->getAttributeSetId('catalog_product', $attribute_set_name);
+    	        $attribute_group_id=$setup->getAttributeGroupId('catalog_product', $attribute_set_id, $group_name);
+        	    $attribute_id=$setup->getAttributeId('catalog_product', $attribute_code);
+            	$setup->addAttributeToSet($entityTypeId='catalog_product',$attribute_set_id, $attribute_group_id, $attribute_id);
+            	/* Code for assigned Attribute Set to Attribute End*/
+				
+            //-------------- add attribute to set and group
+            $attribute_set_id=$setup->getAttributeSetId('catalog_product', $attribute_set_name);
+            $attribute_group_id=$setup->getAttributeGroupId('catalog_product', $attribute_set_id, $group_name);
+            $attribute_id=$setup->getAttributeId('catalog_product', $attribute_code);
+
+            $setup->addAttributeToSet($entityTypeId='catalog_product',$attribute_set_id, $attribute_group_id, $attribute_id);
+                
                 unset($model);
                 if($count_value > 0){
                     $model = Mage::getModel('catalog/resource_eav_attribute');
