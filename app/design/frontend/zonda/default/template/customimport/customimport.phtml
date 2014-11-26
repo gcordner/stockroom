@@ -26,11 +26,23 @@ $flag='0';
 //$xmlPath = Mage::getBaseDir().DS.'gec-catalog-export-draft.xml';
 $xmlPath = $dir_root.DS.'xmlfiles'.DS.'import.xml';	//catalog-large.xml
 
-$today_date = date("Y-m-d H:i:s"); 
+
+/* code for check file permission start */
+if(!is_writable($xmlPath)){
+	Mage::log("Please give writable permission for file.", null, 'xmlimport1.log'); //code for generate log
+	echo "<br/><br/>Please give writable permission for file.<br/><br/>";die;
+}
+
+/* code for check file permission end */
+
+/* code for reanme file after process start*/
+$today_date = date("Y-m-d_H-i-s");
 $current_file_path=$xmlPath;
 
 $new_error_file_path=$dir_root.DS.'xmlfiles'.DS.'import_'.$today_date.'_error.xml';
 $new_completed_file_path=$dir_root.DS.'xmlfiles'.DS.'import_'.$today_date.'_completed.xml';
+
+/* code for reanme file after process end*/
 
 //$xmlPath = Mage::getBaseDir().DS.'gec-catalog-export-draft.xml';	//catalog-large.xml
 
@@ -46,7 +58,7 @@ try
 {
 	if($categories)
 	{
-       $this->importAllCategory($categories);
+       	$this->importAllCategory($categories);
 	}
 
 	$this->parseAllCategoryRelation();
@@ -56,6 +68,7 @@ catch(Exception $e)
 {
 	$flag='1';
 }
+
 /* Code End for import categories */
 
 
@@ -87,6 +100,7 @@ catch(Exception $e)
 {
 	$flag='1';
 }
+
 /* Code End for import attributes */
 
 
@@ -166,6 +180,7 @@ else
 /* code for change file name after complete ende */
 
 foreach($this->_log_array as $msg){
+    Mage::log($msg, null, 'xmlimport.log'); //code for generate log
     echo $msg.'<br>';
 }
 
