@@ -1362,7 +1362,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             $model->setEntityTypeId(Mage::getModel('eav/entity')->setType('catalog_product')->getTypeId());
             $model->setIsUserDefined(1);
             try {
-                $model->save();
+                $model->save(); 
                 
                 /* Code for assigned Attribute Set to Attribute Start*/ 
                 $attribute_set_name = 'Default';
