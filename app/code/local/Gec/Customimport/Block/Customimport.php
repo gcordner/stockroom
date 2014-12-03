@@ -597,19 +597,31 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $product->setSku((string)$item->id); //Product custom id
         $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));  //Default website (main website) ?? To Do : make it dynamic
         $product->setStoreIDs(array($this->_store_id));    // Default store id .
-        if (isset($item->atp))
-        {
-        $product->setStockData(array(      // Getting no info for quantity, hence statically using 100 for now
-            'is_in_stock' => 1,
-            'qty' => $item->atp,
-            'manage_stock' => 1));
+
+        if (isset($item->atp) && (strtoupper($item->allowBackorders)=='Y') ) //check if product have backorder enabled and have quantity   
+        { 
+        	$product->setStockData(array(    
+        			'is_in_stock' => 1,
+        			'qty' => $item->atp,
+        			'manage_stock' => 1,
+        			'use_config_backorders' => 0,
+        			'backorders' => 1 ));
         }
-        else 
+        elseif (isset($item->atp))
         {
-        	$product->setStockData(array(      // Getting no info for quantity, hence statically using 100 for now
+        	$product->setStockData(array(      // if product have no backorder enabled
+        			'is_in_stock' => 1,
+        			'qty' => $item->atp,
+        			'manage_stock' => 1));
+        }
+        else
+        {
+        	$product->setStockData(array(
+        			'use_config_manage_stock' => 0,    // set manage stock to no
         			'is_in_stock' => 1,
         			'manage_stock' => 0));
-        }
+        } 
+       
         $product->setAttributeSetId($asid);
         $product->setData('name', (string)$item->name);
         $product->setPrice((real)$item->price);
@@ -797,14 +809,20 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
 	          //  $productId = $product->getId();
 	            $stockItem =Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
 	            $stockItemId = $stockItem->getId();
-	            if (isset($item->atp))
+	            if (isset($item->atp)) // if product item exist 
 	            {
-	            $stockItem->setData('manage_stock', 1);
+	            $stockItem->setData('manage_stock', 1); 
 	            $stockItem->setData('qty', $item->atp);
 	            }
 	            else 
 	            {
-	            	$stockItem->setData('manage_stock', 0);
+	            	$stockItem->setData('use_config_manage_stock', 0);
+	            	$stockItem->setData('manage_stock', 0); // manage stock to no
+	            }
+	            if (strtoupper($item->allowBackorders)=='Y' )// if back order allowed 
+	            {
+	            	$stockItem->setData('use_config_backorders', 0);
+	            	$stockItem->setData('backorders', 1);
 	            }
 	            $stockItem->save();
 	            unset($product);
