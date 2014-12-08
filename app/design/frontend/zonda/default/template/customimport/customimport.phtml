@@ -17,19 +17,20 @@
 #    along with this program.  If not, see http://www.gnu.org/licenses/.
 **/
 ob_start();
+set_time_limit(0);
 ?>
 
 <?php
 $dir_root=Mage::getBaseDir();
 $flag='0';
 
-//$xmlPath = Mage::getBaseDir().DS.'gec-catalog-export-draft.xml';
-$xmlPath = $dir_root.DS.'xmlfiles'.DS.'import.xml';	//catalog-large.xml
+$xmlPath = $dir_root.DS.'xmlfiles'.DS.'import.xml';
 
 
 /* code for check file permission start */
 if(!is_writable($xmlPath)){
-	Mage::log("Please give writable permission for file.", null, 'xmlimport1.log'); //code for generate log
+    $e = new Exception("xmlimport : Please give writable permission for file.");
+    Mage::logException($e);
 	echo "<br/><br/>Please give writable permission for file.<br/><br/>";die;
 }
 
@@ -56,6 +57,8 @@ $categories =  $this->showCategory();
 /* Code start for import categories */
 try
 {
+    /* Code start for import categories */
+    $categories =  $this->showCategory();
 	if($categories)
 	{
        	$this->importAllCategory($categories);
@@ -63,102 +66,69 @@ try
 
 	$this->parseAllCategoryRelation();
 	echo "<br/><br/>Categories are successfully imported<br/><br/>";
-}
-catch(Exception $e)
-{
-	$flag='1';
-}
-
-/* Code End for import categories */
-
-
-// ATTRIBUTE , ATTRIBUTE SET , ATTRIBUTE GROUP IMPORT
-
-
-// ATTRIBUTE IMPORT
-
-/* Code Start for import attributes */
-try
-{
+	/* Code End for import categories */
+	
+	/* Code Start for import attributes */
 	$parsedAttribute = $this->parseAttribute();
-	if($parsedAttribute){
-	      $this->importAttribute($parsedAttribute);
-	}
-	// ATTRIBUTE SET IMPORT
-	$parsedAttributeSet = $this->parseAttributeSet();
-	if($parsedAttributeSet){
-	     $this->importAttributeSet($parsedAttributeSet);
-	}
-	// ATTRIBUTE GROUP IMPORT
-	$parseAttributegrp = $this->parseAttributegrp();
-	if($parseAttributegrp){
-	      $this->importAttributeGrp($parseAttributegrp);
-	}
-	echo "<br/><br/>Attributes are successfully imported<br/><br/>";
+    if($parsedAttribute){
+          $this->importAttribute($parsedAttribute);
+    }
+    
+    $parsedAttributeSet = $this->parseAttributeSet();
+    if($parsedAttributeSet){
+         $this->importAttributeSet($parsedAttributeSet);
+    }
+    
+    $parseAttributegrp = $this->parseAttributegrp();
+    if($parseAttributegrp){
+          $this->importAttributeGrp($parseAttributegrp);
+    }
+    echo "<br/><br/>Attributes are successfully imported<br/><br/>";
+    /* Code End for import attributes */
+    
+    /* Code Start for import Products */
+    $products =  $this->showProducts();
+    if($products){
+        $this->importAllProducts($products);
+        echo "<br/><br/>Products are successfully imported<br/><br/>";
+    }
+    else{
+        $e = new Exception("xmlimport : no product available.");
+        Mage::logException($e);
+        echo '<br/><br/>no product available<br/><br/>';
+    }
+    /* Code End for import Products */
+    
+    /* Code Start for category product association*/
+    $associatedProductsCategory =  $this->associatedProductsCategory();
+    if($associatedProductsCategory){
+        $this->associateProducts($associatedProductsCategory);
+    }else{
+        $e = new Exception("xmlimport : Category-Product association not found.");
+        Mage::logException($e);
+        echo '<br/><br/>Category-Product association not found<br/><br/>';
+    }
+    /* Code End for category product association*/
+    
+    /* Code Start for product product association*/
+    $associatedProductsProducts =  $this->associatedProductsProducts();
+    if($associatedProductsProducts){
+           $this->associatePdtPdt($associatedProductsProducts);
+    }else{
+        $e = new Exception("xmlimport : Product-Product association not found.");
+        Mage::logException($e);
+        echo '<br/><br/>Product-Product association not found<br/><br/>';
+    }
+	/* Code End for product product association*/
+    
 }
 catch(Exception $e)
 {
 	$flag='1';
+	Mage::logException($e);
 }
 
-/* Code End for import attributes */
-
-
-
-//PRODUCT IMPORT
-
-/* Code Start for import Products */
-try
-{
-	$products =  $this->showProducts();
-	if($products){
-	    $this->importAllProducts($products);
-	    echo "<br/><br/>Products are successfully imported<br/><br/>";
-	}
-	else{
-	    echo 'no product available';
-	}
-}
-catch(Exception $e)
-{
-	$flag='1';
-}
-/* Code End for import Products */
-
-
-// ASSOCIATIONS <categoryProducts>
-try
-{
-	$associatedProductsCategory =  $this->associatedProductsCategory();
-	if($associatedProductsCategory){
-	    $this->associateProducts($associatedProductsCategory);
-	}else{
-	    echo 'Category-Product association not found';
-	}
-}
-catch(Exception $e)
-{
-	$flag='1';
-}
-
-// ASSOCIATION  <productAssociations>
-try
-{
-	$associatedProductsProducts =  $this->associatedProductsProducts();
-	if($associatedProductsProducts){
-	       $this->associatePdtPdt($associatedProductsProducts);
-	}else{
-	    echo 'Product-Product association not found';
-	}
-}
-catch(Exception $e)
-{
-	$flag='1';
-}
-
-
-
-/* code for change file name after complete start */
+/* Code start for change file name after complete*/
 if($flag=='1')
 {
 	$is_exist=file_exists($current_file_path);
@@ -177,11 +147,10 @@ else
 	}
    	echo '<br/><br/>Successfully import to magento'.'<br/><br/>';
 }	
-/* code for change file name after complete ende */
+/* code end for change file name after complete*/
 
 foreach($this->_log_array as $msg){
-    Mage::log($msg, null, 'xmlimport.log'); //code for generate log
-    echo $msg.'<br>';
+    echo $msg.'<br/><br/>';
 }
 
 
