@@ -300,7 +300,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         if(!isset($item->type) || trim($item->type)==''){
             Mage::log('xmlimport : Product type not found for product record # '.$item->id);
             $this->createLog('Product type not found for product record # '.$item->id, "error");
-         //   Mage::log('Product type not found for product record #:'.$this->_current_row, null, 'catalogimport.log');
             return false;
         }
         $itemids = $this->getItemIds($item);
@@ -319,6 +318,9 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             else if((string)$item->type == 'simple'){
                 $this->createProduct($item, $asid); //create simple product
             }
+            else if((string)$item->type == 'bundle'){
+            	$this->createBundleProduct($item, $asid); //create bundle product
+            }
             else{
                  Mage::log("xmlimport : Import function does not support product type of record: {$item->id}");
             }
@@ -331,6 +333,9 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             }
             else if((string)$item->type == 'simple'){
                 $this->updateProduct($item, $pid); //create simple product
+            }
+            else if((string)$item->type == 'bundle'){
+            	$this->updateBundleProduct($item, $pid); //create simple product
             }
         }
     }
@@ -463,7 +468,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $attributeValues = $item->attributeValues;
         $attributeOcuurance = array(); //stores no. of occurance for all attributes
         $configAttributeValue = array(); // will use to take value of attributes that ocuures once
-        $i =1;
+        $i=1;
 
         foreach($attributeValues->attribute as $attr){
             if(array_key_exists((string)$attr->id, $attributeOcuurance)){
@@ -562,50 +567,161 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             echo 'Super attribute is missing. Hence skipped product' .(string)$item->id ;
         }
     }
-    
     public function createProduct(&$item, $asid){
-        $p_status = ((string)$item->isActive == 'Y')?1:2;
-        $p_taxclass = ((string)$item->isTaxable == 'Y')?2:0;
-
-        $product = new Mage_Catalog_Model_Product();
-        $product->setTypeId('simple');
-        $product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
+    	$p_status = ((string)$item->isActive == 'Y')?1:2;
+    	$p_taxclass = ((string)$item->isTaxable == 'Y')?2:0;
+    
+    	$product = new Mage_Catalog_Model_Product();
+    	$product->setTypeId('simple');
+    	$product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
+    
+    	$product->setSku((string)$item->id); //Product custom id
+    	$product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));  //Default website (main website) ?? To Do : make it dynamic
+    	$product->setStoreIDs(array($this->_store_id));    // Default store id .
+    
+    	if (isset($item->atp) && (strtoupper($item->allowBackorders)=='Y') ) //check if product have backorder enabled and have quantity
+    	{
+    		$product->setStockData(array(
+    				'is_in_stock' => 1,
+    				'qty' => $item->atp,
+    				'manage_stock' => 1,
+    				'use_config_backorders' => 0,
+    				'backorders' => 1 ));
+    	}
+    	elseif (isset($item->atp))
+    	{
+    		$product->setStockData(array(      // if product have no backorder enabled
+    				'is_in_stock' => 1,
+    				'qty' => $item->atp,
+    				'manage_stock' => 1));
+    	}
+    	else
+    	{
+    		$product->setStockData(array(
+    				'use_config_manage_stock' => 0,    // set manage stock to no
+    				'is_in_stock' => 1,
+    				'manage_stock' => 0));
+    	}
+    	 
+    	$product->setAttributeSetId($asid);
+    	$product->setData('name', (string)$item->name);
+    	$product->setPrice((real)$item->price);
+    	$product->setWeight((real)$item->weight);
+    	$product->setStatus($p_status);
+    	$product->setTaxClassId($p_taxclass);
+    
+    	$product->setDescription((string)$item->longDescription);
+    	$product->setShortDescription((string)$item->shortDescription);
+    	$product->setMetaTitle((string)$item->pageTitle);
+    	$product->setMetaKeyword((string)$item->metaKeywords);
+    	$product->setMetaDescription((string)$item->metaDescription);
+    	$product->setExternalImage((string)$item->originalImageUrl);
+    	$product->setExternalSmallImage((string)$item->largeImageUrl);
+    	$product->setExternalThumbnail((string)$item->smallImageUrl);
+    
+    	$attributeValues = $item->attributeValues;
+    	$attributeOcuurance = array(); //stores no. of occurance for all attributes
+    	$configAttributeValue = array(); // will use to take value of attributes that ocuures once
+    	$multiple_values = array();      // stores an array of available values
+    	$i =1;
+    	foreach($attributeValues->attribute as $attr){
+    		if(array_key_exists((string)$attr->id ,$attributeOcuurance)){
+    			$multiple_values[(string)$attr->id][] = (string)$attr->valueDefId;
+    			$attributeOcuurance[(string)$attr->id] = (int)$attributeOcuurance[(string)$attr->id] + 1;
+    		}
+    		else{
+    			$multiple_values[(string)$attr->id][] = (string)$attr->valueDefId;
+    			$attributeOcuurance[(string)$attr->id] = $i;
+    		}
+    	}
+    	$skipStatus = 0;
+    	foreach($multiple_values as $attribute_code=>$attribute_values){
+    		$model = Mage::getModel('catalog/resource_eav_attribute');
+    		$loadedattr = $model->loadByCode('catalog_product', $attribute_code);
+    		$attr_id = $loadedattr->getAttributeId();  // attribute id of magento
+    		if(!$attr_id){
+    			//  echo 'attribute '.$attribute_code . 'is not available in magento database.';
+    			Mage::log("xmlimport : Skipped product {$item->id}, attribute is not available in magento database.: {$attribute_code}");
+    			$skipStatus = 1;
+    			break;
+    		}
+    		else{
+    			$attr_type = $loadedattr->getFrontendInput();
+    			if($attr_type =='select' && count($attribute_values) == 1){
+    				$mapObj =  Mage::getModel('customimport/customimport');
+    				$option_id = $mapObj->isOptionExistsInAttribute($attribute_values[0], $attr_id);
+    				if($option_id){
+    					$product->setData($attribute_code, $option_id);
+    				}
+    			}
+    			if($attr_type =='select' && count($attribute_values)>1){
+    				//multiple values for attribute which is not multiselect
+    				//  echo 'Attribute '. $attribute_code. 'can not have multiple values. Hence skipping product having id' . (string)$item->id;
+    				$skipStatus = 1;
+    				break;
+    			}
+    			if($attr_type =='multiselect'){
+    				$multivalues = array();
+    				foreach($attribute_values as $value){
+    					$mapObj =  Mage::getModel('customimport/customimport');
+    					$option_id = $mapObj->isOptionExistsInAttribute($value, $attr_id);
+    					if($option_id){
+    						$multivalues[] = $option_id;
+    					}
+    				}
+    				$product->addData( array($attribute_code => $multivalues) );
+    			}
+    			if($attr_type =='text' || $attr_type =='textarea'){ // if type is text/textarea
+    				$product->setData($attribute_code, $attribute_values[0]);
+    			}
+    		}
+    	}
+    	try{
+    		if($skipStatus == 0){
+    			$productId =  $product->save()->getId();
+    			if ($productId) {
+    				$this->_created_num++;
+    				unset($product);
+    				unset($multiple_values);
+    				unset($attributeOcuurance);
+    				return $productId;
+    			}
+    			else{
+    				Mage::log('xmlimport : Skipped product due to improper attribute values :'.(string)$item->id);
+    				echo 'Skipped product due to improper attribute values :'.(string)$item->id;
+    				// Mage::log('Skipped product due to improper attribute values :'.(string)$item->id,null,'catalogimport.log');
+    			}
+    		}else{
+    			Mage::log('xmlimport : Skipped product due to some error while save :'.(string)$item->id);
+    			echo 'Skipped product due to some error while save :'.(string)$item->id;
+    			//	Mage::log('Skipped product due to some error while save :'.(string)$item->id,null,'catalogimport.log');
+    		}
+    	}
+    	catch(Mage_Eav_Model_Entity_Attribute_Exception $e){
+    		echo $e->getAttributeCode();
+    		echo $e->getMessage();
+    	}
+    }
+    
+    public function createBundleProduct(&$item, $asid)
+    {
+    	$p_status = ((string)$item->isActive == 'Y')?1:2;
+    	$p_taxclass = ((string)$item->isTaxable == 'Y')?2:0;
+    	
+    	$product = new Mage_Catalog_Model_Product();
+    	$product->setTypeId('bundle');
+    	 $product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
 
         $product->setSku((string)$item->id); //Product custom id
-        $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));  //Default website (main website) ?? To Do : make it dynamic
+        $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
         $product->setStoreIDs(array($this->_store_id));    // Default store id .
 
-        if (isset($item->atp) && (strtoupper($item->allowBackorders)=='Y') ) //check if product have backorder enabled and have quantity   
-        { 
-        	$product->setStockData(array(    
-        			'is_in_stock' => 1,
-        			'qty' => $item->atp,
-        			'manage_stock' => 1,
-        			'use_config_backorders' => 0,
-        			'backorders' => 1 ));
-        }
-        elseif (isset($item->atp))
-        {
-        	$product->setStockData(array(      // if product have no backorder enabled
-        			'is_in_stock' => 1,
-        			'qty' => $item->atp,
-        			'manage_stock' => 1));
-        }
-        else
-        {
-        	$product->setStockData(array(
-        			'use_config_manage_stock' => 0,    // set manage stock to no
-        			'is_in_stock' => 1,
-        			'manage_stock' => 0));
-        } 
-       
         $product->setAttributeSetId($asid);
         $product->setData('name', (string)$item->name);
         $product->setPrice((real)$item->price);
         $product->setWeight((real)$item->weight);
         $product->setStatus($p_status);
         $product->setTaxClassId($p_taxclass);
-
         $product->setDescription((string)$item->longDescription);
         $product->setShortDescription((string)$item->shortDescription);
         $product->setMetaTitle((string)$item->pageTitle);
@@ -614,90 +730,37 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $product->setExternalImage((string)$item->originalImageUrl);
         $product->setExternalSmallImage((string)$item->largeImageUrl);
         $product->setExternalThumbnail((string)$item->smallImageUrl);
-
-        $attributeValues = $item->attributeValues;
-        $attributeOcuurance = array(); //stores no. of occurance for all attributes
-        $configAttributeValue = array(); // will use to take value of attributes that ocuures once
-        $multiple_values = array();      // stores an array of available values
-        $i =1;
-        foreach($attributeValues->attribute as $attr){
-            if(array_key_exists((string)$attr->id ,$attributeOcuurance)){
-                $multiple_values[(string)$attr->id][] = (string)$attr->valueDefId;
-                $attributeOcuurance[(string)$attr->id] = (int)$attributeOcuurance[(string)$attr->id] + 1;
-            }
-            else{
-                $multiple_values[(string)$attr->id][] = (string)$attr->valueDefId;
-                $attributeOcuurance[(string)$attr->id] = $i;
-            }
+        $product->setShipmentType(0);//shipment type (0 - together, 1 - separately
+        try{  
+         	$product->save();      	
+        	$stockItem = Mage::getModel('cataloginventory/stock_item');
+        	$stockItem->assignProduct($product);
+        	$stockItem->setData('stock_id', (int)1);
+        
+        	$stockItem->setData('use_config_manage_stock', (int)1);
+        	$stockItem->setData('min_qty', (int)0);
+        	$stockItem->setData('is_decimal_divided', (int)0);
+        
+        	$stockItem->setData('qty', (int)0);
+        	$stockItem->setData('use_config_min_qty', 1);
+        	$stockItem->setData('use_config_backorders', 1);
+        	$stockItem->setData('min_sale_qty', 1);
+        	$stockItem->setData('use_config_min_sale_qty', 1);
+        	$stockItem->setData('use_config_max_sale_qty', 1);
+        	$stockItem->setData('is_in_stock', 1);
+        	$stockItem->setData('use_config_notify_stock_qty', 1);
+        	$stockItem->setData('manage_stock', 0);
+        	$stockItem->save();
+        	$stockStatus = Mage::getModel('cataloginventory/stock_status');
+        	$stockStatus->assignProduct($product);
+        	$stockStatus->saveProductStatus($product->getId(), 1);           
         }
-        $skipStatus = 0;
-        foreach($multiple_values as $attribute_code=>$attribute_values){
-            $model = Mage::getModel('catalog/resource_eav_attribute');
-            $loadedattr = $model->loadByCode('catalog_product', $attribute_code);
-            $attr_id = $loadedattr->getAttributeId();  // attribute id of magento
-            if(!$attr_id){
-              //  echo 'attribute '.$attribute_code . 'is not available in magento database.';
-                  Mage::log("xmlimport : Skipped product {$item->id}, attribute is not available in magento database.: {$attribute_code}");
-                  $skipStatus = 1;
-                  break;
-            }
-            else{
-                $attr_type = $loadedattr->getFrontendInput();
-                if($attr_type =='select' && count($attribute_values) == 1){
-                    $mapObj =  Mage::getModel('customimport/customimport');
-                    $option_id = $mapObj->isOptionExistsInAttribute($attribute_values[0], $attr_id);
-                    if($option_id){
-                        $product->setData($attribute_code, $option_id);
-                    }
-                }
-                if($attr_type =='select' && count($attribute_values)>1){
-                    //multiple values for attribute which is not multiselect
-                  //  echo 'Attribute '. $attribute_code. 'can not have multiple values. Hence skipping product having id' . (string)$item->id;
-                        $skipStatus = 1;
-                        break;
-                 }
-                if($attr_type =='multiselect'){
-                    $multivalues = array();
-                    foreach($attribute_values as $value){
-                        $mapObj =  Mage::getModel('customimport/customimport');
-                        $option_id = $mapObj->isOptionExistsInAttribute($value, $attr_id);
-                        if($option_id){
-                            $multivalues[] = $option_id;
-                        }
-                    }
-                    $product->addData( array($attribute_code => $multivalues) );
-                }
-                if($attr_type =='text' || $attr_type =='textarea'){ // if type is text/textarea
-                    $product->setData($attribute_code, $attribute_values[0]);
-                }
-            }
-        }
-        try{
-            if($skipStatus == 0){
-	           $productId =  $product->save()->getId();
-	            if ($productId) {
-	                $this->_created_num++;
-	                unset($product);
-	                unset($multiple_values);
-	                unset($attributeOcuurance);
-	                return $productId;
-	            }
-	            else{
-	                Mage::log('xmlimport : Skipped product due to improper attribute values :'.(string)$item->id);
-	            	echo 'Skipped product due to improper attribute values :'.(string)$item->id;
-	            	// Mage::log('Skipped product due to improper attribute values :'.(string)$item->id,null,'catalogimport.log');           	
-	            }	           
-            }else{
-                Mage::log('xmlimport : Skipped product due to some error while save :'.(string)$item->id);
-            	echo 'Skipped product due to some error while save :'.(string)$item->id;
-            //	Mage::log('Skipped product due to some error while save :'.(string)$item->id,null,'catalogimport.log');  
-            }                                
-        }
-        catch(Mage_Eav_Model_Entity_Attribute_Exception $e){
-            echo $e->getAttributeCode();
-            echo $e->getMessage();
+        catch (Exception $e){
+        	echo "exception:$e";
         }
     }
+    
+  
 
     public function updateProduct(&$item, $pid){
         $p_status = ((string)$item->isActive == 'Y')?1:2;
@@ -812,6 +875,56 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         	  	echo 'Skipped product due to some error while save :'.(string)$item->id;
             //	Mage::log('Skipped product due to some error while save :'.(string)$item->id,null,'catalogimport.log'); 
         }
+    }
+    
+    public function updateBundleProduct(&$item, $pid){
+   		
+    	$p_status = ((string)$item->isActive == 'Y')?1:2;
+        $p_taxclass = ((string)$item->isTaxable == 'Y')?2:0;
+        
+        $SKU = (string)$item->id;
+        $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $SKU);
+        if ($product){
+        	$product->setData('name', (string)$item->name);
+	        $product->setPrice((real)$item->price);
+	        $product->setWeight((real)$item->weight);
+	        $product->setStatus($p_status);
+	        $product->setTaxClassId($p_taxclass);
+	        $product->setDescription((string)$item->longDescription);
+	        $product->setShortDescription((string)$item->shortDescription);
+	        $product->setMetaTitle((string)$item->pageTitle);
+	        $product->setMetaKeyword((string)$item->metaKeywords);
+	        $product->setMetaDescription((string)$item->metaDescription);
+	        $product->setExternalImage((string)$item->originalImageUrl);
+	        $product->setExternalSmallImage((string)$item->largeImageUrl);
+	        $product->setExternalThumbnail((string)$item->smallImageUrl);
+	        $product->setShipmentType(0);//shipment type (0 - together, 1 - separately
+            
+            try{
+                $product->save();                 
+                $this->updateBundleItems($pid);
+            }
+            catch (Exception $e){
+                echo " not updated\n";
+                echo "exception:$e";
+            }
+        }
+    }
+    
+    public function updateBundleItems($pid){
+    	$bundled = Mage::getModel('catalog/product');
+    	$bundled->load($pid);
+    	
+    	$selectionCollection = $bundled->getTypeInstance(true)->getSelectionsCollection(
+    			$bundled->getTypeInstance(true)->getOptionsIds($bundled), $bundled);
+    	
+    	foreach($selectionCollection as $option)
+    	{
+    	
+    		$optionModel = Mage::getModel('bundle/option');
+    		$optionModel->setId($option->option_id);
+    		$optionModel->delete();
+    	}
     }
 
     public function getAttributeSetId($attrSetName){
@@ -1145,7 +1258,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             }
         }
     }
-    public function associatePdtPdt($association){
+    public function associatePdtPdt($association){ 
         foreach($association as $associate){
             Mage::log("xmlimport : Start Process for product association # ".$associate->productIdFrom);
             $mainProduct = Mage::getModel('catalog/product')->loadByAttribute('sku',(string)$associate->productIdFrom);
@@ -1155,7 +1268,8 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                 $upsellArray=array();
                 $crossArray=array();
                 $associatedArray = array();
-                foreach($associate->associatedProduct as $association){
+                $bundleArray = array();
+                foreach($associate->associatedProduct as $association){               
                     if( $association instanceof Varien_Simplexml_Element){  // if associatedProduct is an object in form of <associatedProduct>
                         unset($prid);
                         $prid = Mage::getModel('catalog/product')->getIdBySku((string)$association->id); // get id of associated product
@@ -1171,6 +1285,10 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                                 $relatedArray[$prid]=array('position'=>$position);
                             }else if((string)$association->assocType == 3){
                                 $associatedArray[] = $prid;
+                            }else if((string)$association->assocType == 4){
+                            	$bundleArray[] = $prid;
+                            	$bundleQuantityArray[] = (int)$association->quantity;
+                            	$bundlePositionArray[] = (int)$position;
                             }
                         }
                     }
@@ -1178,12 +1296,71 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                 $mainProduct->setCrossSellLinkData($crossArray);
                 $mainProduct->setUpSellLinkData($upsellArray);
                 $mainProduct->setRelatedLinkData($relatedArray);
-                $mainProduct->save();
-                
+                if(count($bundleArray) > 0){
+                	$proobj = Mage::getModel('catalog/product');
+		            $productbundle    = Mage::getModel('catalog/product')->setStoreId(0);
+		            if ($productId) {
+		                $productbundle->load($productId);
+		            }
+		            Mage::register('product', $productbundle);
+		            Mage::register('current_product', $productbundle); 
+		                           	
+		            $bundleOptions = array();
+                	$bundleSelections = array();
+                	$i = 0;
+                	foreach ($bundleArray as $proid)
+                	{	
+					    $_product_obj = $proobj->load($proid); 
+                		$bundleOptions[$i] = array(
+					            'title' => $_product_obj->getName(), //option title
+					            'option_id' => '',
+					            'delete' => '',
+					            'type' => 'select',
+					            'required' => '1',
+					            'position' => $bundlePositionArray[$i]
+					     );					     
+					     $bundleSelections[$i] = array(
+					            '0' => array(
+					                'product_id' => $proid, //if of a product in selection
+					                'delete' => '',
+					                'selection_price_value' => '10',
+					                'selection_price_type' => 0,
+					                'selection_qty' => $bundleQuantityArray[$i],
+					                'selection_can_change_qty' => 0,
+					                'position' => 0,
+					                'is_default' => 1
+					            )
+					      ); 
+						 $i++;
+                	}
+                	
+                	/*echo "<pre>";
+			            print_r($bundleOptions);	
+                	echo "<pre>";
+			            print_r($bundleSelections);die;  */          
+			            
+                	try{				            
+			            
+			            $productbundle->setCanSaveConfigurableAttributes(false);
+			            $productbundle->setCanSaveCustomOptions(true);			
+			            $productbundle->setBundleOptionsData($bundleOptions);
+			            $productbundle->setBundleSelectionsData($bundleSelections);
+			            $productbundle->setCanSaveCustomOptions(true);
+			            $productbundle->setCanSaveBundleSelections(true);					            
+			            $productbundle->save();
+			             		             
+                	} catch (Exception $e) {
+					    Mage::log($e->getMessage());
+					    echo $e->getMessage();
+					}
+                	
+                }
+
                 if(count($associatedArray) > 0){
                 Mage::getResourceModel('catalog/product_type_configurable')
                     ->saveProducts( $mainProduct, $associatedArray );
-                }                   
+                }   
+                          
                 unset($crossArray);
                 unset($upsellArray);
                 unset($relatedArray);
@@ -1191,11 +1368,10 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             }else{
                 Mage::log('xmlimport : product not found for association: # '.$associate->productIdFrom);
             }
-            //echo "End Process for product association # ".$associate->productIdFrom ;
         }
     }
 
-    public function associatedProductsProducts(){
+    public function associatedProductsProducts(){ //Get product Association from XML
         $xmlObj =  $this->_xmlObj;
         $xmlData = $xmlObj->getNode();
         if( $xmlData->productAssociations->association instanceof Varien_Simplexml_Element){
@@ -1275,7 +1451,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         );
 
         $model = Mage::getModel('catalog/resource_eav_attribute');
-        //  $attr =  Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', (string)$attribute->id);
         //Load the particular attribute by id
         $attr = $model->loadByCode('catalog_product',(string)$attribute->id);
         $attr_id = $attr->getAttributeId();
@@ -1572,9 +1747,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $mapobj = Mage::getModel('customimport/customimport');
         $attributeGroupId = $mapobj->getAttributeGroupByExternalId($attribute_group_id, $attributeSetId);
         if($attributeGroupId){
-          //  echo '<br/>found group, delete this group';
             $setup->removeAttributeGroup('catalog_product',$attributeSetId,$attributeGroupId);
-            //   $model->load($attributeGroupId)->delete(); it also works
         }else{
             echo 'group not available';
         }
@@ -1600,7 +1773,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             if( $model->itemExists() ) {
             } else {
                 try {
-                  //  $model->save()->getAttributeGroupId();
                      $model->save();
                 } catch (Exception $e) {
                     Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('An error occurred while saving this group.'));
