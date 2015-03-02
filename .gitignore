@@ -8,4 +8,5 @@ var/package
 var/locks/*
 var/package/*
 var/log/*
+var/report/*
 xmlfiles/*
