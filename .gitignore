@@ -7,3 +7,5 @@ var/locks
 var/package
 var/locks/*
 var/package/*
+var/log/*
+xmlfiles/*
