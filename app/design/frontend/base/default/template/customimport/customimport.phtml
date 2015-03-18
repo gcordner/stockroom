@@ -1,0 +1,169 @@
+<?php
+/**
+#    Copyright (C) 2013 Global Era (http://www.globalera.com). All Rights Reserved
+#    @author Serenus Infotech magento@serenusinfotech.com
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see http://www.gnu.org/licenses/.
+**/
+ob_start();
+set_time_limit(0);
+?>
+
+<?php
+$dir_root=Mage::getBaseDir();
+$flag='0';
+
+$xmlPath = $dir_root.DS.'xmlfiles'.DS.'import.xml';
+
+
+/* code for check file permission start */
+if(!is_writable($xmlPath)){
+    $e = new Exception("xmlimport : Please give writable permission for file.");
+    Mage::logException($e);
+	echo "<br/><br/>Please give writable permission for file.<br/><br/>";die;
+}
+
+/* code for check file permission end */
+
+/* code for reanme file after process start*/
+$today_date = date("Y-m-d_H-i-s");
+$current_file_path=$xmlPath;
+
+$new_error_file_path=$dir_root.DS.'xmlfiles'.DS.'import_'.$today_date.'_error.xml';
+$new_completed_file_path=$dir_root.DS.'xmlfiles'.DS.'import_'.$today_date.'_completed.xml';
+
+/* code for reanme file after process end*/
+
+//$xmlPath = Mage::getBaseDir().DS.'gec-catalog-export-draft.xml';	//catalog-large.xml
+
+$t0=microtime(true);
+$this->parseXml($xmlPath);
+
+//// CATAGORY AND CATEGORYRELATION IMPORT
+
+$categories =  $this->showCategory();
+
+/* Code start for import categories */
+try
+{
+    /* Code start for import categories */
+    $categories =  $this->showCategory();
+	if($categories)
+	{
+       	$this->importAllCategory($categories);
+	}
+
+	$this->parseAllCategoryRelation();
+	echo "<br/><br/>Categories are successfully imported<br/><br/>";
+	/* Code End for import categories */
+	
+	/* Code Start for import attributes */
+	$parsedAttribute = $this->parseAttribute();
+    if($parsedAttribute){
+          $this->importAttribute($parsedAttribute);
+    }
+    
+    $parsedAttributeSet = $this->parseAttributeSet();
+    if($parsedAttributeSet){
+         $this->importAttributeSet($parsedAttributeSet);
+    }
+    
+    $parseAttributegrp = $this->parseAttributegrp();
+    if($parseAttributegrp){
+          $this->importAttributeGrp($parseAttributegrp);
+    }
+    echo "<br/><br/>Attributes are successfully imported<br/><br/>";
+    /* Code End for import attributes */
+    
+    /* Code Start for import Products */
+    $products =  $this->showProducts();
+    if($products){
+        $this->importAllProducts($products);
+        echo "<br/><br/>Products are successfully imported<br/><br/>";
+    }
+    else{
+        $e = new Exception("xmlimport : no product available.");
+        Mage::logException($e);
+        echo '<br/><br/>no product available<br/><br/>';
+    }
+    /* Code End for import Products */
+    
+    /* Code Start for category product association*/
+    $associatedProductsCategory =  $this->associatedProductsCategory();
+    if($associatedProductsCategory){
+        $this->associateProducts($associatedProductsCategory);
+    }else{
+        $e = new Exception("xmlimport : Category-Product association not found.");
+        Mage::logException($e);
+        echo '<br/><br/>Category-Product association not found<br/><br/>';
+    }
+    /* Code End for category product association*/
+    
+    /* Code Start for product product association*/
+    $associatedProductsProducts =  $this->associatedProductsProducts();
+    if($associatedProductsProducts){
+           $this->associatePdtPdt($associatedProductsProducts);
+    }else{
+        $e = new Exception("xmlimport : Product-Product association not found.");
+        Mage::logException($e);
+        echo '<br/><br/>Product-Product association not found<br/><br/>';
+    }
+	/* Code End for product product association*/
+    
+}
+catch(Exception $e)
+{
+	$flag='1';
+	Mage::logException($e);
+}
+
+/* Code start for change file name after complete*/
+if($flag=='1')
+{
+	$is_exist=file_exists($current_file_path);
+	if($is_exist=='1')
+	{
+		rename($current_file_path, $new_error_file_path);
+	}
+   	echo '<br/><br/>Error in xml file to import'.'<br/><br/>';
+}
+else
+{
+	$is_exist=file_exists($current_file_path);
+	if($is_exist=='1')
+	{
+		rename($current_file_path, $new_completed_file_path);
+	}
+   	echo '<br/><br/>Successfully import to magento'.'<br/><br/>';
+}	
+/* code end for change file name after complete*/
+
+foreach($this->_log_array as $msg){
+    echo $msg.'<br/><br/>';
+}
+
+
+$t1 = microtime(true);
+$time = $t1-$t0;
+echo "It took $time sec" ;
+
+
+// CODE FOR INDEXING
+$indexingProcesses = Mage::getSingleton('index/indexer')->getProcessesCollection();
+foreach ($indexingProcesses as $process) {
+    $process->reindexEverything();
+}
+
+ob_end_flush();
+?>
