@@ -1068,7 +1068,7 @@ dl#narrow-by-list{margin:0}
 
 .category-image{width:100%;overflow:hidden;margin:0 0 30px;text-align:center}
 .category-image img{width:100%}
-.category-description{display: none; margin:0 0 10px}
+.category-description{margin:0 0 10px}
 .category-products{}
 
 .col-main .category-products .products-grid{margin-left:-10px;margin-right:-10px;list-style:none}
