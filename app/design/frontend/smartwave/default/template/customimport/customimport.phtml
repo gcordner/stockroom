@@ -27,7 +27,12 @@ $flag='0';
 $xmlPath = $dir_root.DS.'xmlfiles'.DS.'import.xml';
 
 
-/* code for check file permission start */
+/* code for check file permission and file  start */
+if (!file_exists($xmlPath)) {
+    $e = new Exception("xmlimport : File dose not exist.");
+    Mage::logException($e);
+    echo "The file  does not exist";die;
+}
 if(!is_writable($xmlPath)){
     $e = new Exception("xmlimport : Please give writable permission for file.");
     Mage::logException($e);
