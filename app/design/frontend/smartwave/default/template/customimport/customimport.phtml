@@ -1,3 +1,11 @@
+<form action="" method="post" enctype="multipart/form-data"><br>
+	<div class="import_div" style="font-size:16px;">
+		Select File to import: <br/><br/>
+	</div>
+	<input class="btn btn-info" type="file" name="uploadFile"> <br/><br/>
+	<input class="fileUpload btn btn-primary" name="upload_xml"  type="submit" value="Upload File">
+</form>
+
 <?php
 /**
 #    Copyright (C) 2013 Global Era (http://www.globalera.com). All Rights Reserved
@@ -19,38 +27,51 @@
 ob_start();
 set_time_limit(0);
 ?>
-
 <?php
 $dir_root=Mage::getBaseDir();
 $flag='0';
 
-$xmlPath = $dir_root.DS.'xmlfiles'.DS.'import.xml';
-
 
 /* code for check file permission and file  start */
-if (!file_exists($xmlPath)) {
-    $e = new Exception("xmlimport : File dose not exist.");
-    Mage::logException($e);
-    echo "The file  does not exist";die;
-}
-if(!is_writable($xmlPath)){
-    $e = new Exception("xmlimport : Please give writable permission for file.");
-    Mage::logException($e);
-	echo "<br/><br/>Please give writable permission for file.<br/><br/>";die;
-}
+if(isset($_POST['upload_xml']))
+{
+	$filename = $_FILES[uploadFile]['name'];
+	$ext = pathinfo($filename, PATHINFO_EXTENSION);
+	if($ext != "xml")
+	{
+		echo "Please select XML file only";die;
+	}
+	$file = basename($filename, ".xml");
+	$xmlPath = $dir_root.DS.'xmlfiles'.DS;
+// 	if (!file_exists($xmlPath)) {
+// 			$e = new Exception("xmlimport : File dose not exist.");
+// 			Mage::logException($e);
+// 			echo "The file  does not exist";die;
+// 	}
+	if(!is_writable($xmlPath)){
+			$e = new Exception("xmlimport : Please give writable permission for file.");
+			Mage::logException($e);
+		echo "<br/><br/>Please give writable permission for file.<br/><br/>";die;
+	}
+	
+	$fileTmpLoc = $_FILES[uploadFile]["tmp_name"];
+	// Path and file name
+	$pathAndName = $xmlPath.$filename;
+	// Run the move_uploaded_file() function here
+	$moveResult = move_uploaded_file($fileTmpLoc, $pathAndName);
+	chmod($pathAndName, 0777);
 
 /* code for check file permission end */
 
 /* code for reanme file after process start*/
+$xmlPath = $pathAndName;
 $today_date = date("Y-m-d_H-i-s");
 $current_file_path=$xmlPath;
 
-$new_error_file_path=$dir_root.DS.'xmlfiles'.DS.'import_'.$today_date.'_error.xml';
-$new_completed_file_path=$dir_root.DS.'xmlfiles'.DS.'import_'.$today_date.'_completed.xml';
+$new_error_file_path=$dir_root.DS.'xmlfiles'.DS.$file.$today_date.'_error.xml';
+$new_completed_file_path=$dir_root.DS.'xmlfiles'.DS.$file.$today_date.'_completed.xml';
 
 /* code for reanme file after process end*/
-
-//$xmlPath = Mage::getBaseDir().DS.'gec-catalog-export-draft.xml';	//catalog-large.xml
 
 $t0=microtime(true);
 $this->parseXml($xmlPath);
@@ -171,4 +192,6 @@ foreach ($indexingProcesses as $process) {
 }
 
 ob_end_flush();
+}
+
 ?>
