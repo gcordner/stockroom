@@ -1,5 +1,5 @@
 /* System Config Styles */
-/* Created at 2014-09-02 16:36:26 */
+/* Created at 2015-04-16 20:14:46 */
 
 /*========== Common Styles ==========*/
 body {
@@ -121,50 +121,45 @@ textarea,
     background-color: #262626;
 }
 .header-container .logo{
-    height: 120px;
-    width: 190px;
-    line-height: 120px;
-    text-align: center !important;
-    background-color: #000000;
-}
-.header-container.fixed .header-menu-container {
-   max-width: 1030px;
-   padding: 0 15px;
-}
-.header-container.fixed .sticky-logo{
-    height: 70px;
-    line-height: 70px;
-    text-align: center !important;
-    background-color: #000000;
-}
-.header-top{
-    border-bottom: solid 1px rgba(0,0,0,0.2);    
-}
-.header-menu{
-    border-top: solid 1px rgba(255,255,255,0.1);    
-}
-.header-container.fixed .header-menu{
-    border: none;
-}
-.header-right,
-.header-container.fixed .header-menu {
-    width: 750px;    
-    float: right;
-}
-#custommenu-mobile #menu-button{
-    margin: 0;
-    line-height: 32px;
-    padding-top: 23px;
-    padding-bottom: 24px;
+    height: 90px;
+    line-height: 90px;
     position: relative;
-    left: -10px;
+    bottom: 2px;
+    left: -6px;
+    width: 143px !important;
+    text-align: center !important;
 }
 #custommenu-mobile #menu-button a,
 #custommenu-mobile #menu-button a:link,
-#custommenu-mobile #menu-button a:visited{
-    display: block;
-    height: 32px;
-    padding-top: 10px;
+#custommenu-mobile #menu-button a:visited {
+    padding: 29px 20px;
+}
+.header-container.fixed .logo{
+    display: block !important;
+    bottom: 4px;
+}
+.header-container .header-menu-right{
+    background-image: url('../images/header_bg.png');
+    background-repeat: no-repeat;
+    background-position: 50% -12px;
+}
+.header-container.fixed .header-menu-right{
+    background: none;
+}
+.header-menu-right .header-right{
+    float: right;    
+}
+.header-menu-right .header-right .nav-container{
+    float: right;
+}
+.store-switcher .block-content {
+    left: -10px;
+}
+#custommenu-mobile #menu-button{
+    margin-left: 83px;
+}
+.quick-access {
+    position: relative;
 }
 /*========== Top Links ==========*/
 .toplinks a:hover{    
@@ -239,7 +234,16 @@ textarea,
     color: #d9d9d9;
 }
 .header-container .form-search {
-    border: solid 1px #989898;    
+    background: url(../images/border_line.png) repeat-y 0 50%;
+}
+.header-container .form-search .button {
+    background: url(../images/border_line.png) repeat-y 100% 50%;
+    width: 57px;
+    height: 31px;    
+}
+.header-container .form-search .input-text {
+    padding-left: 20px;
+    font-style: italic;    
 }
 /*========== Main Menu ==========*/
 .header-menu {
@@ -251,39 +255,53 @@ textarea,
     background-color: transparent;
 }
 div.menu{
-            margin: 0 24px 0 0;
+            margin: 0 ;
     }
 div.menu a,
 #nav li a,
 #nav-links a{
     font-size: 12px;
             font-family: "Carme", Arial, "Helvetica Neue", Helvetica,  sans-serif;
-                padding: 0 12px;
+                background: url(../images/border_line.png) repeat-y 0 50%;
+        padding: 0 20px;
     }
 div.menu a:hover,
 div.menu a:focus,
+div.menu:hover a,
 div.menu.active a,
-#nav>li>a:hover,
-#nav>li>a:focus,
-#nav>li.active>a,
-#nav>li.over>a,
+#nav li:hover a,
+#nav li a:hover,
+#nav li a:focus,
+#nav li.active a,
+#nav li.over a,
 #nav-links li a:hover,
 #nav-links li a:focus,
 #nav-links li.active a,
-#nav-links li.over a
-{
-    color: #282828;
+#nav-links li.over a {
+    background: none;
+}
+#custommenu .menu:hover,
+#custommenu .menu.active,
+#nav li.level0:hover,
+#nav li.level0.over{
     background-color: #c8c8c8;
-    background-image: none;
 }
-#custommenu{    
-        left: -12px;        
+div.menu:hover a,
+div.menu.active a {
+     color: #282828;
 }
-.header-container.fixed .header-menu-container .parentMenu{
-    padding: 19px 0;
+html[xmlns] #menu-button, 
+html[xmlns] .parentMenu,
+#nav li.level0 {
+    line-height: 28px;
+    padding-top: 22px;
+    padding-bottom: 26px;
+}
+div.eternal-custom-menu-popup{
+    padding-top: 14px !important;
 }
 #nav ul, #nav div {
-    top: 79px;
+    top: 76px;
 }
 .menu-mobile .parentMenu:hover{
     background-color: #d9d9d9;
@@ -333,10 +351,6 @@ div.eternal-custom-menu-popup a.level2:hover,
 }
 #menu-button .btn-navbar .icon-bar {
     background-color: #ffffff;
-}
-.contacts-index-index .header-container {
-    position: absolute;
-    z-index: 100;
 }
 
 /*========== Arrow Buttons ==========*/
@@ -726,36 +740,23 @@ div.eternal-custom-menu-popup a.level2:hover,
 }
 /*========== Responsive ==========*/
     @media(max-width: 991px){
-                    
-            .header-right{
-                max-width: 497px;
-            }
-            .toplinks a{
-                margin-left: 8px;
+                    .header-container .logo{
+                left: 0;
             }
             .block-currency{
                 margin-left: 5px;
-            }
-            .cart-value{
-                display: none;
-            }
-            .block-minicart .block-content{
-                padding: 4px 0;
-            }
-            #custommenu-mobile #menu-button{
-                margin: 0;
-                line-height: 32px;
-                padding-top: 23px;
-                padding-bottom: 24px;
-                position: relative;
-                left: -10px;
-            }
+            }                          
             #menu-button a,
             #menu-button a:link,
             #menu-button a:visited{
-                display: block;
-                height: 32px;
-                padding-top: 10px;
+                padding: 29px 20px;
+            }            
+            #menu-content{
+                margin-top: 26px;
+            } 
+            .block-switcher,
+            .store-switcher .block-content {
+                left: 0 !important;
             }
                
         
@@ -764,50 +765,9 @@ div.eternal-custom-menu-popup a.level2:hover,
                     .header-container {
             position: relative !important;
         }
-                            .header-container .container{
-                padding: 0 !important;
-            }
-            .header-container .container.store-switcher {
-                padding: 0 20px !important;
-            }
-            .header-right{
-                max-width: none;
-                width: 100%;
-            }
-            .header-right .header-top .left{
-                float: none !important;
-            }
-            .header-top,
-            .header-menu{
-                border: none;
-            } 
-            .header-menu{
-                padding-left: 20px;
-                margin-top: 5px;
-            }           
-            #custommenu-mobile #menu-button{
-                padding: 0;
-                left: 0;
-            }
-            #menu-button a, 
-            #menu-button a:link, 
-            #menu-button a:visited{
-                height: 40px;
-                margin-top: 3px;
-            }
-            .mobile-block-container{
-                padding: 0 20px;
-            }
-            .header-container .form-search {
-                background: url(../images/border_line.png) repeat-y 0 50%;
-                border: none;
-            }
-            .header-container .form-search .button{
-                width: 57px;
-            }
-            .quick-access{
-                margin-top: 3px;
-            }
+                            .header-container .header-menu-right{
+                background-position: 10px -12px;
+            }            
                     .header-menu-right .header-right.menu-active,
             .menu-active .mobile-bg{
                 background-color: #d8d8d8; 

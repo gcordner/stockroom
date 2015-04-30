@@ -77,12 +77,12 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $process->reindexAll();
     }
 
-    public function importAllProducts($products){
+    public function importAllProducts($products,$Currfilepath=null,$Errfilepath=null){
         $item = array();
         foreach($products as $product){
             Mage::log("xmlimport : Start process for Product # ".$product->id);
             $this->_current_row++;
-            $this->importItem($product);
+            $this->importItem($product,$Currfilepath,$Errfilepath);
             Mage::log("xmlimport : End process for Product # ".$product->id);
         }
         Mage::log("xmlimport : Successfully created products: {$this->_created_num}");
@@ -281,7 +281,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         }
     }
 
-    public function importItem( &$item){
+    public function importItem( &$item,$Currfilepath=null,$Errfilepath=null){
         $missingInfoRow = $this->_current_row -1;
         if(!isset($item->id) || trim($item->id)==''){
             Mage::log('xmlimport : sku not found for product record #:'.$this->_current_row);
@@ -302,7 +302,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             $this->createLog('Product type not found for product record # '.$item->id, "error");
             return false;
         }
-        $itemids = $this->getItemIds($item);
+        $itemids = $this->getItemIds($item,$Currfilepath,$Errfilepath);
         $pid = $itemids["pid"];
         $asid = $itemids["asid"];
 
@@ -938,7 +938,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         return $attributeSetId;
     }
 
-    public function getItemIds($item){
+    public function getItemIds($item,$Currfilepath=null,$Errfilepath=null){
         $external_set_id =  (string)$item->attributeSetId;
     	
         /* Code for Attribute set for product start */
@@ -952,7 +952,16 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     	{
     		$external_set_id =  (string)$item->attributeSetId;
     		$mapObj =  Mage::getModel('customimport/customimport');
-            $magento_set_id = $mapObj->getAttributeSetIdByExternalId($external_set_id);
+        $magento_set_id = $mapObj->getAttributeSetIdByExternalId($external_set_id);
+        if($magento_set_id == "")
+        {
+					
+					$e = new Exception("xmlimport : Attribute '.$external_set_id . ' is not available in magento database.");
+					Mage::logException($e);
+					echo '<br/><br/>Attribute '.$external_set_id . ' is not available in magento database.<br/><br/>';
+					rename($Currfilepath, $Errfilepath);
+					die;
+        }
     	}
     	/* Code for Attribute set for product end */
     	
