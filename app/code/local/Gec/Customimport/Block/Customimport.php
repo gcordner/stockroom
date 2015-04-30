@@ -864,6 +864,11 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
 	            	$stockItem->setData('use_config_backorders', 0);
 	            	$stockItem->setData('backorders', 1);
 	            }
+	            if (strtoupper($item->allowBackorders)=='N' )// if back order allowed 
+	            {
+	            	$stockItem->setData('use_config_backorders', 0);
+	            	$stockItem->setData('backorders', 0);
+	            }
 	            $stockItem->save();
 	            unset($product);
 	            return $productId;
