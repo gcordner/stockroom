@@ -79,17 +79,4 @@ a.tooltip-icon{border:1px solid #fff;color:#fff;border-radius:50%;display:block;
 .tooltip-popup em{font-size:10px}
 a.tooltip-close{position:absolute;right:10px;top:10px;color:#fff}
 .footer-middle>.container{position:relative}
-.fileUpload input.upload {
-	position: absolute;
-	top: 0;
-	right: 0;
-	margin: 0;
-	padding: 0;
-	font-size: 20px;
-	cursor: pointer;
-	opacity: 0;
-	filter: alpha(opacity=0);
-}
-.import_div{
-	font-size:16px;
-}
+
