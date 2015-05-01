@@ -305,7 +305,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $itemids = $this->getItemIds($item,$Currfilepath,$Errfilepath);
         $pid = $itemids["pid"];
         $asid = $itemids["asid"];
-
         if(!isset($pid))
         {
             if(!isset($asid)){
@@ -448,7 +447,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $product->setSku((string)$item->id); //Product custom id
         $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
         $product->setStoreIDs(array($this->_store_id));    // Default store id .
-
+				
         $product->setAttributeSetId($asid);
         $product->setData('name', (string)$item->name);
         $product->setPrice((real)$item->price);
@@ -489,6 +488,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                 $config_attribute_array[] = $key;
             }
         }
+
         $attributes_array = array();
         if(count($superattribute_array) > 0){
             $super_attribute_created = $this->makeAttributeConfigurable($superattribute_array);
@@ -513,7 +513,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                 $product->getTypeInstance()->setUsedProductAttributeIds($ProductAttributeIds);
                 $product->setConfigurableAttributesData($attribute_detail);
                 $product->setCanSaveConfigurableAttributes(1);
-
+								
                 foreach($config_attribute_array as $attr){
                     $external_id = $configAttributeValue[$attr];  // valueDefId from XML for an attribute
                     $model = Mage::getModel('catalog/resource_eav_attribute');
@@ -531,6 +531,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                     }
 
                 }
+             
                 try{
                     $product->save();
                     $stockItem = Mage::getModel('cataloginventory/stock_item');
@@ -940,7 +941,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
 
     public function getItemIds($item,$Currfilepath=null,$Errfilepath=null){
         $external_set_id =  (string)$item->attributeSetId;
-    	
         /* Code for Attribute set for product start */
     	if($external_set_id=='' || $external_set_id=='Default')
     	{
@@ -954,8 +954,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     		$mapObj =  Mage::getModel('customimport/customimport');
         $magento_set_id = $mapObj->getAttributeSetIdByExternalId($external_set_id);
         if($magento_set_id == "")
-        {
-					
+        { 
 					$e = new Exception("xmlimport : Attribute '.$external_set_id . ' is not available in magento database.");
 					Mage::logException($e);
 					echo '<br/><br/>Attribute '.$external_set_id . ' is not available in magento database.<br/><br/>';
@@ -969,7 +968,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         //$magento_set_id = $mapObj->getAttributeSetIdByExternalId($external_set_id);
         $attributeSetName = $external_set_id;  // Code for Attribute set for product
         $magento_set_id = Mage::getModel('eav/entity_setup','core_setup')->getAttributeSetId('catalog_product',$attributeSetName);
-        
         $sku=(string)$item->id;
         if($sku!= $this->_curitemids["sku"]){
             //try to find item ids in db
