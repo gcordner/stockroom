@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `{$this->getTable('external_attrsetmapping_info')}` (
    ALTER TABLE `{$this->getTable('external_category_mapping_info')}` ADD FOREIGN KEY (`magento_id`) REFERENCES `{$this->getTable('catalog_category_entity')}` (`entity_id`)
    ON DELETE CASCADE ON UPDATE CASCADE;
 
+   INSERT INTO `external_attrsetmapping_info` (`external_attrsetmapping_id`, `external_id`, `magento_id`) VALUES (NULL, '4', '4');	
     ");
 
 
@@ -187,6 +188,7 @@ $setup->addAttribute('catalog_product', 'external_thumbnail', array(
     'is_html_allowed_on_front' => 0,
     'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
 ));
+
 
 
 $installer->endSetup();
