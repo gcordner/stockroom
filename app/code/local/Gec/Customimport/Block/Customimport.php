@@ -1296,6 +1296,8 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                                 $relatedArray[$prid]=array('position'=>$position);
                             }else if((string)$association->assocType == 3){
                                 $associatedArray[] = $prid;
+                                $this->_changeVisibility($prid);
+                                
                             }else if((string)$association->assocType == 4){
                             	$bundleArray[] = $prid;
                             	$bundleQuantityArray[] = (int)$association->quantity;
@@ -1842,5 +1844,12 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     	$rowArray =$connection->fetchRow($select);
     	return $rowArray['magento_id'];
     }
+    private function _changeVisibility($proid)
+    {
+    	$product = Mage::getModel('catalog/product');
+    	$product->load($proid);
+    	$product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
+    	$product->save();
+    } 
 }
 ?>
