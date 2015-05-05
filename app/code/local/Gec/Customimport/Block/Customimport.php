@@ -715,8 +715,8 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $product->setSku((string)$item->id); //Product custom id
         $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
         $product->setStoreIDs(array($this->_store_id));    // Default store id .
-
-        $product->setAttributeSetId($asid);
+        $attid = $this->_getMageId($asid);
+        $product->setAttributeSetId($attid);
         $product->setData('name', (string)$item->name);
         $product->setPrice((real)$item->price);
         $product->setWeight((real)$item->weight);
