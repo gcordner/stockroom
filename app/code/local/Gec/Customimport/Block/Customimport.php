@@ -99,7 +99,9 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             $this->importCategory($category);
             Mage::log("xmlimport : End process for category # ".$category->id);
         }
-        Mage::log("xmlimport : Successfully created categories: {$this->_created_num} Successfully updated categories: {$this->_updated_num}"); //code for generate log
+        Mage::log("xmlimport : Successfully created categories: {$this->_created_num}" ); //code for generate log
+ 	    Mage::log("xmlimport : Successfully updated categories: {$this->_updated_num}" );
+ 	    
  	    $this->_created_num = 0;
         $this->_updated_num = 0;
     }
@@ -211,7 +213,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
 					$parent_external_id = $parent_category->getExternalId();	
 				  	$mapObj->updateCategoryMappingInfo($ext_subid, $duplicatedSubcategoryId, $parent_external_id, $duplicatedCategoryId);   
 		        }else{
-		        	echo 'xmlimport : got some error while duplicating';
+		        	echo 'xmlimport : error while duplicating Category';
 		        }
 	        }
 	    }
@@ -270,7 +272,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             		$status = $this->getTreeCategories($category_id, $p_id, $isActive, false);
             	}else{
             		// category is not under any other parent , move           		
-                	echo 'xmlimport : block will never execute';	
+                	echo 'xmlimport : block will not  execute as  category is not under any other parent';	
             	}	
             }                
         }
@@ -425,7 +427,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                // echo "updated\n";
             }
             catch (Exception $e){
-                echo " not added\n";
+                echo " Configurable Product not Updated \n";
                 echo "exception:$e";
             }
             $this->_updated_num++;
@@ -559,12 +561,12 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                     echo "exception:$e";
                 }
             }else{
-                Mage::log("xmlimport : Could not get super attribute for product. Hence skipped product: {$item->id}");
-                echo 'Could not get super attribute for product. Hence skipped product' .(string)$item->id ;
+                Mage::log("xmlimport : Could not get super attribute for product. Hence skipped product : {$item->id}");
+                echo 'Could not get super attribute for product. Hence skipped product ' .(string)$item->id ."<br>" ;
             }
         }else{
-            Mage::log("xmlimport : Super attribute is missing. Hence skipped product: {$item->id}");
-            echo 'Super attribute is missing. Hence skipped product' .(string)$item->id ;
+            Mage::log("xmlimport : Super attribute is missing. Hence skipped product : {$item->id}");
+            echo 'Super attribute is missing. Hence skipped product ' .(string)$item->id ;
         }
     }
     public function createProduct(&$item, $asid){
@@ -692,9 +694,8 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     				// Mage::log('Skipped product due to improper attribute values :'.(string)$item->id,null,'catalogimport.log');
     			}
     		}else{
-    			Mage::log('xmlimport : Skipped product due to some error while save :'.(string)$item->id);
-    			echo 'Skipped product due to some error while save :'.(string)$item->id;
-    			//	Mage::log('Skipped product due to some error while save :'.(string)$item->id,null,'catalogimport.log');
+    			Mage::log('xmlimport : Skipped product due to some error while save : '.(string)$item->id);
+    			echo 'Skipped product due to some error while save : '.(string)$item->id ."<br>";
     		}
     	}
     	catch(Mage_Eav_Model_Entity_Attribute_Exception $e){
@@ -807,8 +808,8 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                 $loadedattr = $model->loadByCode('catalog_product', $attribute_code);
                 $attr_id = $loadedattr->getAttributeId();  // attribute id of magento
                 if(!$attr_id){
-                    echo 'attribute '.$attribute_code . 'is not available in magento database.Hence skipping product having id' . (string)$item->id;
-                    Mage::log('xmlimport : attribute '.$attribute_code . 'is not available in magento database.Hence skipping product having id' . (string)$item->id);
+                    echo 'attribute '.$attribute_code . ' is not available in magento database.Hence skipping product having id ' . (string)$item->id;
+                    Mage::log('xmlimport : attribute '.$attribute_code . ' is not available in magento database.Hence skipping product having id ' . (string)$item->id);
                 }
                 else{
                     $attr_type = $loadedattr->getFrontendInput();
@@ -821,8 +822,8 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                     }
                     if($attr_type =='select' && count($attribute_values)>1){
                         //multiple values for attribute which is not multiselect
-                        echo 'Attribute '. $attribute_code. 'can not have multiple values. Hence skipping product having id' . (string)$item->id;
-                        Mage::log('xmlimport : Attribute '. $attribute_code. 'can not have multiple values. Hence skipping product having id' . (string)$item->id);
+                        echo 'Attribute '. $attribute_code. ' can not have multiple values. Hence skipping product having id ' . (string)$item->id;
+                        Mage::log('xmlimport : Attribute '. $attribute_code. ' can not have multiple values. Hence skipping product having id ' . (string)$item->id);
                         $skipStatus = 1;
                         break;
                     }
@@ -877,8 +878,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             
         }else{
                 Mage::log('xmlimport : Skipped product due to some error while save :'.(string)$item->id);
-        	  	echo 'Skipped product due to some error while save :'.(string)$item->id;
-            //	Mage::log('Skipped product due to some error while save :'.(string)$item->id,null,'catalogimport.log'); 
+        	  	echo 'Skipped product due to some error while save : '.(string)$item->id;
         }
     }
     
@@ -910,7 +910,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                 $this->updateBundleItems($pid);
             }
             catch (Exception $e){
-                echo " not updated\n";
+                echo "Bunduled Prduct not updated\n";
                 echo "exception:$e";
             }
         }
@@ -1234,7 +1234,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         }else{
             Mage::log('xmlimport : product does not exists :'.(string)$productDetail->id);
             echo (string)$productDetail->id.' product does not exists';
-            Mage::log('product does not exists :'.(string)$productDetail->id,null,'catalogimport.log');
+            Mage::log('product does not exists :'.(string)$productDetail->id);
         }
     }
 
@@ -1297,7 +1297,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                             }else if((string)$association->assocType == 3){
                                 $associatedArray[] = $prid;
                                 $this->_changeVisibility($prid);
-                                
                             }else if((string)$association->assocType == 4){
                             	$bundleArray[] = $prid;
                             	$bundleQuantityArray[] = (int)$association->quantity;
@@ -1651,7 +1650,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                 $modelSet->initFromSkeleton($defaultAttributeSetId)->save();
             }
         }catch(Exception $e){
-            echo 'already exists';
+            echo 'Attribute set already exists';
         }
        // $attributeSetId = $this->getAttributeSetId($attribute_set_name);
         $mapobj->mapAttributeSet($external_id,$attributeSetId);
@@ -1762,7 +1761,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         if($attributeGroupId){
             $setup->removeAttributeGroup('catalog_product',$attributeSetId,$attributeGroupId);
         }else{
-            echo 'group not available';
+            echo 'Attribute Group is not available to be removed';
         }
     }
 
