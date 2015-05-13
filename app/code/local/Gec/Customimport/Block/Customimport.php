@@ -1651,6 +1651,8 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             }
         }catch(Exception $e){
             echo 'Attribute set already exists';
+            echo 'Attribute set name '."$attribute_set_name".' with id '."$external_id".' already exists in Magento system with same name';
+			Mage::log('Attribute set name '."$attribute_set_name".' with id '."$external_id".' already exists in Magento system with same name');
         }
        // $attributeSetId = $this->getAttributeSetId($attribute_set_name);
         $mapobj->mapAttributeSet($external_id,$attributeSetId);
@@ -1769,7 +1771,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $model = Mage::getModel('eav/entity_attribute_group');
         $mapobj = Mage::getModel('customimport/customimport');
         $attributeGroupId = $mapobj->getAttributeGroupByExternalId($attribute_group_id, $attributeSetId);
-        if(isset($attributeGroupId) && !empty($attributeGroupId)) {
+       if(isset($attributeGroupId) && !empty($attributeGroupId)) {
             $model->load($attributeGroupId);
             $oldGroupName =  $model->getAttributeGroupName();
             if($oldGroupName != $attribute_group_name){  // if name has been updated
