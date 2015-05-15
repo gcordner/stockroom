@@ -70,7 +70,7 @@ if(isset($_POST['upload_xml']))
 		echo "<br/><br/>Please give writable permission for file.<br/><br/>";die;
 	}
 	
-	$fileTmpLoc = $_FILES[uploadFile]["tmp_name"];
+	$fileTmpLoc = $_FILES["uploadFile"]["tmp_name"];
 	// Path and file name
 	$pathAndName = $xmlPath.$filename;
 	// Run the move_uploaded_file() function here
@@ -215,5 +215,5 @@ foreach ($indexingProcesses as $process) {
 
 ob_end_flush();
 }
-
+unset($_POST['upload_xml'])
 ?>
