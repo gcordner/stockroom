@@ -402,7 +402,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
 
             }
             try{
-            	Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
                 $product->save();
                 $stockItem = Mage::getModel('cataloginventory/stock_item');
                 $stockItem->assignProduct($product);
@@ -535,7 +534,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                 }
              
                 try{
-                	Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
                     $product->save();
                     $stockItem = Mage::getModel('cataloginventory/stock_item');
                     $stockItem->assignProduct($product);
@@ -682,7 +680,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     	}
     	try{
     		if($skipStatus == 0){
-    			Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
     			$productId =  $product->save()->getId();
     			if ($productId) {
     				$this->_created_num++;
@@ -736,7 +733,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $product->setExternalThumbnail((string)$item->smallImageUrl);
         $product->setShipmentType(0);//shipment type (0 - together, 1 - separately
         try{  
-        	Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
          	$product->save();      	
         	$stockItem = Mage::getModel('cataloginventory/stock_item');
         	$stockItem->assignProduct($product);
@@ -1350,7 +1346,11 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
 						 $i++;
                 	}
                 	
-                	
+                	/*echo "<pre>";
+			            print_r($bundleOptions);	
+                	echo "<pre>";
+			            print_r($bundleSelections);die;  */          
+			            
                 	try{				            
 			            
 			            $productbundle->setCanSaveConfigurableAttributes(false);
@@ -1380,7 +1380,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             }else{
                 Mage::log('xmlimport : product not found for association: # '.$associate->productIdFrom);
             }
-            Mage::log("xmlimport : End Process for product association # ".$associate->productIdFrom);
         }
     }
 
