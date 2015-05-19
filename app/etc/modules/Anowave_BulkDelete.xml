@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Anowave_BulkDelete>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+            	
+            </depends>
+        </Anowave_BulkDelete>
+    </modules>
+</config>
