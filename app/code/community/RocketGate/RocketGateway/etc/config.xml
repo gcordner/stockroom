@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <RocketGate_RocketGateway>
+            <version>0.1.5</version>
+        </RocketGate_RocketGateway>
+    </modules>
+
+    <global>
+
+         <blocks>
+           <rocketgateway>
+            <class>RocketGate_RocketGateway_Block</class>
+           </rocketgateway>
+        </blocks>
+
+        <models>
+            <rocketgateway>
+                <class>RocketGate_RocketGateway_Model</class>
+                <resourceModel>rocketgateway_mysql4</resourceModel>
+            </rocketgateway>
+            <rocketgateway_mysql4>
+                <class>RocketGate_RocketGateway_Model_Mysql4</class>
+                <entities>
+                    <api_debug><table>rocketgate_api_debug</table></api_debug>
+                </entities>
+            </rocketgateway_mysql4>
+        </models>
+
+        <resources>
+            <rocketgateway_setup>
+                <setup>
+                    <module>RocketGate_RocketGateway</module>
+                    <class>RocketGate_RocketGateway_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </rocketgateway_setup>
+            <rocketgateway_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </rocketgateway_write>
+            <rocketgateway_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </rocketgateway_read>
+        </resources>
+        <helpers>
+            <rocketgateway>
+                <class>RocketGate_RocketGateway_Helper</class>
+            </rocketgateway>
+        </helpers>
+    </global>
+
+    <default>
+        <payment>
+            <rocketgateway>
+                <active>1</active>
+                <model>rocketgateway/rocketgateway</model>
+                <order_status>processing</order_status>
+                <title>Credit Card (RocketGate.com)</title>
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <payment_action>authorize</payment_action>
+                <allowspecific>0</allowspecific>
+                <merchant_id>1</merchant_id>
+                <merchant_password backend_model="adminhtml/system_config_backend_encrypted"/>
+                <test>1</test>
+                <debug>0</debug>
+                <avscheck>TRUE</avscheck>
+                <cvvcheck>TRUE</cvvcheck>
+                <scrubcheck>TRUE</scrubcheck>
+            </rocketgateway>
+        </payment>
+    </default>
+    
+</config>
