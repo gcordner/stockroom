@@ -70,7 +70,7 @@ if(isset($_POST['upload_xml']))
 		echo "<br/><br/>Please give writable permission for file.<br/><br/>";die;
 	}
 	
-	$fileTmpLoc = $_FILES[uploadFile]["tmp_name"];
+	$fileTmpLoc = $_FILES["uploadFile"]["tmp_name"];
 	// Path and file name
 	$pathAndName = $xmlPath.$filename;
 	// Run the move_uploaded_file() function here
@@ -107,7 +107,7 @@ try
 	}
 
 	$this->parseAllCategoryRelation();
-	echo "<br/><br/>Categories are successfully imported<br/><br/>";
+	echo "<br/>Categories are successfully imported<br/>";
 	/* Code End for import categories */
 	
 	/* Code Start for import attributes */
@@ -125,19 +125,19 @@ try
     if($parseAttributegrp){
           $this->importAttributeGrp($parseAttributegrp);
     }
-    echo "<br/><br/>Attributes are successfully imported<br/><br/>";
+    echo "<br/>Attributes are successfully imported<br/>";
     /* Code End for import attributes */
     
     /* Code Start for import Products */
     $products =  $this->showProducts();
     if($products){
         $this->importAllProducts($products,$current_file_path,$new_error_file_path);
-        echo "<br/><br/>Products are successfully imported<br/><br/>";
+        echo "<br/>Products are successfully imported<br/>";
     }
     else{
-        $e = new Exception("xmlimport : no product available.");
+        $e = new Exception("xmlimport : product not found.");
         Mage::logException($e);
-        echo '<br/><br/>no product available<br/><br/>';
+        echo '<br/> product not found<br/>';
     }
     /* Code End for import Products */
     
@@ -193,7 +193,7 @@ else
 	{
 		rename($current_file_path, $new_completed_file_path);
 	}
-   	echo '<br/><br/>Successfully import to magento'.'<br/><br/>';
+   	echo '<br/><br/>Successfully imported to magento'.'<br/><br/>';
 }	
 /* code end for change file name after complete*/
 
