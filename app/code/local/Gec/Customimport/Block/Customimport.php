@@ -1517,7 +1517,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                 
                 /* Code for assigned Attribute Set to Attribute Start*/ 
                 $attribute_set_name = 'Default';
-				$group_name = 'general';
+				$group_name = '';
 				$attribute_code = (string)$attribute->id;
 				$setup = new Mage_Eav_Model_Entity_Setup('core_setup');
 				//-------------- add attribute to set and group
