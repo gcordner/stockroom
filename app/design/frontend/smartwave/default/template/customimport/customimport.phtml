@@ -107,7 +107,7 @@ try
 	}
 
 	$this->parseAllCategoryRelation();
-	echo "<br/>Categories are successfully imported<br/>";
+	echo "<br/><br/>Categories are successfully imported<br/><br/>";
 	/* Code End for import categories */
 	
 	/* Code Start for import attributes */
@@ -137,12 +137,12 @@ try
     $products =  $this->showProducts();
     if($products){
         $this->importAllProducts($products,$current_file_path,$new_error_file_path);
-        echo "<br/>Products are successfully imported<br/>";
+        echo "<br/><br/>Products are successfully imported<br/><br/>";
     }
     else{
         $e = new Exception("xmlimport : product not found.");
         Mage::logException($e);
-        echo '<br/> product not found<br/>';
+        echo '<br/><br/> product not found<br/><br/>';
     }
     /* Code End for import Products */
     
@@ -166,7 +166,7 @@ try
 				{
 					$e = new Exception("xmlimport : Product-Product association not found.");
 					Mage::logException($e);
-					echo '<br/>Product-Product association not found.<br/>';
+					echo '<br/><br/>Product-Product association not found.<br/><br/>';
 				}else
 				{
 					echo '<br/><br/>';
