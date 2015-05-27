@@ -124,8 +124,13 @@ try
     $parseAttributegrp = $this->parseAttributegrp();
     if($parseAttributegrp){
           $this->importAttributeGrp($parseAttributegrp);
+          echo "<br/><br/>Attributes are successfully imported<br/><br/>";
     }
-    echo "<br/>Attributes are successfully imported<br/>";
+    else {
+    	$e = new Exception("xmlimport : Attributes not found.");
+    	Mage::logException($e);
+    	echo '<br/><br/> Attributes not found<br/><br/>';
+    }
     /* Code End for import attributes */
     
     /* Code Start for import Products */
