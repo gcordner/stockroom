@@ -159,7 +159,8 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $duplicate_category->setData('description', $category->getdescription());
         $duplicate_category->setData('available_sort_by','position');
         $duplicate_category->setData('default_sort_by','position');
-        $duplicate_category->setData('is_active',$isActive);
+		$duplicate_category->setData('is_active',$isActive);
+        $duplicate_category->setData('is_anchor', 1);
         $duplicate_category->setData('external_id',$category->getexternalId());
         $duplicate_category->setData('external_cat_image',$category->getexternalCatImage());
         try {
@@ -1082,11 +1083,10 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $category->setData('meta_keywords',(string)$item->metaKeywords);
         $category->setData('meta_description',(string)$item->metaDescription);
         $category->setData('description',(string)$item->description);
-
-
         $category->setData('available_sort_by','position');
         $category->setData('default_sort_by','position');
         $category->setData('is_active',$isActive);
+        $category->setData('is_anchor', 1);
         $category->setData('external_id',(string)$item->id);
         $category->setData('external_cat_image',(string)$item->imageUrl);
         try {
@@ -1118,6 +1118,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $category->setData('meta_description',(string)$item->metaDescription);
         $category->setData('description',(string)$item->description);
         $category->setData('is_active',$isActive);
+        $category->setData('is_anchor', 1);
         $category->setData('external_cat_image',(string)$item->imageUrl);
         $category->save();
     }
