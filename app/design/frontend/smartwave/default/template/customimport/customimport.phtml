@@ -104,19 +104,17 @@ try
 	if($categories)
 	{
        	$this->importAllCategory($categories);
-	}
-
-	$this->parseAllCategoryRelation();
-	$parseCategoryRelation = $this->parseAllCategoryRelation();
-	if($parseCategoryRelation){
-		$this->importAttributeGrp($parseAttributegrp);
-		echo "<br/><br/>Categories are successfully imported<br/><br/>";
+	echo "<br/><br/>Categories are successfully imported<br/><br/>";
 	}
 	else {
 		$e = new Exception("xmlimport : Categories not found.");
 		Mage::logException($e);
 		echo '<br/><br/> Categories not found<br/><br/>';
 	}
+
+	$this->parseAllCategoryRelation();
+	$parseCategoryRelation = $this->parseAllCategoryRelation();
+	
 	/* Code End for import categories */
 	
 	/* Code Start for import attributes */

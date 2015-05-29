@@ -82,12 +82,13 @@ class Gec_Customimport_Model_Customimport extends Mage_Core_Model_Abstract {
                                           ->addFieldToFilter('attribute_group_id', array('eq' => $attributeGroupId))
                                           ->addFieldToFilter('attribute_id', array('eq' => $attribute_id));
           $id = $eaventityattributeCollection->getFirstItem()->getEntityAttributeId();
+          $arrtibid = $eaventityattributeCollection->getFirstItem()->getAttributeId();
           $data = array('sort_order' => $attribute_sort_order);
           if($id){
 	          $eaventityattribute->load($id)->addData($data);
 	          try {
 	              $eaventityattribute->setEntityAttributeId($id)->save();
-	              echo "Data updated successfully.";
+	              echo "<br> Attribute with id #".$arrtibid." updated successfully. <br>";
 	
 	          } catch (Exception $e){
 	              echo $e->getMessage();
