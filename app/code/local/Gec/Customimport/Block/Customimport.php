@@ -1430,7 +1430,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     public function createAttribute($attribute){
         $mapobj = Mage::getModel('customimport/customimport');
         $attr_values = (array)$attribute->values;
-
         $attribute_type = 'select';
         if(isset($attribute->type)){
             $att_type = (string)$attribute->type;
@@ -1516,24 +1515,24 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                 $model->save(); 
                 
                 /* Code for assigned Attribute Set to Attribute Start*/ 
-                $attribute_set_name = 'Default';
-				$group_name = '';
+                /* $attribute_set_name = 'Default';
+				$group_name = ''; */
 				$attribute_code = (string)$attribute->id;
-				$setup = new Mage_Eav_Model_Entity_Setup('core_setup');
+				/* $setup = new Mage_Eav_Model_Entity_Setup('core_setup'); */
 				//-------------- add attribute to set and group
-	            $attribute_set_id = $setup->getAttributeSetId('catalog_product', $attribute_set_name);
+	            /* $attribute_set_id = $setup->getAttributeSetId('catalog_product', $attribute_set_name);
     	        $attribute_group_id = $setup->getAttributeGroupId('catalog_product', $attribute_set_id, $group_name);
         	    $attribute_id = $setup->getAttributeId('catalog_product', $attribute_code);
-            	$setup->addAttributeToSet($entityTypeId='catalog_product',$attribute_set_id, $attribute_group_id, $attribute_id);
+            	$setup->addAttributeToSet($entityTypeId='catalog_product',$attribute_set_id, $attribute_group_id, $attribute_id); */
             	/* Code for assigned Attribute Set to Attribute End*/
 				
 	            //-------------- add attribute to set and group
-	            $attribute_set_id=$setup->getAttributeSetId('catalog_product', $attribute_set_name);
+	            /* $attribute_set_id=$setup->getAttributeSetId('catalog_product', $attribute_set_name);
 	            $attribute_group_id=$setup->getAttributeGroupId('catalog_product', $attribute_set_id, $group_name);
 	            $attribute_id=$setup->getAttributeId('catalog_product', $attribute_code);
 	
 	            $setup->addAttributeToSet($entityTypeId='catalog_product',$attribute_set_id, $attribute_group_id, $attribute_id);
-                
+     */            
                 unset($model);
                 if($count_value > 0){
                     $model = Mage::getModel('catalog/resource_eav_attribute');
