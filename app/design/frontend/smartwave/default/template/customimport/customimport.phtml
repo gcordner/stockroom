@@ -101,15 +101,23 @@ try
 {
     /* Code start for import categories */
     $categories =  $this->showCategory();
+    $msgcollection = "";
 	if($categories)
 	{
        	$this->importAllCategory($categories);
-	echo "<br/><br/>Categories are successfully imported<br/><br/>";
+     	$msgcollection.= "<br/><br/>Categories are successfully imported<br/><br/>";
+	}
+
+	$this->parseAllCategoryRelation();
+	$parseCategoryRelation = $this->parseAllCategoryRelation();
+	if($parseCategoryRelation){
+		$this->importAttributeGrp($parseAttributegrp);
+		  $msgcollection.= "<br/><br/>Categories are successfully imported<br/><br/>";
 	}
 	else {
 		$e = new Exception("xmlimport : Categories not found.");
 		Mage::logException($e);
-		echo '<br/><br/> Categories not found<br/><br/>';
+		$msgcollection.= '<br/><br/> Categories not found<br/><br/>';
 	}
 
 	$this->parseAllCategoryRelation();
@@ -131,12 +139,12 @@ try
     $parseAttributegrp = $this->parseAttributegrp();
     if($parseAttributegrp){
           $this->importAttributeGrp($parseAttributegrp);
-          echo "<br/><br/>Attributes are successfully imported<br/><br/>";
+          $msgcollection.=  "<br/><br/>Attributes are successfully imported<br/><br/>";
     }
     else {
     	$e = new Exception("xmlimport : Attributes not found.");
     	Mage::logException($e);
-    	echo '<br/><br/> Attributes not found<br/><br/>';
+    	$msgcollection.=  '<br/><br/> Attributes not found<br/><br/>';
     }
     /* Code End for import attributes */
     
@@ -144,12 +152,12 @@ try
     $products =  $this->showProducts();
     if($products){
         $this->importAllProducts($products,$current_file_path,$new_error_file_path);
-        echo "<br/><br/>Products are successfully imported<br/><br/>";
+        $msgcollection.=  "<br/><br/>Products are successfully imported<br/><br/>";
     }
     else{
         $e = new Exception("xmlimport : product not found.");
         Mage::logException($e);
-        echo '<br/><br/> product not found<br/><br/>';
+        $msgcollection.=  '<br/><br/> product not found<br/><br/>';
     }
     /* Code End for import Products */
     
@@ -196,7 +204,7 @@ if($flag=='1')
 	{
 		rename($current_file_path, $new_error_file_path);
 	}
-   	echo '<br/><br/>Error in xml file to import'.'<br/><br/>';
+   	$finalImportStatus =  'Error in xml file to import';
 }
 else
 {
@@ -205,7 +213,48 @@ else
 	{
 		rename($current_file_path, $new_completed_file_path);
 	}
-   	echo '<br/><br/>Successfully imported to magento'.'<br/><br/>';
+   	$finalImportStatus =  'Successfully imported to magento';
+  
+   	
+   	echo $msgcollection ."<br/><br/>". $finalImportStatus.'<br/><br/>' ;
+//sending email
+if(isset($finalImportStatus)){
+   	$emailTemplate = Mage::getModel('core/email_template')->loadDefault('Import Status');
+   	
+   	//Getting the Store E-Mail Sender Name.
+   	$senderName = Mage::getStoreConfig('trans_email/ident_general/name');
+   	
+   	//Getting the Store General E-Mail.
+   	$senderEmail = Mage::getStoreConfig('trans_email/ident_general/email');
+   	
+   	//Variables for Confirmation Mail.
+   	$emailTemplateVariables = array();
+   	$emailTemplateVariables['msgcol'] = $msgcollection;
+   	$emailTemplateVariables['finalstatus'] = $finalImportStatus;
+   	//Appending the Custom Variables to Template.
+   	$processedTemplate = $emailTemplate->getProcessedTemplate($emailTemplateVariables);
+   	/* Sender Email */
+   $reciverEmail=Mage::getStoreConfig('trans_email/ident_custom1/email');
+   	//Sending E-Mail to Customers.
+   	$mail = Mage::getModel('core/email')
+   	->setToName($senderName)
+   	->setToEmail($reciverEmail)
+   	->setBody($processedTemplate)
+   	->setSubject($finalImportStatus)
+   	->setFromEmail($senderEmail)
+   	->setFromName($senderName)
+   	->setType('html');
+   	try{
+   		//Confimation E-Mail Send
+   		$mail->send();
+   		mail('vishwas.bahtnagar@a3logics.in' , $msgcollection  );
+   	}
+   	catch(Exception $error)
+   	{
+   		Mage::getSingleton('core/session')->addError($error->getMessage());
+   		return false;
+   	}
+}
 }	
 /* code end for change file name after complete*/
 
