@@ -434,6 +434,8 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             }
             $this->_updated_num++;
             unset($product);
+            $productId = (isset($productId) ? $productId : null);
+            
             return $productId;
         }else{
             return false;
@@ -849,6 +851,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                 }
             }
             if($skipStatus == 0){
+            	Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 	            $productId = $product->save()->getId();
 	            $this->_updated_num++;	
 	          //  $productId = $product->getId();
@@ -874,6 +877,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
 	            	$stockItem->setData('use_config_backorders', 0);
 	            	$stockItem->setData('backorders', 0);
 	            }
+	            Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 	            $stockItem->save();
 	            unset($product);
 	            return $productId;
@@ -911,6 +915,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
 	        $product->setShipmentType(0);//shipment type (0 - together, 1 - separately
             
             try{
+            	Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
                 $product->save();                 
                 $this->updateBundleItems($pid);
             }
@@ -978,7 +983,8 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $attributeSetName = $external_set_id;  // Code for Attribute set for product
         $magento_set_id = Mage::getModel('eav/entity_setup','core_setup')->getAttributeSetId('catalog_product',$attributeSetName);
         $sku=(string)$item->id;
-        if($sku!= $this->_curitemids["sku"]){
+        $curitemids = (isset($this->_curitemids["sku"]) ? $this->_curitemids["sku"] : null);
+        if($sku!= $curitemids){
             //try to find item ids in db
             $cids = $this->getProductIds($sku);
             if($cids!==false){
@@ -1120,6 +1126,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $category->setData('is_active',$isActive);
         $category->setData('is_anchor', 1);
         $category->setData('external_cat_image',(string)$item->imageUrl);
+        Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
         $category->save();
     }
 

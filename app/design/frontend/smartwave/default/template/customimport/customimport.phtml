@@ -168,7 +168,7 @@ try
     }else{
         $e = new Exception("xmlimport : Category-Product association not found.");
         Mage::logException($e);
-        echo '<br/><br/>Category-Product association not found<br/><br/>';
+        $msgcollection.=  '<br/><br/>Category-Product association not found<br/><br/>';
     }
     /* Code End for category product association*/
     
@@ -181,7 +181,7 @@ try
 				{
 					$e = new Exception("xmlimport : Product-Product association not found.");
 					Mage::logException($e);
-					echo '<br/><br/>Product-Product association not found.<br/><br/>';
+					$msgcollection.=  '<br/><br/>Product-Product association not found.<br/><br/>';
 				}else
 				{
 					echo '<br/><br/>';
@@ -246,9 +246,7 @@ if(isset($finalImportStatus)){
    	->setType('html');
    	try{
    		//Confimation E-Mail Send
-   		$mail->send();
-   		mail('vishwas.bahtnagar@a3logics.in' , $msgcollection  );
-   	}
+   		$mail->send();   	}
    	catch(Exception $error)
    	{
    		Mage::getSingleton('core/session')->addError($error->getMessage());
