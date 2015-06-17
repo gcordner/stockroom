@@ -4,5 +4,7 @@
 
 .main-nav .menu-wrapper {
   background-color: #000000;}
-
 .header>.logo { max-width:300px; }
+ul.menu>li>a, .main-nav ul.menu>li>a {color:#ffffff;}
+.header-container.type5 .mybag-link i{color:#000000;font-size:35px}
+.header-container.type4 .mybag-link i{color:#000000;font-size:35px}
