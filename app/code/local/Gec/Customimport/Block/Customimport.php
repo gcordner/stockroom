@@ -443,6 +443,11 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     }
 
     public function createConfigurableProduct(&$item, $asid){
+    	$attid = $this->_getMageId($asid);
+    	$attributeSetModel = Mage::getModel('eav/entity_attribute_set');
+    	$attributeSetModel->load($attid);
+    	$attributeSetModel = $attributeSetModel->getData();
+    	if (!empty($attributeSetModel)) {
         $p_status = ((string)$item->isActive == 'Y')?1:2;
         $p_taxclass = ((string)$item->isTaxable == 'Y')?2:0;
 
@@ -573,8 +578,18 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             Mage::log("xmlimport : Super attribute is missing. Hence skipped product : {$item->id}");
             echo "<br/><br/>".'Super attribute is missing. Hence skipped product ' .(string)$item->id ."<br/><br/>";
         }
+        }else{
+        	Mage::log("xmlimport : Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id");
+        	echo "<br/><br/>"."Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id" . "<br/><br/>";
+        }
     }
     public function createProduct(&$item, $asid){
+    	//check attribute set existance
+    	$attid = $this->_getMageId($asid);
+    	$attributeSetModel = Mage::getModel('eav/entity_attribute_set');
+    	$attributeSetModel->load($attid);
+    	$attributeSetModel = $attributeSetModel->getData();
+    	if (!empty($attributeSetModel)) {
     	$p_status = ((string)$item->isActive == 'Y')?1:2;
     	$p_taxclass = ((string)$item->isTaxable == 'Y')?2:0;
     
@@ -708,10 +723,20 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     		echo $e->getAttributeCode();
     		echo $e->getMessage();
     	}
+    	}else{
+    		Mage::log("xmlimport : Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id");
+    		echo "<br/><br/>"."Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id" . "<br/><br/>";
+    	}
     }
     
     public function createBundleProduct(&$item, $asid)
     {
+    	//check attribute set existance
+    	$attid = $this->_getMageId($asid);
+    	$attributeSetModel = Mage::getModel('eav/entity_attribute_set');
+    	$attributeSetModel->load($attid);
+    	$attributeSetModel = $attributeSetModel->getData();
+    	if (!empty($attributeSetModel)) {
     	$p_status = ((string)$item->isActive == 'Y')?1:2;
     	$p_taxclass = ((string)$item->isTaxable == 'Y')?2:0;
     	
@@ -766,6 +791,10 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         catch (Exception $e){
         	echo "exception:$e";
         }
+    	}else{
+    		Mage::log("xmlimport : Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id");
+    		echo "<br/><br/>"."Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id" . "<br/><br/>";
+    	}
     }
     
   
