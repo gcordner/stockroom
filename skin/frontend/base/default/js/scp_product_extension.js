@@ -150,6 +150,7 @@ Product.OptionsPrice.prototype.updateSpecialPriceDisplay = function(price, final
 Product.Config.prototype.reloadPrice = function() {
     var childProductId = this.getMatchingSimpleProduct();
     var childProducts = this.config.childProducts;
+    
     var usingZoomer = false;
     if(this.config.imageZoomer){
         usingZoomer = true;
@@ -166,6 +167,8 @@ Product.Config.prototype.reloadPrice = function() {
         this.updateProductShortDescription(childProductId);
         this.updateProductDescription(childProductId);
         this.updateProductName(childProductId);
+        //Update Availibilty
+        this.updateProductAvailiabilty(childProductId, this.config.productId);
         this.updateProductAttributes(childProductId);
         this.updateFormProductId(childProductId);
         this.addParentProductIdToCartForm(this.config.productId);
@@ -224,13 +227,46 @@ Product.Config.prototype.updateProductImage = function(productId) {
 };
 
 Product.Config.prototype.updateProductName = function(productId) {
+
     var productName = this.config.productName;
     if (productId && this.config.childProducts[productId].productName) {
         productName = this.config.childProducts[productId].productName;
     }
+    //console.log(this.config.childProducts[productId]);
     $$('#product_addtocart_form div.product-name h1').each(function(el) {
         el.innerHTML = productName;
     });
+};
+
+Product.Config.prototype.updateProductAvailiabilty = function(productId, parentId) {
+	
+	var coUrl = this.config.ajaxBaseUrl + "getAvail/?id=" + productId + '&pid=' + parentId;
+	new Ajax.Request(coUrl, {
+		  method:'get',
+		  onSuccess: function(transport) {
+		    var response = transport.responseText || "no response text";
+		    //alert("Success! \n\n" + response);
+		    console.log(transport.responseText);
+		    var element = $$('p.availability span')[0];
+		    var a2c_btn = $$('div.add-to-cart button.btn-cart')[0];
+		    a2c_btn.writeAttribute('onclick','');
+		    if(transport.responseText==0){
+		    	a2c_btn.addClassName('disabled');
+		    	// -> Element
+		    	a2c_btn.className;
+		    	element.innerHTML='Out Of Stock';
+		    }
+		    else {
+		    	if(a2c_btn.hasClassName('disabled')) {
+		    		a2c_btn.removeClassName('disabled');
+		    	}		    	
+		    	a2c_btn.setAttribute('onclick','productAddToCartForm.submit(this)');
+		    	element.innerHTML='In Stock';
+		    }
+		  },
+		  onFailure: function() { alert('Something went wrong...'); }
+		});	
+	
 };
 
 Product.Config.prototype.updateProductShortDescription = function(productId) {
@@ -285,7 +321,8 @@ Product.Config.prototype.showCustomOptionsBlock = function(productId, parentId) 
         new Ajax.Updater('SCPcustomOptionsDiv', coUrl, {
           method: 'get',
           evalScripts: true,
-          onComplete: function() {
+          onComplete: function(data) {
+        	  
               $$('span.scp-please-wait').each(function(el) {el.hide()});
               Effect.Fade('SCPcustomOptionsDiv', { duration: 0.5, from: 0.5, to: 1 });
               //prodForm.getElements().each(function(el) {el.enable()});
@@ -317,6 +354,7 @@ Product.Config.prototype.showFullImageDiv = function(productId, parentId) {
             method: 'get',
             evalScripts: false,
             onComplete: function() {
+            	
                 //Product.Zoom needs the *image* (not just the html source from the ajax)
                 //to have loaded before it works, hence image object and onload handler
                 if ($('image')){

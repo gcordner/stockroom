@@ -6,12 +6,22 @@ class OrganicInternet_SimpleConfigurableProducts_AjaxController extends Mage_Cat
     public function coAction()
     {
        $product = $this->_initProduct();
+
        if (!empty($product)) {
+           
            $this->loadLayout(false);
            $this->renderLayout();
        }
     }
-
+    
+    public function getAvailAction ()
+    {        
+        $product = Mage::getModel('catalog/product')->load($_REQUEST['id']);
+        $inStock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($product)->getIsInStock();
+        echo $inStock;
+        exit;
+    }
+    
     public function imageAction()
     {
        $product = $this->_initProduct();
