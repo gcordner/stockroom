@@ -351,6 +351,9 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         if ($product){
             $product->setData('name', (string)$item->name);
             $product->setPrice((real)$item->price);
+            $product->setSpecialPrice((real)$item->specialPrice->amount);
+            $product->setSpecialFromDate($item->specialPrice->fromDateTime); 
+            $product->setSpecialToDate($item->specialPrice->toDateTime);
             $product->setWeight((real)$item->weight);
             $product->setStatus($p_status);
             $product->setTaxClassId($p_taxclass);
@@ -470,6 +473,9 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $product->setAttributeSetId($attid);
         $product->setData('name', (string)$item->name);
         $product->setPrice((real)$item->price);
+        $product->setSpecialPrice((real)$item->specialPrice->amount);
+        $product->setSpecialFromDate($item->specialPrice->fromDateTime);
+        $product->setSpecialToDate($item->specialPrice->toDateTime);
         $product->setWeight((real)$item->weight);
         $product->setStatus($p_status);
         $product->setTaxClassId($p_taxclass);
@@ -652,6 +658,9 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     	$product->setAttributeSetId($attid);
     	$product->setData('name', (string)$item->name);
     	$product->setPrice((real)$item->price);
+    	$product->setSpecialPrice((real)$item->specialPrice->amount);
+    	$product->setSpecialFromDate($item->specialPrice->fromDateTime);
+    	$product->setSpecialToDate($item->specialPrice->toDateTime);
     	$product->setWeight((real)$item->weight);
     	$product->setStatus($p_status);
     	$product->setTaxClassId($p_taxclass);
@@ -775,6 +784,9 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $product->setAttributeSetId($attid);
         $product->setData('name', (string)$item->name);
         $product->setPrice((real)$item->price);
+        $product->setSpecialPrice((real)$item->specialPrice->amount);
+        $product->setSpecialFromDate($item->specialPrice->fromDateTime);
+        $product->setSpecialToDate($item->specialPrice->toDateTime);
         $product->setWeight((real)$item->weight);
         $product->setStatus($p_status);
         $product->setTaxClassId($p_taxclass);
@@ -841,6 +853,9 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             //Product found, so we need to update it in Magento.
             $product->setData('name', (string)$item->name);
             $product->setPrice((real)$item->price);
+            $product->setSpecialPrice((real)$item->specialPrice->amount);
+            $product->setSpecialFromDate($item->specialPrice->fromDateTime);
+            $product->setSpecialToDate($item->specialPrice->toDateTime);
             $product->setWeight((real)$item->weight);
             $product->setStatus($p_status);
             $product->setTaxClassId($p_taxclass);
@@ -962,6 +977,9 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         if ($product){
         	$product->setData('name', (string)$item->name);
 	        $product->setPrice((real)$item->price);
+	        $product->setSpecialPrice((real)$item->specialPrice->amount);
+	        $product->setSpecialFromDate($item->specialPrice->fromDateTime);
+	        $product->setSpecialToDate($item->specialPrice->toDateTime);
 	        $product->setWeight((real)$item->weight);
 	        $product->setStatus($p_status);
 	        $product->setTaxClassId($p_taxclass);
