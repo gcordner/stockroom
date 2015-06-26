@@ -251,14 +251,14 @@ Product.Config.prototype.updateProductAvailiabilty = function(productId, parentI
 		    var a2c_btn = $$('div.add-to-cart button.btn-cart')[0];
 		    a2c_btn.writeAttribute('onclick','');
 		    if(transport.responseText==0){
-		    	a2c_btn.addClassName('disabled');
+		    	a2c_btn.addClassName('hidden');
 		    	// -> Element
 		    	a2c_btn.className;
 		    	element.innerHTML='Out Of Stock';
 		    }
 		    else {
-		    	if(a2c_btn.hasClassName('disabled')) {
-		    		a2c_btn.removeClassName('disabled');
+		    	if(a2c_btn.hasClassName('hidden')) {
+		    		a2c_btn.removeClassName('hidden');
 		    	}		    	
 		    	a2c_btn.setAttribute('onclick','productAddToCartForm.submit(this)');
 		    	element.innerHTML='In Stock';
