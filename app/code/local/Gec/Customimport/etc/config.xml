@@ -54,6 +54,26 @@
         </routers>
     </admin>
     <global>
+    <template>
+            <email>
+                <!-- Give the template a uniqiue name, you'll need to refer to this later when sending the email-->
+                <import_status>
+                    <label>import_status</label>
+                    <file>import_status.html</file>
+                    <type>html</type>
+                </import_status>
+            </email>
+        </template>
+         <template>
+            <email>
+                <!-- Give the template a uniqiue name, you'll need to refer to this later when sending the email-->
+                <import_status_failed>
+                    <label>import_status_failed</label>
+                    <file>import_status_failed.html</file>
+                    <type>html</type>
+                </import_status_failed>
+            </email>
+        </template>
         <models>
             <customimport>
                 <class>Gec_Customimport_Model</class>
