@@ -217,42 +217,7 @@ else
   
    	
    	echo $msgcollection ."<br/><br/>". $finalImportStatus.'<br/><br/>' ;
-//sending email
-if(isset($finalImportStatus)){
-   	$emailTemplate = Mage::getModel('core/email_template')->loadDefault('Import Status');
-   	
-   	//Getting the Store E-Mail Sender Name.
-   	$senderName = Mage::getStoreConfig('trans_email/ident_general/name');
-   	
-   	//Getting the Store General E-Mail.
-   	$senderEmail = Mage::getStoreConfig('trans_email/ident_general/email');
-   	
-   	//Variables for Confirmation Mail.
-   	$emailTemplateVariables = array();
-   	$emailTemplateVariables['msgcol'] = $msgcollection;
-   	$emailTemplateVariables['finalstatus'] = $finalImportStatus;
-   	//Appending the Custom Variables to Template.
-   	$processedTemplate = $emailTemplate->getProcessedTemplate($emailTemplateVariables);
-   	/* Sender Email */
-   $reciverEmail=Mage::getStoreConfig('trans_email/ident_custom1/email');
-   	//Sending E-Mail to Customers.
-   	$mail = Mage::getModel('core/email')
-   	->setToName($senderName)
-   	->setToEmail($reciverEmail)
-   	->setBody($processedTemplate)
-   	->setSubject($finalImportStatus)
-   	->setFromEmail($senderEmail)
-   	->setFromName($senderName)
-   	->setType('html');
-   	try{
-   		//Confimation E-Mail Send
-   		$mail->send();   	}
-   	catch(Exception $error)
-   	{
-   		Mage::getSingleton('core/session')->addError($error->getMessage());
-   		return false;
-   	}
-}
+
 }	
 /* code end for change file name after complete*/
 
@@ -265,6 +230,44 @@ $t1 = microtime(true);
 $time = $t1-$t0;
 echo "It took $time sec" ;
 
+// SENDING MAIL CODE
+if(isset($finalImportStatus)){
+   	$emailTemplate = Mage::getModel('core/email_template')->loadDefault('import_status');
+
+   	//Getting the Store E-Mail Sender Name.
+   	$senderName = Mage::getStoreConfig('trans_email/ident_general/name');
+
+   	//Getting the Store General E-Mail.
+   	$senderEmail = Mage::getStoreConfig('trans_email/ident_general/email');
+
+   	//Variables for Confirmation Mail.
+   	$emailTemplateVariables = array();
+   	$emailTemplateVariables['msgcol'] = $msgcollection;
+   	$emailTemplateVariables['finalstatus'] = $finalImportStatus;
+   	//Appending the Custom Variables to Template.
+   	$processedTemplate = $emailTemplate->getProcessedTemplate($emailTemplateVariables);
+   	// Sender Email
+    $reciverEmail=Mage::getStoreConfig('trans_email/ident_custom1/email');
+   	//Sending E-Mail to Customers.
+   	$mail = Mage::getModel('core/email')
+   	->setToName($senderName)
+   	->setToEmail($reciverEmail)
+   	->setBody($processedTemplate)
+   	->setSubject($finalImportStatus)
+   	->setFromEmail($senderEmail)
+   	->setFromName($senderName)
+   	->setType('html');
+   	try{
+   	    //Confimation E-Mail Send
+   	    $mail->send();
+   	}
+   	catch(Exception $error)
+   	{
+   	    Mage::getSingleton('core/session')->addError($error->getMessage());
+   	    return false;
+   	}
+}
+// SENDING EMAIL CODE ENDS
 
 // CODE FOR INDEXING
 $indexingProcesses = Mage::getSingleton('index/indexer')->getProcessesCollection();
