@@ -150,23 +150,20 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
      *
      * @return string
      */
-    public function getElementHtml()
+public function getElementHtml()
     {
-    	$outputFormat = Mage::app()->getLocale()->getDateTimeFormat( Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $this->addClass('input-text');
-
         $html = sprintf(
         '<input name="%s" id="%s" value="%s" %s style="width:110px !important;" />'
         .' <img src="%s" alt="" class="v-middle" id="%s_trig" title="%s" style="%s" />',
-        $this->getName(), $this->getHtmlId(), $this->_escape($this->getValue($outputFormat)), $this->serialize($this->getHtmlAttributes()),
+        $this->getName(), $this->getHtmlId(), $this->_escape($this->getValue('M/d/yyyy H:mm:ss')), $this->serialize($this->getHtmlAttributes()),
         $this->getImage(), $this->getHtmlId(), 'Select Date', ($this->getDisabled() ? 'display:none;' : '')
     );
         $outputFormat = $this->getFormat();
         if (empty($outputFormat)) {
             throw new Exception('Output format is not specified. Please, specify "format" key in constructor, or set it using setFormat().');
         }
-        //$displayFormat = Varien_Date::convertZendToStrFtime($outputFormat, true, (bool)$this->getTime());
-        $displayFormat = Varien_Date::convertZendToStrFtime($outputFormat = Mage::app()->getLocale()->getDateTimeFormat( Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
+        $displayFormat = Varien_Date::convertZendToStrFtime('M/d/yyyy H:mm:ss', true, true);
         $html .= sprintf('
             <script type="text/javascript">
             //<![CDATA[
@@ -182,7 +179,7 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
             </script>',
             $this->getHtmlId(), $displayFormat,
             //$this->getTime() ? 'true' : 'false', $this->getHtmlId()
-        	$this->getTime() ? ‘true’ : 'true', $this->getHtmlId()
+        	$this->getTime() ? 'true' : 'true', $this->getHtmlId()
         );
 
         $html .= $this->getAfterElementHtml();
