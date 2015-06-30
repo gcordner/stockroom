@@ -45,7 +45,7 @@ set_time_limit(0);
 ?>
 <?php
 $dir_root=Mage::getBaseDir();
-$flag=0;
+$flag='0';
 
 
 /* code for check file permission and file  start */
@@ -155,11 +155,9 @@ try
         $msgcollection.=  "<br/><br/>Products are successfully imported<br/><br/>";
     }
     else{
-        $flag=1;
         $e = new Exception("xmlimport : product not found.");
         Mage::logException($e);
         $msgcollection.=  '<br/><br/> product not found<br/><br/>';
-        throw $e;
     }
     /* Code End for import Products */
     
@@ -177,74 +175,36 @@ try
     /* Code Start for product product association*/
     $associatedProductsProducts =  $this->associatedProductsProducts();
     if($associatedProductsProducts){
-        $this->associatePdtPdt($associatedProductsProducts);
-    }
-    else{
-        
-		if(($products->type == "configurable") || ($products->type == "bundle"))
-		{
-			$e = new Exception("xmlimport : Product-Product association not found.");
-			Mage::logException($e);
-			$msgcollection.=  '<br/><br/>Product-Product association not found.<br/><br/>';
-		}else
-		{
-			//echo '<br/><br/>';
-		}
+           $this->associatePdtPdt($associatedProductsProducts);
+    }else{
+				if(($products->type == "configurable") || ($products->type == "bundle"))
+				{
+					$e = new Exception("xmlimport : Product-Product association not found.");
+					Mage::logException($e);
+					$msgcollection.=  '<br/><br/>Product-Product association not found.<br/><br/>';
+				}else
+				{
+					//echo '<br/><br/>';
+				}
     }
 	/* Code End for product product association*/
     
 }
 catch(Exception $e)
 {
+	$flag='1';
 	Mage::logException($e);
 }
 
 /* Code start for change file name after complete*/
-if($flag)
+if($flag=='1')
 {
-    //Error
 	$is_exist=file_exists($current_file_path);
 	if($is_exist=='1')
 	{
 		rename($current_file_path, $new_error_file_path);
 	}
    	$finalImportStatus =  'Error in xml file to import';
-   	$emailTemplate = Mage::getModel('core/email_template')->loadDefault('import_status_failed');
-   	
-   	//Getting the Store E-Mail Sender Name.
-   	$senderName = Mage::getStoreConfig('trans_email/ident_general/name');
-   	
-   	//Getting the Store General E-Mail.
-   	$senderEmail = Mage::getStoreConfig('trans_email/ident_general/email');
-   	
-   	//Variables for Confirmation Mail.
-   	$emailTemplateVariables = array();
-   	$emailTemplateVariables['msgcol'] = $msgcollection;
-   	$emailTemplateVariables['finalstatus'] = $finalImportStatus;
-   	$emailTemplateVariables['customer_name']='';
-   	//Appending the Custom Variables to Template.
-   	$processedTemplate = $emailTemplate->getProcessedTemplate($emailTemplateVariables);
-   	/* Sender Email */
-   	$reciverEmail=Mage::getStoreConfig('trans_email/ident_custom1/email');
-   	//Sending E-Mail to Customers.
-   	$mail = Mage::getModel('core/email')
-   	->setToName($senderName)
-   	->setToEmail($reciverEmail)
-   	->setBody($processedTemplate)
-   	->setSubject($finalImportStatus)
-   	->setFromEmail($senderEmail)
-   	->setFromName($senderName)
-   	->setType('html');
-   	try{
-   	    //Confimation E-Mail Send
-   	    $mail->send();
-   	}
-   	catch(Exception $error)
-   	{
-   	    Mage::getSingleton('core/session')->addError($error->getMessage());
-   	    return false;
-   	}
-   	
 }
 else
 {
@@ -259,7 +219,7 @@ else
    	echo $msgcollection ."<br/><br/>". $finalImportStatus.'<br/><br/>' ;
 //sending email
 if(isset($finalImportStatus)){
-   	$emailTemplate = Mage::getModel('core/email_template')->loadDefault('import_status');
+   	$emailTemplate = Mage::getModel('core/email_template')->loadDefault('Import Status');
    	
    	//Getting the Store E-Mail Sender Name.
    	$senderName = Mage::getStoreConfig('trans_email/ident_general/name');
@@ -271,11 +231,10 @@ if(isset($finalImportStatus)){
    	$emailTemplateVariables = array();
    	$emailTemplateVariables['msgcol'] = $msgcollection;
    	$emailTemplateVariables['finalstatus'] = $finalImportStatus;
-   	$emailTemplateVariables['customer_name']='';
    	//Appending the Custom Variables to Template.
    	$processedTemplate = $emailTemplate->getProcessedTemplate($emailTemplateVariables);
    	/* Sender Email */
-    $reciverEmail=Mage::getStoreConfig('trans_email/ident_custom1/email');
+   $reciverEmail=Mage::getStoreConfig('trans_email/ident_custom1/email');
    	//Sending E-Mail to Customers.
    	$mail = Mage::getModel('core/email')
    	->setToName($senderName)
@@ -315,5 +274,5 @@ foreach ($indexingProcesses as $process) {
 
 ob_end_flush();
 }
-unset($_POST['upload_xml'])
+
 ?>
