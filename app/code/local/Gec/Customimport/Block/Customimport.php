@@ -664,40 +664,31 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     	$product->setSku((string)$item->id); //Product custom id
     	$product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));  //Default website (main website) ?? To Do : make it dynamic
     	$product->setStoreIDs(array($this->_store_id));    // Default store id .
-        
-    	// Added Manage Stock Functionality
-    	$manageItem=(string)$item->manageStock;
-    	$setData=NULL;
-    	if ($manageItem=='Y' || $manageItem=='y') {
-    	    $setData=1;
-    	}
-    	elseif($manageItem=='N' || $manageItem=='n') {
-    	    $setData=0;
-    	}
-    	    	
-    	if (isset($item->atp) && (strtoupper($item->allowBackorders)=='Y') ) //check if product have backorder enabled and have quantity
-    	{
-    		$product->setStockData(array(
-    				'is_in_stock' => 1,
-    				'qty' => $item->atp,
-    				'manage_stock' => $setData,
-    				'use_config_backorders' => 0,
-    				'backorders' => 1 ));
-    	}
-    	elseif (isset($item->atp))
-    	{
-    		$product->setStockData(array(      // if product have no backorder enabled
-    				'is_in_stock' => 1,
-    				'qty' => $item->atp,
-    				'manage_stock' => $setData));
-    	}
-    	else
-    	{
-    		$product->setStockData(array(
-    				'use_config_manage_stock' => 0,    // set manage stock to no
-    				'is_in_stock' => 1,
-    				'manage_stock' => $setData));
-    	}
+        $manageItem=(string)$item->manageStock;
+	    	$manageItem=strtoupper($manageItem);
+    	if (isset($item->atp) && (strtoupper($item->allowBackorders)=='Y') && $manageItem=='Y' ) //check if product have backorder enabled and have quantity
+	    	{
+	    		$product->setStockData(array(
+	    				'is_in_stock' => 1,
+	    				'qty' => $item->atp,
+	    				'manage_stock' => 1,
+	    				'use_config_backorders' => 0,
+	    				'backorders' => 1 ));
+	    	}
+	    	elseif (isset($item->atp) && $manageItem=='Y')
+	    	{
+	    		$product->setStockData(array(      // if product have no backorder enabled
+	    				'is_in_stock' => 1,
+	    				'qty' => $item->atp,
+	    				'manage_stock' => 1));
+	    	}
+	    	else
+	    	{
+	    		$product->setStockData(array(
+	    				'use_config_manage_stock' => 0,    // set manage stock to no
+	    				'is_in_stock' => 1,
+	    				'manage_stock' => 0));
+	    	}
     	$attid = $this->_getMageId($asid);
     	$product->setAttributeSetId($attid);
     	$product->setData('name', (string)$item->name);
@@ -1028,7 +1019,9 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
 	          //  $productId = $product->getId();
 	            $stockItem =Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
 	            $stockItemId = $stockItem->getId();
-	            if (isset($item->atp)) // if product item exist 
+	            $manageItem=(string)$item->manageStock;
+	            $manageItem=strtoupper($manageItem);
+	            if (isset($item->atp) && $manageItem=='Y') // if product item exist 
 	            {
 	            $stockItem->setData('manage_stock', 1); 
 	            $stockItem->setData('qty', $item->atp);
@@ -1111,7 +1104,21 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
 	        $product->setShipmentType(0);//shipment type (0 - together, 1 - separately
             
             try{
-                $product->save();                 
+                $product->save();
+                $stockItem = Mage::getModel('cataloginventory/stock_item');
+                $stockItem->assignProduct($product);
+                $manageItem=(string)$item->manageStock;
+                if($manageItem=='N' || $manageItem=='n') {
+                
+                    $stockItem->setData('use_config_manage_stock',0);
+                    $stockItem->setData('manage_stock', 0);
+                }
+                else {
+                    $stockItem->setData('use_config_manage_stock',1);
+                    $stockItem->setData('manage_stock', 1);
+                }
+                $stockItem->save();
+                
                 $this->updateBundleItems($pid);
             }
             catch (Exception $e){
