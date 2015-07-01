@@ -351,9 +351,31 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         if ($product){
             $product->setData('name', (string)$item->name);
             $product->setPrice((real)$item->price);
-            $product->setSpecialPrice((real)$item->specialPrice->amount);
-            $product->setSpecialFromDate($item->specialPrice->fromDateTime); 
-            $product->setSpecialToDate($item->specialPrice->toDateTime);
+            
+            $splAmt=(array)$item->specialPrice->amount;
+    	    if(isset($item->specialPrice->amount) && $item->specialPrice->amount!=NULL) {
+    	        if(!empty($splAmt))
+                    $product->setSpecialPrice((real)$item->specialPrice->amount); //special price in form 11.22
+    	        else
+    	            $product->setSpecialPrice("");
+            }
+            
+            $fromDate=(array)$item->specialPrice->fromDateTime;
+            if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL) {
+                if(!empty($fromDate))
+                    $product->setSpecialFromDate($item->specialPrice->fromDateTime); //special price from (MM-DD-YYYY)
+                else
+                    $product->setSpecialFromDate("");
+            }
+            
+            $toDate=(array)$item->specialPrice->toDateTime;
+            if(isset($item->specialPrice->toDateTime) && $item->specialPrice->toDateTime!=NULL) {
+                if(!empty($toDate))
+                    $product->setSpecialToDate($item->specialPrice->toDateTime); //special price to (MM-DD-YYYY)
+                else
+                    $product->setSpecialToDate("");
+            }
+            
             $product->setWeight((real)$item->weight);
             $product->setStatus($p_status);
             $product->setTaxClassId($p_taxclass);
@@ -431,6 +453,10 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                     $stockItem->setData('use_config_manage_stock',0);
                     $stockItem->setData('manage_stock', 0);
                 }
+                else {
+                    $stockItem->setData('use_config_manage_stock',1);
+                    $stockItem->setData('manage_stock', 1);
+                }
                 
                 //$stockItem->setData('manage_stock', 0);
                 $stockItem->save();
@@ -473,9 +499,27 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $product->setAttributeSetId($attid);
         $product->setData('name', (string)$item->name);
         $product->setPrice((real)$item->price);
-        $product->setSpecialPrice((real)$item->specialPrice->amount);
-        $product->setSpecialFromDate($item->specialPrice->fromDateTime);
-        $product->setSpecialToDate($item->specialPrice->toDateTime);
+        $splAmt=(array)$item->specialPrice->amount;
+    	    if(isset($item->specialPrice->amount) && $item->specialPrice->amount!=NULL) {
+    	        if(!empty($splAmt))
+                    $product->setSpecialPrice((real)$item->specialPrice->amount); //special price in form 11.22
+            }
+            
+            $fromDate=(array)$item->specialPrice->fromDateTime;
+            /*echo Mage::app()->getStore()->getStoreId();
+            $convertedDate=$this->currentStoreDate(Mage::app()->getStore()->getStoreId(),"$fromDate[0]");
+            var_dump($convertedDate);
+            exit;*/
+            if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL) {
+                if(!empty($fromDate))
+                    $product->setSpecialFromDate($item->specialPrice->fromDateTime); //special price from (MM-DD-YYYY)
+            }
+            
+            $toDate=(array)$item->specialPrice->toDateTime;
+            if(isset($item->specialPrice->toDateTime) && $item->specialPrice->toDateTime!=NULL) {
+                if(!empty($toDate))
+                    $product->setSpecialToDate($item->specialPrice->toDateTime); //special price to (MM-DD-YYYY)
+            }
         $product->setWeight((real)$item->weight);
         $product->setStatus($p_status);
         $product->setTaxClassId($p_taxclass);
@@ -658,9 +702,23 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     	$product->setAttributeSetId($attid);
     	$product->setData('name', (string)$item->name);
     	$product->setPrice((real)$item->price);
-    	$product->setSpecialPrice((real)$item->specialPrice->amount);
-    	$product->setSpecialFromDate($item->specialPrice->fromDateTime);
-    	$product->setSpecialToDate($item->specialPrice->toDateTime);
+    	$splAmt=(array)$item->specialPrice->amount;
+    	    if(isset($item->specialPrice->amount) && $item->specialPrice->amount!=NULL) {
+    	        if(!empty($splAmt))
+                    $product->setSpecialPrice((real)$item->specialPrice->amount); //special price in form 11.22
+            }
+            
+            $fromDate=(array)$item->specialPrice->fromDateTime;
+            if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL) {
+                if(!empty($fromDate))
+                    $product->setSpecialFromDate($item->specialPrice->fromDateTime); //special price from (MM-DD-YYYY)
+            }
+            
+            $toDate=(array)$item->specialPrice->toDateTime;
+            if(isset($item->specialPrice->toDateTime) && $item->specialPrice->toDateTime!=NULL) {
+                if(!empty($toDate))
+                    $product->setSpecialToDate($item->specialPrice->toDateTime); //special price to (MM-DD-YYYY)
+            }
     	$product->setWeight((real)$item->weight);
     	$product->setStatus($p_status);
     	$product->setTaxClassId($p_taxclass);
@@ -784,9 +842,24 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         $product->setAttributeSetId($attid);
         $product->setData('name', (string)$item->name);
         $product->setPrice((real)$item->price);
-        $product->setSpecialPrice((real)$item->specialPrice->amount);
-        $product->setSpecialFromDate($item->specialPrice->fromDateTime);
-        $product->setSpecialToDate($item->specialPrice->toDateTime);
+    	$splAmt=(array)$item->specialPrice->amount;
+	    if(isset($item->specialPrice->amount) && $item->specialPrice->amount!=NULL) {
+	        if(!empty($splAmt))
+                $product->setSpecialPrice((real)$item->specialPrice->amount); //special price in form 11.22
+        }
+        
+        $fromDate=(array)$item->specialPrice->fromDateTime;
+        if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL) {
+            if(!empty($fromDate))
+                $product->setSpecialFromDate($item->specialPrice->fromDateTime); //special price from (MM-DD-YYYY)
+        }
+        
+        $toDate=(array)$item->specialPrice->toDateTime;
+        if(isset($item->specialPrice->toDateTime) && $item->specialPrice->toDateTime!=NULL) {
+            if(!empty($toDate))
+                $product->setSpecialToDate($item->specialPrice->toDateTime); //special price to (MM-DD-YYYY)
+        }
+        
         $product->setWeight((real)$item->weight);
         $product->setStatus($p_status);
         $product->setTaxClassId($p_taxclass);
@@ -853,9 +926,31 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             //Product found, so we need to update it in Magento.
             $product->setData('name', (string)$item->name);
             $product->setPrice((real)$item->price);
-            $product->setSpecialPrice((real)$item->specialPrice->amount);
-            $product->setSpecialFromDate($item->specialPrice->fromDateTime);
-            $product->setSpecialToDate($item->specialPrice->toDateTime);
+            
+            $splAmt=(array)$item->specialPrice->amount;
+    	    if(isset($item->specialPrice->amount) && $item->specialPrice->amount!=NULL) {
+    	        if(!empty($splAmt))
+                    $product->setSpecialPrice((real)$item->specialPrice->amount); //special price in form 11.22
+    	        else
+    	            $product->setSpecialPrice("");
+            }
+            
+            $fromDate=(array)$item->specialPrice->fromDateTime;
+            if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL) {
+                if(!empty($fromDate))
+                    $product->setSpecialFromDate($item->specialPrice->fromDateTime); //special price from (MM-DD-YYYY)
+                else
+                    $product->setSpecialFromDate("");
+            }
+            
+            $toDate=(array)$item->specialPrice->toDateTime;
+            if(isset($item->specialPrice->toDateTime) && $item->specialPrice->toDateTime!=NULL) {
+                if(!empty($toDate))
+                    $product->setSpecialToDate($item->specialPrice->toDateTime); //special price to (MM-DD-YYYY)
+                else
+                    $product->setSpecialToDate("");
+            }
+            
             $product->setWeight((real)$item->weight);
             $product->setStatus($p_status);
             $product->setTaxClassId($p_taxclass);
@@ -977,9 +1072,31 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         if ($product){
         	$product->setData('name', (string)$item->name);
 	        $product->setPrice((real)$item->price);
-	        $product->setSpecialPrice((real)$item->specialPrice->amount);
-	        $product->setSpecialFromDate($item->specialPrice->fromDateTime);
-	        $product->setSpecialToDate($item->specialPrice->toDateTime);
+	        
+            $splAmt=(array)$item->specialPrice->amount;
+    	    if(isset($item->specialPrice->amount) && $item->specialPrice->amount!=NULL) {
+    	        if(!empty($splAmt))
+                    $product->setSpecialPrice((real)$item->specialPrice->amount); //special price in form 11.22
+    	        else
+    	            $product->setSpecialPrice("");
+            }
+            
+            $fromDate=(array)$item->specialPrice->fromDateTime;
+            if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL) {
+                if(!empty($fromDate))
+                    $product->setSpecialFromDate($item->specialPrice->fromDateTime); //special price from (MM-DD-YYYY)
+                else
+                    $product->setSpecialFromDate("");
+            }
+            
+            $toDate=(array)$item->specialPrice->toDateTime;
+            if(isset($item->specialPrice->toDateTime) && $item->specialPrice->toDateTime!=NULL) {
+                if(!empty($toDate))
+                    $product->setSpecialToDate($item->specialPrice->toDateTime); //special price to (MM-DD-YYYY)
+                else
+                    $product->setSpecialToDate("");
+            }
+            
 	        $product->setWeight((real)$item->weight);
 	        $product->setStatus($p_status);
 	        $product->setTaxClassId($p_taxclass);
