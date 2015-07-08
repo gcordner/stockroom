@@ -450,8 +450,8 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                 $stockItem->setData('use_config_max_sale_qty', 1);
                 $stockItem->setData('is_in_stock', 1);
                 $stockItem->setData('use_config_notify_stock_qty', 1);
-                
-                $manageItem=(string)$item->manageStock;
+                $inventory =  $item->inventory;
+                $manageItem=(string)$inventory->manageStock;
                 if($manageItem=='N' || $manageItem=='n') {
                     
                     $stockItem->setData('use_config_manage_stock',0);
@@ -620,8 +620,9 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                     $stockItem->setData('is_in_stock', 1);
                     $stockItem->setData('use_config_notify_stock_qty', 1);
                     // Manage Stock
-                    $manageItem=(string)$item->manageStock;
-                    if($manageItem=='N' || $manageItem=='n') {
+					$inventory =  $item->inventory;
+                    $manageItem=(string)strtoupper($inventory->manageStock);
+                    if($manageItem=='N') {
                         
                         $stockItem->setData('use_config_manage_stock',0);
                         $stockItem->setData('manage_stock', 0);
@@ -664,31 +665,33 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     	$product->setSku((string)$item->id); //Product custom id
     	$product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));  //Default website (main website) ?? To Do : make it dynamic
     	$product->setStoreIDs(array($this->_store_id));    // Default store id .
-        $manageItem=(string)$item->manageStock;
+		$inventory =  $item->inventory;
+        $manageItem=(string)$inventory->manageStock;
 	    	$manageItem=strtoupper($manageItem);
-    	if (isset($item->atp) && (strtoupper($item->allowBackorders)=='Y') && $manageItem=='Y' ) //check if product have backorder enabled and have quantity
+    	if ($manageItem=='Y' &&(strtoupper($inventory->allowBackorders)=='Y')) 
 	    	{
 	    		$product->setStockData(array(
 	    				'is_in_stock' => 1,
-	    				'qty' => $item->atp,
+	    				'qty' => $inventory->atp,
 	    				'manage_stock' => 1,
 	    				'use_config_backorders' => 0,
 	    				'backorders' => 1 ));
 	    	}
-	    	elseif (isset($item->atp) && $manageItem=='Y')
+	    	elseif ($manageItem=='Y')
 	    	{
-	    		$product->setStockData(array(      // if product have no backorder enabled
+	    		$product->setStockData(array(    
 	    				'is_in_stock' => 1,
-	    				'qty' => $item->atp,
+	    				'qty' => $inventory->atp,
+						'use_config_backorders' => 0,
 	    				'manage_stock' => 1));
 	    	}
-	    	else
+			elseif ($manageItem=='N')
 	    	{
-	    		$product->setStockData(array(
-	    				'use_config_manage_stock' => 0,    // set manage stock to no
-	    				'is_in_stock' => 1,
-	    				'manage_stock' => 0));
-	    	}
+	    		$product->setStockData(array(      
+	    				'use_config_backorders' => 0,
+						'manage_stock' => 0));
+						}
+	    	
     	$attid = $this->_getMageId($asid);
     	$product->setAttributeSetId($attid);
     	$product->setData('name', (string)$item->name);
@@ -884,8 +887,9 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         	$stockItem->setData('use_config_notify_stock_qty', 1);
         	// Added Manage Stock Functionality
             // Manage Stock
-            $manageItem=(string)$item->manageStock;
-            if($manageItem=='N' || $manageItem=='n') {
+			$inventory =  $item->inventory;
+            $manageItem=(string)strtoupper($inventory->manageStock);
+            if($manageItem=='N') {
                 
                 $stockItem->setData('use_config_manage_stock',0);
                 $stockItem->setData('manage_stock', 0);
@@ -1019,24 +1023,25 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
 	          //  $productId = $product->getId();
 	            $stockItem =Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
 	            $stockItemId = $stockItem->getId();
-	            $manageItem=(string)$item->manageStock;
+				$inventory =  $item->inventory;
+	            $manageItem=(string)$inventory->manageStock;
 	            $manageItem=strtoupper($manageItem);
-	            if (isset($item->atp) && $manageItem=='Y') // if product item exist 
+	            if ( $manageItem=='Y') // if product item exist 
 	            {
 	            $stockItem->setData('manage_stock', 1); 
-	            $stockItem->setData('qty', $item->atp);
+	            $stockItem->setData('qty', $inventory->atp);
 	            }
 	            else 
 	            {
 	            	$stockItem->setData('use_config_manage_stock', 0);
 	            	$stockItem->setData('manage_stock', 0); // manage stock to no
 	            }
-	            if (strtoupper($item->allowBackorders)=='Y' )// if back order allowed 
+	            if (strtoupper($inventory->allowBackorders)=='Y' )// if back order allowed 
 	            {
 	            	$stockItem->setData('use_config_backorders', 0);
 	            	$stockItem->setData('backorders', 1);
 	            }
-	            if (strtoupper($item->allowBackorders)=='N' )// if back order allowed 
+	            if (strtoupper($inventory->allowBackorders)=='N' )// if back order allowed 
 	            {
 	            	$stockItem->setData('use_config_backorders', 0);
 	            	$stockItem->setData('backorders', 0);
@@ -1107,8 +1112,9 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
                 $product->save();
                 $stockItem = Mage::getModel('cataloginventory/stock_item');
                 $stockItem->assignProduct($product);
-                $manageItem=(string)$item->manageStock;
-                if($manageItem=='N' || $manageItem=='n') {
+				$inventory =  $item->inventory;
+                $manageItem=(string)$inventory->manageStock;
+                if($manageItem=='N') {
                 
                     $stockItem->setData('use_config_manage_stock',0);
                     $stockItem->setData('manage_stock', 0);
