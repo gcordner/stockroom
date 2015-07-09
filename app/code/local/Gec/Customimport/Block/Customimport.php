@@ -16,7 +16,6 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **/
-
 class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalogimport
 { 
     public function parseXml($xmlPath){
@@ -649,6 +648,8 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         }
     }
     public function createProduct(&$item, $asid){
+		$logFileName = Mage::getSingleton('core/session')->getEmailID();
+		echo $logFileName;
     	//check attribute set existance
     	$attid = $this->_getMageId($asid);
     	$attributeSetModel = Mage::getModel('eav/entity_attribute_set');
@@ -661,24 +662,22 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     	$product = new Mage_Catalog_Model_Product();
     	$product->setTypeId('simple');
     	$product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
-    
     	$product->setSku((string)$item->id); //Product custom id
     	$product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));  //Default website (main website) ?? To Do : make it dynamic
     	$product->setStoreIDs(array($this->_store_id));    // Default store id .
 		$inventory =  $item->inventory;
         $manageItem=(string)$inventory->manageStock;
-	    	$manageItem=strtoupper($manageItem);
-    	if ($manageItem=='Y' &&(strtoupper($inventory->allowBackorders)=='Y')) 
-	    	{
+	    $manageItem=strtoupper($manageItem);
+    	if ($manageItem=='Y' &&(strtoupper($inventory->allowBackorders)=='Y')) {
 	    		$product->setStockData(array(
 	    				'is_in_stock' => 1,
 	    				'qty' => $inventory->atp,
 	    				'manage_stock' => 1,
 	    				'use_config_backorders' => 0,
 	    				'backorders' => 1 ));
-	    	}
-	    	elseif ($manageItem=='Y')
-	    	{
+	    }
+	    elseif ($manageItem=='Y')
+	    {
 	    		$product->setStockData(array(    
 	    				'is_in_stock' => 1,
 	    				'qty' => $inventory->atp,
@@ -797,7 +796,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     			else{
     				Mage::log('xmlimport : Skipped product due to improper attribute values :'.(string)$item->id);
     				echo '"<br/><br/>".Skipped product due to improper attribute values :'.(string)$item->id ."<br/><br/>";
-    				// Mage::log('Skipped product due to improper attribute values :'.(string)$item->id,null,'catalogimport.log');
     			}
     		}else{
     			Mage::log('xmlimport : Skipped product due to some error while save : '.(string)$item->id);
@@ -1028,24 +1026,26 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
 	            $manageItem=strtoupper($manageItem);
 	            if ( $manageItem=='Y') // if product item exist 
 	            {
-	            $stockItem->setData('manage_stock', 1); 
-	            $stockItem->setData('qty', $inventory->atp);
+					$stockItem->setData('manage_stock', 1);
+					$stockItem->setData('is_in_stock' , 1);	
+					$stockItem->setData('qty', $inventory->atp);
+					if (strtoupper($inventory->allowBackorders)=='Y' )// if back order allowed 
+					{
+						$stockItem->setData('use_config_backorders', 0);
+						$stockItem->setData('backorders', 1);
+					}
+					if (strtoupper($inventory->allowBackorders)=='N' )// if back order allowed 
+					{
+						$stockItem->setData('use_config_backorders', 0);
+						$stockItem->setData('backorders', 0);
+					}
 	            }
 	            else 
 	            {
 	            	$stockItem->setData('use_config_manage_stock', 0);
 	            	$stockItem->setData('manage_stock', 0); // manage stock to no
 	            }
-	            if (strtoupper($inventory->allowBackorders)=='Y' )// if back order allowed 
-	            {
-	            	$stockItem->setData('use_config_backorders', 0);
-	            	$stockItem->setData('backorders', 1);
-	            }
-	            if (strtoupper($inventory->allowBackorders)=='N' )// if back order allowed 
-	            {
-	            	$stockItem->setData('use_config_backorders', 0);
-	            	$stockItem->setData('backorders', 0);
-	            }
+
 	            Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 	            $stockItem->save();
 	            unset($product);
