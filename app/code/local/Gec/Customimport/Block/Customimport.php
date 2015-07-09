@@ -305,42 +305,38 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             return false;
         }
         $itemids = $this->getItemIds($item,$Currfilepath,$Errfilepath);
-        if ($itemids!=NULL) {
-            
-            $pid = $itemids["pid"];
-            $asid = $itemids["asid"];
-        
-            if(!isset($pid))
-            {
-                if(!isset($asid)){
-                    Mage::log('xmlimport : cannot create product sku:'.(string)$item->id);
-                    return false;
-                }
-                if((string)$item->type == 'configurable'){
-                    $this->createConfigurableProduct($item, $asid); //create con product
-                }
-                else if((string)$item->type == 'simple'){
-                    $this->createProduct($item, $asid); //create simple product
-                }
-                else if((string)$item->type == 'bundle'){
-                	$this->createBundleProduct($item, $asid); //create bundle product
-                }
-                else{
-                     Mage::log("xmlimport : Import function does not support product type of record: {$item->id}");
-                }
-                $this->_curitemids["pid"] = $pid;
-                $isnew = true;
+        $pid = $itemids["pid"];
+        $asid = $itemids["asid"];
+        if(!isset($pid))
+        {
+            if(!isset($asid)){
+                Mage::log('xmlimport : cannot create product sku:'.(string)$item->id);
+                return false;
+            }
+            if((string)$item->type == 'configurable'){
+                $this->createConfigurableProduct($item, $asid); //create con product
+            }
+            else if((string)$item->type == 'simple'){
+                $this->createProduct($item, $asid); //create simple product
+            }
+            else if((string)$item->type == 'bundle'){
+            	$this->createBundleProduct($item, $asid); //create bundle product
             }
             else{
-                if((string)$item->type == 'configurable'){
-                    $this->updateConfigurableProduct($item, $pid); //create con product
-                }
-                else if((string)$item->type == 'simple'){
-                    $this->updateProduct($item, $pid); //create simple product
-                }
-                else if((string)$item->type == 'bundle'){
-                	$this->updateBundleProduct($item, $pid); //create simple product
-                }
+                 Mage::log("xmlimport : Import function does not support product type of record: {$item->id}");
+            }
+            $this->_curitemids["pid"] = $pid;
+            $isnew = true;
+        }
+        else{
+            if((string)$item->type == 'configurable'){
+                $this->updateConfigurableProduct($item, $pid); //create con product
+            }
+            else if((string)$item->type == 'simple'){
+                $this->updateProduct($item, $pid); //create simple product
+            }
+            else if((string)$item->type == 'bundle'){
+            	$this->updateBundleProduct($item, $pid); //create simple product
             }
         }
     }
@@ -509,6 +505,10 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
             }
             
             $fromDate=(array)$item->specialPrice->fromDateTime;
+            /*echo Mage::app()->getStore()->getStoreId();
+            $convertedDate=$this->currentStoreDate(Mage::app()->getStore()->getStoreId(),"$fromDate[0]");
+            var_dump($convertedDate);
+            exit;*/
             if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL) {
                 if(!empty($fromDate))
                     $product->setSpecialFromDate($item->specialPrice->fromDateTime); //special price from (MM-DD-YYYY)
@@ -1174,16 +1174,15 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     	{
     		$external_set_id =  (string)$item->attributeSetId;
     		$mapObj =  Mage::getModel('customimport/customimport');
-            $magento_set_id = $mapObj->getAttributeSetIdByExternalId($external_set_id);
-            if($magento_set_id == "")
-            { 
-    			$e = new Exception("xmlimport : Attribute '.$external_set_id . ' is not available in magento database.");
-    			Mage::logException($e);
-    			echo '<br/><br/>Attribute '.$external_set_id . ' is not available in magento database.<br/><br/>';
-    			//rename($Currfilepath, $Errfilepath);
-    			//die;
-    			return NULL;
-            }
+        $magento_set_id = $mapObj->getAttributeSetIdByExternalId($external_set_id);
+        if($magento_set_id == "")
+        { 
+					$e = new Exception("xmlimport : Attribute '.$external_set_id . ' is not available in magento database.");
+					Mage::logException($e);
+					echo '<br/><br/>Attribute '.$external_set_id . ' is not available in magento database.<br/><br/>';
+					rename($Currfilepath, $Errfilepath);
+					die;
+        }
     	}
     	/* Code for Attribute set for product end */
     	
