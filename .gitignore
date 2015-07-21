@@ -1,5 +1,6 @@
 app/design/adminhtml/default/default/template/system/cache
 app/design/adminhtml/default/default/template/pagecache/cache
+app/etc/local.xml
 media/catalog/product/
 media/catalog/product/cache
 var/cache
