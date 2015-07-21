@@ -11,6 +11,7 @@ var/locks/*
 var/package/*
 var/log/*
 var/report/*
+var/export
 xmlfiles/*
 delattriset.php
 .thumbs
