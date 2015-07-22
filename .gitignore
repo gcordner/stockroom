@@ -15,6 +15,7 @@ var/export
 xmlfiles/*
 delattriset.php
 .thumbs
+.htaccess
 README.md
 downloader/cache.cfg
 downloader/connect.cfg
