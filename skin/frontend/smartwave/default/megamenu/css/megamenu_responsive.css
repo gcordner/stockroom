@@ -9,3 +9,9 @@
         display: none;
     }
 }
+
+@media (min-width: 992px) {
+	.mobile-nav-shown .mobile-nav, .mobile-nav-shown .home-side-menu .mobile-nav {
+	  display: none;
+	}
+}

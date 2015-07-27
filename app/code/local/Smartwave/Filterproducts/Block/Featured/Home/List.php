@@ -25,7 +25,7 @@ class Smartwave_Filterproducts_Block_Featured_Home_List extends Smartwave_Filter
             $products = $this->_addProductAttributesAndPrices($products)
             ->addCategoryFilter($category)
             ->addAttributeToFilter(array(array('attribute' => 'featured', 'eq' => '1')))
-            ->addAttributeToSort('created_at', 'desc')
+            //->addAttributeToSort('created_at', 'desc')
             ->setStoreId($storeId)
             ->addStoreFilter($storeId);
 
@@ -33,11 +33,11 @@ class Smartwave_Filterproducts_Block_Featured_Home_List extends Smartwave_Filter
         else {
             $products = $this->_addProductAttributesAndPrices($products)
             ->addAttributeToFilter(array(array('attribute' => 'featured', 'eq' => '1')))
-            ->addAttributeToSort('created_at', 'desc')
+            //->addAttributeToSort('created_at', 'desc')
             ->setStoreId($storeId)
             ->addStoreFilter($storeId);
         }
-        
+        $products->getSelect()->order(new Zend_Db_Expr("RAND()"));
         $product_count = $this->getProductCount();
             
         if($product_count)

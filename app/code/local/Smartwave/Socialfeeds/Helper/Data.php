@@ -20,12 +20,12 @@ class Smartwave_Socialfeeds_Helper_Data extends Mage_Core_Helper_Abstract
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         if ($useragent)
             curl_setopt($ch, CURLOPT_USERAGENT, $useragent);
+		curl_setopt( $ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         
         $data = curl_exec($ch);
         curl_close($ch);
-        
         return $data;
     }
     
@@ -52,7 +52,6 @@ class Smartwave_Socialfeeds_Helper_Data extends Mage_Core_Helper_Abstract
     }
     
     function fetch_fb_fans($fb_id, $limit = 10){
-        
         $ret = array();
         $matches = array();
         $url = 'https://www.facebook.com/plugins/likebox.php?href=https://www.facebook.com/' . $fb_id . '&connections=' . $limit;
@@ -63,6 +62,19 @@ class Smartwave_Socialfeeds_Helper_Data extends Mage_Core_Helper_Abstract
         @$doc->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . $like_html);
         $peopleList = array();
         $i = 0;
+
+		if (!$doc)
+			return false;
+
+		$result = array();
+		$link = $doc->getElementById('u_0_4');
+		$result['link'] = 'https://www.facebook.com/'.$fb_id;
+		$result['like'] = '';
+		if (isset($link)) {
+			foreach ($link->childNodes as $child) {
+				$result['like'] .= $link->ownerDocument->saveHTML($child);
+			} 
+		}
 
         foreach ($doc->getElementsByTagName('ul')->item(0)->childNodes as $child) {
             $raw = $doc->saveXML($child);
@@ -86,14 +98,15 @@ class Smartwave_Socialfeeds_Helper_Data extends Mage_Core_Helper_Abstract
             $img_in_base64 = str_replace($protocols, "", $image);
 
             $html .= '<div class="fb-person">';
-            //if ($link != "") {
-                $html .= "<a href=\"".$link."\" title=\"".$name."\" target=\"_blank\"><img src=\"".$img_in_base64."\" alt=\"\" />".$name."</a>";
-            //} else {
-           //     $html .= "<span title=\"".$name."\"></span>";
-           // }
-            $html .= '</div>';
+            if ($link != "") {
+                $html .= "<a href=\"".$link."\" title=\"".$name."\" target=\"_blank\"><img src=\"".$img_in_base64."\" alt=\"\" /></a>";
+            } else {
+                $html .= "<span title=\"".$name."\"><img src=\"".$img_in_base64."\" alt=\"\" /></span>";
+            }
+            $html .= $name.'</div>';
         }
-        return $html;
+		$result['fans'] = $html;
+        return $result;
     }
     
     // get facebook fans
@@ -102,24 +115,11 @@ class Smartwave_Socialfeeds_Helper_Data extends Mage_Core_Helper_Abstract
         
         if (!$fb['enabled'])
             return false;
-        
+            
         $limit = $fb['show_counts'];
         $fb_name = $fb['name'];
         
         // get page info from graph
-        $fanpage_data = (array)json_decode($this->file_get_contents_curl('http://graph.facebook.com/' . $fb_name));
-        
-        if(empty($fanpage_data['id'])){
-            // invalid fanpage name
-            return false;
-        }
-        $result = array();
-        $result['profile'] = $fanpage_data;
-        $result['fans'] = $this->fetch_fb_fans($fanpage_data['id'], $limit);
-        $result['limit'] = $limit;
-        
-        return $result;
+	    return $this->fetch_fb_fans($fb_name, $limit);
     }
-    
-   
 }

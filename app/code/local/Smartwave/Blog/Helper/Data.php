@@ -59,6 +59,11 @@ class Smartwave_Blog_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->isTitle($store);
     }
 
+    public function getMetaTitle($store = null)
+    {
+        return $this->conf('blog/blog/meta_title', $store);
+    }
+
     public function getMetaKeywords($store = null)
     {
         return $this->conf(self::XML_PATH_KEYWORDS, $store);
@@ -164,6 +169,7 @@ class Smartwave_Blog_Helper_Data extends Mage_Core_Helper_Abstract
         if (!$route) {
             $route = self::DEFAULT_ROOT;
         }
+        //$route .= "/index/";
         return $route;
     }
 

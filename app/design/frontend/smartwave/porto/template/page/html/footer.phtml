@@ -63,6 +63,9 @@
                         if( $type== 'flickr' ){
                             echo $this->getChildHtml('flickr');
                         }
+                        if( $type== 'twitter' ){
+                            echo Mage::getSingleton("core/layout")->getBlock("tweets")->setTemplate("socialfeeds/footer_middle_twitterfeed.phtml")->toHtml();
+                        }
                         if( $type ){
                             echo '</div>';
                         }
@@ -72,6 +75,42 @@
                 ?>
                 </div>
                 <?php echo $this->getChildHtml("demo_footer_tooltip"); ?>
+            </div>
+        </div>
+    <?php
+        }
+        if( $footer['footer_middle_2_enabled'] ){
+    ?>
+        <div class="footer-middle footer-middle-2">
+            <div class="container">
+                <div class="row">
+                <?php
+                    for( $i = 1; $i <= 4; $i++ ){
+                        $area = 'footer_middle_2_column_'.$i;
+                        $type = $footer[$area];
+                        if( $type ){
+                            echo '<div class="col-sm-'.$footer[$area.'_size'].'">';
+                        }
+                        if( $type == 'custom' ){
+                            echo $this->getLayout()->createBlock('cms/block')->setBlockId($footer[$area.'_custom'])->toHtml();
+                        }
+                        if( $type == 'newsletter' ){
+                            echo $this->getChildHtml('footer.newsletter');
+                        }
+                        if( $type== 'facebook' ){
+                            echo $this->getChildHtml('facebook_fans');
+                        }
+                        if( $type== 'flickr' ){
+                            echo $this->getChildHtml('flickr');
+                        }
+                        if( $type ){
+                            echo '</div>';
+                        }
+                ?>
+                <?php
+                    }
+                ?>
+                </div>
             </div>
         </div>
     <?php
@@ -86,9 +125,11 @@
                     <a href="<?php echo $this->getUrl('') ?>" class="logo"><img src="<?php echo $this->getSkinUrl($footer['footer_logo']); ?>" alt=""/></a>
                 <?php
                 }
+                if($footer['footer_bottom_socialicons']){
                 ?>
                 <?php echo $this->getChildHtml('socialicons'); ?>
                 <?php
+                }
                 if($footer['footer_bottom_custom_block'] && $footer['footer_bottom_custom_block_id']){
                     echo '<div class="custom-block">'.$this->getLayout()->createBlock('cms/block')->setBlockId($footer['footer_bottom_custom_block_id'])->toHtml().'</div>';
                 }
@@ -99,6 +140,7 @@
                 }
                 ?>
                 <address><?php echo $footer['copyrights'] ?></address>
+                <?php if($footer['footer_bottom_store_switcher']) echo $this->getChildHtml("store_switcher"); ?>
             </div>
         </div>
     <?php

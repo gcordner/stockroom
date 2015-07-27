@@ -6,7 +6,7 @@
  * @package    Mage_Catalog
  */
 
-require_once('app/code/core/Mage/Catalog/controllers/CategoryController.php');
+require_once(Mage::getBaseDir().'/app/code/core/Mage/Catalog/controllers/CategoryController.php');
 class Smartwave_Ajaxcatalog_Catalog_CategoryController extends Mage_Catalog_CategoryController
 {
 

@@ -41,15 +41,21 @@ class Smartwave_Ajaxcatalog_Model_Catalogsearch_Layer extends Mage_CatalogSearch
     }
     
     
-    /*
-    * convert Price as per currency
-    *
-    * @return currency
-    */
     public function getMaxPriceFilter(){
         if(isset($_GET['max']))
-            return round($_GET['max']/$this->currentRate);
+            return ceil($_GET['max']/$this->currentRate);
         return 0;
     }
     
+    
+    /*
+    * Convert Min Price to current currency
+    *
+    * @return currency
+    */
+    public function getMinPriceFilter(){
+        if(isset($_GET['min']))
+            return floor($_GET['min']/$this->currentRate);
+        return 0;
+    }
 }

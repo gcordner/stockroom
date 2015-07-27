@@ -10,9 +10,8 @@
 </div>
 <div id="after-loading-success-message">
 	<div class ="background-overlay"></div>
-	<div id="success-message-container" class="loader" ><?php echo $this->__("Product was successfully added to your shopping cart.") ?>
+	<div id="success-message-container" class="loader" ><div class="msg-box"><?php echo $this->__("Product was successfully added to your shopping cart.") ?></div>
     <?php $autoclose = Mage::getStoreConfig('ajaxcart/addtocart/autoclose', $code);?>
-    <div class="timer theme-color"><?php echo ($autoclose && is_numeric($autoclose))?$autoclose:5; ?></div>
 	<button type="button" name="finish_and_checkout" id="finish_and_checkout" class="button btn-cart" ><span><span>
 	<?php $gotocarttext = Mage::getStoreConfig('ajaxcart/addtocart/gotocarttext', $code);?>
 	<?php if (!empty($gotocarttext)): ?>
@@ -27,13 +26,19 @@
 	<?php if (!empty($continueshoppingtext)): ?>
 		<?php echo $continueshoppingtext; ?>
 	<?php else:?>
-		<?php echo $this->__("Continue shopping") ?>
+		<?php echo $this->__("Continue") ?>
 	<?php endif;?>
 	</span></span></button>
     </div>
 </div>	
 <script type='text/javascript'>
-	jQuery('#finish_and_checkout').click(function(){location.href = '<?php echo $this->getUrl('checkout/cart') ?>'});
+	jQuery('#finish_and_checkout').click(function(){
+        try{
+            parent.location.href = '<?php echo $this->getUrl('checkout/cart') ?>';
+        }catch(err){
+            location.href = '<?php echo $this->getUrl('checkout/cart') ?>';
+        }
+    });
 	jQuery('#continue_shopping').click(function(){
         jQuery('#after-loading-success-message').fadeOut(200);
         clearTimeout(ajaxcart_timer);

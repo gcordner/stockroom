@@ -2,15 +2,42 @@
 
 class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
 {
+	protected static $_model;
+	protected static $_helper;
+	protected static $_cms_block_model;
+	protected static $_processor;
+	protected static $_key_current;
+
+	protected function _construct()
+    {
+		if (!self::$_helper) {
+            self::$_helper = Mage::helper('megamenu');
+        }
+        if (!self::$_model) {
+            self::$_model = Mage::getModel('catalog/category');
+        }
+		if (!self::$_cms_block_model) {
+			self::$_cms_block_model = Mage::getModel('cms/block');
+		}
+		if (!self::$_processor) {
+			$proc_helper = Mage::helper('cms');
+			self::$_processor = $proc_helper->getPageTemplateProcessor();
+		}
+		if (!self::$_key_current) {
+			self::$_key_current = $this->getCurrentCategory()->getId();
+		}
+		
+    }
+
     public function drawMegaMenuItem($category,$mode = 'dt', $level = 0, $last = false)
     {
-        $_menuHelper = Mage::helper('megamenu');
+        $_menuHelper = self::$_helper;
         if (!$category->getIsActive()) return '';
         $html = array();
         $id = $category->getId();
         // --- Block Options ---
         $catModel = Mage::getModel('catalog/category')->load($id);
-        $blockType = $this->_getBlocks($catModel, 'sw_cat_block_type');        
+        $blockType = $this->_getBlocks($catModel, 'sw_cat_block_type');
         if (!$blockType || $blockType == 'default')
             $blockType = $_menuHelper->getConfig('general/wide_style');    //Default Format is wide style.
         if ($mode == 'mb')
@@ -46,9 +73,11 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
         
         // --- class for active category ---
         $active = ''; if ($this->isCategoryActive($category)) $active = ' act';
-        $staticWidth = "500px";
-        if($catModel->getData('sw_cat_static_width'))
-            $staticWidth = $catModel->getData('sw_cat_static_width');
+
+        $staticWidth = $catModel->getData('sw_cat_static_width');
+        if(!$staticWidth)
+			$staticWidth = "500px";
+            
         // --- category name ---
         $name = $this->escapeHtml($category->getName());
         if (Mage::getStoreConfig('megamenu/general/non_breaking_space')) {
@@ -134,7 +163,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
 //    custom block 
     public function drawCustomBlock() 
     {
-        $_menuHelper = Mage::helper('megamenu');
+        $_menuHelper = self::$_helper;
         $blockIds = $_menuHelper->getConfig('custom/custom_block');        
         if (!$blockIds) return;
         
@@ -142,14 +171,12 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
         $blockIds = preg_replace('/\s/', '', $blockIds);
         $IDs = explode(',', $blockIds);
         foreach ($IDs as $blockId) {
-            $block = Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load($blockId);            
+            $block = self::$_cms_block_model->setStoreId(Mage::app()->getStore()->getId())->load($blockId);            
             if (!$block) continue;
                         
             $blockTitle = $block->getTitle();            
             $blockContent = $block->getContent(); 
-            $proc_helper = Mage::helper('cms');
-            $processor = $proc_helper->getPageTemplateProcessor();
-            $blockContent = $processor->filter($blockContent);           
+            $blockContent = self::$_processor->filter($blockContent);
             if (!$blockContent) continue;
             $html[] = '<li class="menu-full-width">';
             $html[] = '<a href="javascript:void();" rel="#">';
@@ -172,7 +199,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
     
     public function drawCustomMobileLinks()
     {
-        $_menuHelper = Mage::helper('megamenu');
+        $_menuHelper = self::$_helper;
         $blockIds = $_menuHelper->getConfig('custom/custom_mobile_links');        
         if (!$blockIds) return;
         
@@ -180,9 +207,10 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
         $blockIds = preg_replace('/\s/', '', $blockIds);
         $IDs = explode(',', $blockIds);
         foreach ($IDs as $blockId) {
-            $block = Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load($blockId);
+            $block = self::$_cms_block_model->setStoreId(Mage::app()->getStore()->getId())->load($blockId);
             if (!$block) continue;
             $menuItemContent = $block->getContent();
+            $menuItemContent = self::$_processor->filter($menuItemContent);
             if(substr($menuItemContent, 0, 4) == '<ul>') {
                 $menuItemContent = substr($menuItemContent, 4);                
             }
@@ -198,7 +226,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
     
     public function drawCustomLinks()
     {
-        $_menuHelper = Mage::helper('megamenu');
+        $_menuHelper = self::$_helper;
         $blockIds = $_menuHelper->getConfig('custom/custom_links');
         if (!$blockIds) return;        
         
@@ -206,12 +234,10 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
         $blockIds = preg_replace('/\s/', '', $blockIds);
         $IDs = explode(',', $blockIds);
         foreach($IDs as $blockId) {
-            $block = Mage::getModel('cms/block')->setStoreId(Mage::app()->getStore()->getId())->load($blockId);
+            $block = self::$_cms_block_model->setStoreId(Mage::app()->getStore()->getId())->load($blockId);
             if (!$block) continue;
             $menuItemContent = $block->getContent();
-            $proc_helper = Mage::helper('cms');
-            $processor = $proc_helper->getPageTemplateProcessor();
-            $menuItemContent = $processor->filter($menuItemContent);  
+            $menuItemContent = self::$_processor->filter($menuItemContent);  
             if(substr($menuItemContent, 0, 4) == '<ul>') {
                 $menuItemContent = substr($menuItemContent, 4);                
             }
@@ -227,7 +253,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
     }
     public function drawMenuItem($children, $level = 1, $type, $width, $mode = 'dt')
     {
-        $keyCurrent = $this->getCurrentCategory()->getId();
+        $keyCurrent = self::$_key_current;
         $html = '';        
         foreach ($children as $child)
         {
@@ -355,61 +381,13 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
         {
             foreach ($children as $child)
             {
-                if ($this->_isCategoryDisplayed($child))
-                {
-                    array_push($activeChildren, $child);
-                }
+                array_push($activeChildren, $child);
             }
         }
         return $activeChildren;
     }
 
-    private function _isCategoryDisplayed(&$child)
-    {
-        if (!$child->getIsActive()) return false;
-        // === check products count ===
-        // --- get collection info ---
-        if (!Mage::getStoreConfig('megamenu/general/display_empty_categories'))
-        {
-            $data = $this->_getProductsCountData();
-            // --- check by id ---
-            $id = $child->getId();
-            #Mage::log($id); Mage::log($data);
-            if (!isset($data[$id]) || !$data[$id]['product_count']) return false;
-        }
-        // === / check products count ===
-        return true;
-    }
-
-    private function _getProductsCountData()
-    {
-        if (is_null($this->_productsCount))
-        {
-            $collection = Mage::getModel('catalog/category')->getCollection();
-            $storeId = Mage::app()->getStore()->getId();
-            /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
-            $collection->addAttributeToSelect('name')
-                ->addAttributeToSelect('is_active')
-                ->setStoreId($storeId);
-            if(!Mage::helper('catalog/category_flat')->isEnabled()){
-                $collection->setProductStoreId($storeId)
-                    ->setLoadProductCount(true);
-            }
-            $productsCount = array();
-            foreach($collection as $cat)
-            {
-                $productsCount[$cat->getId()] = array(
-                    'name' => $cat->getName(),
-                    'product_count' => $cat->getProductCount(),
-                );
-            }
-            #Mage::log($productsCount);
-            $this->_productsCount = $productsCount;
-        }
-        return $this->_productsCount;
-    }
-
-    private function _explodeByColumns($target, $num, $catNum)
+	private function _explodeByColumns($target, $num, $catNum)
     {
         $target = self::_explodeArrayByColumnsHorisontal($target, $num, $catNum);
         
@@ -513,7 +491,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
     {
         $label = $catModel->getData('sw_cat_label');
         if ($label) {
-            $labelContent = Mage::helper('megamenu')->getConfig('category_labels/'.$label);
+            $labelContent = self::$_helper->getConfig('category_labels/'.$label);
             if ($labelContent) {
                 if ($level = 0) {
                     return ' <span class="cat-label cat-label-'. $label .' pin-bottom">' . $labelContent . '</span>';

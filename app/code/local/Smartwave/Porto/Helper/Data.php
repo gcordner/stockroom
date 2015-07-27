@@ -105,6 +105,7 @@ class Smartwave_Porto_Helper_Data extends Mage_Core_Helper_Abstract
     }
     public function getPreviousProduct()
     {
+        $_prev_prod = NULL;
         $_product_id = Mage::registry('current_product')->getId();
 
         $cat = Mage::registry('current_category');
@@ -131,7 +132,7 @@ class Smartwave_Porto_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         if($_prev_prod != NULL){
-            return $_prev_prod->getUrlPath();
+            return $_prev_prod;
         } else {
             return false;
         }
@@ -141,6 +142,7 @@ class Smartwave_Porto_Helper_Data extends Mage_Core_Helper_Abstract
  
     public function getNextProduct()
     {
+        $_next_prod = NULL;
         $_product_id = Mage::registry('current_product')->getId();
 
         $cat = Mage::registry('current_category');
@@ -169,7 +171,7 @@ class Smartwave_Porto_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         if($_next_prod != NULL){
-            return $_next_prod->getUrlPath();
+            return $_next_prod;
         } else {
             return false;
         }
@@ -177,5 +179,126 @@ class Smartwave_Porto_Helper_Data extends Mage_Core_Helper_Abstract
     public function getCompareUrl() {
         $_helper = Mage::helper("catalog/product_compare");
         return $_helper->getListUrl();
+    }
+    public function isEnabledonConfig($id){
+        $store = Mage::app()->getStore();
+        $code  = $store->getCode();
+        if(Mage::getStoreConfig("porto_settings/product_view_custom_tab/custom_tab",$code)){
+            if(Mage::getStoreConfig("porto_settings/product_view_custom_tab/".$id,$code))
+                return true;
+        }
+        return false;
+    }
+    public function isEnabledfromCategory(){
+        $store = Mage::app()->getStore();
+        $code  = $store->getCode();
+        if(Mage::getStoreConfig("porto_settings/product_view_custom_tab/from_category",$code))
+            return true;
+        return false;
+    }
+    public function getTabIdField($type,$id){
+        $num = substr($id,-1);
+        $config_id = "";
+        switch($type){
+            case "attribute":
+                $config_id = "attribute_tab_id_".$num;
+                break;
+            case "static_block":
+                $config_id = "static_block_tab_id_".$num;
+                break;
+        }
+        return $config_id;
+    }
+    public function isEnabledonParentCategory($attribute, $category){
+        //$category = Mage::getModel("catalog/category")->load($category_id);
+        if($category->getData($attribute) == "yes"){
+            return true;
+        }
+        if($category->getData($attribute) == "no"){
+            return false;
+        }
+        if(!$category->getData($attribute)){
+            if($category->getId() == Mage::app()->getStore()->getRootCategoryId() || $category->getId() == 1){
+                return true;
+            }
+            return $this->isEnabledonParentCategory($attribute, $category->getParentCategory());
+        }
+    }
+    public function isEnabledonCategory($type, $id, $product_id){
+        $product = Mage::getModel("catalog/product")->load($product_id);
+        $attribute = "";
+        if($type=="attribute"){
+            $attribute = "sw_product_attribute_tab_".substr($id,-1);
+        }else{
+            $attribute = "sw_product_staticblock_tab_".substr($id,-1);
+        }
+        $category = $product->getCategory();
+        if(!$category){
+            $c = $product->getCategoryCollection()->addAttributeToSelect("*");
+            $category = $c->getLastItem();
+        } 
+        return $this->isEnabledonParentCategory($attribute, $category);
+    }
+    public function isEnabledTab($type, $id, $product_id){
+        $store = Mage::app()->getStore();
+        $code  = $store->getCode();
+
+        if(!$this->isEnabledonConfig($id)){
+            return false;
+        }
+        $config_id = Mage::getStoreConfig("porto_settings/product_view_custom_tab/".$this->getTabIdField($type,$id),$code);
+        if(!$config_id)
+            return false;
+        if(!$this->getTabTitle($type, $id, $product_id))
+            return false;
+        if($this->isEnabledfromCategory()){
+            if(!$this->isEnabledonCategory($type, $id, $product_id))
+                return false;
+        }
+        return true;
+    }
+    public function getTabTitle($type, $id, $product_id){
+        $store = Mage::app()->getStore();
+        $code  = $store->getCode();
+        $config_id = Mage::getStoreConfig("porto_settings/product_view_custom_tab/".$this->getTabIdField($type,$id),$code);
+        $title = "";
+        switch($type){
+            case "attribute":
+                $product = Mage::getModel("catalog/product")->load($product_id);
+                $title = $product->getResource()->getAttribute($config_id)->getStoreLabel();
+                if(!$product->getResource()->getAttribute($config_id)->getFrontend()->getValue($product))
+                    $title = "";
+                break;
+            case "static_block":
+                $block = Mage::getModel("cms/block")->setStoreId(Mage::app()->getStore()->getId())->load($config_id);
+                $title = $block->getTitle();
+                if(!$block->getIsActive())
+                    $title = "";
+                break;
+        }
+        return $title;
+    }
+    public function getTabContents($type, $id, $product_id){
+        $store = Mage::app()->getStore();
+        $code  = $store->getCode();
+        $config_id = Mage::getStoreConfig("porto_settings/product_view_custom_tab/".$this->getTabIdField($type,$id),$code);
+        $content = "";
+        switch($type){
+            case "attribute":
+                $product = Mage::getModel("catalog/product")->load($product_id);
+                $content = $product->getResource()->getAttribute($config_id)->getFrontend()->getValue($product);
+				$proc_helper = Mage::helper('cms');
+                $processor = $proc_helper->getPageTemplateProcessor();
+                $content = $processor->filter($content);    
+                break;
+            case "static_block":
+                $block = Mage::getModel("cms/block")->setStoreId(Mage::app()->getStore()->getId())->load($config_id);
+                $content = $block->getContent(); 
+                $proc_helper = Mage::helper('cms');
+                $processor = $proc_helper->getPageTemplateProcessor();
+                $content = $processor->filter($content);           
+                break;
+        }
+        return $content;
     }
 }

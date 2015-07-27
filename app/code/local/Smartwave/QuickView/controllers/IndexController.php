@@ -12,18 +12,19 @@ class Smartwave_QuickView_IndexController extends Mage_Core_Controller_Front_Act
         Mage::dispatchEvent('catalog_controller_product_init_before', array('controller_action'=>$this));
         $categoryId = (int) $this->getRequest()->getParam('category', false);
         $productId  = (int) $this->getRequest()->getParam('id');
-
+        
         $path  = (string) $this->getRequest()->getParam('path');
         (isset($path[0]) && ($path[0] == "\/")) ? $path = substr($path, 1, strlen($path)) : $path;
         $tableName = Mage::getSingleton('core/resource')->getTableName('core_url_rewrite');
         $write = Mage::getSingleton('core/resource')->getConnection('core_write');
 
         $query = "select MAIN_TABLE.`product_id` from `{$tableName}` as MAIN_TABLE where MAIN_TABLE.`request_path` in('{$path}')";
-        $readresult=$write->query($query);
-        if ($row = $readresult->fetch() ) {
-            $productId=$row['product_id'];
+        if($path){
+            $readresult=$write->query($query);
+            if ($row = $readresult->fetch() ) {
+                $productId=$row['product_id'];
+            }
         }
-
         if (!$productId) {
             return false;
         }

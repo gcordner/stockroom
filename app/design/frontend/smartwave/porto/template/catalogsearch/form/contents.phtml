@@ -2,7 +2,7 @@
     $store = Mage::app()->getStore();
     $code  = $store->getCode();
 ?>
-<form id="search_mini_form" action="<?php echo $this->helper('catalogsearch')->getResultUrl() ?>" method="get">
+<form id="search_mini_form" action="<?php echo str_replace("https://","//",str_replace("http://","//",$this->helper('catalogsearch')->getResultUrl())) ?>" method="get">
     <div class="form-search <?php if(!Mage::getStoreConfig("catalogcategorysearch/general/enabled", $code)): ?>no-padding<?php endif; ?>">
         <label for="search"><?php echo $this->__('Search:') ?></label>
         <?php $categorySearchHelper = $this->helper('catalogcategorysearch'); ?>

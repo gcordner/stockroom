@@ -68,6 +68,15 @@ class Smartwave_Blog_Block_Manage_Cat_Edit_Form extends Mage_Adminhtml_Block_Wid
         }
 
         $fieldset->addField(
+            'meta_title',
+            'text',
+            array(
+                 'name'  => 'meta_title',
+                 'label' => Mage::helper('blog')->__('Meta Title'),
+                 'title' => Mage::helper('blog')->__('Meta Title'),
+            )
+        );
+        $fieldset->addField(
             'meta_keywords',
             'editor',
             array(

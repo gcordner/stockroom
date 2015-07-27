@@ -11,12 +11,17 @@
             <?php
                 $store_currency = $this->getChildHtml('store_currency');
                 $store_language = $this->getChildHtml('store_language');
+				$compare_link = $this->getChildHtml('compare_link');
             ?>
-            <?php echo $store_language; ?>
+            <?php echo $store_currency; ?>
             <?php if($store_currency && $store_language):?>
             <span class="split"></span>
             <?php endif; ?>
-            <?php echo $store_currency; ?>
+            <?php echo $store_language; ?>
+            <?php if(($store_currency || $store_language) && $compare_link):?>
+            <span class="split"></span>
+            <?php endif; ?>
+			<?php echo $compare_link; ?>
             <div class="clearer"></div>
         </div>
     </div>
@@ -34,7 +39,7 @@
                     <?php echo $this->getChildHtml('topLinks'); ?>
                 </div>
                 <?php echo $this->getChildHtml('topMenu') ?>
-                <div class="menu-icon"><a href="javascript:void(0)"><i class="fa fa-bars"></i></a></div>
+                <div class="menu-icon"><a href="javascript:void(0)" title="<?php echo $this->__('Menu'); ?>"><i class="fa fa-bars"></i></a></div>
             </div>
             <?php echo $this->getChildHtml('minicart'); ?>
         </div>

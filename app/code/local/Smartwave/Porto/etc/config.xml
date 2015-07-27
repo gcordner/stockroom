@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Smartwave_Porto>
-            <version>1.2.2</version>
+            <version>1.5.1.1</version>
         </Smartwave_Porto>
     </modules>                   
     <admin>
@@ -117,8 +117,12 @@
             </font>
         </porto_design>
         <porto_settings>
+            <general>
+                <notice_static_block>porto_custom_block_for_notice</notice_static_block>
+            </general>
             <header>
                 <type>0</type>
+                <language_flag>1</language_flag>
                 <static_block>porto_custom_block_for_header</static_block>
                 <static_block_2>porto_custom_block_for_header_type_10</static_block_2>
                 <menu_title>SHOP BY CATEGORY</menu_title>
@@ -142,9 +146,24 @@
                 <footer_middle_column_4>newsletter</footer_middle_column_4>
                 <footer_middle_column_4_custom></footer_middle_column_4_custom>
                 <footer_middle_column_4_size>3</footer_middle_column_4_size>
+                <footer_middle_2_enabled>0</footer_middle_2_enabled>
+                <footer_middle_2_column_1>custom</footer_middle_2_column_1>
+                <footer_middle_2_column_1_custom>porto_footer_links</footer_middle_2_column_1_custom>
+                <footer_middle_2_column_1_size>3</footer_middle_2_column_1_size>
+                <footer_middle_2_column_2>custom</footer_middle_2_column_2>
+                <footer_middle_2_column_2_custom>porto_footer_links</footer_middle_2_column_2_custom>
+                <footer_middle_2_column_2_size>3</footer_middle_2_column_2_size>
+                <footer_middle_2_column_3>custom</footer_middle_2_column_3>
+                <footer_middle_2_column_3_custom>porto_footer_links</footer_middle_2_column_3_custom>
+                <footer_middle_2_column_3_size>3</footer_middle_2_column_3_size>
+                <footer_middle_2_column_4>custom</footer_middle_2_column_4>
+                <footer_middle_2_column_4_custom>porto_footer_links</footer_middle_2_column_4_custom>
+                <footer_middle_2_column_4_size>3</footer_middle_2_column_4_size>
+                <footer_newsletter_title>Be the First to Know</footer_newsletter_title>
                 <footer_newsletter><![CDATA[Get all the latest information on Events,<br/>Sales and Offers. Sign up for newsletter today.]]></footer_newsletter>
                 <footer_bottom_enabled>1</footer_bottom_enabled>
                 <footer_logo>images/logo_footer.png</footer_logo>
+                <footer_bottom_socialicons>1</footer_bottom_socialicons>
                 <copyrights><![CDATA[&copy;Copyright 2015 by SW-THEMES. All Rights Reserved.]]></copyrights>
                 <footer_bottom_custom_block>1</footer_bottom_custom_block>
                 <footer_bottom_custom_block_id>porto_footer_bottom_custom_block</footer_bottom_custom_block_id>
@@ -157,6 +176,8 @@
                 <ratio_height>400</ratio_height>
                 <side_nav>1</side_nav>
                 <compare>1</compare>
+                <page_layout>two_column_left</page_layout>
+                <fullwidth_description>1</fullwidth_description>
             </category>
             <category_grid>
                 <columns>4</columns>
@@ -165,18 +186,28 @@
             </category_grid>
             <product_label>
                 <new>1</new>
+                <new_label_text>New</new_label_text>
                 <sale>1</sale>
+                <sale_label_text>Sale</sale_label_text>
             </product_label>
             <product_view>
                 <aspect_ratio>1</aspect_ratio>
                 <ratio_width>600</ratio_width>
                 <ratio_height>800</ratio_height>
                 <prev_next>1</prev_next>
-                <prev_text><![CDATA[<i class="icon-left"></i>Prev]]></prev_text>
-                <next_text><![CDATA[Next<i class="icon-right"></i>]]></next_text>
+                <prev_text><![CDATA[<i class="icon-left-open"></i>]]></prev_text>
+                <next_text><![CDATA[<i class="icon-right-open"></i>]]></next_text>
+                <page_layout>two_column_right</page_layout>
             </product_view>
+            <product_view_custom_tab>
+                <custom_tab>1</custom_tab>
+                <from_category>1</from_category>
+                <static_block_tab_1>1</static_block_tab_1>
+                <static_block_tab_id_1>porto_custom_tab</static_block_tab_id_1>
+            </product_view_custom_tab>
             <newsletter_popup>
                 <enabled>1</enabled>
+                <delay>3000</delay>
                 <show_logo>images/logo.png</show_logo>
                 <newsletter_content><![CDATA[<h2>BE THE FIRST TO KNOW</h2><p>Subscribe to the Porto eCommerce newsletter to receive timely updates from your favorite products.</p>]]></newsletter_content>
                 <newsletter_width>700px</newsletter_width>

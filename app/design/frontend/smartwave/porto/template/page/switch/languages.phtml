@@ -31,12 +31,17 @@
  * @see Mage_Page_Block_Switch
  */
 ?>
+<?php
+    $store = Mage::app()->getStore();
+    $code  = $store->getCode();
+    $lang_flag = Mage::getStoreConfig('porto_settings/header/language_flag', $code);
+?>
 <?php if(count($this->getStores())>1): ?>
 <div class="form-language top-select">
     <select id="select-language" title="<?php echo $this->__('Your Language') ?>" onchange="window.location.href=this.value" style="width:auto;">
     <?php foreach ($this->getStores() as $_lang): ?>
         <?php $_selected = ($_lang->getId() == $this->getCurrentStoreId()) ? ' selected="selected"' : '' ?>
-        <option value="<?php echo $_lang->getCurrentUrl() ?>" data-image="<?php echo $this->getSkinUrl('images/flags/'.$_lang->getCode().'.png'); ?>" <?php echo $_selected ?>><?php echo $this->htmlEscape($_lang->getName()) ?></option>
+        <option value="<?php echo $_lang->getCurrentUrl() ?>" <?php if($lang_flag): ?> data-image="<?php echo $this->getSkinUrl('images/flags/'.$_lang->getCode().'.png'); ?>" <?php endif; ?> <?php echo $_selected ?>><?php echo $this->htmlEscape($_lang->getName()) ?></option>
     <?php endforeach; ?>
     </select>
     <script type="text/javascript">

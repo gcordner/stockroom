@@ -87,22 +87,28 @@ class Smartwave_Blog_Model_Post extends Mage_Core_Model_Abstract
 
     public function getDay()
     {
-        $orig_data = $this->getOrigData();
-        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
-        return strftime('%d', strtotime($orig_data['created_time']) + Mage::getSingleton('core/date')->getGmtOffset())*1;
+        return $this->getFormatted('%d');
     }
 
     public function getMonth()
     {
-        $orig_data = $this->getOrigData();
-        setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
-        return strftime('%B', strtotime($orig_data['created_time']) + Mage::getSingleton('core/date')->getGmtOffset());
+        return $this->getFormatted('%B');
     }
 
     public function getMonthShort()
     {
+        return $this->getFormatted('%b');
+    }
+
+    private function getFormatted($pattern) {
+
         $orig_data = $this->getOrigData();
+        $oldLocale = setlocale(LC_COLLATE, "0");
+
         setlocale(LC_ALL, Mage::app()->getLocale()->getLocaleCode().'.UTF-8');
-        return strftime('%b', strtotime($orig_data['created_time']) + Mage::getSingleton('core/date')->getGmtOffset());
+        $formatted = strftime($pattern, strtotime($orig_data['created_time']) + Mage::getSingleton('core/date')->getGmtOffset());
+        setlocale(LC_ALL, $oldLocale);
+    
+        return $formatted;
     }
 }

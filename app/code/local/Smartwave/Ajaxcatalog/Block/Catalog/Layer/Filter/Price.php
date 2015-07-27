@@ -193,7 +193,7 @@ class Smartwave_Ajaxcatalog_Block_Catalog_Layer_Filter_Price extends Mage_Catalo
 	* @return url
 	*/
 	public function getCurrentUrlWithoutParams(){
-		$baseUrl = explode('?',Mage::helper('core/url')->getCurrentUrl());
+		$baseUrl = explode('?',Mage::getUrl('',array('_current'=>true,'_use_rewrite'=>true)));
 		$baseUrl = $baseUrl[0];
 		return $baseUrl;
 	}

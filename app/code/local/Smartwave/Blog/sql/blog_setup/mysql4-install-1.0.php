@@ -93,4 +93,3 @@ INSERT INTO {$this->getTable('blog/tag')} (`id`,`tag`,`tag_count`,`store_id`) va
 }
 
 $installer->endSetup();
-

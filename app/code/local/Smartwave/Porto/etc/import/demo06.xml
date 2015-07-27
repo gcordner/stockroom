@@ -106,6 +106,10 @@
             <footer_middle_ribbon_bgcolor></footer_middle_ribbon_bgcolor>
             <footer_middle_ribbon_shadow_color></footer_middle_ribbon_shadow_color>
             <footer_middle_ribbon_color></footer_middle_ribbon_color>
+            <footer_middle_2_link_color></footer_middle_2_link_color>
+            <footer_middle_2_link_hover_color></footer_middle_2_link_hover_color>
+            <footer_middle_2_title_color></footer_middle_2_title_color>
+            <footer_middle_2_links_icon_color></footer_middle_2_links_icon_color>
             <footer_bottom_bgcolor></footer_bottom_bgcolor>
             <footer_bottom_color></footer_bottom_color>
             <footer_bottom_link_color></footer_bottom_link_color>
@@ -139,6 +143,7 @@
         </general>
         <header>
             <type>2</type>
+            <language_flag>1</language_flag>
             <static_block>porto_custom_block_for_header</static_block>
             <static_block_2></static_block_2>
             <menu_title></menu_title>
@@ -165,6 +170,21 @@
             <footer_middle_column_4_custom></footer_middle_column_4_custom>
             <footer_middle_column_4_size>3</footer_middle_column_4_size>
             <footer_newsletter><![CDATA[Get all the latest information on Events,<br/>Sales and Offers. Sign up for newsletter today.]]></footer_newsletter>
+            <footer_newsletter_title>Be the First to Know</footer_newsletter_title>
+            <footer_middle_2_enabled>0</footer_middle_2_enabled>
+            <footer_middle_2_column_1>custom</footer_middle_2_column_1>
+            <footer_middle_2_column_1_custom>porto_footer_2nd_row_shop</footer_middle_2_column_1_custom>
+            <footer_middle_2_column_1_size>3</footer_middle_2_column_1_size>
+            <footer_middle_2_column_2>custom</footer_middle_2_column_2>
+            <footer_middle_2_column_2_custom>porto_footer_2nd_row_popular_tags</footer_middle_2_column_2_custom>
+            <footer_middle_2_column_2_size>3</footer_middle_2_column_2_size>
+            <footer_middle_2_column_3>custom</footer_middle_2_column_3>
+            <footer_middle_2_column_3_custom>porto_footer_2nd_row_myaccount</footer_middle_2_column_3_custom>
+            <footer_middle_2_column_3_size>3</footer_middle_2_column_3_size>
+            <footer_middle_2_column_4>custom</footer_middle_2_column_4>
+            <footer_middle_2_column_4_custom>porto_footer_2nd_row_contact_information</footer_middle_2_column_4_custom>
+            <footer_middle_2_column_4_size>4</footer_middle_2_column_4_size>
+            <footer_bottom_socialicons>1</footer_bottom_socialicons>
             <footer_bottom_enabled>1</footer_bottom_enabled>
             <footer_logo>images/logo_footer.png</footer_logo>
             <copyrights><![CDATA[&copy;Copyright 2015 by SW-THEMES. All Rights Reserved.]]></copyrights>
@@ -195,8 +215,8 @@
             <ratio_width>600</ratio_width>
             <ratio_height></ratio_height>
             <prev_next>1</prev_next>
-            <prev_text><![CDATA[<i class="icon-left"></i>Prev]]></prev_text>
-            <next_text><![CDATA[Next<i class="icon-right"></i>]]></next_text>
+            <prev_text><![CDATA[<i class="icon-left-open"></i>]]></prev_text>
+            <next_text><![CDATA[<i class="icon-right-open"></i>]]></next_text>
             <disable_product_zoom>0</disable_product_zoom>
         </product_view>
         <product_compare>

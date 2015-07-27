@@ -31,7 +31,13 @@ $code  = $store->getCode();
     }
     google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-
+<?php
+    if(Mage::getStoreConfig("porto_settings/header/type",$code) == "10"){
+?>
+<div class="page-header">&nbsp;</div>
+<?php
+    }
+?>
 <div id="store_map" style="min-height: 300px; width: 100%;"></div>
 
 <?php

@@ -2,9 +2,9 @@
 
 class Smartwave_CatalogCategorySearch_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const XML_PATH_SHOW_SUBCATEGORIES                = 'catalog_category_search/general/show_subcategories';
-    const XML_PATH_INDENTATION_TEXT                  = 'catalog_category_search/general/indentation_text';
-    const XML_PATH_SELECT_CATEGORY_ON_CATEGORY_PAGES = 'catalog_category_search/general/select_category_on_category_pages';
+    const XML_PATH_SHOW_SUBCATEGORIES                = 'catalogcategorysearch/general/show_subcategories';
+    const XML_PATH_INDENTATION_TEXT                  = 'catalogcategorysearch/general/indentation_text';
+    const XML_PATH_SELECT_CATEGORY_ON_CATEGORY_PAGES = 'catalogcategorysearch/general/select_category_on_category_pages';
 
     public function showSubCategories() {
         return Mage::getStoreConfig(self::XML_PATH_SHOW_SUBCATEGORIES);

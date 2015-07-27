@@ -44,7 +44,7 @@ class Smartwave_Ajaxcatalog_Model_Catalog_Layer extends Mage_Catalog_Model_Layer
 	*/
 	public function getMaxPriceFilter(){
 		if(isset($_GET['max']))
-			return round($_GET['max']/$this->currentRate);
+			return ceil($_GET['max']/$this->currentRate);
 		return 0;
 	}
 	
@@ -56,7 +56,7 @@ class Smartwave_Ajaxcatalog_Model_Catalog_Layer extends Mage_Catalog_Model_Layer
 	*/
 	public function getMinPriceFilter(){
 		if(isset($_GET['min']))
-			return round($_GET['min']/$this->currentRate);
+			return floor($_GET['min']/$this->currentRate);
 		return 0;
 	}
     

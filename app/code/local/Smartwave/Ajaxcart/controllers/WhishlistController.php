@@ -22,10 +22,17 @@ class Smartwave_Ajaxcart_WhishlistController extends Mage_Core_Controller_Front_
                 $this->loadLayout();
                 $sidebar_block = $this->getLayout()->getBlock('catalog.compare.sidebar');
                 $sidebar = '';
-                if($sidebar_block && !Mage::getStoreConfig("kallyas_settings/sidebar/compare_products", $code)){
+                if($sidebar_block){
                     $sidebar = $sidebar_block->toHtml();
                 }
                 $response['sidebar'] = $sidebar;
+                
+                $compare_popup_block = $this->getLayout()->getBlock('compare_link');
+                $compare_popup = '';
+                if($compare_popup_block){
+                    $compare_popup = $compare_popup_block->toHtml();
+                }
+                $response['compare_popup'] = $compare_popup;
 			}
 		}
 		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($response));

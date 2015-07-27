@@ -18,23 +18,19 @@ class Smartwave_Filterproducts_Block_Latest_Home_List extends Smartwave_Filterpr
         $category_id = $this->getCategoryId();
         
         $storeId    = Mage::app()->getStore()->getId();
-        
+        $products = Mage::getResourceModel('catalog/product_collection');
         if($category_id) {
             $category = Mage::getModel('catalog/category')->load($category_id);    
             
-            $products = Mage::getModel('catalog/product')->getCollection()
+            $products = $this->_addProductAttributesAndPrices($products)
             ->addAttributeToSort('created_at', 'desc')
             ->addCategoryFilter($category)
-			->addAttributeToSelect('*')
-            ->addAttributeToSelect(array('name', 'price', 'small_image'))
             ->setStoreId($storeId)
             ->addStoreFilter($storeId);
         }
         else {
-            $products = Mage::getModel('catalog/product')->getCollection()
+            $products = $this->_addProductAttributesAndPrices($products)
             ->addAttributeToSort('created_at', 'desc')
-			->addAttributeToSelect('*')
-            ->addAttributeToSelect(array('name', 'price', 'small_image'))
             ->setStoreId($storeId)
             ->addStoreFilter($storeId);
         }

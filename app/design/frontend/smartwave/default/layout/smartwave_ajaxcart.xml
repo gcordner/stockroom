@@ -9,7 +9,6 @@
                         
             <action method="addItem"><type>js_css</type><name>smartwave/jquery/plugins/fancybox/css/jquery.fancybox.css</name></action>
             <action method="addItem"><type>js_css</type><name>smartwave/ajaxcart/ajaxaddto.css</name></action>
-            <block type="core/template" name="ajaxcart_head" template="ajaxcart/head.phtml"/>
         </reference>
         <reference name="content">
             <block type="core/template" name="ajaxcart_mask" template="ajaxcart/loading_mask.phtml"/>

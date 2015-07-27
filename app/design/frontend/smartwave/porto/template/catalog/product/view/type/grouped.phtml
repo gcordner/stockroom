@@ -56,11 +56,9 @@
     </tbody>
 </table>
 <script type="text/javascript">decorateTable('super-product-table')</script>
-<?php if ($this->displayProductStockStatus()): ?>
-    <?php if ($_product->isAvailable() && $_hasAssociatedProducts): ?>
-        <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
-    <?php else: ?>
-        <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
-    <?php endif; ?>
+<?php if ($_product->isAvailable() && $_hasAssociatedProducts): ?>
+	<p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
+<?php else: ?>
+	<p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
 <?php endif; ?>
 <?php echo $this->getChildHtml('product_type_data_extra') ?>

@@ -163,6 +163,7 @@ abstract class Smartwave_Blog_Block_Abstract extends Mage_Core_Block_Template
             $head = $this->getLayout()->getBlock('head');
             if ($head) {
                 $head->setTitle($meta->getTitle());
+                $head->setMetaTitle($meta->getMetaTitle());
                 $head->setKeywords($meta->getMetaKeywords());
                 $head->setDescription($meta->getMetaDescription());
             }
@@ -185,10 +186,10 @@ abstract class Smartwave_Blog_Block_Abstract extends Mage_Core_Block_Template
             $title = self::$_helper->isTitle();
             if ($this->getParentBlock()) {
                 if ($type == self::LINK_TYPE_HEADER) {
-                    $this->getParentBlock()->addLink($title, self::$_helper->getRoute(), $title, true);
+                    $this->getParentBlock()->addLink($title, self::$_helper->getRoute()."/index/", $title, true);
                 } else {
                     $this->getParentBlock()->addLink(
-                        $title, self::$_helper->getRoute(), $title, true, array(), 15, null, 'class="top-link-blog"'
+                        $title, self::$_helper->getRoute()."/index/", $title, true, array(), 15, null, 'class="top-link-blog"'
                     );
                 }
             }

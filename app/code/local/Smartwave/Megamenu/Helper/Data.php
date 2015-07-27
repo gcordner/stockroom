@@ -3,6 +3,7 @@
 class Smartwave_Megamenu_Helper_Data extends Mage_Core_Helper_Abstract
 {
     private $_menuData = null;
+	private $_block = null;
     
     public function getConfig($optionString)
     {
@@ -11,9 +12,11 @@ class Smartwave_Megamenu_Helper_Data extends Mage_Core_Helper_Abstract
        
     public function getCustomLink()
     {
-        $blockClassName = Mage::getConfig()->getBlockClassName('megamenu/navigation');
-        $block = new $blockClassName();        
-        $customLinks = $block->drawCustomLinks();        
+		if(!$this->_block) {
+			$blockClassName = Mage::getConfig()->getBlockClassName('megamenu/navigation');
+			$this->_block = new $blockClassName();
+		}
+        $customLinks = $this->_block->drawCustomLinks();
         return $customLinks;
     }
     public function getHomeIcon()
@@ -39,13 +42,15 @@ class Smartwave_Megamenu_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (!is_null($this->_menuData)) return $this->_menuData;
 
-        $blockClassName = Mage::getConfig()->getBlockClassName('megamenu/navigation');
-        $block = new $blockClassName();        
-        $categories = $block->getStoreCategories();        
-        if (is_object($categories)) $categories = $block->getStoreCategories()->getNodes();
+        if(!$this->_block) {
+			$blockClassName = Mage::getConfig()->getBlockClassName('megamenu/navigation');
+			$this->_block = new $blockClassName();
+		}
+        $categories = $this->_block->getStoreCategories();        
+        if (is_object($categories)) $categories = $categories->getNodes();
 
         $this->_menuData = array(
-            '_block'                        => $block,
+            '_block'                        => $this->_block,
             '_categories'                   => $categories,
             '_isWide'                       => Mage::getStoreConfig('megamenu/general/wide_style'),
             '_showHomeLink'                 => Mage::getStoreConfig('megamenu/general/show_home_link'),
@@ -57,9 +62,12 @@ class Smartwave_Megamenu_Helper_Data extends Mage_Core_Helper_Abstract
     
     public function getHomeLink($mode = 'dt')
     {
-        $menuData = Mage::helper('megamenu')->getMenuData();
+        $store = Mage::app()->getStore();
+        $store_id  = $store->getId();
+
+        $menuData = $this->getMenuData();
         extract($menuData);
-        $homeLinkUrl        = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
+        $homeLinkUrl        = Mage::app()->getStore($store_id)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
         $homeLinkText       = $this->__('Home');
         $homeLink           = '';
         $homeIconClass      = '';
@@ -87,7 +95,7 @@ HTML;
     {
 		//---updated from version 1.0.2---
      if (Mage::getStoreConfig('blog/menu/top_menu') && Mage::getStoreConfig('blog/blog/enabled')) {
-        $menuData = Mage::helper('megamenu')->getMenuData();
+        $menuData = $this->getMenuData();
         extract($menuData);
         $blogLinkUrl        = Mage::helper('blog')->getRouteUrl();
         $blogLinkText       = $this->__('Blog');
@@ -107,7 +115,7 @@ HTML;
     
     public function getMobileMenuContent()
     {
-        $menuData = Mage::helper('megamenu')->getMenuData();
+        $menuData = $this->getMenuData();
         extract($menuData);
         // --- Home Link ---
         $homeLink = $this->getHomeLink('mb');
@@ -136,7 +144,7 @@ HTML;
     
     public function getMenuContent()
     {
-        $menuData = Mage::helper('megamenu')->getMenuData();
+        $menuData = $this->getMenuData();
         extract($menuData);
         // --- Home Link ---        
         $homeLink = $this->getHomeLink();
@@ -167,13 +175,13 @@ HTML;
     }
     public function getLogoAlt() 
     {
-        $menuData = Mage::helper('megamenu')->getMenuData();
+        $menuData = $this->getMenuData();
         extract($menuData);
         return $_block->getLogoAlt();
     }
     public function getLogoSrc()
     {
-        $menuData = Mage::helper('megamenu')->getMenuData();
+        $menuData = $this->getMenuData();
         extract($menuData);
         return $_block->getLogoSrc();
     }

@@ -22,11 +22,12 @@
                     <a href="javascript:void(0);" class="search-icon"><i class="icon-search"></i></a>
                     <?php echo $this->getChildHtml('topSearch'); ?>
                 </div>
-                <div class="menu-icon"><a href="javascript:void(0)"><i class="fa fa-bars"></i></a></div>
+                <div class="menu-icon"><a href="javascript:void(0)" title="<?php echo $this->__('Menu'); ?>"><i class="fa fa-bars"></i></a></div>
             </div>
             <div>
                 <?php echo $this->getChildHtml('store_currency'); ?>
                 <?php echo $this->getChildHtml('store_language'); ?>
+				<?php echo $this->getChildHtml('compare_link'); ?>
                 <?php echo $this->getChildHtml('minicart'); ?>
             </div>
         </div>

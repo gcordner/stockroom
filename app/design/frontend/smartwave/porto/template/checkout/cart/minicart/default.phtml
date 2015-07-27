@@ -6,7 +6,7 @@ $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
 //$canApplyMsrp = Mage::helper('catalog')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
 $aspect_ratio = Mage::getStoreConfig("porto_settings/category/aspect_ratio",$code);
 $ratio = 1;
-if($aspect_ratio)
+if($aspect_ratio && Mage::getStoreConfig("porto_settings/category/ratio_width",$code) > 0)
     $ratio = Mage::getStoreConfig("porto_settings/category/ratio_height",$code)/Mage::getStoreConfig("porto_settings/category/ratio_width",$code);
 ?>
 <li class="item">

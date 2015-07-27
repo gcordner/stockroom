@@ -59,11 +59,6 @@
     </adminhtml>
 	<default>
 		<ajaxcart>
-			<general>
-				<custom_css><![CDATA[#loading-mask { display: none; font-size: 1.1em; font-weight: bold; position: fixed; text-align: center; z-index: 20002; width: 100%; height: 100%; left: 0; top: 0; }
-#after-loading-success-message { display:none;  font-size: 1.1em; position: fixed; text-align: center; z-index: 20002; width: 100%;height: 100%; left: 0; top: 0;}
-#success-message-container { padding:15px 30px 30px; line-height: 1.4; position:relative; text-align:center; top:35%; width:303px; z-index:1000; background:#FFFFFF none repeat scroll 0 0; margin: auto; }]]></custom_css>
-			</general>
 			<addtocart>
                 <autoclose>5</autoclose>
 				<enablecategory>0</enablecategory>
@@ -84,9 +79,9 @@
             <ajaxcart_mysql4>
                 <class>Smartwave_Ajaxcart_Model_Mysql4</class>
                 <entities>
-                    <ajaxsuite>
-                        <table>ajaxsuite</table>
-                    </ajaxsuite>
+                    <ajaxcart>
+                        <table>ajaxcart</table>
+                    </ajaxcart>
                 </entities>
             </ajaxcart_mysql4>
         </models>

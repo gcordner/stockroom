@@ -49,7 +49,7 @@ class Eternal_Ajaxcart_IndexController extends Mage_Checkout_CartController
 					$response['message'] = $message;
 					//New Code Here
 					$this->loadLayout();
-					$minicart = $this->getLayout()->getBlock('cart_sidebar')->toHtml();
+					//$minicart = $this->getLayout()->getBlock('cart_sidebar')->toHtml();
 					Mage::register('referrer_url', $this->_getRefererUrl());
 					$response['minicart'] = $minicart;
 				}

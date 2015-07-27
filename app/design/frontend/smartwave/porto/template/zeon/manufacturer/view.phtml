@@ -91,7 +91,7 @@
                                 if($today >= strtotime( $specialPriceFromDate) && $today <= strtotime($specialPriceToDate) || $today >= strtotime( $specialPriceFromDate) && is_null($specialPriceToDate)){
                                     if(Mage::getStoreConfig("porto_settings/product_label/sale", $code)){
                         ?>
-                                    <div class="product-label" style="right: 10px;"><span class="sale-product-icon"><?php echo $this->__('Sale');?>!</span></div>
+                                    <div class="product-label" style="right: 10px;"><span class="sale-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/sale_label_text", $code);?></span></div>
                         <?php       
                                     }
                                 }
@@ -106,7 +106,7 @@
                                 {
                                     if(Mage::getStoreConfig("porto_settings/product_label/new", $code)){
                             ?> 
-                                    <div class="product-label" style="left: 10px;"><span class="new-product-icon"><?php echo $this->__('New');?>!</span></div>
+                                    <div class="product-label" style="left: 10px;"><span class="new-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/new_label_text", $code);?></span></div>
                             <?php 
                                     }
                                 }
@@ -228,7 +228,7 @@
                                 if($today >= strtotime( $specialPriceFromDate) && $today <= strtotime($specialPriceToDate) || $today >= strtotime( $specialPriceFromDate) && is_null($specialPriceToDate)){
                                     if(Mage::getStoreConfig("porto_settings/product_label/sale", $code)){
                         ?>
-                                    <div class="product-label" style="right: 10px;"><span class="sale-product-icon"><?php echo $this->__('Sale');?></span></div>
+                                    <div class="product-label" style="right: 10px;"><span class="sale-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/sale_label_text", $code);?></span></div>
                         <?php       
                                     }
                                 }
@@ -243,7 +243,7 @@
                                 {
                                     if(Mage::getStoreConfig("porto_settings/product_label/new", $code)){
                             ?> 
-                                    <div class="product-label" style="left: 10px;"><span class="new-product-icon"><?php echo $this->__('New');?></span></div>
+                                    <div class="product-label" style="left: 10px;"><span class="new-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/new_label_text", $code);?></span></div>
                             <?php 
                                     }
                                 }

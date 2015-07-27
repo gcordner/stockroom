@@ -7,28 +7,37 @@
     $store = Mage::app()->getStore();
     $code  = $store->getCode();
     $popup = Mage::getStoreConfig('porto_settings/newsletter_popup',$code);
+    $delay = $popup["delay"];
+    if(!$delay || !is_numeric($delay))
+        $delay = 3000;
 ?>
 <script type="text/javascript">
     jQuery(function($) {
         var check_cookie = $.cookie('newsletter_popup');
-        if(check_cookie == null || check_cookie == 'shown') {
-            beginNewsletterForm();
-        }
-        $('#newsletter_popup_dont_show_again').on('change', function(){
-            if($(this).length){        
-                var check_cookie = $.cookie('newsletter_popup');
-                if(check_cookie == null || check_cookie == 'shown') {
-                    $.cookie('newsletter_popup','dontshowitagain');            
-                }
-                else
-                {
-                    $.cookie('newsletter_popup','shown');
+        if(window.location!=window.parent.location){
+            jQuery('#newsletter_popup').remove();
+        }else{
+            if(check_cookie == null || check_cookie == 'shown') {
+                setTimeout(function(){
                     beginNewsletterForm();
-                }
-            } else {
-                $.cookie('newsletter_popup','shown');
+                }, <?php echo $delay; ?>);
             }
-        }); 
+            $('#newsletter_popup_dont_show_again').on('change', function(){
+                if($(this).length){        
+                    var check_cookie = $.cookie('newsletter_popup');
+                    if(check_cookie == null || check_cookie == 'shown') {
+                        $.cookie('newsletter_popup','dontshowitagain');            
+                    }
+                    else
+                    {
+                        $.cookie('newsletter_popup','shown');
+                        beginNewsletterForm();
+                    }
+                } else {
+                    $.cookie('newsletter_popup','shown');
+                }
+            });
+        }
     });
 
 function beginNewsletterForm() {

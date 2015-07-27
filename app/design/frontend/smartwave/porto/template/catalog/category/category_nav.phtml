@@ -1,8 +1,14 @@
 <?php $_categories = $this->getCurrentChildCategories() ?>
 <?php $_count = is_array($_categories)?count($_categories):$_categories->count(); ?>
 <?php
+	function cmpCatPosition($a, $b) {
+		if ($a->position == $b->position)
+			return 0;
+		return ($a->position > $b->position) ? 1 : -1;
+	}
     function getChildrenCategoriesHtml($_category){
         $children = explode( ",", $_category->getChildren() );
+		usort($children, 'cmpCatPosition');
         $content = '';
         $content .= '<li class="';
         if(!$children[0])

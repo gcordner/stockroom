@@ -51,17 +51,22 @@
 
 <?php if($this->ajaxSlider || $this->ajaxLayered || $this->ajaxToolbar): ?>
 /*DONOT EDIT THIS CODE*/
+var old_class;
 function sliderAjax(url) {
     if (!active) {
         active = true;
         jQuery(function($) {
+            if($(".col-main .products-grid").attr("class"))
+                old_class = $(".col-main .products-grid").attr("class");
             oldUrl = url;
             $('#resultLoading .bg').height('100%');
             $('#resultLoading').fadeIn(300);
             var param = "ajaxcatalog=true";
+			if(url.indexOf("?")==-1 && url.indexOf("&")>-1)
+				url = url.replace("&","?");
             if(url.indexOf("?")==-1)
                 param = "?"+param;
-            else
+			else
                 param = "&"+param;
             try {
                 $('body').css('cursor', 'wait');
@@ -82,7 +87,8 @@ function sliderAjax(url) {
                             $('.col-main .category-products').empty();
                             $('.col-main .category-products').replaceWith(data.productlist)
                         }
-                        $(".col-main .category-products").scrollToMe();
+						if($( ".col-main" ).has( ".category-products" ).length)
+							$(".col-main .category-products").scrollToMe();
                         var hist = url.split('?');
                         if(window.history && window.history.pushState){
 							window.history.pushState('GET', data.title, url);
@@ -119,6 +125,12 @@ function sliderAjax(url) {
                                 }
                             }
                         });
+                        /* moving action links into product image area */
+                        $(".move-action .item .details-area .actions").each(function(){
+                            $(this).parent().parent().children(".product-image-area").append($(this));
+                        });
+                        if(old_class)
+                            $(".col-main .products-grid").attr("class", old_class);
                         <?php
                             $store = Mage::app()->getStore();
                             $code  = $store->getCode();

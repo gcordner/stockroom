@@ -44,7 +44,21 @@ class Smartwave_Ajaxcart_IndexController extends Mage_Checkout_CartController
 				);
 
 				if (!$cart->getQuote()->getHasError()){
-					$message = $this->__('%s was added to your shopping cart.', Mage::helper('core')->htmlEscape($product->getName()));
+                    $store = Mage::app()->getStore();
+                    $code  = $store->getCode();
+                    $aspect_ratio = Mage::getStoreConfig("porto_settings/category/aspect_ratio",$code);
+                    $ratio_width = Mage::getStoreConfig("porto_settings/category/ratio_width",$code);
+                    $ratio_height = Mage::getStoreConfig("porto_settings/category/ratio_height",$code);
+                    $autoclose = Mage::getStoreConfig('ajaxcart/addtocart/autoclose', $code);
+                    if(!($autoclose && is_numeric($autoclose)))
+                        $autoclose = 5;
+                    $product_image_src = "";
+                    if($aspect_ratio)
+                        $product_image_src=Mage::helper('catalog/image')->init($product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(250);
+                    else
+                        $product_image_src=Mage::helper('catalog/image')->init($product, 'small_image')->resize($ratio_width,$ratio_height);
+                    $product_image = '<img src="'.$product_image_src.'" class="product-image" alt=""/>';
+					$message = '<div class="msg">'.$this->__("You've just added this product to the cart:").'<p class="product-name theme-color">'.Mage::helper('core')->htmlEscape($product->getName()).'</p><div class="timer theme-color">'.$autoclose.'</div></div>'.$product_image;
 					$response['status'] = 'SUCCESS';
 					$response['message'] = $message;
 					//New Code Here

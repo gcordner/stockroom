@@ -20,10 +20,10 @@ class Smartwave_Megamenu_Model_Category_Attribute_Source_Block_Columns
                 array('value' => '6',        'label' => '6'),
                 array('value' => '7',        'label' => '7'),
                 array('value' => '8',        'label' => '8'),
-                array('value' => '8',        'label' => '9'),
-                array('value' => '8',        'label' => '10'),
-                array('value' => '8',        'label' => '11'),
-                array('value' => '8',        'label' => '12')                
+                array('value' => '9',        'label' => '9'),
+                array('value' => '10',        'label' => '10'),
+                array('value' => '11',        'label' => '11'),
+                array('value' => '12',        'label' => '12')                
             );
         }
         return $this->_options;
