@@ -1,5 +1,5 @@
 /* System Config Styles */
-/* Created at 2015-04-16 20:14:46 */
+/* Created at 2015-07-28 10:21:38 */
 
 /*========== Common Styles ==========*/
 body {
@@ -89,7 +89,7 @@ textarea,
 
 /*========== Header ==========*/
 .header-container {    
-    background-image: url(http://ec2-54-203-163-189.us-west-2.compute.amazonaws.com:80/magento/media/wysiwyg/eternal/zonda/_textures/custom/2.png);
+    background-image: url(http://10.16.16.219/projects/stockroom/media/wysiwyg/eternal/zonda/_textures/custom/2.png);
         background-position: center center;
     background-repeat: repeat;    
 }
@@ -202,7 +202,7 @@ textarea,
 }
 #mini-cart .dropdown-menu{
     background-color: #414141;
-    background-image: url(http://ec2-54-203-163-189.us-west-2.compute.amazonaws.com:80/magento/media/wysiwyg/eternal/zonda/_textures/custom/1.png);    background-position: center center;
+    background-image: url(http://10.16.16.219/projects/stockroom/media/wysiwyg/eternal/zonda/_textures/custom/1.png);    background-position: center center;
     background-repeat: repeat;
     border: solid 2px #4d4c4c;
     color: #d4d4d4;    
@@ -405,7 +405,7 @@ div.eternal-custom-menu-popup a.level2:hover,
     color: #bfbfbf;
 }
 .footer-tweets .twitter-icon {
-    background-image: url(http://ec2-54-203-163-189.us-west-2.compute.amazonaws.com:80/magento/media/eternal/zonda/icon/default/icon_twitter_1.png);
+    background-image: url(http://10.16.16.219/projects/stockroom/media/eternal/zonda/icon/default/icon_twitter_1.png);
 }
 .footer-tweets .text,
 .footer-tweets .Twitter-Title {
