@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<config>
-    <tabs>
-        <eternal translate="label" module="eternal_all">
-            <label>Zonda Extensions</label>
-            <sort_order>700</sort_order>
-        </eternal>
-    </tabs>
-</config>
