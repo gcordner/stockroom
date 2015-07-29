@@ -1,0 +1,282 @@
+<style>
+.fileUpload input.upload {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.import_div{
+	font-size:16px;
+}
+</style>
+<form action="<?php echo $this->getUrl('*/*/'); ?>" method="post" enctype="multipart/form-data"><br>
+	<?php echo $this->getBlockHtml('formkey')?>
+	<div class="import_div" style="font-size:16px;">
+		Select File to import: <br/><br/>
+	</div>
+	<input class="btn btn-info" type="file" name="uploadFile"> <br/><br/>
+	<input class="fileUpload btn btn-primary" name="upload_xml"  type="submit" value="Upload File">
+</form>
+
+<?php
+/**
+#    Copyright (C) 2013 Global Era (http://www.globalera.com). All Rights Reserved
+#    @author Serenus Infotech magento@serenusinfotech.com
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see http://www.gnu.org/licenses/.
+**/
+ob_start();
+set_time_limit(0);
+?>
+<?php
+$dir_root=Mage::getBaseDir();
+$flag='0';
+
+
+/* code for check file permission and file  start */
+if(isset($_POST['upload_xml']))
+{
+	$filename = $_FILES["uploadFile"]['name'];
+	$ext = pathinfo($filename, PATHINFO_EXTENSION);
+	if($ext != "xml")
+	{
+		echo "Please select XML file only";die;
+	}
+	$file = basename($filename, ".xml");
+	$xmlPath = $dir_root.DS.'xmlfiles'.DS;
+// 	if (!file_exists($xmlPath)) {
+// 			$e = new Exception("xmlimport : File dose not exist.");
+// 			Mage::logException($e);
+// 			echo "The file  does not exist";die;
+// 	}
+	if(!is_writable($xmlPath)){
+			$e = new Exception("xmlimport : Please give writable permission for file.");
+			Mage::logException($e);
+		echo "<br/><br/>Please give writable permission for file.<br/><br/>";die;
+	}
+	
+	$fileTmpLoc = $_FILES["uploadFile"]["tmp_name"];
+	// Path and file name
+	$pathAndName = $xmlPath.$filename;
+	// Run the move_uploaded_file() function here
+	$moveResult = move_uploaded_file($fileTmpLoc, $pathAndName);
+	chmod($pathAndName, 0777);
+
+/* code for check file permission end */
+
+/* code for reanme file after process start*/
+$xmlPath = $pathAndName;
+$today_date = date("Y-m-d_H-i-s");
+$current_file_path=$xmlPath;
+
+$new_error_file_path=$dir_root.DS.'xmlfiles'.DS.$file.$today_date.'_error.xml';
+$new_completed_file_path=$dir_root.DS.'xmlfiles'.DS.$file.$today_date.'_completed.xml';
+
+/* code for reanme file after process end*/
+
+$t0=microtime(true);
+$this->parseXml($xmlPath);
+
+//// CATAGORY AND CATEGORYRELATION IMPORT
+
+$categories =  $this->showCategory();
+
+/* Code start for import categories */
+try
+{
+    /* Code start for import categories */
+    $categories =  $this->showCategory();
+    $msgcollection = "";
+	if($categories)
+	{
+       	$this->importAllCategory($categories);
+     	$msgcollection.= "<br/><br/>Categories are successfully imported<br/><br/>";
+	}
+
+	$this->parseAllCategoryRelation();
+	$parseCategoryRelation = $this->parseAllCategoryRelation();
+	if($parseCategoryRelation){
+		$this->importAttributeGrp($parseAttributegrp);
+		  $msgcollection.= "<br/><br/>Categories are successfully imported<br/><br/>";
+	}
+	else {
+		$e = new Exception("xmlimport : Categories not found.");
+		Mage::logException($e);
+		$msgcollection.= '<br/><br/> Categories not found<br/><br/>';
+	}
+
+	$this->parseAllCategoryRelation();
+	$parseCategoryRelation = $this->parseAllCategoryRelation();
+	
+	/* Code End for import categories */
+	
+	/* Code Start for import attributes */
+	$parsedAttribute = $this->parseAttribute();
+    if($parsedAttribute){
+          $this->importAttribute($parsedAttribute);
+    }
+    
+    $parsedAttributeSet = $this->parseAttributeSet();
+    if($parsedAttributeSet){
+         $this->importAttributeSet($parsedAttributeSet);
+    }
+    
+    $parseAttributegrp = $this->parseAttributegrp();
+    if($parseAttributegrp){
+          $this->importAttributeGrp($parseAttributegrp);
+          $msgcollection.=  "<br/><br/>Attributes are successfully imported<br/><br/>";
+    }
+    else {
+    	$e = new Exception("xmlimport : Attributes not found.");
+    	Mage::logException($e);
+    	$msgcollection.=  '<br/><br/> Attributes not found<br/><br/>';
+    }
+    /* Code End for import attributes */
+    
+    /* Code Start for import Products */
+    $products =  $this->showProducts();
+    if($products){
+        $this->importAllProducts($products,$current_file_path,$new_error_file_path);
+        $msgcollection.=  "<br/><br/>Products are successfully imported<br/><br/>";
+    }
+    else{
+        $e = new Exception("xmlimport : product not found.");
+        Mage::logException($e);
+        $msgcollection.=  '<br/><br/> product not found<br/><br/>';
+    }
+    /* Code End for import Products */
+    
+    /* Code Start for category product association*/
+    $associatedProductsCategory =  $this->associatedProductsCategory();
+    if($associatedProductsCategory){
+        $this->associateProducts($associatedProductsCategory);
+    }else{
+        $e = new Exception("xmlimport : Category-Product association not found.");
+        Mage::logException($e);
+        $msgcollection.=  '<br/><br/>Category-Product association not found<br/><br/>';
+    }
+    /* Code End for category product association*/
+    
+    /* Code Start for product product association*/
+    $associatedProductsProducts =  $this->associatedProductsProducts();
+    if($associatedProductsProducts){
+           $this->associatePdtPdt($associatedProductsProducts);
+    }else{
+				if(($products->type == "configurable") || ($products->type == "bundle"))
+				{
+					$e = new Exception("xmlimport : Product-Product association not found.");
+					Mage::logException($e);
+					$msgcollection.=  '<br/><br/>Product-Product association not found.<br/><br/>';
+				}else
+				{
+					//echo '<br/><br/>';
+				}
+    }
+	/* Code End for product product association*/
+    
+}
+catch(Exception $e)
+{
+	$flag='1';
+	Mage::logException($e);
+}
+
+/* Code start for change file name after complete*/
+if($flag=='1')
+{
+	$is_exist=file_exists($current_file_path);
+	if($is_exist=='1')
+	{
+		rename($current_file_path, $new_error_file_path);
+	}
+   	$finalImportStatus =  'Error in xml file to import';
+}
+else
+{
+	$is_exist=file_exists($current_file_path);
+	if($is_exist=='1')
+	{
+		rename($current_file_path, $new_completed_file_path);
+	}
+   	$finalImportStatus =  'Successfully imported to magento';
+  
+   	
+   	echo $msgcollection ."<br/><br/>". $finalImportStatus.'<br/><br/>' ;
+
+}	
+/* code end for change file name after complete*/
+
+foreach($this->_log_array as $msg){
+    echo $msg.'<br/><br/>';
+}
+
+
+$t1 = microtime(true);
+$time = $t1-$t0;
+echo "It took $time sec" ;
+
+// SENDING MAIL CODE
+if(isset($finalImportStatus)){
+       $emailTemplate = Mage::getModel('core/email_template')->loadDefault('import_status');
+
+       //Getting the Store E-Mail Sender Name.
+       $senderName = Mage::getStoreConfig('trans_email/ident_general/name');
+
+       //Getting the Store General E-Mail.
+       $senderEmail = Mage::getStoreConfig('trans_email/ident_general/email');
+
+       //Variables for Confirmation Mail.
+       $emailTemplateVariables = array();
+       $emailTemplateVariables['msgcol'] = $msgcollection;
+       $emailTemplateVariables['finalstatus'] = $finalImportStatus;
+       //Appending the Custom Variables to Template.
+       $processedTemplate = $emailTemplate->getProcessedTemplate($emailTemplateVariables);
+       // Sender Email
+    $reciverEmail=Mage::getStoreConfig('trans_email/ident_custom1/email');
+       //Sending E-Mail to Customers.
+       $mail = Mage::getModel('core/email')
+       ->setToName($senderName)
+       ->setToEmail($reciverEmail)
+       ->setBody($processedTemplate)
+       ->setSubject($finalImportStatus)
+       ->setFromEmail($senderEmail)
+       ->setFromName($senderName)
+       ->setType('html');
+       try{
+           //Confimation E-Mail Send
+           $mail->send();
+       }
+       catch(Exception $error)
+       {
+           Mage::getSingleton('core/session')->addError($error->getMessage());
+           return false;
+       }
+}
+// SENDING EMAIL CODE ENDS
+
+// CODE FOR INDEXING
+$indexingProcesses = Mage::getSingleton('index/indexer')->getProcessesCollection();
+foreach ($indexingProcesses as $process) {
+    $process->reindexEverything();
+}
+
+ob_end_flush();
+}
+
+?>
