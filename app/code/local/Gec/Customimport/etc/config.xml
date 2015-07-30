@@ -164,7 +164,7 @@
             <catalog translate="title" module="catalog">
               <children>
                   <customimport translate="title">
-                    <title>Custom Import</title>
+                    <title>Catalog Import</title>
                   </customimport>
               </children>
             </catalog>
