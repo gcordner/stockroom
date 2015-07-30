@@ -544,7 +544,7 @@ tr.summary-details-excluded{font-style:italic}
 .mini-cart .mini-products-list li{padding:20px 0;border-bottom:1px solid #eee}
 .mini-cart .mini-products-list li a.btn-remove{top:29px}
 .mini-cart .mini-products-list li .product-image{border-width:0;padding:0;border-radius:0}
-.mini-cart .mini-products-list li .product-image img{width:auto}
+.mini-cart .mini-products-list li .product-image img{width:80px;}
 .mini-cart .actions{color:#fff;line-height:47px;padding:0 20px;border-radius:0 0 5px 5px;margin-bottom:15px}
 .mini-cart .actions a{border:0;width:128px;text-align:center}
 .option-detail{position:relative;cursor:help;line-height:1.5}
