@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **/
-class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Block_Catalogimport
+class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalogimport
 { 
     public function parseXml($xmlPath){
     	$this->_store_id = Mage::app()->getWebsite()->getDefaultGroup()->getDefaultStoreId();
