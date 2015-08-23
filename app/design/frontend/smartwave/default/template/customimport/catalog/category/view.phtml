@@ -1,33 +1,29 @@
 <?php
-/**
-#    Copyright (C) 2013 Global Era (http://www.globalera.com). All Rights Reserved
-#    @author Serenus Infotech magento@serenusinfotech.com
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see http://www.gnu.org/licenses/.
-**/
-
+    $store = Mage::app()->getStore();
+    $code  = $store->getCode();
+    
     $_helper    = $this->helper('catalog/output');
     $_category  = $this->getCurrentCategory();
+    $_showcartbutton = Mage::getStoreConfig('porto_settings/category_grid/show_addtocart', $code);
+    $_showcartbutton = Mage::getStoreConfig('porto_settings/category_grid/show_addtolinks', $code);
     $_imgHtml   = '';
-
-    if ($_externalimgUrl = $_category->getExternalCatImage()) {
-        $_externalimgHtml = '<p class="category-image"><img src="'.$_externalimgUrl.'" alt="'.$this->htmlEscape($_category->getName()).'" title="'.$this->htmlEscape($_category->getName()).'" width="300px"/></p>';
-       // $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
-    }
-   else if ($_imgUrl = $_category->getImageUrl()) {
-        $_imgHtml = '<p class="category-image"><img src="'.$_imgUrl.'" alt="'.$this->htmlEscape($_category->getName()).'" title="'.$this->htmlEscape($_category->getName()).'" /></p>';
+    if ($_imgUrl = $_category->getImageUrl()) {
+        $_imgHtml = '<p class="category-image"><img src="'.$_imgUrl.'" alt="'.$this->escapeHtml($_category->getName()).'" title="'.$this->escapeHtml($_category->getName()).'" /></p>';
         $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
+    }
+?>
+<?php echo $_imgHtml ?>
+<?php
+    if(!Mage::getStoreConfig("porto_settings/category/fullwidth_description",$code)){
+        if($_description=$_category->getDescription()){
+?>
+<div class="category-description std">
+<?php
+            echo $_helper->categoryAttribute($_category, $_description, 'description');
+?>
+</div>
+<?php
+        }
     }
 ?>
 <div class="page-title category-title">
@@ -38,21 +34,6 @@
 </div>
 
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-
-
-
-
-<?php if($_externalimgUrl): ?>
-    <?php echo $_externalimgHtml ;
-    elseif($_imgUrl): ?>
-    <?php echo $_imgHtml ?>
-<?php endif; ?>
-
-<?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
-    <div class="category-description std">
-        <?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
-    </div>
-    <?php endif; ?>
 
 <?php if($this->isContentMode()): ?>
     <?php echo $this->getCmsBlockHtml() ?>
