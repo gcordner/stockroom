@@ -53,7 +53,7 @@
                     <fields>
                         <imgusage translate="label">
                             <label>Internal Image Usage</label>
-                            <comment>When set as 'No', it prioritises the external image URL defined, if any.</comment>
+                            <comment>Setting as 'No' prioritises the external image URLs over the internal images. When 'Yes', the uploaded internal images are given higher priority.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>5</sort_order>
