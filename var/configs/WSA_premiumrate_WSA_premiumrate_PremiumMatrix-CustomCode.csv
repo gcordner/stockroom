@@ -1,0 +1,114 @@
+Country,Region/State,City,Zip/Postal Code,Zip to,Weight/Volume From,Weight/Volume To,Price From,Price To,Item From,Item To,Shipping Price,Algorithm,Delivery Type,Sort Order
+USA,*,*,*,*,*,*,0,10,*,*,5.75,*,Standard Delivery,*
+USA,*,*,*,*,*,*,10.01,20,*,*,6.95,*,Standard Delivery,*
+USA,*,*,*,*,*,*,20.01,30,*,*,7.95,*,Standard Delivery,*
+USA,*,*,*,*,*,*,30.01,40,*,*,8.95,*,Standard Delivery,*
+USA,*,*,*,*,*,*,40.01,50,*,*,9.95,*,Standard Delivery,*
+USA,*,*,*,*,*,*,50.01,60,*,*,10.95,*,Standard Delivery,*
+USA,*,*,*,*,*,*,60.01,70,*,*,11.95,*,Standard Delivery,*
+USA,*,*,*,*,*,*,70.01,80,*,*,12.95,*,Standard Delivery,*
+USA,*,*,*,*,*,*,80.01,100,*,*,13.95,*,Standard Delivery,*
+USA,*,*,*,*,*,*,100.01,150,*,*,14.95,*,Standard Delivery,*
+USA,*,*,*,*,*,*,150.01,200,*,*,15.95,*,Standard Delivery,*
+USA,*,*,*,*,*,*,200.01,300,*,*,16.95,*,Standard Delivery,*
+USA,*,*,*,*,*,*,300.01,10000000,*,*,17.95,*,Standard Delivery,*
+USA,*,*,*,*,*,*,0,10,*,*,10.75,*,Three-Day Shipping,*
+USA,*,*,*,*,*,*,10.01,20,*,*,11.95,*,Three-Day Shipping,*
+USA,*,*,*,*,*,*,20.01,30,*,*,12.95,*,Three-Day Shipping,*
+USA,*,*,*,*,*,*,30.01,40,*,*,13.95,*,Three-Day Shipping,*
+USA,*,*,*,*,*,*,40.01,50,*,*,14.95,*,Three-Day Shipping,*
+USA,*,*,*,*,*,*,50.01,60,*,*,15.95,*,Three-Day Shipping,*
+USA,*,*,*,*,*,*,60.01,70,*,*,16.95,*,Three-Day Shipping,*
+USA,*,*,*,*,*,*,70.01,80,*,*,17.95,*,Three-Day Shipping,*
+USA,*,*,*,*,*,*,80.01,100,*,*,18.95,*,Three-Day Shipping,*
+USA,*,*,*,*,*,*,100.01,150,*,*,19.95,*,Three-Day Shipping,*
+USA,*,*,*,*,*,*,150.01,200,*,*,20.95,*,Three-Day Shipping,*
+USA,*,*,*,*,*,*,200.01,300,*,*,21.95,*,Three-Day Shipping,*
+USA,*,*,*,*,*,*,300.01,10000000,*,*,22.95,*,Three-Day Shipping,*
+USA,*,*,*,*,*,*,0,10,*,*,15.75,*,Two-Day Shipping,*
+USA,*,*,*,*,*,*,10.01,20,*,*,16.75,*,Two-Day Shipping,*
+USA,*,*,*,*,*,*,20.01,30,*,*,17.95,*,Two-Day Shipping,*
+USA,*,*,*,*,*,*,30.01,40,*,*,18.95,*,Two-Day Shipping,*
+USA,*,*,*,*,*,*,40.01,50,*,*,19.95,*,Two-Day Shipping,*
+USA,*,*,*,*,*,*,50.01,60,*,*,20.95,*,Two-Day Shipping,*
+USA,*,*,*,*,*,*,60.01,70,*,*,21.95,*,Two-Day Shipping,*
+USA,*,*,*,*,*,*,70.01,80,*,*,22.95,*,Two-Day Shipping,*
+USA,*,*,*,*,*,*,80.01,100,*,*,23.95,*,Two-Day Shipping,*
+USA,*,*,*,*,*,*,100.01,150,*,*,24.95,*,Two-Day Shipping,*
+USA,*,*,*,*,*,*,150.01,200,*,*,25.95,*,Two-Day Shipping,*
+USA,*,*,*,*,*,*,200.01,300,*,*,26.95,*,Two-Day Shipping,*
+USA,*,*,*,*,*,*,300.01,10000000,*,*,27.95,*,Two-Day Shipping,*
+USA,*,*,*,*,*,*,0,10,*,*,30.75,*,Overnight,*
+USA,*,*,*,*,*,*,10.01,20,*,*,31.95,*,Overnight,*
+USA,*,*,*,*,*,*,20.01,30,*,*,32.95,*,Overnight,*
+USA,*,*,*,*,*,*,30.01,40,*,*,33.95,*,Overnight,*
+USA,*,*,*,*,*,*,40.01,50,*,*,34.95,*,Overnight,*
+USA,*,*,*,*,*,*,50.01,60,*,*,35.95,*,Overnight,*
+USA,*,*,*,*,*,*,60.01,70,*,*,36.95,*,Overnight,*
+USA,*,*,*,*,*,*,70.01,80,*,*,37.95,*,Overnight,*
+USA,*,*,*,*,*,*,80.01,100,*,*,38.95,*,Overnight,*
+USA,*,*,*,*,*,*,100.01,150,*,*,44.95,*,Overnight,*
+USA,*,*,*,*,*,*,150.01,200,*,*,45.95,*,Overnight,*
+USA,*,*,*,*,*,*,200.01,300,*,*,46.95,*,Overnight,*
+USA,*,*,*,*,*,*,300.01,10000000,*,*,47.95,*,Overnight,*
+USA,*,*,*,*,*,*,0,10,*,*,35.5,*,Saturday Overnight,*
+USA,*,*,*,*,*,*,10.01,20,*,*,36.5,*,Saturday Overnight,*
+USA,*,*,*,*,*,*,20.01,30,*,*,37.5,*,Saturday Overnight,*
+USA,*,*,*,*,*,*,30.01,40,*,*,38,*,Saturday Overnight,*
+USA,*,*,*,*,*,*,40.01,50,*,*,39,*,Saturday Overnight,*
+USA,*,*,*,*,*,*,50.01,60,*,*,40,*,Saturday Overnight,*
+USA,*,*,*,*,*,*,60.01,70,*,*,41,*,Saturday Overnight,*
+USA,*,*,*,*,*,*,70.01,80,*,*,42,*,Saturday Overnight,*
+USA,*,*,*,*,*,*,80.01,100,*,*,43,*,Saturday Overnight,*
+USA,*,*,*,*,*,*,100.01,150,*,*,49,*,Saturday Overnight,*
+USA,*,*,*,*,*,*,150.01,200,*,*,50,*,Saturday Overnight,*
+USA,*,*,*,*,*,*,200.01,300,*,*,51,*,Saturday Overnight,*
+USA,*,*,*,*,*,*,300.01,10000000,*,*,52,*,Saturday Overnight,*
+CAN,*,*,*,*,*,*,0,25,*,*,18.95,*,Standard Canada Post,*
+CAN,*,*,*,*,*,*,25.01,50,*,*,22.95,*,Standard Canada Post,*
+CAN,*,*,*,*,*,*,50.01,75,*,*,25.95,*,Standard Canada Post,*
+CAN,*,*,*,*,*,*,75.01,100,*,*,28.95,*,Standard Canada Post,*
+CAN,*,*,*,*,*,*,100.01,125,*,*,30.95,*,Standard Canada Post,*
+CAN,*,*,*,*,*,*,125.01,150,*,*,33.95,*,Standard Canada Post,*
+CAN,*,*,*,*,*,*,150.01,175,*,*,36.95,*,Standard Canada Post,*
+CAN,*,*,*,*,*,*,175.01,250,*,*,38.95,*,Standard Canada Post,*
+CAN,*,*,*,*,*,*,250.01,500,*,*,41.95,*,Standard Canada Post,*
+CAN,*,*,*,*,*,*,500.01,10000000,*,*,44.95,*,Standard Canada Post,*
+CAN,*,*,*,*,*,*,0,25,*,*,35.95,*,Canada Express,*
+CAN,*,*,*,*,*,*,25.01,50,*,*,38.95,*,Canada Express,*
+CAN,*,*,*,*,*,*,50.01,75,*,*,40.95,*,Canada Express,*
+CAN,*,*,*,*,*,*,75.01,100,*,*,43.95,*,Canada Express,*
+CAN,*,*,*,*,*,*,100.01,125,*,*,45.95,*,Canada Express,*
+CAN,*,*,*,*,*,*,125.01,150,*,*,48.95,*,Canada Express,*
+CAN,*,*,*,*,*,*,150.01,175,*,*,51.95,*,Canada Express,*
+CAN,*,*,*,*,*,*,175.01,250,*,*,56.95,*,Canada Express,*
+CAN,*,*,*,*,*,*,250.01,500,*,*,59.95,*,Canada Express,*
+CAN,*,*,*,*,*,*,500.01,750,*,*,78.95,*,Canada Express,*
+*,*,*,*,*,*,*,0,10,*,*,13.95,*,Standard Global Post (Non-Insured),
+*,*,*,*,*,*,*,25.01,50,*,*,20.95,*,Standard Global Post (Non-Insured),
+*,*,*,*,*,*,*,50.01,75,*,*,22.95,*,Standard Global Post (Non-Insured),*
+*,*,*,*,*,*,*,75.01,100,*,*,25.95,*,Standard Global Post (Non-Insured),*
+*,*,*,*,*,*,*,100.01,125,*,*,28.95,*,Standard Global Post (Non-Insured),*
+*,*,*,*,*,*,*,125.01,150,*,*,30.95,*,Standard Global Post (Non-Insured),*
+*,*,*,*,*,*,*,150.01,175,*,*,33.95,*,Standard Global Post (Non-Insured),*
+*,*,*,*,*,*,*,175.01,250,*,*,36.95,*,Standard Global Post (Non-Insured),*
+*,*,*,*,*,*,*,10.01,25,*,*,18.95,*,Standard Global Post (Non-Insured),*
+*,*,*,*,*,*,*,250.01,350,*,*,56.95,*,Standard Global Post (Non-Insured),*
+*,*,*,*,*,*,*,350.01,500,*,*,59.95,*,Standard Global Post (Non-Insured),*
+*,*,*,*,*,*,*,500.01,750,*,*,78.95,*,Standard Global Post (Non-Insured),*
+*,*,*,*,*,*,*,0,10,*,*,28.95,*,Global Express w/ Tracking Info (Recommended),
+*,*,*,*,*,*,*,25.01,50,*,*,37.95,*,Global Express w/ Tracking Info (Recommended),
+*,*,*,*,*,*,*,50.01,75,*,*,38.95,*,Global Express w/ Tracking Info (Recommended),
+*,*,*,*,*,*,*,75.01,100,*,*,40.95,*,Global Express w/ Tracking Info (Recommended),
+*,*,*,*,*,*,*,100.01,125,*,*,43.95,*,Global Express w/ Tracking Info (Recommended),
+*,*,*,*,*,*,*,125.01,150,*,*,45.95,*,Global Express w/ Tracking Info (Recommended),
+*,*,*,*,*,*,*,150.01,175,*,*,48.95,*,Global Express w/ Tracking Info (Recommended),
+*,*,*,*,*,*,*,175.01,250,*,*,51.95,*,Global Express w/ Tracking Info (Recommended),
+*,*,*,*,*,*,*,250.01,350,*,*,56.95,*,Global Express w/ Tracking Info (Recommended),
+*,*,*,*,*,*,*,350.01,500,*,*,59.95,*,Global Express w/ Tracking Info (Recommended),
+*,*,*,*,*,*,*,500.01,750,*,*,78.95,*,Global Express w/ Tracking Info (Recommended),
+*,*,*,*,*,*,*,750.01,10000000.02,*,*,101.95,*,Global Express w/ Tracking Info (Recommended),
+*,*,*,*,*,*,*,750.01,10000000.04,*,*,101.95,*,Standard Global Post (Non-Insured),
+*,*,*,*,*,*,*,10.01,25,*,*,35.95,*,Global Express w/ Tracking Info (Recommended),
+USA,*,*,*,*,*,*,159,1000000,*,*,0,*,Free Shipping,*
+CAN,*,*,*,*,*,*,750.01,1000000,*,*,101.95,*,Canada Express,*
