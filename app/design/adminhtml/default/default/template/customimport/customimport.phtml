@@ -13,8 +13,40 @@
 .import_div{
 	font-size:16px;
 }
+.btn {
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857;
+  margin-bottom: 0;
+  padding: 6px 12px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.btn-info {
+  background-image: linear-gradient(to bottom, #5bc0de 0px, #2aabd2 100%);
+  background-repeat: repeat-x;
+  border-color: #28a4c9;
+}
+.btn-primary {
+  background-color: #535353;
+  border-color: #535353;
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.btn-primary:hover {
+    background-color: #0099e6;
+    border-color: #0099e6;
+    color: #fff;
+}
 </style>
-<form action="" method="post" enctype="multipart/form-data"><br>
+<form action="<?php echo $this->getUrl('*/*/'); ?>" method="post" enctype="multipart/form-data"><br>
+	<?php echo $this->getBlockHtml('formkey')?>
 	<div class="import_div" style="font-size:16px;">
 		Select File to import: <br/><br/>
 	</div>

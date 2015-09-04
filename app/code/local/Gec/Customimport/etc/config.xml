@@ -24,7 +24,7 @@
             <version>0.1.0</version>
         </Gec_Customimport>
     </modules>
-    <frontend>
+    <!--<frontend>
         <routers>
             <customimport>
                 <use>standard</use>
@@ -41,14 +41,14 @@
                 </customimport>
             </updates>
         </layout>
-    </frontend>
+    </frontend>-->
     <admin>
         <routers>
             <customimport>
                 <use>admin</use>
                 <args>
                     <module>Gec_Customimport</module>
-                    <frontName>customimport</frontName>
+                    <frontName>admin_customimport</frontName>
                 </args>
             </customimport>
         </routers>
@@ -142,4 +142,42 @@
             </catalog>
         </helpers>
     </global>
+    <adminhtml>
+    <menu>
+      <catalog module="catalog">
+        <children>
+          <customimport module="customimport">
+            <title>Catalog Import</title>
+            <sort_order>0</sort_order>
+            <action>admin_customimport/adminhtml_index</action>
+          </customimport>
+        </children>
+      </catalog>
+    </menu>
+    <acl>
+      <resources>
+        <all>
+          <title>Allow Everything</title>
+        </all>
+        <admin>
+          <children>
+            <catalog translate="title" module="catalog">
+              <children>
+                  <customimport translate="title">
+                    <title>Custom Import</title>
+                  </customimport>
+              </children>
+            </catalog>
+          </children>
+        </admin>
+      </resources>
+    </acl>
+    <layout>
+      <updates>
+        <customimport>
+          <file>customimport.xml</file>
+        </customimport>
+      </updates>
+    </layout>
+  </adminhtml>
 </config>

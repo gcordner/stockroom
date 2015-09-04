@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!-- 
+<?php
 /**
 #    Copyright (C) 2013 Global Era (http://www.globalera.com). All Rights Reserved
 #    @author Serenus Infotech <magento@serenusinfotech.com>
@@ -17,14 +16,26 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **/
- -->
-	<layout version="0.1.0">
-		<customimport_index_index>
-			<reference name="root">
-				<action method="setTemplate"><template>page/1column.phtml</template></action>
-       	 	</reference>
-			<reference name="content">
-            	<block type="customimport/customimport" name="hello" template="customimport/customimport.phtml"/>
-        	</reference>
-		</customimport_index_index>
-	</layout>
+
+class Gec_Customimport_Block_Adminhtml_Catalogimport extends Mage_Adminhtml_Block_Template
+{
+  	public $_log_array = array();
+    public $_xmlObj;
+    public $default_asid;
+    public $_product_list;
+    public $_category_list;
+    public $_cat_relation;
+    public $_current_row = 1;
+    public $_curitemids = array("sku"=>null);
+    public $_optidcache = null;
+    public $_dstore = array();
+    public $_same;
+    public $mode = "create";
+    public $prod_etype = 4;
+    public $_updated_num = 0;
+    public $_created_num = 0;
+    public $attributeGroupsGlobal = array();   
+    public $_store_id;
+    public $_default_category_id;
+}
+?>

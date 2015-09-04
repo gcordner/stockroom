@@ -16,7 +16,7 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **/
-class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalogimport
+class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Block_Adminhtml_Catalogimport
 { 
     public function parseXml($xmlPath){
     	$this->_store_id = Mage::app()->getWebsite()->getDefaultGroup()->getDefaultStoreId();
@@ -135,7 +135,8 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
         }
     }
   
-     protected function duplicateCategory($categoryId, $parentId, $status){   //duplicating categoryid  
+     protected function duplicateCategory($categoryId, $parentId, $status){   //duplicating categoryid 
+		 echo 'dup catId : '.$categoryId.'<br/>'; 
      	$default_root_category = $this->_default_category_id;
         $parent_id = ($parentId)?$parentId:$default_root_category;          	 	
         $isActive = ($status == 'Y')?1:0;           
@@ -786,24 +787,6 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
     		if($skipStatus == 0){
     			Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
     			$productId =  $product->save()->getId();
-                if($manageItem=='N' || $manageItem=='n')
-                {
-                    $product->setStockData(array(      
-                            'use_config_backorders' => 0,
-                            'is_in_stock' => 1,
-                            'manage_stock' => 0));
-                            
-                    /*GNJ Custom code for instock while update product*/   
-                    $stockItem = Mage::getModel('cataloginventory/stock_item');
-                    $stockItem->assignProduct($product);         
-                    $stockItem->setData('use_config_manage_stock',0);
-                    $stockItem->setData('manage_stock', 0);
-                    $stockItem->save();
-                    $stockStatus = Mage::getModel('cataloginventory/stock_status');
-                    $stockStatus->assignProduct($product);
-                    $stockStatus->saveProductStatus($product->getId(), 1); 
-                    /*custom code end*/
-                }
     			if ($productId) {
     				$this->_created_num++;
     				unset($product);
@@ -1301,6 +1284,7 @@ class Gec_Customimport_Block_Customimport extends Gec_Customimport_Block_Catalog
 
         $category = Mage::getModel('catalog/category')
             ->setStoreId($this->_store_id);
+        echo 'create cat parentId : '.$parent_id.'<br/>'; 
         $parent_category = $this->_initCategory($parent_id, $this->_store_id);
         if (!$parent_category->getId()) {
             exit;
