@@ -31,3 +31,12 @@ media/wysiwyg/stockroom/*.jpg
 media/wysiwyg/porto/homepage/slider/SR/*.jpg
 media/wysiwyg/porto/homepage/slider/SR/*.png
 js/prototype/windows/themes/spread/Thumbs.db
+export_bulk_customer.csv
+extension_import_export_customer_GUI-ADDON-overview.pdf
+extension_import_export_customer_documentation.pdf
+import_bulk_customer.csv
+import_bulk_customer_multiple_addresses.csv
+xml_data_to_paste_info_advanced_profile_export(CSV).txt
+xml_data_to_paste_info_advanced_profile_export(XML).txt
+xml_data_to_paste_into_advanced_profile_import(CSV).txt
+xml_data_to_paste_into_advanced_profile_import(XML).txt
