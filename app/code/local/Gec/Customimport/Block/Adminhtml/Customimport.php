@@ -20,7 +20,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 { 
     public function parseXml($xmlPath){
     	$this->_store_id = Mage::app()->getWebsite()->getDefaultGroup()->getDefaultStoreId();
-    	$this->_default_category_id = Mage::app()->getStore()->getRootCategoryId();  	
+    	$this->_default_category_id = Mage::app()->getStore('default')->getRootCategoryId();  	
         $xmlObj = new Varien_Simplexml_Config($xmlPath);
         $this->_xmlObj = $xmlObj;
     }
@@ -224,7 +224,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         $ext_subid = (string)$subcat->id;
         $actualSubId = $this->checkExternalId($ext_subid);
         $mapObj =  Mage::getModel('customimport/customimport');
-        
+ 
         if($actualSubId){
             if(count($actualSubId) == 1){
                 reset($actualSubId); //to take 1st key of array
@@ -278,7 +278,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }                
         }
         else{
-            if(count($externall) == 0){
+            if(count($actualSubId) == 0){
                 Mage::log('xmlimport : subcategory id not found:'.$ext_subid);
             }
         }
@@ -787,6 +787,24 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     		if($skipStatus == 0){
     			Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
     			$productId =  $product->save()->getId();
+                	if($manageItem=='N' || $manageItem=='n')
+                	{
+	                    $product->setStockData(array(      
+        	                    'use_config_backorders' => 0,
+                	            'is_in_stock' => 1,
+                        	    'manage_stock' => 0));
+                            
+	                    /*GNJ Custom code for instock while update product*/   
+        	            $stockItem = Mage::getModel('cataloginventory/stock_item');
+                	    $stockItem->assignProduct($product);         
+	                    $stockItem->setData('use_config_manage_stock',0);
+        	            $stockItem->setData('manage_stock', 0);
+                	    $stockItem->save();
+	                    $stockStatus = Mage::getModel('cataloginventory/stock_status');
+        	            $stockStatus->assignProduct($product);
+                	    $stockStatus->saveProductStatus($product->getId(), 1); 
+	                    /*custom code end*/
+        	        }
     			if ($productId) {
     				$this->_created_num++;
     				unset($product);
@@ -1284,7 +1302,6 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 
         $category = Mage::getModel('catalog/category')
             ->setStoreId($this->_store_id);
-        echo 'create cat parentId : '.$parent_id.'<br/>'; 
         $parent_category = $this->_initCategory($parent_id, $this->_store_id);
         if (!$parent_category->getId()) {
             exit;
