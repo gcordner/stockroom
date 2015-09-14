@@ -52,7 +52,7 @@ $_minimalPrice = $_taxHelper->getPrice($_product, $_minimalPriceValue, $_simpleP
 
 $specialPriceFromDate = $_product->getSpecialFromDate();
 $specialPriceToDate = $_product->getSpecialToDate();
-$today =  time();
+$today =  strtotime(Mage::getModel('core/date')->date('Y-m-d H:i:s')); //time();
 if ($specialprice<$_product->getPrice()){
     if($today >= strtotime( $specialPriceFromDate) && $today <= strtotime($specialPriceToDate) || $today >= strtotime( $specialPriceFromDate) && is_null($specialPriceToDate)){
         $_convertedFinalPrice = $_store->roundPrice($_store->convertPrice($_product->getFinalPrice()));
