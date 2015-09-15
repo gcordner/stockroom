@@ -125,10 +125,6 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
 
     public function registerProductTags($observer)
     {
-        if (!$this->isAllowed() || $this->_cacheTagsLevel == 1) {
-            return $this;
-        }
-
         $object = $observer->getEvent()->getProduct();
         if ($object && $object->getId()) {
             $tags = $object->getCacheIdTags();
