@@ -3,6 +3,8 @@ app/design/adminhtml/default/default/template/pagecache/cache
 app/etc/local.xml
 media/catalog/product/
 media/catalog/product/cache
+media/css/*
+media/js/*
 var/cache
 var/session
 var/locks
