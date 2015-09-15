@@ -11,7 +11,8 @@ if [ ! "$2" = "" ] ; then
 	MODE=" $2"
 fi
 
-PHP_BIN=`which php`
+#PHP_BIN=`which php`
+PHP_BIN=/opt/bitnami/php/bin/php
 
 # absolute path to magento installation
 INSTALLDIR=`echo $0 | sed 's/cron\.sh//g'`
