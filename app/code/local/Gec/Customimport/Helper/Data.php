@@ -24,7 +24,7 @@ class Gec_Customimport_Helper_Data extends Mage_Core_Helper_Abstract
 		{
 			$path = Mage::getBaseDir('log').'/customimport-default.log';
 		}
-		error_log("[".date('Y:m:d H:m:s', time())."] : ".print_r($msg, true)."\r\n", 3, $path);			
+		error_log("[".date('Y:m:d H:m:s', time())."] : ".print_r($msg, true)."<br/> \r\n", 3, $path);			
 	}
 	
 	public function sendLogEmailAndRemoveLog($logPath)
