@@ -58,7 +58,7 @@ class Gec_Customimport_Helper_Data extends Mage_Core_Helper_Abstract
 			->setSubject($logSubject)
 			->setFromEmail($senderEmail)
 			->setFromName($senderName)
-			->setType('html');
+			->setType('text');
 			try{
 				//Confimation E-Mail Send
 				$mail->send();
