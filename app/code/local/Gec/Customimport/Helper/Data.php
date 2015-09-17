@@ -32,7 +32,7 @@ class Gec_Customimport_Helper_Data extends Mage_Core_Helper_Abstract
 		$logMessage = file_get_contents($logPath);
 		if($logMessage) {						
 			$finalImportStatus = null;
-			$logSubject = 'Custom Import Log Report'.date('Y:m:d H:m:s', time());
+			$logSubject = 'Custom Import Log Report '.date('Y:m:d H:m:s', time()).' (UTC)';
 			
 			$emailTemplate = Mage::getModel('core/email_template')->loadDefault('import_status');
 
@@ -58,7 +58,7 @@ class Gec_Customimport_Helper_Data extends Mage_Core_Helper_Abstract
 			->setSubject($logSubject)
 			->setFromEmail($senderEmail)
 			->setFromName($senderName)
-			->setType('text');
+			->setType('html');
 			try{
 				//Confimation E-Mail Send
 				$mail->send();

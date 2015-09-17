@@ -218,7 +218,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         }
         catch (Exception $e){
 			// start ktpl0123 custom log
-			$this->customHelper->writeCustomLog($e, $this->logPath);
+			$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
 			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 			// end ktpl0123 custom log
             echo $e->getMessage();
@@ -531,7 +531,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             catch (Exception $e){
 				// start ktpl0123 custom log
 				$this->customHelper->writeCustomLog("Configurable Product not Updated", $this->logPath);
-				$this->customHelper->writeCustomLog("exception:$e", $this->logPath);				
+				$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);				
 				$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 				// end ktpl0123 custom log
                 echo " Configurable Product not Updated \n";
@@ -702,7 +702,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 }
                 catch (Exception $e){
 					// start ktpl0123 custom log
-					$this->customHelper->writeCustomLog("exception:$e", $this->logPath);
+					$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
 					$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 					// end ktpl0123 custom log
                     echo "exception:$e";
@@ -918,7 +918,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     	}
     	catch(Mage_Eav_Model_Entity_Attribute_Exception $e){
 			// start ktpl0123 custom log
-			$this->customHelper->writeCustomLog($e, $this->logPath);
+			$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
 			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 			// end ktpl0123 custom log
     		echo $e->getAttributeCode();
@@ -1022,7 +1022,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         }
         catch (Exception $e){
 			// start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("exception:$e", $this->logPath);
+			$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
 			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 			// end ktpl0123 custom log
         	echo "exception:$e";
@@ -1272,7 +1272,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             catch (Exception $e){
 				// start ktpl0123 custom log
 				$this->customHelper->writeCustomLog("Bunduled Prduct not updated", $this->logPath);
-				$this->customHelper->writeCustomLog("exception:$e", $this->logPath);
+				$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
 				$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 				// end ktpl0123 custom log
                 echo "Bunduled Prduct not updated\n";
@@ -1327,7 +1327,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 					$e = new Exception("xmlimport : Attribute '.$external_set_id . ' is not available in magento database.");
 					// start ktpl0123 custom log
 					$this->customHelper->writeCustomLog('Attribute '.$external_set_id . ' is not available in magento database', $this->logPath);
-					$this->customHelper->writeCustomLog($e, $this->logPath);
+					$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
 					// end ktpl0123 custom log
 					Mage::logException($e);
 					echo '<br/><br/>Attribute '.$external_set_id . ' is not available in magento database.<br/><br/>';

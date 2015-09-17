@@ -117,7 +117,7 @@ if(isset($_POST['upload_xml']))
 			$e = new Exception("xmlimport : Please give writable permission for file.");
 			Mage::logException($e);
 			// start ktpl0123 custom log
-			$customHelper->writeCustomLog($e, $logPath);
+			$customHelper->writeCustomLog($e->getMessage(), $logPath);
 			$customHelper->sendLogEmailAndRemoveLog($logPath);
 			// end ktpl0123 custom log
 		echo "<br/><br/>Please give writable permission for file.<br/><br/>";die;
@@ -172,7 +172,7 @@ try
 		$e = new Exception("xmlimport : Categories not found.");
 		Mage::logException($e);
 		// start ktpl0123 custom log
-		$customHelper->writeCustomLog($e, $logPath);
+		$customHelper->writeCustomLog($e->getMessage(), $logPath);
 		// end ktpl0123 custom log
 		$msgcollection.= '<br/><br/> Categories not found<br/><br/>';
 	}
@@ -202,7 +202,7 @@ try
     	$e = new Exception("xmlimport : Attributes not found.");
     	Mage::logException($e);
     	// start ktpl0123 custom log
-		$customHelper->writeCustomLog($e, $logPath);
+		$customHelper->writeCustomLog($e->getMessage(), $logPath);
 		// end ktpl0123 custom log
     	$msgcollection.=  '<br/><br/> Attributes not found<br/><br/>';
     }
@@ -218,7 +218,7 @@ try
         $e = new Exception("xmlimport : product not found.");
         Mage::logException($e);
         // start ktpl0123 custom log
-		$customHelper->writeCustomLog($e, $logPath);
+		$customHelper->writeCustomLog($e->getMessage(), $logPath);
 		// end ktpl0123 custom log
         $msgcollection.=  '<br/><br/> product not found<br/><br/>';
     }
@@ -232,7 +232,7 @@ try
         $e = new Exception("xmlimport : Category-Product association not found.");
         Mage::logException($e);
         // start ktpl0123 custom log
-		$customHelper->writeCustomLog($e, $logPath);
+		$customHelper->writeCustomLog($e->getMessage(), $logPath);
 		// end ktpl0123 custom log
         $msgcollection.=  '<br/><br/>Category-Product association not found<br/><br/>';
     }
@@ -248,7 +248,7 @@ try
 					$e = new Exception("xmlimport : Product-Product association not found.");
 					Mage::logException($e);
 					// start ktpl0123 custom log
-					$customHelper->writeCustomLog($e, $logPath);
+					$customHelper->writeCustomLog($e->getMessage(), $logPath);
 					// end ktpl0123 custom log
 					$msgcollection.=  '<br/><br/>Product-Product association not found.<br/><br/>';
 				}else
@@ -264,7 +264,7 @@ catch(Exception $e)
 	$flag='1';
 	Mage::logException($e);
 	// start ktpl0123 custom log
-	$customHelper->writeCustomLog($e, $logPath);
+	$customHelper->writeCustomLog($e->getMessage(), $logPath);
 	$customHelper->sendLogEmailAndRemoveLog($logPath);
 	// end ktpl0123 custom log
 }
@@ -295,7 +295,7 @@ else
 // start ktpl0123 custom log
 $customHelper->writeCustomLog($msgcollection, $logPath);
 $customHelper->writeCustomLog($finalImportStatus, $logPath);
-$customHelper->writeCustomLog($this->_log_array, $logPath);
+//$customHelper->writeCustomLog($this->_log_array, $logPath);
 // end ktpl0123 custom log	
 /* code end for change file name after complete*/
 

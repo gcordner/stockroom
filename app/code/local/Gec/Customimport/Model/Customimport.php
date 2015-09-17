@@ -107,7 +107,7 @@ class Gec_Customimport_Model_Customimport extends Mage_Core_Model_Abstract {
 	
 	          } catch (Exception $e){
 					// start ktpl0123 custom log
-					$this->customHelper->writeCustomLog($e, $this->logPath);
+					$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
 					// end ktpl0123 custom log
 	              echo $e->getMessage();
 	          }
@@ -154,7 +154,7 @@ class Gec_Customimport_Model_Customimport extends Mage_Core_Model_Abstract {
          	$catalogentity->setEntityId($categoryId)->save();
           } catch (Exception $e){
 			  // start ktpl0123 custom log
-			  $this->customHelper->writeCustomLog($e, $this->logPath);
+			  $this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
 			  $this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 			  // end ktpl0123 custom log
               echo $e->getMessage();
