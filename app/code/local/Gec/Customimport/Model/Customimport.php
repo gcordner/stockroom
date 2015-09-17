@@ -17,7 +17,18 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-class Gec_Customimport_Model_Customimport extends Mage_Core_Model_Abstract {	
+class Gec_Customimport_Model_Customimport extends Mage_Core_Model_Abstract {
+	
+	protected $customHelper;
+	protected $logPath;
+	
+	public function __construct()
+	{
+		parent::__construct();
+		$this->customHelper = Mage::helper('customimport');
+		$this->logPath      = Mage::getBaseDir('log').'/customimport.log';	
+	}	
+	
     public function _construct()   {
         parent::_construct();
         $this->_init('customimport/customimport');
@@ -89,8 +100,15 @@ class Gec_Customimport_Model_Customimport extends Mage_Core_Model_Abstract {
 	          try {
 	              $eaventityattribute->setEntityAttributeId($id)->save();
 	              echo "<br> Attribute with id #".$arrtibid." updated successfully. <br>";
+					// start ktpl0123 custom log
+					$this->customHelper->writeCustomLog("Attribute with id #".$arrtibid." updated successfully.", $this->logPath);
+					$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+					// end ktpl0123 custom log
 	
 	          } catch (Exception $e){
+					// start ktpl0123 custom log
+					$this->customHelper->writeCustomLog($e, $this->logPath);
+					// end ktpl0123 custom log
 	              echo $e->getMessage();
 	          }
           }
@@ -135,6 +153,10 @@ class Gec_Customimport_Model_Customimport extends Mage_Core_Model_Abstract {
          try{
          	$catalogentity->setEntityId($categoryId)->save();
           } catch (Exception $e){
+			  // start ktpl0123 custom log
+			  $this->customHelper->writeCustomLog($e, $this->logPath);
+			  $this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+			  // end ktpl0123 custom log
               echo $e->getMessage();
           }
     }

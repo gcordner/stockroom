@@ -83,14 +83,31 @@ $flag='0';
 /* code for check file permission and file  start */
 if(isset($_POST['upload_xml']))
 {
+	// Below Code Added By KTPL0123 on 16/09/2015 to write custom log 	
+	
+	$customHelper = Mage::helper('customimport');
+	$logPath 	  = Mage::getBaseDir('log').'/customimport.log';	
+	
+	// Above Code Added By KTPL0123 on 16/09/2015 to write custom log 
+	
 	$filename = $_FILES["uploadFile"]['name'];
 	$ext = pathinfo($filename, PATHINFO_EXTENSION);
 	if($ext != "xml")
 	{
-		echo "Please select XML file only";die;
+		echo "Please select XML file only";
+		// start ktpl0123 custom log
+		$msg = "Please select XML file only";
+		$customHelper->writeCustomLog($msg, $logPath);
+		$customHelper->sendLogEmailAndRemoveLog($logPath);
+		// end ktpl0123 custom log
+		die;
 	}
 	$file = basename($filename, ".xml");
 	$xmlPath = $dir_root.DS.'xmlfiles'.DS;
+	if ( !file_exists($xmlPath) ) {
+	  mkdir ($xmlPath, 0744);
+	}
+	
 // 	if (!file_exists($xmlPath)) {
 // 			$e = new Exception("xmlimport : File dose not exist.");
 // 			Mage::logException($e);
@@ -99,6 +116,10 @@ if(isset($_POST['upload_xml']))
 	if(!is_writable($xmlPath)){
 			$e = new Exception("xmlimport : Please give writable permission for file.");
 			Mage::logException($e);
+			// start ktpl0123 custom log
+			$customHelper->writeCustomLog($e, $logPath);
+			$customHelper->sendLogEmailAndRemoveLog($logPath);
+			// end ktpl0123 custom log
 		echo "<br/><br/>Please give writable permission for file.<br/><br/>";die;
 	}
 	
@@ -122,6 +143,7 @@ $new_completed_file_path=$dir_root.DS.'xmlfiles'.DS.$file.$today_date.'_complete
 /* code for reanme file after process end*/
 
 $t0=microtime(true);
+unlink($logPath);
 $this->parseXml($xmlPath);
 
 //// CATAGORY AND CATEGORYRELATION IMPORT
@@ -149,6 +171,9 @@ try
 	else {
 		$e = new Exception("xmlimport : Categories not found.");
 		Mage::logException($e);
+		// start ktpl0123 custom log
+		$customHelper->writeCustomLog($e, $logPath);
+		// end ktpl0123 custom log
 		$msgcollection.= '<br/><br/> Categories not found<br/><br/>';
 	}
 
@@ -176,6 +201,9 @@ try
     else {
     	$e = new Exception("xmlimport : Attributes not found.");
     	Mage::logException($e);
+    	// start ktpl0123 custom log
+		$customHelper->writeCustomLog($e, $logPath);
+		// end ktpl0123 custom log
     	$msgcollection.=  '<br/><br/> Attributes not found<br/><br/>';
     }
     /* Code End for import attributes */
@@ -189,6 +217,9 @@ try
     else{
         $e = new Exception("xmlimport : product not found.");
         Mage::logException($e);
+        // start ktpl0123 custom log
+		$customHelper->writeCustomLog($e, $logPath);
+		// end ktpl0123 custom log
         $msgcollection.=  '<br/><br/> product not found<br/><br/>';
     }
     /* Code End for import Products */
@@ -200,6 +231,9 @@ try
     }else{
         $e = new Exception("xmlimport : Category-Product association not found.");
         Mage::logException($e);
+        // start ktpl0123 custom log
+		$customHelper->writeCustomLog($e, $logPath);
+		// end ktpl0123 custom log
         $msgcollection.=  '<br/><br/>Category-Product association not found<br/><br/>';
     }
     /* Code End for category product association*/
@@ -213,6 +247,9 @@ try
 				{
 					$e = new Exception("xmlimport : Product-Product association not found.");
 					Mage::logException($e);
+					// start ktpl0123 custom log
+					$customHelper->writeCustomLog($e, $logPath);
+					// end ktpl0123 custom log
 					$msgcollection.=  '<br/><br/>Product-Product association not found.<br/><br/>';
 				}else
 				{
@@ -226,6 +263,10 @@ catch(Exception $e)
 {
 	$flag='1';
 	Mage::logException($e);
+	// start ktpl0123 custom log
+	$customHelper->writeCustomLog($e, $logPath);
+	$customHelper->sendLogEmailAndRemoveLog($logPath);
+	// end ktpl0123 custom log
 }
 
 /* Code start for change file name after complete*/
@@ -250,7 +291,12 @@ else
    	
    	echo $msgcollection ."<br/><br/>". $finalImportStatus.'<br/><br/>' ;
 
-}	
+}
+// start ktpl0123 custom log
+$customHelper->writeCustomLog($msgcollection, $logPath);
+$customHelper->writeCustomLog($finalImportStatus, $logPath);
+$customHelper->writeCustomLog($this->_log_array, $logPath);
+// end ktpl0123 custom log	
 /* code end for change file name after complete*/
 
 foreach($this->_log_array as $msg){
@@ -264,7 +310,8 @@ echo "It took $time sec" ;
 
 // SENDING MAIL CODE
 if(isset($finalImportStatus)){
-   	$emailTemplate = Mage::getModel('core/email_template')->loadDefault('import_status');
+	$customHelper->sendLogEmailAndRemoveLog($logPath);
+   	/*$emailTemplate = Mage::getModel('core/email_template')->loadDefault('import_status');
 
    	//Getting the Store E-Mail Sender Name.
    	$senderName = Mage::getStoreConfig('trans_email/ident_general/name');
@@ -297,7 +344,7 @@ if(isset($finalImportStatus)){
    	{
    	    Mage::getSingleton('core/session')->addError($error->getMessage());
    	    return false;
-   	}
+   	}*/
 }
 // SENDING EMAIL CODE ENDS
 
