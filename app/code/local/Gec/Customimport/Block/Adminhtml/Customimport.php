@@ -88,22 +88,22 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     public function importAllProducts($products,$Currfilepath=null,$Errfilepath=null){
         $item = array();
         foreach($products as $product){
-            Mage::log("xmlimport : Start process for Product # ".$product->id);
+            Mage::log("Start process for Product # ".$product->id);
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : Start process for Product # ".$product->id, $this->logPath);
+			$this->customHelper->writeCustomLog("Start process for Product # ".$product->id, $this->logPath);
 			// end ktpl0123 custom log
             $this->_current_row++;
             $this->importItem($product,$Currfilepath,$Errfilepath);
-            Mage::log("xmlimport : End process for Product # ".$product->id);
+            Mage::log("End process for Product # ".$product->id);
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : End process for Product # ".$product->id, $this->logPath);
+			$this->customHelper->writeCustomLog("End process for Product # ".$product->id, $this->logPath);
 			// end ktpl0123 custom log
         }
-        Mage::log("xmlimport : Successfully created products: {$this->_created_num}");              
-        Mage::log("xmlimport : Successfully updated products: {$this->_updated_num}");
+        Mage::log("Successfully created products: {$this->_created_num}");              
+        Mage::log("Successfully updated products: {$this->_updated_num}");
         // start ktpl0123 custom log
-		$this->customHelper->writeCustomLog("xmlimport : Successfully created products: {$this->_created_num}", $this->logPath);
-		$this->customHelper->writeCustomLog("xmlimport : Successfully updated products: {$this->_updated_num}", $this->logPath);
+		$this->customHelper->writeCustomLog("<span style='color:#009900;'>Successfully created products: {$this->_created_num} </span>", $this->logPath);
+		$this->customHelper->writeCustomLog("<span style='color:#009900;'>Successfully updated products: {$this->_updated_num} </span>", $this->logPath);
 		// end ktpl0123 custom log
         $this->_created_num = 0;
         $this->_updated_num = 0;
@@ -113,21 +113,21 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         $this->_created_num = 0;
         $this->_updated_num = 0;
         foreach($categories  as $category){
-            Mage::log("xmlimport : Start process for category # ".$category->id);
+            Mage::log("Start process for category # ".$category->id);
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : Start process for category # ".$category->id, $this->logPath);
+			$this->customHelper->writeCustomLog("Start process for category # ".$category->id, $this->logPath);
 			// end ktpl0123 custom log
             $this->importCategory($category);
-            Mage::log("xmlimport : End process for category # ".$category->id);
+            Mage::log("End process for category # ".$category->id);
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : End process for category # ".$category->id, $this->logPath);
+			$this->customHelper->writeCustomLog("End process for category # ".$category->id, $this->logPath);
 			// end ktpl0123 custom log
         }
-        Mage::log("xmlimport : Successfully created categories: {$this->_created_num}" ); //code for generate log
- 	    Mage::log("xmlimport : Successfully updated categories: {$this->_updated_num}" );
+        Mage::log("Successfully created categories: {$this->_created_num}" ); //code for generate log
+ 	    Mage::log("Successfully updated categories: {$this->_updated_num}" );
  	    // start ktpl0123 custom log
-		$this->customHelper->writeCustomLog("xmlimport : Successfully created categories: {$this->_created_num}", $this->logPath);
-		$this->customHelper->writeCustomLog("xmlimport : Successfully updated categories: {$this->_updated_num}", $this->logPath);
+		$this->customHelper->writeCustomLog("<span style='color:#009900;'>Successfully created categories: {$this->_created_num} </span>", $this->logPath);
+		$this->customHelper->writeCustomLog("<span style='color:#009900;'>Successfully updated categories: {$this->_updated_num} </span>", $this->logPath);
 		// end ktpl0123 custom log
  	    $this->_created_num = 0;
         $this->_updated_num = 0;
@@ -158,9 +158,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 }
             }
             else{
-                Mage::log('xmlimport : category not found: '.$parent);
+                Mage::log('category not found: '.$parent);
                 // start ktpl0123 custom log
-				$this->customHelper->writeCustomLog('xmlimport : category not found: '.$parent, $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">category not found: '.$parent.'</span>', $this->logPath);
 				// end ktpl0123 custom log
             }
         }
@@ -199,14 +199,14 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 foreach ($validate as $code => $error) {
                     if ($error === true) {
 						// start ktpl0123 custom log
-						$this->customHelper->writeCustomLog(Mage::helper('catalog')->__('xmlimport : Attribute "%s" is required.', $code), $this->logPath);
+						$this->customHelper->writeCustomLog('<span style="color:red;">'.Mage::helper('catalog')->__('Attribute "%s" is required.', $code).'</span>', $this->logPath);
 						$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 						// end ktpl0123 custom log						
-                        Mage::throwException(Mage::helper('catalog')->__('xmlimport : Attribute "%s" is required.', $code));
+                        Mage::throwException(Mage::helper('catalog')->__('Attribute "%s" is required.', $code));
                     }
                     else {
 						// start ktpl0123 custom log
-						$this->customHelper->writeCustomLog($error, $this->logPath);
+						$this->customHelper->writeCustomLog('<span style="color:red;">'.$error.'</span>', $this->logPath);
 						$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 						// end ktpl0123 custom log
                         Mage::throwException($error);
@@ -218,7 +218,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         }
         catch (Exception $e){
 			// start ktpl0123 custom log
-			$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
+			$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
 			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 			// end ktpl0123 custom log
             echo $e->getMessage();
@@ -256,9 +256,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 					$parent_external_id = $parent_category->getExternalId();	
 				  	$mapObj->updateCategoryMappingInfo($ext_subid, $duplicatedSubcategoryId, $parent_external_id, $duplicatedCategoryId);   
 		        }else{
-		        	echo 'xmlimport : error while duplicating Category';
+		        	echo 'error while duplicating Category';
 		        	// start ktpl0123 custom log
-					$this->customHelper->writeCustomLog('xmlimport : error while duplicating Category', $this->logPath);
+					$this->customHelper->writeCustomLog('<span style="color:blue;">error while duplicating Category</span>', $this->logPath);
 					// end ktpl0123 custom log
 		        }
 	        }
@@ -318,18 +318,18 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             		$status = $this->getTreeCategories($category_id, $p_id, $isActive, false);
             	}else{
             		// category is not under any other parent , move           		
-                	echo "<br/><br/>".'xmlimport : block will not  execute as  category is not under any other parent'."<br/><br/>";	
+                	echo "<br/><br/>".'block will not  execute as  category is not under any other parent'."<br/><br/>";	
                 	// start ktpl0123 custom log
-					$this->customHelper->writeCustomLog("<br/><br/>".'xmlimport : block will not  execute as  category is not under any other parent'."<br/><br/>", $this->logPath);
+					$this->customHelper->writeCustomLog('<span style="color:blue;">block will not  execute as  category is not under any other parent</span>', $this->logPath);
 					// end ktpl0123 custom log
             	}	
             }                
         }
         else{
             if(count($actualSubId) == 0){
-                Mage::log('xmlimport : subcategory id not found:'.$ext_subid);
+                Mage::log('subcategory id not found:'.$ext_subid);
                 // start ktpl0123 custom log
-				$this->customHelper->writeCustomLog('xmlimport : subcategory id not found:'.$ext_subid, $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">subcategory id not found:'.$ext_subid.'</span>', $this->logPath);
 				// end ktpl0123 custom log
             }
         }
@@ -338,9 +338,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     public function importItem( &$item,$Currfilepath=null,$Errfilepath=null){
         $missingInfoRow = $this->_current_row -1;
         if(!isset($item->id) || trim($item->id)==''){
-            Mage::log('xmlimport : sku not found for product record #:'.$this->_current_row);
+            Mage::log('sku not found for product record #:'.$this->_current_row);
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog('xmlimport : sku not found for product record #:'.$this->_current_row, $this->logPath);
+			$this->customHelper->writeCustomLog('<span style="color:red;">sku not found for product record #:'.$this->_current_row.'</span>', $this->logPath);
 			// end ktpl0123 custom log
             return false;
         }
@@ -355,9 +355,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         
        
         if(!isset($item->type) || trim($item->type)==''){
-            Mage::log('xmlimport : Product type not found for product record # '.$item->id);
+            Mage::log('Product type not found for product record # '.$item->id);
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog('xmlimport : Product type not found for product record # '.$item->id, $this->logPath);
+			$this->customHelper->writeCustomLog('<span style="color:red;">Product type not found for product record # '.$item->id.'</span>', $this->logPath);
 			// end ktpl0123 custom log
             $this->createLog('Product type not found for product record # '.$item->id, "error");
             return false;
@@ -368,9 +368,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         if(!isset($pid))
         {
             if(!isset($asid)){
-                Mage::log('xmlimport : cannot create product sku:'.(string)$item->id);
+                Mage::log('cannot create product sku:'.(string)$item->id);
                 // start ktpl0123 custom log
-				$this->customHelper->writeCustomLog('xmlimport : cannot create product sku:'.(string)$item->id, $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">cannot create product sku:'.(string)$item->id.'</span>', $this->logPath);
 				// end ktpl0123 custom log
                 return false;
             }
@@ -384,9 +384,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             	$this->createBundleProduct($item, $asid); //create bundle product
             }
             else{
-                 Mage::log("xmlimport : Import function does not support product type of record: {$item->id}");
+                 Mage::log("Import function does not support product type of record: {$item->id}");
                 // start ktpl0123 custom log
-				$this->customHelper->writeCustomLog("xmlimport : Import function does not support product type of record: {$item->id}", $this->logPath);
+				$this->customHelper->writeCustomLog("<span style='color:red;'>Import of product type <b>{$item->type}</b> not suppported. Product #{$item->id} </span>", $this->logPath);
 				// end ktpl0123 custom log
             }
             $this->_curitemids["pid"] = $pid;
@@ -530,8 +530,8 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }
             catch (Exception $e){
 				// start ktpl0123 custom log
-				$this->customHelper->writeCustomLog("Configurable Product not Updated", $this->logPath);
-				$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);				
+				$this->customHelper->writeCustomLog("<span style='color:red;'>Configurable Product not Updated</span>", $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);				
 				$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 				// end ktpl0123 custom log
                 echo " Configurable Product not Updated \n";
@@ -702,33 +702,30 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 }
                 catch (Exception $e){
 					// start ktpl0123 custom log
-					$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
+					$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
 					$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 					// end ktpl0123 custom log
                     echo "exception:$e";
                 }
             }else{
-                Mage::log("xmlimport : Could not get super attribute for product. Hence skipped product : {$item->id}");
+                Mage::log("Could not get super attribute for product. Hence skipped product : {$item->id}");
                 echo "<br/><br/>".'Could not get super attribute for product. Hence skipped product ' .(string)$item->id ."<br/><br/>" ;
                 // start ktpl0123 custom log
-				$this->customHelper->writeCustomLog("xmlimport : Could not get super attribute for product. Hence skipped product : {$item->id}", $this->logPath);
-				$this->customHelper->writeCustomLog("<br/><br/>".'Could not get super attribute for product. Hence skipped product ' .(string)$item->id ."<br/><br/>", $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">Could not get super attribute for product. Hence skipped product ' .(string)$item->id .'</span>', $this->logPath);
 				// end ktpl0123 custom log
             }
         }else{
-            Mage::log("xmlimport : Super attribute is missing. Hence skipped product : {$item->id}");
+            Mage::log("Super attribute is missing. Hence skipped product : {$item->id}");
             echo "<br/><br/>".'Super attribute is missing. Hence skipped product ' .(string)$item->id ."<br/><br/>";
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : Super attribute is missing. Hence skipped product : {$item->id}", $this->logPath);
-			$this->customHelper->writeCustomLog("<br/><br/>".'Super attribute is missing. Hence skipped product ' .(string)$item->id ."<br/><br/>", $this->logPath);
+			$this->customHelper->writeCustomLog('<span style="color:red;">Super attribute is missing. Hence skipped product ' .(string)$item->id .'</span>', $this->logPath);
 			// end ktpl0123 custom log
         }
         }else{
-        	Mage::log("xmlimport : Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id");
+        	Mage::log("Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id");
         	echo "<br/><br/>"."Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id" . "<br/><br/>";
         	// start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id", $this->logPath);
-			$this->customHelper->writeCustomLog("<br/><br/>"."Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id" . "<br/><br/>", $this->logPath);
+			$this->customHelper->writeCustomLog("<span style='color:red;'>Attribute set ID #$attid is missing. Hence skipped product SKU ". $item->id ."</span/>", $this->logPath);
 			// end ktpl0123 custom log
         }
     }
@@ -832,9 +829,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     		$attr_id = $loadedattr->getAttributeId();  // attribute id of magento
     		if(!$attr_id){
     			//  echo 'attribute '.$attribute_code . 'is not available in magento database.';
-    			Mage::log("xmlimport : Skipped product {$item->id}, attribute is not available in magento database.: {$attribute_code}");
+    			Mage::log("Skipped product {$item->id}, attribute is not available in magento database.: {$attribute_code}");
     			// start ktpl0123 custom log
-				$this->customHelper->writeCustomLog("xmlimport : Skipped product {$item->id}, attribute is not available in magento database.: {$attribute_code}", $this->logPath);
+				$this->customHelper->writeCustomLog("<span style='color:red;'>Skipped product {$item->id}, attribute is not available in magento database.: {$attribute_code} </span>", $this->logPath);
 				// end ktpl0123 custom log
     			$skipStatus = 1;
     			break;
@@ -900,36 +897,33 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     				return $productId;
     			}
     			else{
-    				Mage::log('xmlimport : Skipped product due to improper attribute values :'.(string)$item->id);
+    				Mage::log('Skipped product due to improper attribute values :'.(string)$item->id);
     				echo '"<br/><br/>".Skipped product due to improper attribute values :'.(string)$item->id ."<br/><br/>";
     				// start ktpl0123 custom log
-					$this->customHelper->writeCustomLog('xmlimport : Skipped product due to improper attribute values :'.(string)$item->id, $this->logPath);
-					$this->customHelper->writeCustomLog('Skipped product due to improper attribute values :'.(string)$item->id, $this->logPath);
+					$this->customHelper->writeCustomLog('<span style="color:red;">Skipped product due to improper attribute values :'.(string)$item->id .'</span>', $this->logPath);
 					// end ktpl0123 custom log
     			}
     		}else{
-    			Mage::log('xmlimport : Skipped product due to some error while save : '.(string)$item->id);
+    			Mage::log('Skipped product due to some error while save : '.(string)$item->id);
     			echo "<br/><br/>".'Skipped product due to some error while save : '.(string)$item->id ."<br/><br/>";
     			// start ktpl0123 custom log
-				$this->customHelper->writeCustomLog('xmlimport : Skipped product due to some error while save : '.(string)$item->id, $this->logPath);
-				$this->customHelper->writeCustomLog('Skipped product due to some error while save : '.(string)$item->id, $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">Skipped product due to some error while save : '.(string)$item->id .'</span>', $this->logPath);
 				// end ktpl0123 custom log
     		}
     	}
     	catch(Mage_Eav_Model_Entity_Attribute_Exception $e){
 			// start ktpl0123 custom log
-			$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
+			$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
 			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 			// end ktpl0123 custom log
     		echo $e->getAttributeCode();
     		echo $e->getMessage();
     	}
     	}else{
-    		Mage::log("xmlimport : Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id");
+    		Mage::log("Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id");
     		echo "<br/><br/>"."Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id" . "<br/><br/>";
     		// start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id", $this->logPath);
-			$this->customHelper->writeCustomLog("Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id", $this->logPath);
+			$this->customHelper->writeCustomLog("<span style='color:red;'>Attribute set ID #$attid is missing. Hence skipped product SKU ". $item->id ."</span>", $this->logPath);
 			// end ktpl0123 custom log
     	}
     }
@@ -1022,17 +1016,16 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         }
         catch (Exception $e){
 			// start ktpl0123 custom log
-			$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
+			$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
 			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 			// end ktpl0123 custom log
         	echo "exception:$e";
         }
     	}else{
-    		Mage::log("xmlimport : Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id");
+    		Mage::log("Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id");
     		echo "<br/><br/>"."Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id" . "<br/><br/>";
     		// start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id", $this->logPath);
-			$this->customHelper->writeCustomLog("Attribute set ID #$attid is missing. Hence skipped product SKU #$item->id", $this->logPath);
+			$this->customHelper->writeCustomLog("<span style='color:red;'>Attribute set ID ". $attid ." is missing. Hence skipped product SKU ". $item->id ."</span>", $this->logPath);
 			// end ktpl0123 custom log
     	}
     }
@@ -1110,9 +1103,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 $attr_id = $loadedattr->getAttributeId();  // attribute id of magento
                 if(!$attr_id){
                     echo "<br/><br/>".'attribute '.$attribute_code . ' is not available in magento database.Hence skipping product having id ' . (string)$item->id ."<br/><br/>";
-                    Mage::log('xmlimport : attribute '.$attribute_code . ' is not available in magento database.Hence skipping product having id ' . (string)$item->id);
+                    Mage::log('attribute '.$attribute_code . ' is not available in magento database.Hence skipping product having id ' . (string)$item->id);
                     // start ktpl0123 custom log
-					$this->customHelper->writeCustomLog('xmlimport : attribute '.$attribute_code . ' is not available in magento database.Hence skipping product having id ' . (string)$item->id, $this->logPath);
+					$this->customHelper->writeCustomLog('<span style="color:red;">attribute '.$attribute_code . ' is not available in magento database.Hence skipping product having id ' . (string)$item->id.'</span>', $this->logPath);
 					// end ktpl0123 custom log
                 }
                 else{
@@ -1127,9 +1120,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     if($attr_type =='select' && count($attribute_values)>1){
                         //multiple values for attribute which is not multiselect
                         echo "<br/><br/>".'Attribute '. $attribute_code. ' can not have multiple values. Hence skipping product having id ' . (string)$item->id ."<br/><br/>";
-                        Mage::log('xmlimport : Attribute '. $attribute_code. ' can not have multiple values. Hence skipping product having id ' . (string)$item->id);
+                        Mage::log('Attribute '. $attribute_code. ' can not have multiple values. Hence skipping product having id ' . (string)$item->id);
                         // start ktpl0123 custom log
-						$this->customHelper->writeCustomLog('xmlimport : Attribute '. $attribute_code. ' can not have multiple values. Hence skipping product having id ' . (string)$item->id, $this->logPath);
+						$this->customHelper->writeCustomLog('<span style="color:red;">Attribute '. $attribute_code. ' can not have multiple values. Hence skipping product having id ' . (string)$item->id.'</span>', $this->logPath);
 						// end ktpl0123 custom log
                         $skipStatus = 1;
                         break;
@@ -1187,17 +1180,17 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 	            unset($product);
 	            return $productId;
             }else{
-                Mage::log('xmlimport : Skipped product due to improper attribute values :'.(string)$item->id);
+                Mage::log('Skipped product due to improper attribute values :'.(string)$item->id);
                 // start ktpl0123 custom log
-				$this->customHelper->writeCustomLog('xmlimport : Skipped product due to improper attribute values :'.(string)$item->id, $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">Skipped product due to improper attribute values :'.(string)$item->id.'</span>', $this->logPath);
 				// end ktpl0123 custom log
             }
             
         }else{
-                Mage::log('xmlimport : Skipped product due to some error while save :'.(string)$item->id);
+                Mage::log('Skipped product due to some error while save :'.(string)$item->id);
         	  	echo "<br/><br/>".'Skipped product due to some error while save : '.(string)$item->id ."<br/><br/>";
         	  	// start ktpl0123 custom log
-				$this->customHelper->writeCustomLog('xmlimport : Skipped product due to some error while save :'.(string)$item->id, $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">Skipped product due to some error while save :'.(string)$item->id.'</span>', $this->logPath);
 				// end ktpl0123 custom log
         }
     }
@@ -1271,8 +1264,8 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }
             catch (Exception $e){
 				// start ktpl0123 custom log
-				$this->customHelper->writeCustomLog("Bunduled Prduct not updated", $this->logPath);
-				$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
+				$this->customHelper->writeCustomLog("<span style='color:blue;'>Bunduled Prduct not updated</span>", $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
 				$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 				// end ktpl0123 custom log
                 echo "Bunduled Prduct not updated\n";
@@ -1324,10 +1317,10 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         $magento_set_id = $mapObj->getAttributeSetIdByExternalId($external_set_id);
         if($magento_set_id == "")
         { 
-					$e = new Exception("xmlimport : Attribute '.$external_set_id . ' is not available in magento database.");
+					$e = new Exception("Attribute '.$external_set_id . ' is not available in magento database.");
 					// start ktpl0123 custom log
-					$this->customHelper->writeCustomLog('Attribute '.$external_set_id . ' is not available in magento database', $this->logPath);
-					$this->customHelper->writeCustomLog($e->getMessage(), $this->logPath);
+					$this->customHelper->writeCustomLog('<span style="color:red;">Attribute '.$external_set_id . ' is not available in magento database</span>', $this->logPath);
+					$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
 					// end ktpl0123 custom log
 					Mage::logException($e);
 					echo '<br/><br/>Attribute '.$external_set_id . ' is not available in magento database.<br/><br/>';
@@ -1421,9 +1414,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         $this->_item_num = $count;
         $t1 = microtime(true);
         $time = $t1-$t0;  
-         Mage::log("xmlimport : Found $count records","startup");
+         Mage::log("Found $count records","startup");
         // start ktpl0123 custom log
-		$this->customHelper->writeCustomLog("xmlimport : Found $count records", $this->logPath);
+		$this->customHelper->writeCustomLog("Found $count records", $this->logPath);
 		// end ktpl0123 custom log
     }
     
@@ -1463,13 +1456,14 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 foreach ($validate as $code => $error) {
                     if ($error === true) {
 						// start ktpl0123 custom log
-						$this->customHelper->writeCustomLog(Mage::helper('catalog')->__('xmlimport : Attribute "%s" is required.', $code), $this->logPath);
+						$this->customHelper->writeCustomLog('<span style="color:red;">'.Mage::helper('catalog')->__('Attribute "%s" is required.', $code).'</span>', $this->logPath);
+						$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 						// end ktpl0123 custom log
-                        Mage::throwException(Mage::helper('catalog')->__('xmlimport : Attribute "%s" is required.', $code));
+                        Mage::throwException(Mage::helper('catalog')->__('Attribute "%s" is required.', $code));
                     }
                     else {
 						// start ktpl0123 custom log
-						$this->customHelper->writeCustomLog($error, $this->logPath);
+						$this->customHelper->writeCustomLog('<span style="color:red;">'.$error.'</span>', $this->logPath);
 						$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 						// end ktpl0123 custom log
                         Mage::throwException($error);
@@ -1480,7 +1474,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         }
         catch (Exception $e){
 			// start ktpl0123 custom log
-			$this->customHelper->writeCustomLog($e, $this->logPath);
+			$this->customHelper->writeCustomLog('<span style="color:red;">'.$e.'</span>', $this->logPath);
 			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 			// end ktpl0123 custom log
             echo $e->getMessage();
@@ -1561,15 +1555,16 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 ->load($categoryId);
             if (!$category->getId()) {
 				// start ktpl0123 custom log
-				$this->customHelper->writeCustomLog(Mage::helper('catalog')->__('xmlimport : Parent category $categoryId is not available.'), $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">'.Mage::helper('catalog')->__('Parent category $categoryId is not available.').'</span>', $this->logPath);
 				$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 				// end ktpl0123 custom log
-                Mage::throwException(Mage::helper('catalog')->__('xmlimport : Parent category "%s" is not available.', $categoryId));
+                Mage::throwException(Mage::helper('catalog')->__('Parent category "%s" is not available.', $categoryId));
             }
         }
         catch (Exception $e){
 			// start ktpl0123 custom log
-			$this->customHelper->writeCustomLog($e, $this->logPath);
+			$this->customHelper->writeCustomLog('<span style="color:red;">'.$e.'</span>', $this->logPath);
+			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 			// end ktpl0123 custom log
             echo $e->getMessage();
         }
@@ -1624,9 +1619,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 }
             }
         }else{
-            Mage::log('xmlimport : product does not exists :'.(string)$productDetail->id);
+            Mage::log('product does not exists :'.(string)$productDetail->id);
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog('xmlimport : product does not exists :'.(string)$productDetail->id, $this->logPath);
+			$this->customHelper->writeCustomLog('<span style="color:red;">product does not exists :'.(string)$productDetail->id.'</span>', $this->logPath);
 			// end ktpl0123 custom log
             echo (string)$productDetail->id.' product does not exists';
             Mage::log('product does not exists :'.(string)$productDetail->id);
@@ -1642,28 +1637,28 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     reset($externall);
                     $first_key = key($externall);
                     foreach($associate->product as $product){
-                        Mage::log("xmlimport : Start Process for category # ".$first_key." and product # ".$product->id. "association");
+                        Mage::log("Start Process for category # ".$first_key." and product # ".$product->id. "association");
                         // start ktpl0123 custom log
-						$this->customHelper->writeCustomLog("xmlimport : Start Process for category # ".$first_key." and product # ".$product->id. "association", $this->logPath);
+						$this->customHelper->writeCustomLog("Start Process for category # ".$first_key." and product # ".$product->id. "association", $this->logPath);
 						// end ktpl0123 custom log
                         $this->associateProductToCategory($product,$first_key);
-                        Mage::log("xmlimport : End Process for category # ".$first_key." and product # ".$product->id. "association");
+                        Mage::log("End Process for category # ".$first_key." and product # ".$product->id. "association");
                         // start ktpl0123 custom log
-						$this->customHelper->writeCustomLog("xmlimport : End Process for category # ".$first_key." and product # ".$product->id. "association", $this->logPath);
+						$this->customHelper->writeCustomLog("End Process for category # ".$first_key." and product # ".$product->id. "association", $this->logPath);
 						// end ktpl0123 custom log
                     }
                 }
                 else{
                 	foreach($externall as $systemCatid=>$v){
                 		foreach($associate->product as $product){
-                		    Mage::log("xmlimport : Start Process for category # ".$systemCatid." and product # ".$product->id. "association");
+                		    Mage::log("Start Process for category # ".$systemCatid." and product # ".$product->id. "association");
                 		    // start ktpl0123 custom log
-							$this->customHelper->writeCustomLog("xmlimport : Start Process for category # ".$systemCatid." and product # ".$product->id. "association", $this->logPath);
+							$this->customHelper->writeCustomLog("Start Process for category # ".$systemCatid." and product # ".$product->id. "association", $this->logPath);
 							// end ktpl0123 custom log
                 			$this->associateProductToCategory($product,$systemCatid);
-                			Mage::log("xmlimport : End Process for category # ".$systemCatid." and product # ".$product->id. "association");
+                			Mage::log("End Process for category # ".$systemCatid." and product # ".$product->id. "association");
                 			// start ktpl0123 custom log
-							$this->customHelper->writeCustomLog("xmlimport : End Process for category # ".$systemCatid." and product # ".$product->id. "association", $this->logPath);
+							$this->customHelper->writeCustomLog("End Process for category # ".$systemCatid." and product # ".$product->id. "association", $this->logPath);
 							// end ktpl0123 custom log
                 		}
                 	}               	               	
@@ -1671,9 +1666,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }
             else{
                 if(count($externall) == 0){
-                    Mage::log('xmlimport : category id not found: '.$parent);
+                    Mage::log('category id not found: '.$parent);
                     // start ktpl0123 custom log
-					$this->customHelper->writeCustomLog('xmlimport : category id not found: '.$parent, $this->logPath);
+					$this->customHelper->writeCustomLog('<span style="color:red;">category id not found: '.$parent.'</span>', $this->logPath);
 					// end ktpl0123 custom log
                 }
             }
@@ -1681,9 +1676,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     }
     public function associatePdtPdt($association){ 
         foreach($association as $associate){
-            Mage::log("xmlimport : Start Process for product association # ".$associate->productIdFrom);
+            Mage::log("Start Process for product association # ".$associate->productIdFrom);
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : Start Process for product association # ".$associate->productIdFrom, $this->logPath);
+			$this->customHelper->writeCustomLog("Start Process for product association # ".$associate->productIdFrom, $this->logPath);
 			// end ktpl0123 custom log
             $mainProduct = Mage::getModel('catalog/product')->loadByAttribute('sku',(string)$associate->productIdFrom);
             if ($mainProduct) {
@@ -1772,7 +1767,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 			             		             
                 	} catch (Exception $e) {
 						// start ktpl0123 custom log
-						$this->customHelper->writeCustomLog($e, $this->logPath);
+						$this->customHelper->writeCustomLog('<span style="color:red;">'.$e.'</span>', $this->logPath);
 						$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 						// end ktpl0123 custom log
 					    Mage::log($e->getMessage());
@@ -1791,14 +1786,14 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 unset($relatedArray);
                 unset($associatedArray);
             }else{
-                Mage::log('xmlimport : product not found for association: # '.$associate->productIdFrom);
+                Mage::log('product not found for association: # '.$associate->productIdFrom);
 				// start ktpl0123 custom log
-				$this->customHelper->writeCustomLog('xmlimport : product not found for association: # '.$associate->productIdFrom, $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">product not found for association: # '.$associate->productIdFrom.'</span>', $this->logPath);
 				// end ktpl0123 custom log
             }
-            Mage::log("xmlimport : End Process for product association # ".$associate->productIdFrom);
+            Mage::log("End Process for product association # ".$associate->productIdFrom);
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : End Process for product association # ".$associate->productIdFrom, $this->logPath);
+			$this->customHelper->writeCustomLog("End Process for product association # ".$associate->productIdFrom, $this->logPath);
 			// end ktpl0123 custom log
         }
     }
@@ -1809,9 +1804,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         if( $xmlData->productAssociations->association instanceof Varien_Simplexml_Element){
             return $xmlData->productAssociations->association;
         }else{
-            Mage::log('xmlimport : Associatation block is empty');
+            Mage::log('Associatation block is empty');
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog('xmlimport : Associatation block is empty', $this->logPath);
+			$this->customHelper->writeCustomLog('<span style="color:blue;">Associatation block is empty</span>', $this->logPath);
 			// end ktpl0123 custom log
         }
     }
@@ -1835,17 +1830,17 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                         $attr->save();
                         $result =  true;
                     }else{
-                         Mage::log('xmlimport : attribute '.$attribute_id. ' can not be updated to become superattribute');
+                         Mage::log('attribute '.$attribute_id. ' can not be updated to become superattribute');
                         // start ktpl0123 custom log
-						$this->customHelper->writeCustomLog('xmlimport : attribute '.$attribute_id. ' can not be updated to become superattribute', $this->logPath);
+						$this->customHelper->writeCustomLog('<span style="color:red;">attribute '.$attribute_id. ' can not be updated to become superattribute</span>', $this->logPath);
 						// end ktpl0123 custom log
                         $result =  false;
                     }
                 }
             }else{
-                Mage::log('xmlimport : attribute '.$attribute_id.' does not exists');
+                Mage::log('attribute '.$attribute_id.' does not exists');
                 // start ktpl0123 custom log
-				$this->customHelper->writeCustomLog('xmlimport : attribute '.$attribute_id.' does not exists', $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">attribute '.$attribute_id.' does not exists</span>', $this->logPath);
 				// end ktpl0123 custom log
                 $result =  false;
             }
@@ -1986,7 +1981,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 }
             } catch (Exception $e) {
 				// start ktpl0123 custom log
-				$this->customHelper->writeCustomLog('Sorry, error occured while trying to save the attribute. Error: '.$e->getMessage(), $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">Sorry, error occured while trying to save the attribute. Error: '.$e->getMessage().'</span>', $this->logPath);
 				$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 				// end ktpl0123 custom log
                 echo '<p>Sorry, error occured while trying to save the attribute. Error: '.$e->getMessage().'</p>';
@@ -1996,14 +1991,14 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 
     public function importAttribute($parsedAttribute){
         foreach($parsedAttribute as $attribute){
-            Mage::log("xmlimport : Start Process for attribute # ".$attribute->id);
+            Mage::log("Start Process for attribute # ".$attribute->id);
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : Start Process for attribute # ".$attribute->id, $this->logPath);
+			$this->customHelper->writeCustomLog("Start Process for attribute # ".$attribute->id, $this->logPath);
 			// end ktpl0123 custom log
             $this->createAttribute($attribute);
-            Mage::log("xmlimport : End Process for attribute # ".$attribute->id);
+            Mage::log("End Process for attribute # ".$attribute->id);
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : End Process for attribute # ".$attribute->id, $this->logPath);
+			$this->customHelper->writeCustomLog("End Process for attribute # ".$attribute->id, $this->logPath);
 			// end ktpl0123 custom log
         }
         $this->reindexDB(7);	// 7 is used after attribute creation.
@@ -2035,9 +2030,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 
         foreach($parsedAttributeSet as $set){
 			// start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : Start Process for attribute # ".$set->id, $this->logPath);
+			$this->customHelper->writeCustomLog("Start Process for attribute # ".$set->id, $this->logPath);
 			// end ktpl0123 custom log
-             Mage::log("xmlimport : Start Process for attribute # ".$set->id); 
+             Mage::log("Start Process for attribute # ".$set->id); 
             $attributeSetId = (string)$set->id;
             $attributeSetName = (string)$set->name;
 
@@ -2055,9 +2050,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }
             unset($attributegroup_status);
             unset($attributegroup_id);
-            Mage::log("xmlimport : End Process for attribute # ".$set->id);
+            Mage::log("End Process for attribute # ".$set->id);
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog("xmlimport : End Process for attribute # ".$set->id, $this->logPath);
+			$this->customHelper->writeCustomLog("End Process for attribute # ".$set->id, $this->logPath);
 			// end ktpl0123 custom log
         }
         $this->attributeGroupsGlobal = $attributeSet_groups;
@@ -2077,7 +2072,8 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $modelSet->load($attributeSetId);
             if (!$modelSet->getId()) {
 				// start ktpl0123 custom log
-				$this->customHelper->writeCustomLog(Mage::helper('catalog')->__('This attribute set no longer exists.'), $this->logPath);
+				$this->customHelper->writeCustomLog('<span style="color:red;">'.Mage::helper('catalog')->__('This attribute set no longer exists.').'</span>', $this->logPath);
+				$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 				// end ktpl0123 custom log
                 Mage::throwException(Mage::helper('catalog')->__('This attribute set no longer exists.'));
             }
@@ -2098,7 +2094,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }
         }catch(Exception $e){
 			// start ktpl0123 custom log
-			$this->customHelper->writeCustomLog('Attribute set name '.$attribute_set_name.' with id '.$external_id.' already exists in Magento system with same name', $this->logPath);
+			$this->customHelper->writeCustomLog('<span style="color:red;">Attribute set name '.$attribute_set_name.' with id '.$external_id.' already exists in Magento system with same name</span>', $this->logPath);
 			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 			// end ktpl0123 custom log
             echo "<br/><br/>".'Attribute set name '."$attribute_set_name".' with id '."$external_id".' already exists in Magento system with same name'."<br/><br/>";
@@ -2215,7 +2211,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         }else{
             echo "<br/><br/>".'Attribute Group is not available to be removed'."<br/><br/>";
             // start ktpl0123 custom log
-			$this->customHelper->writeCustomLog('Attribute Group is not available to be removed', $this->logPath);
+			$this->customHelper->writeCustomLog('<span style="color:blue;">Attribute Group is not available to be removed</span>', $this->logPath);
 			// end ktpl0123 custom log
         }
     }
@@ -2243,7 +2239,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                      $model->save();
                 } catch (Exception $e) {
 					// start ktpl0123 custom log
-					$this->customHelper->writeCustomLog(Mage::helper('catalog')->__('An error occurred while saving this group.'), $this->logPath);
+					$this->customHelper->writeCustomLog('<span style="color:red;">'.Mage::helper('catalog')->__('An error occurred while saving this group.').'</span>', $this->logPath);
 					$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 					// end ktpl0123 custom log
                     Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('An error occurred while saving this group.'));
