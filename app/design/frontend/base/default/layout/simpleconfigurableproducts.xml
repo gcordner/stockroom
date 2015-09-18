@@ -10,7 +10,7 @@
         </reference>
 
         <reference name="product.info.options.wrapper">
-            <action method="setTemplate"><template>catalog/product/view/options/scpwrapper.phtml</template></action>
+            <action method="setTemplate"><template>catalog/product/view/options/wrapper.phtml</template></action>
         </reference>
 
         <reference name="product.info.options">
