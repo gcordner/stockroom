@@ -79,7 +79,6 @@ set_time_limit(0);
 $dir_root=Mage::getBaseDir();
 $flag='0';
 
-
 /* code for check file permission and file  start */
 if(isset($_POST['upload_xml']))
 {
@@ -109,15 +108,15 @@ if(isset($_POST['upload_xml']))
 	}
 	
 // 	if (!file_exists($xmlPath)) {
-// 			$e = new Exception("xmlimport : File dose not exist.");
+// 			$e = new Exception("File dose not exist.");
 // 			Mage::logException($e);
 // 			echo "The file  does not exist";die;
 // 	}
 	if(!is_writable($xmlPath)){
-			$e = new Exception("xmlimport : Please give writable permission for file.");
+			$e = new Exception("Please give writable permission for file.");
 			Mage::logException($e);
 			// start ktpl0123 custom log
-			$customHelper->writeCustomLog($e->getMessage(), $logPath);
+			$customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $logPath);
 			$customHelper->sendLogEmailAndRemoveLog($logPath);
 			// end ktpl0123 custom log
 		echo "<br/><br/>Please give writable permission for file.<br/><br/>";die;
@@ -169,12 +168,12 @@ try
 		  $msgcollection.= "<br/><br/>Categories are successfully imported<br/><br/>";
 	}
 	else {
-		$e = new Exception("xmlimport : Categories not found.");
+		$e = new Exception("Categories not found.");
 		Mage::logException($e);
 		// start ktpl0123 custom log
-		$customHelper->writeCustomLog($e->getMessage(), $logPath);
+		$customHelper->writeCustomLog('<span style="color:blue;">'.$e->getMessage().'</span>', $logPath);
 		// end ktpl0123 custom log
-		$msgcollection.= '<br/><br/> Categories not found<br/><br/>';
+		$msgcollection.= '<span style="color:blue;">Categories not found</span><br/>';
 	}
 
 	$this->parseAllCategoryRelation();
@@ -199,12 +198,12 @@ try
           $msgcollection.=  "<br/><br/>Attributes are successfully imported<br/><br/>";
     }
     else {
-    	$e = new Exception("xmlimport : Attributes not found.");
+    	$e = new Exception("Attributes not found.");
     	Mage::logException($e);
     	// start ktpl0123 custom log
-		$customHelper->writeCustomLog($e->getMessage(), $logPath);
+		$customHelper->writeCustomLog('<span style="color:blue;">'.$e->getMessage().'</span>', $logPath);
 		// end ktpl0123 custom log
-    	$msgcollection.=  '<br/><br/> Attributes not found<br/><br/>';
+    	$msgcollection.=  '<span style="color:blue;">Attributes not found</span><br/>';
     }
     /* Code End for import attributes */
     
@@ -215,12 +214,12 @@ try
         $msgcollection.=  "<br/><br/>Products are successfully imported<br/><br/>";
     }
     else{
-        $e = new Exception("xmlimport : product not found.");
+        $e = new Exception("product not found.");
         Mage::logException($e);
         // start ktpl0123 custom log
-		$customHelper->writeCustomLog($e->getMessage(), $logPath);
+		$customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $logPath);
 		// end ktpl0123 custom log
-        $msgcollection.=  '<br/><br/> product not found<br/><br/>';
+        $msgcollection.=  '<span style="color:blue;">product not found</span><br/>';
     }
     /* Code End for import Products */
     
@@ -229,10 +228,10 @@ try
     if($associatedProductsCategory){
         $this->associateProducts($associatedProductsCategory);
     }else{
-        $e = new Exception("xmlimport : Category-Product association not found.");
+        $e = new Exception("Category-Product association not found.");
         Mage::logException($e);
         // start ktpl0123 custom log
-		$customHelper->writeCustomLog($e->getMessage(), $logPath);
+		$customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $logPath);
 		// end ktpl0123 custom log
         $msgcollection.=  '<br/><br/>Category-Product association not found<br/><br/>';
     }
@@ -245,10 +244,10 @@ try
     }else{
 				if(($products->type == "configurable") || ($products->type == "bundle"))
 				{
-					$e = new Exception("xmlimport : Product-Product association not found.");
+					$e = new Exception("Product-Product association not found.");
 					Mage::logException($e);
 					// start ktpl0123 custom log
-					$customHelper->writeCustomLog($e->getMessage(), $logPath);
+					$customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $logPath);
 					// end ktpl0123 custom log
 					$msgcollection.=  '<br/><br/>Product-Product association not found.<br/><br/>';
 				}else
@@ -264,7 +263,7 @@ catch(Exception $e)
 	$flag='1';
 	Mage::logException($e);
 	// start ktpl0123 custom log
-	$customHelper->writeCustomLog($e->getMessage(), $logPath);
+	$customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $logPath);
 	$customHelper->sendLogEmailAndRemoveLog($logPath);
 	// end ktpl0123 custom log
 }
@@ -286,14 +285,14 @@ else
 	{
 		rename($current_file_path, $new_completed_file_path);
 	}
-   	$finalImportStatus =  'Successfully imported to magento';
+   	$finalImportStatus =  '<span style="color:#009900;">Successfully imported to magento</span>';
   
    	
    	echo $msgcollection ."<br/><br/>". $finalImportStatus.'<br/><br/>' ;
 
 }
 // start ktpl0123 custom log
-$customHelper->writeCustomLog($msgcollection, $logPath);
+//$customHelper->writeCustomLog($msgcollection, $logPath);
 $customHelper->writeCustomLog($finalImportStatus, $logPath);
 //$customHelper->writeCustomLog($this->_log_array, $logPath);
 // end ktpl0123 custom log	
