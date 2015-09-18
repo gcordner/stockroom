@@ -50,6 +50,7 @@ $_minimalPriceValue = $_product->getMinimalPrice();
 $_minimalPriceValue = $_store->roundPrice($_store->convertPrice($_minimalPriceValue));
 $_minimalPrice = $_taxHelper->getPrice($_product, $_minimalPriceValue, $_simplePricesTax);
 
+$specialprice = $_product->getFinalPrice();
 $specialPriceFromDate = $_product->getSpecialFromDate();
 $specialPriceToDate = $_product->getSpecialToDate();
 $today =  strtotime(Mage::getModel('core/date')->date('Y-m-d H:i:s')); //time();
