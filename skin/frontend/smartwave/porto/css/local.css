@@ -3686,3 +3686,5 @@ ol#products-list .bottom-home-dailydeal ul.time-left li span.text-time{font-size
 .quickview-index-view .product-collateral{display:none}
 .store-switcher{text-align:right}
 .store-switcher:before{content:"";display:block;clear:both}
+.validation-advice{display:block;}
+.validation-advice:before{content:"";}
