@@ -81,7 +81,7 @@ $_coreHelper = $this->helper('core');
                         
                         
                         // Get the Special Price
-                        $specialprice = $product->getFinalPrice();
+                        $specialprice = $product->getSpecialPrice();
                         $orgprice = $product->getPrice();
                         // Get the Special Price FROM date
                         $specialPriceFromDate = $product->getSpecialFromDate();
@@ -90,7 +90,7 @@ $_coreHelper = $this->helper('core');
                         // Get Current date
                         $today =  strtotime(Mage::getModel('core/date')->date('Y-m-d H:i:s'));
                      
-                        if ($specialprice<$orgprice){
+                        if ($specialprice<$orgprice && $specialprice != ''){
                             $save_percent = 100-round(($specialprice/$orgprice)*100);
                             if($today >= strtotime( $specialPriceFromDate) && $today <= strtotime($specialPriceToDate) || $today >= strtotime( $specialPriceFromDate) && is_null($specialPriceToDate)){
                                 if(Mage::getStoreConfig("porto_settings/product_label/sale", $code)){
@@ -280,7 +280,7 @@ $_coreHelper = $this->helper('core');
                         
                         
                         // Get the Special Price
-                        $specialprice = $product->getFinalPrice();
+                        $specialprice = $product->getSpecialPrice();
                         $orgprice = $product->getPrice();
                         // Get the Special Price FROM date
                         $specialPriceFromDate = $product->getSpecialFromDate();
@@ -289,7 +289,7 @@ $_coreHelper = $this->helper('core');
                         // Get Current date
                         $today =  strtotime(Mage::getModel('core/date')->date('Y-m-d H:i:s'));
                      
-                        if ($specialprice<$orgprice){
+                        if ($specialprice<$orgprice && $specialprice != ''){
                             $save_percent = 100-round(($specialprice/$orgprice)*100);
                             if($today >= strtotime( $specialPriceFromDate) && $today <= strtotime($specialPriceToDate) || $today >= strtotime( $specialPriceFromDate) && is_null($specialPriceToDate)){
                                 if(Mage::getStoreConfig("porto_settings/product_label/sale", $code)){
