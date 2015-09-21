@@ -50,12 +50,18 @@ $_minimalPriceValue = $_product->getMinimalPrice();
 $_minimalPriceValue = $_store->roundPrice($_store->convertPrice($_minimalPriceValue));
 $_minimalPrice = $_taxHelper->getPrice($_product, $_minimalPriceValue, $_simplePricesTax);
 
+// Get the Special Price
+$specialprice = $_product->getSpecialPrice();
+$orgprice = $_product->getPrice();
+// Get the Special Price FROM date
 $specialPriceFromDate = $_product->getSpecialFromDate();
+// Get the Special Price TO date
 $specialPriceToDate = $_product->getSpecialToDate();
-$today =  strtotime(Mage::getModel('core/date')->date('Y-m-d H:i:s')); //time();
-if ($specialprice<$_product->getPrice()){
-    if($today >= strtotime( $specialPriceFromDate) && $today <= strtotime($specialPriceToDate) || $today >= strtotime( $specialPriceFromDate) && is_null($specialPriceToDate)){
-        $_convertedFinalPrice = $_store->roundPrice($_store->convertPrice($_product->getFinalPrice()));
+// Get Current date
+$today =  strtotime(Mage::getModel('core/date')->date('Y-m-d H:i:s'));
+if ($specialprice<$orgprice){
+    if($today >= strtotime( $specialPriceFromDate) && $today <= strtotime($specialPriceToDate) || $today >= strtotime( $specialPriceFromDate) && is_null($specialPriceToDate) && $specialPriceFromDate != ''){
+        $_convertedFinalPrice = $_store->roundPrice($_store->convertPrice($specialprice));
     }else{
         $_convertedFinalPrice = $_product->getPrice();
         $_minimalPriceValue = 0;
