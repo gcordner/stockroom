@@ -75,4 +75,15 @@ class Gec_Customimport_Helper_Data extends Mage_Core_Helper_Abstract
 		}
 			
 	}
+	
+	public function getCurrentLocaleDateTime($defaultUTCDate)
+	{
+		/*echo "Current Timezone : ".Mage::getStoreConfig('general/locale/timezone')."<br/>";
+		$defaultUTCDate = '09/25/2015 22:35:48';
+		echo "defaultUTCDate : ".$defaultUTCDate."<br/>";
+		$storeTimezoneDate = date('m/d/Y H:m:s', Mage::getModel('core/date')->timestamp(strtotime($defaultUTCDate))); 
+		echo "storeTimezoneDate : ".$storeTimezoneDate."<br/>";
+		die('here');*/
+		return date('Y-m-d H:m:s', Mage::getModel('core/date')->timestamp(strtotime($defaultUTCDate))); 
+	}
 }
