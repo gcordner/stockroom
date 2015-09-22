@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Ktpl_MassDelete>
+            <version>0.0.0.1</version>
+        </Ktpl_MassDelete>
+    </modules>
+    <global>        
+        <blocks>
+            <adminhtml>
+                <rewrite>
+                    <tax_rate_grid>Ktpl_MassDelete_Block_Tax_Rate_Grid</tax_rate_grid>
+                </rewrite>
+            </adminhtml>
+        </blocks> 
+    </global>
+    <admin>
+        <routers>
+            <massdelete>
+                <use>admin</use>
+                <args>
+                    <module>Ktpl_MassDelete</module>
+                    <frontName>massdelete</frontName>
+                </args>
+            </massdelete>
+        </routers>  
+    </admin>
+</config>
