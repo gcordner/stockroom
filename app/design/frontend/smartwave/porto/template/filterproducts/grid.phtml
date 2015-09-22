@@ -99,7 +99,7 @@
                         // Get the Special Price TO date
                         $specialPriceToDate = $product->getSpecialToDate();
                         // Get Current date
-                        $today =  time();
+                        $today =  strtotime(Mage::getModel('core/date')->date('Y-m-d H:i:s'));
                      
                         if ($specialprice<$orgprice){
                             $save_percent = 100-round(($specialprice/$orgprice)*100);
