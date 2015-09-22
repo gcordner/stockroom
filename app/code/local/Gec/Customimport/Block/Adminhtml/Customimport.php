@@ -426,7 +426,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $fromDate=(array)$item->specialPrice->fromDateTime;
             if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL) {
                 if(!empty($fromDate))
-                    $product->setSpecialFromDate($item->specialPrice->fromDateTime); //special price from (MM-DD-YYYY)
+                    $product->setSpecialFromDate(Mage::helper('customimport')->getCurrentLocaleDateTime($item->specialPrice->fromDateTime)); //special price from (MM-DD-YYYY)
                 else
                     $product->setSpecialFromDate("");
             }
@@ -434,7 +434,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $toDate=(array)$item->specialPrice->toDateTime;
             if(isset($item->specialPrice->toDateTime) && $item->specialPrice->toDateTime!=NULL) {
                 if(!empty($toDate))
-                    $product->setSpecialToDate($item->specialPrice->toDateTime); //special price to (MM-DD-YYYY)
+                    $product->setSpecialToDate(Mage::helper('customimport')->getCurrentLocaleDateTime($item->specialPrice->toDateTime)); //special price to (MM-DD-YYYY)
                 else
                     $product->setSpecialToDate("");
             }
@@ -580,13 +580,13 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             exit;*/
             if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL) {
                 if(!empty($fromDate))
-                    $product->setSpecialFromDate($item->specialPrice->fromDateTime); //special price from (MM-DD-YYYY)
+                    $product->setSpecialFromDate(Mage::helper('customimport')->getCurrentLocaleDateTime($item->specialPrice->fromDateTime)); //special price from (MM-DD-YYYY)
             }
             
             $toDate=(array)$item->specialPrice->toDateTime;
             if(isset($item->specialPrice->toDateTime) && $item->specialPrice->toDateTime!=NULL) {
                 if(!empty($toDate))
-                    $product->setSpecialToDate($item->specialPrice->toDateTime); //special price to (MM-DD-YYYY)
+                    $product->setSpecialToDate(Mage::helper('customimport')->getCurrentLocaleDateTime($item->specialPrice->toDateTime)); //special price to (MM-DD-YYYY)
             }
         $product->setWeight((real)$item->weight);
         $product->setStatus($p_status);
@@ -786,13 +786,13 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $fromDate=(array)$item->specialPrice->fromDateTime;
             if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL) {
                 if(!empty($fromDate))
-                    $product->setSpecialFromDate($item->specialPrice->fromDateTime); //special price from (MM-DD-YYYY)
+                    $product->setSpecialFromDate(Mage::helper('customimport')->getCurrentLocaleDateTime($item->specialPrice->fromDateTime)); //special price from (MM-DD-YYYY)
             }
             
             $toDate=(array)$item->specialPrice->toDateTime;
             if(isset($item->specialPrice->toDateTime) && $item->specialPrice->toDateTime!=NULL) {
                 if(!empty($toDate))
-                    $product->setSpecialToDate($item->specialPrice->toDateTime); //special price to (MM-DD-YYYY)
+                    $product->setSpecialToDate(Mage::helper('customimport')->getCurrentLocaleDateTime($item->specialPrice->toDateTime)); //special price to (MM-DD-YYYY)
             }
     	$product->setWeight((real)$item->weight);
     	$product->setStatus($p_status);
@@ -959,13 +959,13 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         $fromDate=(array)$item->specialPrice->fromDateTime;
         if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL) {
             if(!empty($fromDate))
-                $product->setSpecialFromDate($item->specialPrice->fromDateTime); //special price from (MM-DD-YYYY)
+                $product->setSpecialFromDate(Mage::helper('customimport')->getCurrentLocaleDateTime($item->specialPrice->fromDateTime)); //special price from (MM-DD-YYYY)
         }
         
         $toDate=(array)$item->specialPrice->toDateTime;
         if(isset($item->specialPrice->toDateTime) && $item->specialPrice->toDateTime!=NULL) {
             if(!empty($toDate))
-                $product->setSpecialToDate($item->specialPrice->toDateTime); //special price to (MM-DD-YYYY)
+                $product->setSpecialToDate(Mage::helper('customimport')->getCurrentLocaleDateTime($item->specialPrice->toDateTime)); //special price to (MM-DD-YYYY)
         }
         
         $product->setWeight((real)$item->weight);
@@ -1054,7 +1054,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $fromDate=(array)$item->specialPrice->fromDateTime;
             if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL) {
                 if(!empty($fromDate))
-                    $product->setSpecialFromDate($item->specialPrice->fromDateTime); //special price from (MM-DD-YYYY)
+                    $product->setSpecialFromDate(Mage::helper('customimport')->getCurrentLocaleDateTime($item->specialPrice->fromDateTime)); //special price from (MM-DD-YYYY)
                 else
                     $product->setSpecialFromDate("");
             }
@@ -1062,7 +1062,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $toDate=(array)$item->specialPrice->toDateTime;
             if(isset($item->specialPrice->toDateTime) && $item->specialPrice->toDateTime!=NULL) {
                 if(!empty($toDate))
-                    $product->setSpecialToDate($item->specialPrice->toDateTime); //special price to (MM-DD-YYYY)
+                    $product->setSpecialToDate(Mage::helper('customimport')->getCurrentLocaleDateTime($item->specialPrice->toDateTime)); //special price to (MM-DD-YYYY)
                 else
                     $product->setSpecialToDate("");
             }
@@ -1217,7 +1217,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $fromDate=(array)$item->specialPrice->fromDateTime;
             if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL) {
                 if(!empty($fromDate))
-                    $product->setSpecialFromDate($item->specialPrice->fromDateTime); //special price from (MM-DD-YYYY)
+                    $product->setSpecialFromDate(Mage::helper('customimport')->getCurrentLocaleDateTime($item->specialPrice->fromDateTime)); //special price from (MM-DD-YYYY)
                 else
                     $product->setSpecialFromDate("");
             }
@@ -1225,7 +1225,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $toDate=(array)$item->specialPrice->toDateTime;
             if(isset($item->specialPrice->toDateTime) && $item->specialPrice->toDateTime!=NULL) {
                 if(!empty($toDate))
-                    $product->setSpecialToDate($item->specialPrice->toDateTime); //special price to (MM-DD-YYYY)
+                    $product->setSpecialToDate(Mage::helper('customimport')->getCurrentLocaleDateTime($item->specialPrice->toDateTime)); //special price to (MM-DD-YYYY)
                 else
                     $product->setSpecialToDate("");
             }
