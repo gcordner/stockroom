@@ -1,4 +1,4 @@
-<?php
+    <?php
 /**
  * Mirasvit
  *
@@ -82,18 +82,7 @@ class Mirasvit_Fpc_Model_Crawler_Url extends Mage_Core_Model_Abstract
     {
         $url = $this->getUrl();
         $content = '';
-        if (function_exists('curl_multi_init')) {
-            $adapter = new Varien_Http_Adapter_Curl();
-            $options = array(
-                CURLOPT_USERAGENT => Mirasvit_Fpc_Model_Crawler_Crawl::USER_AGENT,
-                CURLOPT_HEADER => true,
-            );
-
-            $content = $adapter->multiRequest(array($url), $options);
-            $content = $content[0];
-        } else {
-            $content = implode(PHP_EOL, get_headers($url));
-        }
+        $content = implode(PHP_EOL, get_headers($url));
 
         if (strpos($content, '404 Not Found') !== false) {
             $this->delete();

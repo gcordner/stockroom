@@ -1637,28 +1637,28 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     reset($externall);
                     $first_key = key($externall);
                     foreach($associate->product as $product){
-                        Mage::log("Start Process for category # ".$first_key." and product # ".$product->id. "association");
+                        Mage::log("Start Process for category # ".$first_key." and product # ".$product->id. " association");
                         // start ktpl0123 custom log
-						$this->customHelper->writeCustomLog("Start Process for category # ".$first_key." and product # ".$product->id. "association", $this->logPath);
+						$this->customHelper->writeCustomLog("Start Process for category # ".$first_key." and product # ".$product->id. " association", $this->logPath);
 						// end ktpl0123 custom log
                         $this->associateProductToCategory($product,$first_key);
-                        Mage::log("End Process for category # ".$first_key." and product # ".$product->id. "association");
+                        Mage::log("End Process for category # ".$first_key." and product # ".$product->id. " association");
                         // start ktpl0123 custom log
-						$this->customHelper->writeCustomLog("End Process for category # ".$first_key." and product # ".$product->id. "association", $this->logPath);
+						$this->customHelper->writeCustomLog("End Process for category # ".$first_key." and product # ".$product->id. " association", $this->logPath);
 						// end ktpl0123 custom log
                     }
                 }
                 else{
                 	foreach($externall as $systemCatid=>$v){
                 		foreach($associate->product as $product){
-                		    Mage::log("Start Process for category # ".$systemCatid." and product # ".$product->id. "association");
+                		    Mage::log("Start Process for category # ".$systemCatid." and product # ".$product->id. " association");
                 		    // start ktpl0123 custom log
-							$this->customHelper->writeCustomLog("Start Process for category # ".$systemCatid." and product # ".$product->id. "association", $this->logPath);
+							$this->customHelper->writeCustomLog("Start Process for category # ".$systemCatid." and product # ".$product->id. " association", $this->logPath);
 							// end ktpl0123 custom log
                 			$this->associateProductToCategory($product,$systemCatid);
                 			Mage::log("End Process for category # ".$systemCatid." and product # ".$product->id. "association");
                 			// start ktpl0123 custom log
-							$this->customHelper->writeCustomLog("End Process for category # ".$systemCatid." and product # ".$product->id. "association", $this->logPath);
+							$this->customHelper->writeCustomLog("End Process for category # ".$systemCatid." and product # ".$product->id. " association", $this->logPath);
 							// end ktpl0123 custom log
                 		}
                 	}               	               	
