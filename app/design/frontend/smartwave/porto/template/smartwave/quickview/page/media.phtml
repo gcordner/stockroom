@@ -17,7 +17,7 @@
     $ratio = $ratio_height / $ratio_width;
     $rnd_str = rtrim(base64_encode(md5(microtime())),"=");
 ?>
-<?php if (count($this->getGalleryImages()) > 0 && false): ?>
+<?php if (count($this->getGalleryImages()) > 0): ?>
 <div id="product_images_<?php echo $rnd_str; ?>" class="owl-carousel owl-theme owl-middle-narrow">
 <?php foreach ($this->getGalleryImages() as $_image): ?>
     <div class="item">
