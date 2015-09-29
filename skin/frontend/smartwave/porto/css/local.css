@@ -164,6 +164,7 @@ p.control{line-height:19px}
 .form-list li.wide{}
 .form-list .field{float:left;margin:0;width:48%}
 .form-list .field:nth-child(2n){float:right}
+.account-create .form-list .name-middlename {float:left !important;}
 .form-list input.input-text{width:100%;height:38px;padding:10px;border-radius:6px;box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset}
 .form-list textarea{width:100%;height:10em;line-height:1.4;border-radius:6px;padding:10px;box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset}
 .form-list select{width:100%;height:38px;border-radius:6px;box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset}
@@ -224,14 +225,14 @@ p.control{line-height:19px}
 .form-list .customer-name-middlename .name-firstname,
 .form-list .customer-name-middlename .name-middlename,
 .form-list .customer-name-middlename-suffix .name-firstname,
-.form-list .customer-name-middlename-suffix .name-lastname{width:205px}
+.form-list .customer-name-middlename-suffix .name-lastname{width:282px}
 
 .form-list .customer-name-prefix .name-firstname input.input-text,
 .form-list .customer-name-suffix .name-lastname input.input-text,
 .form-list .customer-name-middlename .name-firstname input.input-text,
 .form-list .customer-name-middlename .name-middlename input.input-text,
 .form-list .customer-name-middlename-suffix .name-firstname input.input-text,
-.form-list .customer-name-middlename-suffix .name-lastname input.input-text{width:189px}
+.form-list .customer-name-middlename-suffix .name-lastname input.input-text{width:246px}
 
 .form-list .customer-dob .dob-month,
 .form-list .customer-dob .dob-day,
