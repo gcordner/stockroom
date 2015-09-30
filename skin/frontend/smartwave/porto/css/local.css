@@ -3850,3 +3850,8 @@ i.ajax-loader.medium{width:24px;height:24px;border-width:2px 3px 1px 0}
 .catalog-product-view .background-overlay{background-color:#fff}
 .catalog-product-view #loading_mask_loader{display:block}
 .product-next .product-pop img, .product-prev .product-pop img { width: 80px; }
+.main-nav .menu-wrapper {
+    background-color: #000000;
+}
+.main-nav ul.menu li a, .header-container.sticky-header .main-nav ul.menu > li > a:hover{ color:#ffffff; }
+.sticky-header .main-nav ul.menu li a{ color:#535353;}
