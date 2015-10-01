@@ -32,6 +32,7 @@ media/wysiwyg/stockroom/*.png
 media/wysiwyg/stockroom/*.jpg
 media/wysiwyg/porto/homepage/slider/SR/*.jpg
 media/wysiwyg/porto/homepage/slider/SR/*.png
+media/wysiwyg/porto/homepage/slider/*
 js/prototype/windows/themes/spread/Thumbs.db
 export_bulk_customer.csv
 extension_import_export_customer_GUI-ADDON-overview.pdf
@@ -42,3 +43,18 @@ xml_data_to_paste_info_advanced_profile_export(CSV).txt
 xml_data_to_paste_info_advanced_profile_export(XML).txt
 xml_data_to_paste_into_advanced_profile_import(CSV).txt
 xml_data_to_paste_into_advanced_profile_import(XML).txt
+apc.php
+cronstatus.php
+media/css_secure/
+media/tmp/
+media/wysiwyg/
+media/wysiwyg/headers/
+media/wysiwyg/smartwave/footer/payments-old.png
+phpinfo1.php
+shell/test.php
+sitemap.xml
+var/export_bkp/
+var/import/
+var/tmp/
+media.local
+
