@@ -119,7 +119,7 @@
                                 if(Mage::getStoreConfig("porto_settings/product_label/sale", $code)){
                                     $sale_label = true;
                     ?>
-                                <div class="product-label" style="right: 10px;"><span class="sale-product-icon"><?php if(Mage::getStoreConfig("porto_settings/product_label/sale_label_type", $code)):?><?php echo "-".$save_percent."%"; ?><?php else: ?><?php echo Mage::getStoreConfig("porto_settings/product_label/sale_label_text", $code);?><?php endif; ?></span></div>
+                                <div class="product-label"><span class="sale-product-icon"><?php if(Mage::getStoreConfig("porto_settings/product_label/sale_label_type", $code)):?><?php echo "-".$save_percent."%"; ?><?php else: ?><?php echo Mage::getStoreConfig("porto_settings/product_label/sale_label_text", $code);?><?php endif; ?></span></div>
                     <?php       
                                 }
                             }
@@ -134,7 +134,7 @@
                             {
                                 if(Mage::getStoreConfig("porto_settings/product_label/new", $code)){
                         ?> 
-                                <div class="product-label" style="right: 10px; <?php echo ($sale_label)?"top: 40px;":""; ?>"><span class="new-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/new_label_text", $code);?></span></div>
+                                <div class="product-label" style="<?php echo ($sale_label)?"top: 40px;":""; ?>"><span class="new-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/new_label_text", $code);?></span></div>
                         <?php 
                                 }
                             }
