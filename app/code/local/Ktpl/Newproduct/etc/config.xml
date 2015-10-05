@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Ktpl_Newproduct>
+            <version>1.0.0</version>
+        </Ktpl_Newproduct>
+    </modules>
+    <global>
+        <blocks>
+            <newproduct>
+                <class>Ktpl_Newproduct_Block</class>
+            </newproduct>
+        </blocks>       
+    </global>                
+</config>
