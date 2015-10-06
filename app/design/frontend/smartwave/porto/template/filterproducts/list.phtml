@@ -3,13 +3,13 @@ $store = Mage::app()->getStore();
 $code = $store->getCode();
 $storeId = Mage::app()->getStore()->getId();
 $days = Mage::getStoreConfig('catalog/newproduct/days', $storeId);
-if ($days > 0) {
+if ($days > 0 && get_class($this)=='Smartwave_Filterproducts_Block_Newproduct_Home_List') {
     $obj = new Stockroom_Newproduct_Block_Product_List();
     $_productCollection = $obj->getLoadedProductCollection();
-} else {
+} else {	
     $_productCollection = $this->getLoadedProductCollection();
-    $_productCollection->addAttributeToSelect('news_from_date')->addAttributeToSelect('news_to_date');
 }
+    $_productCollection->addAttributeToSelect('news_from_date')->addAttributeToSelect('news_to_date');
 $_helper = $this->helper('catalog/output');
 $_image_helper = $this->helper('catalog/image');
 $aspect_ratio = Mage::getStoreConfig("porto_settings/category/aspect_ratio", $code);
