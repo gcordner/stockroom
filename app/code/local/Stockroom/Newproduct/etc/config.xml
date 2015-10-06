@@ -9,7 +9,7 @@
     <global>
         <blocks>
             <newproduct>
-                <class>Ktpl_Newproduct_Block</class>
+                <class>Stockroom_Newproduct_Block</class>
             </newproduct>
         </blocks>       
     </global>                

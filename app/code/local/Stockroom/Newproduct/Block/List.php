@@ -1,6 +1,6 @@
 <?php
 
-class Ktpl_Newproduct_Block_List extends Mage_Catalog_Block_Product_List {
+class Stockroom_Newproduct_Block_List extends Mage_Catalog_Block_Product_List {
 
     protected function _getProductCollection() {
         $products = Mage::getModel('catalog/product')->getCollection()

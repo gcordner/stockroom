@@ -4,7 +4,7 @@
         <catalog translate="label" module="catalog">            
             <groups>
                 <newproduct translate="label">
-                    <label>New Product Configuration</label>
+                    <label>New Products</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>100</sort_order>
                     <show_in_default>1</show_in_default>
@@ -13,7 +13,7 @@
                     <fields>                        
                         <days translate="label comment">
                             <label>Days</label>
-                            <comment>Days to get the newest product</comment>
+                            <comment>Specify number of days to get the new products. For example, specifying 45 shall fetch the products added in the last 45 days. Leaving it blank shall delegate control to default Magento functionality for identifying new products.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
@@ -22,7 +22,7 @@
                         </days>    
                         <limit translate="label comment">
                             <label>Limit</label>
-                            <comment>Limit to get products</comment>
+                            <comment>Limits the number of new products fetched.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>6</sort_order>
                             <show_in_default>1</show_in_default>

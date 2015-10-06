@@ -4,7 +4,7 @@ $code = $store->getCode();
 $storeId = Mage::app()->getStore()->getId();
 $days = Mage::getStoreConfig('catalog/newproduct/days', $storeId);
 if ($days > 0) {
-    $obj = new Ktpl_Newproduct_Block_Product_List();
+    $obj = new Stockroom_Newproduct_Block_Product_List();
     $_productCollection = $obj->getLoadedProductCollection();
 } else {
     $_productCollection = $this->getLoadedProductCollection();
