@@ -1,6 +1,6 @@
 <?php
 
-class Ktpl_Newproduct_Block_Product_List extends Ktpl_Newproduct_Block_List {
+class Stockroom_Newproduct_Block_Product_List extends Stockroom_Newproduct_Block_List {
 
     protected function _getProductCollection() {
         $storeId = Mage::app()->getStore()->getId();
