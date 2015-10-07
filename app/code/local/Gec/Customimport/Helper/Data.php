@@ -20,15 +20,15 @@
 class Gec_Customimport_Helper_Data extends Mage_Core_Helper_Abstract
 {
     public function writeCustomLog($msg, $path = null) {
-        if($path == null)
-        {
-            $path = Mage::getBaseDir('log').'/customimport-default.log';
+        if($path == null){
+            $path = Mage::getBaseDir('log').'/customimport.log';
         }
         error_log("[".date('Y:m:d H:i:s', time())."] : ".print_r($msg, true)."<br/> \r\n", 3, $path);            
     }
     
-    public function sendLogEmail($logPath)
+    public function sendLogEmail($logPath = '')
     {
+		$logPath = Mage::getBaseDir('log').'/customimport.log';
         $logMessage = file_get_contents($logPath);
         if($logMessage) {                        
             $finalImportStatus = null;
@@ -68,4 +68,22 @@ class Gec_Customimport_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(strtotime($defaultUTCDate))); 
     }
+	
+	public function reportInfo($msg){
+		$msg = '<span style="color:blue;">'.$this->__('NOTICE:').' '.$msg.'</span>';
+		$this->writeCustomLog($msg);
+		echo "<br/><br/>".$msg;
+	}
+	
+	public function reportError($msg){
+		$msg = '<span style="color:red;">'. $this->__('ERROR:').' '.$msg.'</span>';
+		$this->writeCustomLog($msg);
+		echo "<br/><br/>".$msg;
+	}
+	
+	public function reportSuccess($msg){
+		$msg = '<span style="color:#009900;">'. $this->__('SUCCESS:').' '.$msg.'</span>';
+		$this->writeCustomLog($msg);
+		echo "<br/><br/>".$msg;
+	}
 }
