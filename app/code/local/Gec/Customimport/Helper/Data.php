@@ -27,7 +27,7 @@ class Gec_Customimport_Helper_Data extends Mage_Core_Helper_Abstract
         error_log("[".date('Y:m:d H:i:s', time())."] : ".print_r($msg, true)."<br/> \r\n", 3, $path);            
     }
     
-    public function sendLogEmailAndRemoveLog($logPath)
+    public function sendLogEmail($logPath)
     {
         $logMessage = file_get_contents($logPath);
         if($logMessage) {                        
