@@ -74,31 +74,24 @@
 **/
 ob_start();
 set_time_limit(0);
-?>
-<?php
+
 $dir_root=Mage::getBaseDir();
 $flag='0';
 
 /* code for check file permission and file  start */
 if(isset($_POST['upload_xml']))
-{
-	// Below Code Added By KTPL0123 on 16/09/2015 to write custom log 	
-	
+{	
+	// Write to custom log
 	$customHelper = Mage::helper('customimport');
-	$logPath 	  = Mage::getBaseDir('log').'/customimport.log';	
-	
-	// Above Code Added By KTPL0123 on 16/09/2015 to write custom log 
-	
+	$logPath 	  = Mage::getBaseDir('log').'/customimport.log';
 	$filename = $_FILES["uploadFile"]['name'];
 	$ext = pathinfo($filename, PATHINFO_EXTENSION);
 	if($ext != "xml")
-	{
-		echo "Please select XML file only";
-		// start ktpl0123 custom log
-		$msg = "Please select XML file only";
+	{	
+		$msg = "Please upload XML file only";
 		$customHelper->writeCustomLog($msg, $logPath);
-		$customHelper->sendLogEmailAndRemoveLog($logPath);
-		// end ktpl0123 custom log
+		$customHelper->sendLogEmail($logPath);
+        echo "<br/><br/>".$msg."<br/><br/>";
 		die;
 	}
 	$file = basename($filename, ".xml");
@@ -106,26 +99,15 @@ if(isset($_POST['upload_xml']))
 	if ( !file_exists($xmlPath) ) {
 	  mkdir ($xmlPath, 0744);
 	}
-	
-// 	if (!file_exists($xmlPath)) {
-// 			$e = new Exception("File dose not exist.");
-// 			Mage::logException($e);
-// 			echo "The file  does not exist";die;
-// 	}
 	if(!is_writable($xmlPath)){
-			$e = new Exception("Please give writable permission for file.");
-			Mage::logException($e);
-			// start ktpl0123 custom log
-			$customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $logPath);
-			$customHelper->sendLogEmailAndRemoveLog($logPath);
-			// end ktpl0123 custom log
-		echo "<br/><br/>Please give writable permission for file.<br/><br/>";die;
+		$msg = "Please give writable permission for file.";
+		$customHelper->writeCustomLog('<span style="color:red;">'.$msg.'</span>', $logPath);
+		$customHelper->sendLogEmail($logPath);
+		echo "<br/><br/>".$msg."<br/><br/>";
+        die;
 	}
-	
 	$fileTmpLoc = $_FILES["uploadFile"]["tmp_name"];
-	// Path and file name
 	$pathAndName = $xmlPath.$filename;
-	// Run the move_uploaded_file() function here
 	$moveResult = move_uploaded_file($fileTmpLoc, $pathAndName);
 	chmod($pathAndName, 0777);
 
@@ -135,7 +117,6 @@ if(isset($_POST['upload_xml']))
 $xmlPath = $pathAndName;
 $today_date = date("Y-m-d_H-i-s");
 $current_file_path=$xmlPath;
-
 $new_error_file_path=$dir_root.DS.'xmlfiles'.DS.$file.'_'.$today_date.'_error.xml';
 $new_completed_file_path=$dir_root.DS.'xmlfiles'.DS.$file.'_'.$today_date.'_completed.xml';
 
@@ -145,7 +126,7 @@ $t0=microtime(true);
 unlink($logPath);
 $this->parseXml($xmlPath);
 
-//// CATAGORY AND CATEGORYRELATION IMPORT
+// CATAGORY AND CATEGORYRELATION IMPORT
 
 $categories =  $this->showCategory();
 
@@ -158,25 +139,23 @@ try
 	if($categories)
 	{
        	$this->importAllCategory($categories);
-     	$msgcollection.= "<br/><br/>Categories are successfully imported<br/><br/>";
-	}
-
-	$this->parseAllCategoryRelation();
-	$parseCategoryRelation = $this->parseAllCategoryRelation();
-	if($parseCategoryRelation){
-		$this->importAttributeGrp($parseAttributegrp);
-		  $msgcollection.= "<br/><br/>Categories are successfully imported<br/><br/>";
-	}
-	else {
-		$e = new Exception("Categories not found.");
-		Mage::logException($e);
-		// start ktpl0123 custom log
+     	$msg = "<br/><br/>Categories successfully imported<br/><br/>";
+        echo "<br/><br/>".$msg."<br/><br/>";
+	}else {
+        $msg = "Categories not found.";
+        $customHelper->writeCustomLog('<span style="color:blue;">'.$msg.'</span>', $logPath);
+        echo "<br/><br/>".$msg."<br/><br/>";
+    }
+    
+	$parseAndUpdateCategoryRelation = $this->parseAndUpdateCategoryRelation();
+	if($parseAndUpdateCategoryRelation){
+		  $msg = "<br/><br/>Category relations successfully imported<br/><br/>";
+          echo "<br/><br/>".$msg."<br/><br/>";
+	} else {
+		$msg = "Category relations not found.";
 		$customHelper->writeCustomLog('<span style="color:blue;">'.$e->getMessage().'</span>', $logPath);
-		// end ktpl0123 custom log
+        echo "<br/><br/>".$msg."<br/><br/>";
 	}
-
-	$this->parseAllCategoryRelation();
-	$parseCategoryRelation = $this->parseAllCategoryRelation();
 	
 	/* Code End for import categories */
 	
@@ -185,25 +164,21 @@ try
     if($parsedAttribute){
           $this->importAttribute($parsedAttribute);
     }
-    
     $parsedAttributeSet = $this->parseAttributeSet();
     if($parsedAttributeSet){
          $this->importAttributeSet($parsedAttributeSet);
     }
-    
     $parseAttributegrp = $this->parseAttributegrp();
     if($parseAttributegrp){
           $this->importAttributeGrp($parseAttributegrp);
           $msgcollection.=  "<br/><br/>Attributes are successfully imported<br/><br/>";
-    }
-    else {
+    } else {
     	$e = new Exception("Attributes not found.");
     	Mage::logException($e);
-    	// start ktpl0123 custom log
 		$customHelper->writeCustomLog('<span style="color:blue;">'.$e->getMessage().'</span>', $logPath);
-		// end ktpl0123 custom log
     	$msgcollection.=  '<span style="color:blue;">Attributes not found</span><br/>';
     }
+	
     /* Code End for import attributes */
     
     /* Code Start for import Products */
@@ -213,12 +188,9 @@ try
         $msgcollection.=  "<br/><br/>Products are successfully imported<br/><br/>";
     }
     else{
-        $e = new Exception("product not found.");
-        Mage::logException($e);
-        // start ktpl0123 custom log
-		$customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $logPath);
-		// end ktpl0123 custom log
-        $msgcollection.=  '<span style="color:blue;">product not found</span><br/>';
+        $msg = "No products found.";
+		$customHelper->writeCustomLog('<span style="color:red;">'.$msg.'</span>', $logPath);
+        $msgcollection.=  '<span style="color:blue;">'.$msg.'</span><br/>';
     }
     /* Code End for import Products */
     
@@ -229,31 +201,25 @@ try
     }else{
         $e = new Exception("Category-Product association not found.");
         Mage::logException($e);
-        // start ktpl0123 custom log
 		$customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $logPath);
-		// end ktpl0123 custom log
         $msgcollection.=  '<br/><br/>Category-Product association not found<br/><br/>';
     }
     /* Code End for category product association*/
     
-    /* Code Start for product product association*/
+    /* Code Start for product association*/
     $associatedProductsProducts =  $this->associatedProductsProducts();
     if($associatedProductsProducts){
            $this->associatePdtPdt($associatedProductsProducts);
     }else{
-				if(($products->type == "configurable") || ($products->type == "bundle"))
-				{
-					$e = new Exception("Product-Product association not found.");
-					Mage::logException($e);
-					// start ktpl0123 custom log
-					$customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $logPath);
-					// end ktpl0123 custom log
-					$msgcollection.=  '<br/><br/>Product-Product association not found.<br/><br/>';
-				}else
-				{
-					//echo '<br/><br/>';
-				}
+		if(($products->type == "configurable") || ($products->type == "bundle"))
+		{
+			$e = new Exception("Product-Product association not found.");
+			Mage::logException($e);
+			$customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $logPath);
+			$msgcollection.=  '<br/><br/>Product-Product association not found.<br/><br/>';
+		}
     }
+	
 	/* Code End for product product association*/
     
 }
@@ -261,10 +227,8 @@ catch(Exception $e)
 {
 	$flag='1';
 	Mage::logException($e);
-	// start ktpl0123 custom log
 	$customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $logPath);
-	$customHelper->sendLogEmailAndRemoveLog($logPath);
-	// end ktpl0123 custom log
+	$customHelper->sendLogEmail($logPath);
 }
 
 /* Code start for change file name after complete*/
@@ -275,7 +239,7 @@ if($flag=='1')
 	{
 		rename($current_file_path, $new_error_file_path);
 	}
-   	$finalImportStatus =  'Error in xml file to import';
+   	$finalImportStatus = 'Error in xml file to import';
 }
 else
 {
@@ -285,18 +249,10 @@ else
 		rename($current_file_path, $new_completed_file_path);
 	}
    	$finalImportStatus =  '<span style="color:#009900;">Successfully imported to magento</span>';
-  
-   	
    	echo $msgcollection ."<br/><br/>". $finalImportStatus.'<br/><br/>' ;
-
 }
-// start ktpl0123 custom log
-//$customHelper->writeCustomLog($msgcollection, $logPath);
 $customHelper->writeCustomLog($finalImportStatus, $logPath);
-//$customHelper->writeCustomLog($this->_log_array, $logPath);
-// end ktpl0123 custom log	
 /* code end for change file name after complete*/
-
 foreach($this->_log_array as $msg){
     echo $msg.'<br/><br/>';
 }
@@ -308,41 +264,7 @@ echo "It took $time sec" ;
 
 // SENDING MAIL CODE
 if(isset($finalImportStatus)){
-	$customHelper->sendLogEmailAndRemoveLog($logPath);
-   	/*$emailTemplate = Mage::getModel('core/email_template')->loadDefault('import_status');
-
-   	//Getting the Store E-Mail Sender Name.
-   	$senderName = Mage::getStoreConfig('trans_email/ident_general/name');
-
-   	//Getting the Store General E-Mail.
-   	$senderEmail = Mage::getStoreConfig('trans_email/ident_general/email');
-
-   	//Variables for Confirmation Mail.
-   	$emailTemplateVariables = array();
-   	$emailTemplateVariables['msgcol'] = $msgcollection;
-   	$emailTemplateVariables['finalstatus'] = $finalImportStatus;
-   	//Appending the Custom Variables to Template.
-   	$processedTemplate = $emailTemplate->getProcessedTemplate($emailTemplateVariables);
-   	// Sender Email
-    $reciverEmail=Mage::getStoreConfig('trans_email/ident_custom1/email');
-   	//Sending E-Mail to Customers.
-   	$mail = Mage::getModel('core/email')
-   	->setToName($senderName)
-   	->setToEmail($reciverEmail)
-   	->setBody($processedTemplate)
-   	->setSubject($finalImportStatus)
-   	->setFromEmail($senderEmail)
-   	->setFromName($senderName)
-   	->setType('html');
-   	try{
-   	    //Confimation E-Mail Send
-   	    $mail->send();
-   	}
-   	catch(Exception $error)
-   	{
-   	    Mage::getSingleton('core/session')->addError($error->getMessage());
-   	    return false;
-   	}*/
+	$customHelper->sendLogEmail($logPath);
 }
 // SENDING EMAIL CODE ENDS
 
@@ -351,7 +273,6 @@ $indexingProcesses = Mage::getSingleton('index/indexer')->getProcessesCollection
 foreach ($indexingProcesses as $process) {
     $process->reindexEverything();
 }
-
 ob_end_flush();
 }
 

@@ -124,7 +124,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         $this->_updated_num = 0;
     }
 
-    public function parseAllCategoryRelation(){
+    public function parseAndUpdateCategoryRelation(){
         $xmlObj =  $this->_xmlObj;
         $xmlData = $xmlObj->getNode();
         $this->_cat_relation = $xmlData->categoryRelations->categoryRelation;
@@ -149,8 +149,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 }
             }
             else{
-			Mage::log('category not found: '.$parent);
-			$this->customHelper->writeCustomLog('<span style="color:red;">category not found: '.$parent.'</span>', $this->logPath);
+			    $this->customHelper->writeCustomLog('<span style="color:red;">category not found: '.$parent.'</span>', $this->logPath);
             }
         }
     }
@@ -187,12 +186,12 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 foreach ($validate as $code => $error) {
                     if ($error === true) {
 						$this->customHelper->writeCustomLog('<span style="color:red;">'.Mage::helper('catalog')->__('Attribute "%s" is required.', $code).'</span>', $this->logPath);
-						$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+						$this->customHelper->sendLogEmail($this->logPath);
                         Mage::throwException(Mage::helper('catalog')->__('Attribute "%s" is required.', $code));
                     }
                     else {
 						$this->customHelper->writeCustomLog('<span style="color:red;">'.$error.'</span>', $this->logPath);
-						$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+						$this->customHelper->sendLogEmail($this->logPath);
                         Mage::throwException($error);
                     }
                 }
@@ -202,7 +201,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 
         }catch (Exception $e){
 		$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
-		$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+		$this->customHelper->sendLogEmail($this->logPath);
             	echo $e->getMessage();
         }  	
         return false;
@@ -298,7 +297,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             		$status = $this->getTreeCategories($category_id, $p_id, $isActive, false);
             	}else{
             		// category is not under any other parent , move           		
-                	Mage::log("block will not  execute as category is not under any other parent'."<br/><br/>";	
+                	echo "block will not  execute as category is not under any other parent<br/><br/>";
 			$this->customHelper->writeCustomLog('<span style="color:blue;">block will not  execute as  category is not under any other parent</span>', $this->logPath);
             	}	
             }                
@@ -499,7 +498,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             catch (Exception $e){
 				$this->customHelper->writeCustomLog("<span style='color:red;'>Configurable Product not Updated</span>", $this->logPath);
 				$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);				
-				$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+				$this->customHelper->sendLogEmail($this->logPath);
                 echo " Configurable Product not Updated \n";
                 echo "exception:$e";
             }
@@ -668,7 +667,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 }
                 catch (Exception $e){
 					$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
-					$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+					$this->customHelper->sendLogEmail($this->logPath);
                     echo "exception:$e";
                 }
             }else{
@@ -865,7 +864,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     	}
     	catch(Mage_Eav_Model_Entity_Attribute_Exception $e){
 			$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
-			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+			$this->customHelper->sendLogEmail($this->logPath);
     		echo $e->getAttributeCode();
     		echo $e->getMessage();
     	}
@@ -964,7 +963,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         }
         catch (Exception $e){
 		$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
-		$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+		$this->customHelper->sendLogEmail($this->logPath);
         	echo "exception:$e";
         }
     	}else{
@@ -1201,7 +1200,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             catch (Exception $e){
 				$this->customHelper->writeCustomLog("<span style='color:blue;'>Bunduled Prduct not updated</span>", $this->logPath);
 				$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
-				$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+				$this->customHelper->sendLogEmail($this->logPath);
                 echo "Bunduled Prduct not updated\n";
                 echo "exception:$e";
             }
@@ -1386,12 +1385,12 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 foreach ($validate as $code => $error) {
                     if ($error === true) {
 						$this->customHelper->writeCustomLog('<span style="color:red;">'.Mage::helper('catalog')->__('Attribute "%s" is required.', $code).'</span>', $this->logPath);
-						$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+						$this->customHelper->sendLogEmail($this->logPath);
                         Mage::throwException(Mage::helper('catalog')->__('Attribute "%s" is required.', $code));
                     }
                     else {
 						$this->customHelper->writeCustomLog('<span style="color:red;">'.$error.'</span>', $this->logPath);
-						$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+						$this->customHelper->sendLogEmail($this->logPath);
                         Mage::throwException($error);
                     }
                 }
@@ -1400,7 +1399,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         }
         catch (Exception $e){
 			$this->customHelper->writeCustomLog('<span style="color:red;">'.$e.'</span>', $this->logPath);
-			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+			$this->customHelper->sendLogEmail($this->logPath);
             		echo $e->getMessage();
         }
     }
@@ -1479,13 +1478,13 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 ->load($categoryId);
             if (!$category->getId()) {
 		$this->customHelper->writeCustomLog('<span style="color:red;">'.Mage::helper('catalog')->__('Parent category $categoryId is not available.').'</span>', $this->logPath);
-		$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+		$this->customHelper->sendLogEmail($this->logPath);
                 Mage::throwException(Mage::helper('catalog')->__('Parent category "%s" is not available.', $categoryId));
             }
         }
         catch (Exception $e){
 		$this->customHelper->writeCustomLog('<span style="color:red;">'.$e.'</span>', $this->logPath);
-		$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+		$this->customHelper->sendLogEmail($this->logPath);
             	echo $e->getMessage();
         }
         return $category;
@@ -1673,7 +1672,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 			             		             
                 	} catch (Exception $e) {
 						$this->customHelper->writeCustomLog('<span style="color:red;">'.$e.'</span>', $this->logPath);
-						$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+						$this->customHelper->sendLogEmail($this->logPath);
 					    Mage::log($e->getMessage());
 					    echo $e->getMessage();
 					}
@@ -1875,7 +1874,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 }
             } catch (Exception $e) {
 				$this->customHelper->writeCustomLog('<span style="color:red;">Sorry, error occured while trying to save the attribute. Error: '.$e->getMessage().'</span>', $this->logPath);
-				$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+				$this->customHelper->sendLogEmail($this->logPath);
                 echo '<p>Sorry, error occured while trying to save the attribute. Error: '.$e->getMessage().'</p>';
             }
         }
@@ -1956,7 +1955,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $modelSet->load($attributeSetId);
             if (!$modelSet->getId()) {
 				$this->customHelper->writeCustomLog('<span style="color:red;">'.Mage::helper('catalog')->__('This attribute set no longer exists.').'</span>', $this->logPath);
-				$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+				$this->customHelper->sendLogEmail($this->logPath);
                 Mage::throwException(Mage::helper('catalog')->__('This attribute set no longer exists.'));
             }
             //filter html tags
@@ -1976,7 +1975,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }
         }catch(Exception $e){
 			$this->customHelper->writeCustomLog('<span style="color:red;">Attribute set name '.$attribute_set_name.' with id '.$external_id.' already exists in Magento system with same name</span>', $this->logPath);
-			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+			$this->customHelper->sendLogEmail($this->logPath);
             echo "<br/><br/>".'Attribute set name '."$attribute_set_name".' with id '."$external_id".' already exists in Magento system with same name'."<br/><br/>";
 			Mage::log('Attribute set name '."$attribute_set_name".' with id '."$external_id".' already exists in Magento system with same name');
         }
@@ -2117,7 +2116,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                      $model->save();
                 } catch (Exception $e) {
 					$this->customHelper->writeCustomLog('<span style="color:red;">'.Mage::helper('catalog')->__('An error occurred while saving this group.').'</span>', $this->logPath);
-					$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+					$this->customHelper->sendLogEmail($this->logPath);
                     Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('An error occurred while saving this group.'));
                 }
             }

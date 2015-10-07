@@ -103,7 +103,7 @@ class Gec_Customimport_Model_Customimport extends Mage_Core_Model_Abstract {
 		  	$this->customHelper->writeCustomLog("<span style='color:#009900;'>Attribute with id #".$attribid." updated successfully.</span>", $this->logPath);
 	          } catch (Exception $e){
 			$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
-			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+			$this->customHelper->sendLogEmail($this->logPath);
 	          }
           }
     	}  
@@ -148,7 +148,7 @@ class Gec_Customimport_Model_Customimport extends Mage_Core_Model_Abstract {
          	$catalogentity->setEntityId($categoryId)->save();
           } catch (Exception $e){
 			  $this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
-			  $this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
+			  $this->customHelper->sendLogEmail($this->logPath);
               echo $e->getMessage();
           }
     }
