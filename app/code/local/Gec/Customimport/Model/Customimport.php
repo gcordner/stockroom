@@ -93,24 +93,17 @@ class Gec_Customimport_Model_Customimport extends Mage_Core_Model_Abstract {
                                           ->addFieldToFilter('attribute_group_id', array('eq' => $attributeGroupId))
                                           ->addFieldToFilter('attribute_id', array('eq' => $attribute_id));
           $id = $eaventityattributeCollection->getFirstItem()->getEntityAttributeId();
-          $arrtibid = $eaventityattributeCollection->getFirstItem()->getAttributeId();
+          $attribid = $eaventityattributeCollection->getFirstItem()->getAttributeId();
           $data = array('sort_order' => $attribute_sort_order);
           if($id){
 	          $eaventityattribute->load($id)->addData($data);
 	          try {
-	              $eaventityattribute->setEntityAttributeId($id)->save();
-	              echo "<br> Attribute with id #".$arrtibid." updated successfully. <br>";
-					// start ktpl0123 custom log
-					$this->customHelper->writeCustomLog("<span style='color:#009900;'>Attribute with id #".$arrtibid." updated successfully.</span>", $this->logPath);
-					$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
-					// end ktpl0123 custom log
-	
+	          	$eaventityattribute->setEntityAttributeId($id)->save();
+	          	echo "<br> Attribute with id #".$attribid." updated successfully. <br>";
+		  	$this->customHelper->writeCustomLog("<span style='color:#009900;'>Attribute with id #".$attribid." updated successfully.</span>", $this->logPath);
 	          } catch (Exception $e){
-					// start ktpl0123 custom log
-					$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
-					$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
-					// end ktpl0123 custom log
-	              echo $e->getMessage();
+			$this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
+			$this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
 	          }
           }
     	}  
@@ -154,10 +147,8 @@ class Gec_Customimport_Model_Customimport extends Mage_Core_Model_Abstract {
          try{
          	$catalogentity->setEntityId($categoryId)->save();
           } catch (Exception $e){
-			  // start ktpl0123 custom log
 			  $this->customHelper->writeCustomLog('<span style="color:red;">'.$e->getMessage().'</span>', $this->logPath);
 			  $this->customHelper->sendLogEmailAndRemoveLog($this->logPath);
-			  // end ktpl0123 custom log
               echo $e->getMessage();
           }
     }
