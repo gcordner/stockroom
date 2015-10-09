@@ -21,7 +21,8 @@ class Stockroom_Directdelcart_CartController extends Mage_Checkout_CartControlle
         }
 		$message = $this->__('Product has been removed from your shopping cart.');
 		$this->_getSession()->addSuccess($message);
-        $this->_redirectReferer(Mage::getUrl('*/cart'));
+		echo '<script type="text/javascript">document.location="'.Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB)."checkout/cart".'"</script>';
+		exit(0);
     }
     
 }
