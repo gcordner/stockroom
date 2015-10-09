@@ -58,3 +58,4 @@ var/import/
 var/tmp/
 media.local
 media
+skin/frontend/smartwave/porto/css/configed/settings_default.css
