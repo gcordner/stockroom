@@ -1,7 +1,6 @@
 <?php
 
 require_once Mage::getModuleDir('controllers', 'Mage_Checkout').DS.'CartController.php';
-//require_once 'Mage/Checkout/controllers/CartController.php';
 class Stockroom_Directdelcart_CartController extends Mage_Checkout_CartController
 {
     /**
@@ -19,9 +18,8 @@ class Stockroom_Directdelcart_CartController extends Mage_Checkout_CartControlle
                 Mage::logException($e);
             }
         }
-		$message = $this->__('Product has been removed from your shopping cart.');
-		$this->_getSession()->addSuccess($message);
-        $this->_redirectReferer(Mage::getUrl('*/cart'));
+	$message = $this->__('Product has been removed from your shopping cart.');
+	$this->_getSession()->addSuccess($message);
+	$this->_redirect('checkout/cart');
     }
-    
 }
