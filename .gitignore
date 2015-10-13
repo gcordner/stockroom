@@ -59,4 +59,5 @@ var/tmp/
 media.local
 media
 skin/frontend/smartwave/porto/css/configed/settings_default.css
+skin/frontend/smartwave/porto/css/configed/design_default.css
 var/resource_config.json
