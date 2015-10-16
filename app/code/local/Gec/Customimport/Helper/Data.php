@@ -70,19 +70,19 @@ class Gec_Customimport_Helper_Data extends Mage_Core_Helper_Abstract
     }
 	
 	public function reportInfo($msg){
-		$msg = '<span style="color:blue;">'.$this->__('NOTICE:').' '.$msg.'</span>';
+		$msg = '<span style="color:blue;">'.$msg.'</span>';
 		$this->writeCustomLog($msg);
 		echo "<br/><br/>".$msg;
 	}
 	
 	public function reportError($msg){
-		$msg = '<span style="color:red;">'. $this->__('ERROR:').' '.$msg.'</span>';
+		$msg = '<span style="color:red;">'.$msg.'</span>';
 		$this->writeCustomLog($msg);
 		echo "<br/><br/>".$msg;
 	}
 	
 	public function reportSuccess($msg){
-		$msg = '<span style="color:#009900;">'. $this->__('SUCCESS:').' '.$msg.'</span>';
+		$msg = '<span style="color:#009900;">'.$msg.'</span>';
 		$this->writeCustomLog($msg);
 		echo "<br/><br/>".$msg;
 	}

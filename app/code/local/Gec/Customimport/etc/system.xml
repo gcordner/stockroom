@@ -63,6 +63,34 @@
                         </imgusage>
                     </fields>
                 </proimgusage>
+                <newproduct translate="label">
+                    <label>New Products</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>                        
+                        <days translate="label comment">
+                            <label>Days</label>
+                            <comment>Specify number of days to get the new products. For example, specifying 45 shall fetch the products added in the last 45 days. Leaving it blank shall delegate control to default Magento functionality for identifying new products.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </days>    
+                        <limit translate="label comment">
+                            <label>Limit</label>
+                            <comment>Limits the number of new products fetched.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </limit>    
+                    </fields>
+                </newproduct>
             </groups>
         </catalog>
     </sections>
