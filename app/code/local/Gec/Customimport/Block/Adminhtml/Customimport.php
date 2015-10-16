@@ -443,8 +443,8 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $this->importItem($product,$Currfilepath,$Errfilepath);
             $this->customHelper->reportInfo($this->customHelper->__("End process for Product # %s",$product->id));
         }
-        $this->customHelper->reportSuccess($this->customHelper->__("Successfully created products",$this->_created_num));
-        $this->customHelper->reportSuccess($this->customHelper->__("Successfully updated products",$this->_updated_num));
+        $this->customHelper->reportSuccess($this->customHelper->__("Successfully created products %s",$this->_created_num));
+        $this->customHelper->reportSuccess($this->customHelper->__("Successfully updated products %s",$this->_updated_num));
         $this->_created_num = 0;
         $this->_updated_num = 0;
     }
@@ -623,7 +623,11 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 
                 if(count($associatedArray) > 0)
                 {
-                	Mage::getResourceModel('catalog/product_type_configurable')->saveProducts( $mainProduct, $associatedArray );
+					try{
+						Mage::getResourceModel('catalog/product_type_configurable')->saveProducts( $mainProduct, $associatedArray );
+					}catch(Exception $e) {
+						$this->customHelper->reportError($this->customHelper->__('ERROR: product association failed for %s',$associate->productIdFrom));
+					}
                 }   
                           
                 unset($crossArray);
@@ -633,7 +637,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }
             else
             {
-            	$this->customHelper->reportError($this->customHelper->__('product not found for association %s',$associate->productIdFrom));
+            	$this->customHelper->reportError($this->customHelper->__('INFO: product not found for association %s',$associate->productIdFrom));
             }
             $this->customHelper->reportInfo($this->customHelper->__('End Process for product association # %s',$associate->productIdFrom));
         }
@@ -911,20 +915,24 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 	        }
 	        else
 	        {
-	            if((string)$item->type == 'configurable'){
-	                $this->updateConfigurableProduct($item, $pid); //create con product
-	            }
-	            else if((string)$item->type == 'simple'){
-	                $this->updateProduct($item, $pid); //create simple product
-	            }
-	            else if((string)$item->type == 'bundle'){
-	            	$this->updateBundleProduct($item, $pid); //create simple product
-	            }
+				try{
+					if((string)$item->type == 'configurable'){
+						$this->updateConfigurableProduct($item, $pid); //create con product
+					}
+					else if((string)$item->type == 'simple'){
+						$this->updateProduct($item, $pid); //create simple product
+					}
+					else if((string)$item->type == 'bundle'){
+						$this->updateBundleProduct($item, $pid); //create simple product
+					}
+				}catch(Exception $e){
+					$this->customHelper->reportError($this->customHelper->__('ERROR: Product can not created for %s ',$item->id));
+				}
 	        }	
         }
         else 
         {
-        	$this->customHelper->reportInfo($this->customHelper->__('Product %s is skipped due to some error.',$item->id));
+        	$this->customHelper->reportInfo($this->customHelper->__('ERROR: Product %s is skipped due to some error.',$item->id));
         }
     }
 
@@ -1080,11 +1088,10 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 
     public function createConfigurableProduct(&$item, $asid)
     {
-    	$attid = $this->_getMageId($asid);
     	$attributeSetModel = Mage::getModel('eav/entity_attribute_set');
-    	$attributeSetModel->load($attid);
+    	$attributeSetModel->load($asid);
     	$attributeSetModel = $attributeSetModel->getData();
-    	if (!empty($attributeSetModel))
+    	if (count($attributeSetModel) > 0)
     	{
         	$p_status = ((string)$item->isActive == 'Y')?1:2;
         	$p_taxclass = ((string)$item->isTaxable == 'Y')?2:0;
@@ -1096,8 +1103,8 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 	        $product->setSku((string)$item->id); //Product custom id
 	        $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
 	        $product->setStoreIDs(array($this->_store_id));    // Default store id .
-	        $attid = $this->_getMageId($asid);
-	        $product->setAttributeSetId($attid);
+	        $product->setAttributeSetId($asid);
+	        
 	        $product->setData('name', (string)$item->name);
 	        $product->setPrice((real)$item->price);
 	        $splAmt=(array)$item->specialPrice->amount;
@@ -1108,10 +1115,6 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }
             
             $fromDate=(array)$item->specialPrice->fromDateTime;
-            /*echo Mage::app()->getStore()->getStoreId();
-            $convertedDate=$this->currentStoreDate(Mage::app()->getStore()->getStoreId(),"$fromDate[0]");
-            var_dump($convertedDate);
-            exit;*/
             if(isset($item->specialPrice->fromDateTime) && $item->specialPrice->fromDateTime!=NULL)
             {
                 if(!empty($fromDate))
@@ -1277,18 +1280,16 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     {
 		$logFileName = Mage::getSingleton('core/session')->getEmailID();
 		$this->customHelper->reportInfo($logFileName);
-		//check attribute set existance
-    	$attid = $this->_getMageId($asid);
     	$attributeSetModel = Mage::getModel('eav/entity_attribute_set');
-    	$attributeSetModel->load($attid);
-    	$attributeSetModel = $attributeSetModel->getData();
-    	if (!empty($attributeSetModel))
+    	$attributeSetModel->load($asid);
+    	if(count($attributeSetModel->getData()) > 0)
     	{
     		$p_status = ((string)$item->isActive == 'Y')?1:2;
     		$p_taxclass = ((string)$item->isTaxable == 'Y')?2:0;
     
 	    	$product = new Mage_Catalog_Model_Product();
 	    	$product->setTypeId('simple');
+	    	
 	    	$product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
 	    	$product->setSku((string)$item->id); //Product custom id
 	    	$product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));  //Default website (main website) ?? To Do : make it dynamic
@@ -1318,8 +1319,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 											'manage_stock' => 0));
 			}
 	    	
-	    	$attid = $this->_getMageId($asid);
-	    	$product->setAttributeSetId($attid);
+	    	$product->setAttributeSetId($asid);
 	    	$product->setData('name', (string)$item->name);
 	    	$product->setPrice((real)$item->price);
 	    	$splAmt=(array)$item->specialPrice->amount;
@@ -1400,7 +1400,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     				if($attr_type =='select' && count($attribute_values)>1)
     				{
     					//multiple values for attribute which is not multiselect
-    					$this->customHelper->reportError($this->customHelper->__('Attribute %s can not have multiple values. Hence skipping product having id %s',$attribute_code,$item->id));
+    					$this->customHelper->reportError($this->customHelper->__('NOTICE: Attribute %s can not have multiple values. Hence skipping product having id %s',$attribute_code,$item->id));
     					$skipStatus = 1;
     					break;
     				}
@@ -1458,12 +1458,12 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     				}
     				else
     				{
-    					$this->customHelper->reportError($this->customHelper->__('Skipped product due to improper attribute values %s',$item->id));
+    					$this->customHelper->reportError($this->customHelper->__('NOTICE: Skipped product due to improper attribute values %s',$item->id));
     				}
     			}
     			else
     			{
-    				$this->customHelper->reportError($this->customHelper->__('Skipped product due to some error while save %s',$item->id));
+    				$this->customHelper->reportError($this->customHelper->__('NOTICE: Skipped product due to some error while save %s',$item->id));
     			}
     		}
     		catch(Mage_Eav_Model_Entity_Attribute_Exception $e)
@@ -1480,26 +1480,22 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     }
     
     public function createBundleProduct(&$item, $asid)
-    {
-    	//check attribute set existance
-    	$attid = $this->_getMageId($asid);
+    { 
     	$attributeSetModel = Mage::getModel('eav/entity_attribute_set');
-    	$attributeSetModel->load($attid);
-    	$attributeSetModel = $attributeSetModel->getData();
-    	if (!empty($attributeSetModel)) 
+    	$attributeSetModel->load($asid);
+    	if (count($attributeSetModel) > 0)
     	{
 	    	$p_status = ((string)$item->isActive == 'Y')?1:2;
 	    	$p_taxclass = ((string)$item->isTaxable == 'Y')?2:0;
 	    	
 	    	$product = new Mage_Catalog_Model_Product();
 	    	$product->setTypeId('bundle');
-	    	 $product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
-	
+			$product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
+			
 	        $product->setSku((string)$item->id); //Product custom id
 	        $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
 	        $product->setStoreIDs(array($this->_store_id));    // Default store id .
-	        $attid = $this->_getMageId($asid);
-	        $product->setAttributeSetId($attid);
+	        $product->setAttributeSetId($asid);
 	        $product->setData('name', (string)$item->name);
 	        $product->setPrice((real)$item->price);
 	    	$splAmt=(array)$item->specialPrice->amount;
