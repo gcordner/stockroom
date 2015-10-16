@@ -926,13 +926,13 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 						$this->updateBundleProduct($item, $pid); //create simple product
 					}
 				}catch(Exception $e){
-					$this->customHelper->reportError($this->customHelper->__('ERROR: Product can not created for %s ',$item->id));
+					$this->customHelper->reportError($this->customHelper->__('ERROR: Product can not created for %s',$item->id));
 				}
 	        }	
         }
         else 
         {
-        	$this->customHelper->reportInfo($this->customHelper->__('ERROR: Product %s is skipped due to some error.',$item->id));
+        	$this->customHelper->reportInfo($this->customHelper->__('ERROR: Product %s is skipped due to some error. %s',$item->id));
         }
     }
 
@@ -1294,7 +1294,6 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     public function createProduct(&$item, $asid)
     {
 		$logFileName = Mage::getSingleton('core/session')->getEmailID();
-		$this->customHelper->reportInfo($logFileName);
     	$attributeSetModel = Mage::getModel('eav/entity_attribute_set');
     	$attributeSetModel->load($asid);
     	if(count($attributeSetModel->getData()) > 0)
