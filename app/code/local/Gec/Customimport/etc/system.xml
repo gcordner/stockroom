@@ -73,7 +73,7 @@
                     <fields>                        
                         <days translate="label comment">
                             <label>Days</label>
-                            <comment>Specify number of days to get the new products. For example, specifying 45 shall fetch the products added in the last 45 days. Leaving it blank shall delegate control to default Magento functionality for identifying new products.</comment>
+                            <comment>Specify number of days to determine 'New to Date' of a newly imported product. For example, specifying 45 shall add 45 days to the day the product was first imported. Leaving it blank shall delegate control to default Magento functionality for identifying new products.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
