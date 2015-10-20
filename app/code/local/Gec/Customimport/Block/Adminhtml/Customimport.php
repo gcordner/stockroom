@@ -1447,7 +1447,12 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     				// if type is text/textarea
     				if($attr_type =='text' || $attr_type =='textarea')
     				{
-    					$product->setData($attribute_code, $attribute_values[0]);
+						$optCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+                                            ->addFieldToFilter('externalid', $attribute_values[0]);
+                        $optCollection->getSelect()
+                                        ->joinLeft(array("t1" => 'eav_attribute_option_value'), 'main_table.option_id = t1.option_id', array("value" => "t1.value"));
+                        $optVal = $optCollection->getFirstItem();
+                        $product->setData($attribute_code, $optVal->getValue());
     				}
     			}
     		}
@@ -1733,7 +1738,12 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                         $product->addData( array($attribute_code => $multivalues) );
                     }
                     if($attr_type =='text' || $attr_type =='textarea'){ // if type is text/textarea
-                        $product->setData($attribute_code, $attribute_values[0]);
+                        $optCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+                                            ->addFieldToFilter('externalid', $attribute_values[0]);
+                        $optCollection->getSelect()
+                                        ->joinLeft(array("t1" => 'eav_attribute_option_value'), 'main_table.option_id = t1.option_id', array("value" => "t1.value"));
+                        $optVal = $optCollection->getFirstItem();
+                        $product->setData($attribute_code, $optVal->getValue());
                     }
                 }
             }
@@ -2301,6 +2311,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         $count_value =  count($attr_values['valueDef']);
         $_attribute_data = array(
             'attribute_code' => (string)$attribute->id,
+			'backend_model' => ($attribute_type == 'multiselect' ? 'eav/entity_attribute_backend_array' : NULL),
             'is_global' => '1',
             'frontend_input' => $attribute_type, //'text/select',
             'default_value_text' => '',
