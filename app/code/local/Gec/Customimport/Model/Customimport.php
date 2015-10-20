@@ -170,4 +170,12 @@ class Gec_Customimport_Model_Customimport extends Mage_Core_Model_Abstract
 			$this->customHelper->sendLogEmail($this->logPath);
 		}
     }
+	
+	public function getOptVal($externalId){
+		$optCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
+                                            ->addFieldToFilter('externalid', $externalId);
+                        $optCollection->getSelect()
+											->joinLeft(array("t1" => 'eav_attribute_option_value'), 'main_table.option_id = t1.option_id', array("value" => "t1.value"));
+        return $optCollection->getFirstItem();
+	}
 }

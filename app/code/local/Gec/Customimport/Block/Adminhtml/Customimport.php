@@ -1447,13 +1447,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     				// if type is text/textarea
     				if($attr_type =='text' || $attr_type =='textarea')
     				{
-						$optCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
-                                            ->addFieldToFilter('externalid', $attribute_values[0]);
-                        $optCollection->getSelect()
-                                        ->joinLeft(array("t1" => 'eav_attribute_option_value'), 'main_table.option_id = t1.option_id', array("value" => "t1.value"));
-                        $optVal = $optCollection->getFirstItem();
+						$optVal = Mage::getModel('customimport/customimport')->getOptVal($attribute_values[0]);
                         $product->setData($attribute_code, $optVal->getValue());
-    				}
+    				} 
     			}
     		}
     		try
@@ -1738,11 +1734,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                         $product->addData( array($attribute_code => $multivalues) );
                     }
                     if($attr_type =='text' || $attr_type =='textarea'){ // if type is text/textarea
-                        $optCollection = Mage::getResourceModel('eav/entity_attribute_option_collection')
-                                            ->addFieldToFilter('externalid', $attribute_values[0]);
-                        $optCollection->getSelect()
-                                        ->joinLeft(array("t1" => 'eav_attribute_option_value'), 'main_table.option_id = t1.option_id', array("value" => "t1.value"));
-                        $optVal = $optCollection->getFirstItem();
+                        $optVal = Mage::getSingleton('customimport/customimport')->getOptVal($attribute_values[0]);
                         $product->setData($attribute_code, $optVal->getValue());
                     }
                 }
