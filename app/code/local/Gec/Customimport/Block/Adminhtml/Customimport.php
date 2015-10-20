@@ -1449,7 +1449,15 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
     				{
 						$optVal = Mage::getModel('customimport/customimport')->getOptVal($attribute_values[0]);
                         $product->setData($attribute_code, $optVal->getValue());
-    				} 
+    				} else if($attr_type == 'boolean'){
+						$optVal = Mage::getSingleton('customimport/customimport')->getOptVal($attribute_values[0]);
+						if(strtolower($optVal->getValue()) == 'y' || strtolower($optVal->getValue()) == 'yes'){
+							$attOptVal = 1;
+						} else {
+							$attOptVal = 0;
+						}
+                        $product->setData($attribute_code, $attOptVal);
+					}
     			}
     		}
     		try
@@ -1736,7 +1744,15 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     if($attr_type =='text' || $attr_type =='textarea'){ // if type is text/textarea
                         $optVal = Mage::getSingleton('customimport/customimport')->getOptVal($attribute_values[0]);
                         $product->setData($attribute_code, $optVal->getValue());
-                    }
+                    } else if($attr_type == 'boolean'){
+						$optVal = Mage::getSingleton('customimport/customimport')->getOptVal($attribute_values[0]);
+						if(strtolower($optVal->getValue()) == 'y' || strtolower($optVal->getValue()) == 'yes'){
+							$attOptVal = 1;
+						} else {
+							$attOptVal = 0;
+						}
+                        $product->setData($attribute_code, $attOptVal);
+					}
                 }
             }
             if($skipStatus == 0){
