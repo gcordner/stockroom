@@ -93,7 +93,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 			$this->customHelper->reportInfo($this->customHelper->__('End process for category # %s',$category->id));
 		}
 		$this->customHelper->reportSuccess($this->customHelper->__('categories was successfully created %s',$this->_created_num));
-		$this->customHelper->reportSuccess($this->customHelper->__('categories was successfully created %s',$this->_updated_num));
+		$this->customHelper->reportSuccess($this->customHelper->__('categories was successfully updated %s',$this->_updated_num));
 		$this->_created_num = 0;
 		$this->_updated_num = 0;		
     }
@@ -519,7 +519,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         }
         else
         {
-        	$this->customHelper->reportInfo($this->customHelper->__('Associatation block is empty'));
+        	$this->customHelper->reportInfo($this->customHelper->__('Association block is empty.'));
         }
     }
     
@@ -997,11 +997,13 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 if(array_key_exists((string)$attr->id , $attributeOcuurance))
                 {
                     $attributeOcuurance[(string)$attr->id] = (int)$attributeOcuurance[(string)$attr->id] + 1;
+					$attrPos[(string)$attr->id] = (int)$attr->position;
                 }
                 else
                 {
                     $attributeOcuurance[(string)$attr->id] = $i;
                     $configAttributeValue[(string)$attr->id] = (string)$attr->valueDefId;
+					$attrPos[(string)$attr->id] = (int)$attr->position;
                 }
             }
             $config_attribute_array = array();   //attributes with single occurance
@@ -1012,7 +1014,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     $config_attribute_array[] = $key;
                 }
             }
-
+			$attrnum = 0;
             foreach($config_attribute_array as $attr)
             {
                 $external_id = $configAttributeValue[$attr];  // valueDefId from XML for an attribute
@@ -1030,8 +1032,14 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 }else{ //if attribute is textfield direct insert value
                     $product->setData($attr, $external_id);
                 }
-
+				
+				$attribute_label =   $attr->getFrontendLabel();
+				$attr_detail = array('id'=>NULL, 'label' => "$attribute_label", 'position' => $attrPos[$attr_id], 'attribute_id' => $attr_id, 'attribute_code' => "$attribute_code", 'frontend_label' => "$attribute_label",
+									'html_id' => "config_super_product__attribute_$attrnum");
+				$attribute_detail[] = $attr_detail;
+				$attrnum++;
             }
+			$product->setConfigurableAttributesData($attribute_detail);
             try{
             	Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
                 $product->save();
@@ -1164,11 +1172,13 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             	if(array_key_exists((string)$attr->id, $attributeOcuurance))
             	{
                 	$attributeOcuurance[(string)$attr->id] = (int)$attributeOcuurance[(string)$attr->id] + 1;
+					$attrPos[(string)$attr->id] = (int)$attr->position;
             	}
             	else
             	{
                 	$attributeOcuurance[(string)$attr->id] = $i;
                 	$configAttributeValue[(string)$attr->id] = (string)$attr->valueDefId;
+					$attrPos[(string)$attr->id] = (int)$attr->position;
             	}
         	}
 	        $superattribute_array = array();    // attributes with multiple occurances
@@ -1205,7 +1215,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     	$attr_id = $attr->getAttributeId();
                     	$ProductAttributeIds[] = $attr_id;
                     	$attribute_label =   $attr->getFrontendLabel();
-                    	$attr_detail = array('id'=>NULL, 'label' => "$attribute_label", 'position' => NULL, 'attribute_id' => $attr_id, 'attribute_code' => "$attribute_code", 'frontend_label' => "$attribute_label",
+                    	$attr_detail = array('id'=>NULL, 'label' => "$attribute_label", 'position' => $attrPos[$attr_id], 'attribute_id' => $attr_id, 'attribute_code' => "$attribute_code", 'frontend_label' => "$attribute_label",
                         					'html_id' => "config_super_product__attribute_$attrnum");
                     	$attribute_detail[] = $attr_detail;
                     	$attrnum++;
@@ -2352,7 +2362,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $attr->addData($_attribute_data);
             $option['attribute_id'] = $attr_id;
 
-            if($count_value > 0 && ($attribute_type == 'select' || $attribute_type == 'multiselect'))
+            if($count_value > 0 && ($attribute_type == 'select' || $attribute_type == 'multiselect' || $attribute_type == 'text' || $attribute_type == 'textarea'))
             {
                 for($i =0; $i<$count_value ; $i++)
                 {
