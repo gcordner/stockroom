@@ -10,7 +10,7 @@
                     if(!$('.header-container .menu-wrapper .mini-cart').length && !$('.header-container .menu-wrapper .sticky-logo').length){
 				    $('.header-container').addClass("sticky-header");
 				    var minicart = $('.header-container .mini-cart').html();
-				    $('.header-container .menu-wrapper').append('<div class="mini-cart">'+minicart+'</div>');
+                    $('.header-container .mw-nav-container .mw_top_menu').append('<div class="mini-cart">'+minicart+'</div>');
                 <?php if(Mage::getStoreConfig('porto_settings/header/sticky_header_logo', $code)): ?>
                     var logo_image = $('<div>').append($('.header-container .header > .logo').clone()).html();
                     $('.header-container .menu-wrapper').prepend('<div class="sticky-logo">'+logo_image+'</div>');
@@ -30,7 +30,7 @@
 			    }
 			    if(140>=$(window).scrollTop() && scrolled){
 				    $('.header-container').removeClass("sticky-header");
-				    $('.header-container .menu-wrapper .mini-cart').remove();
+                    $('.header-container .mw-nav-container .mw_top_menu .mini-cart').remove();
                 <?php if(Mage::getStoreConfig('porto_settings/header/sticky_header_logo', $code)): ?>
                     $('.header-container .menu-wrapper > .sticky-logo').remove();
                 <?php endif; ?>
