@@ -2,7 +2,7 @@
 
 /* === Dropdown NM Styles ==========================================================================*/
 .mw-nav-container { background:#0a263d url(../images/bkg_nav0.jpg) 50% 0 repeat-y; color: #48494a}
-.mw_top_menu { width:950px; margin:0 auto; padding:0px; font-size:13px; text-align: left;}
+.mw_top_menu { width:1140px; margin:0 auto; padding:0px; font-size:13px; text-align: left; background-color: #000000; position: relative; border-radius: 5px;}
 
 /*Display sub*/
 .mw-mega-menu-top{}
@@ -11,9 +11,9 @@
 .mw-mega-menu-top .sub ul {display: block;}
 
 .mw-mega-menu-top ul, .mw-mega-menu-top ul li {list-style: none;}
-.mw-mega-menu-top ul {position: relative; padding: 0; margin: 0;}
-.mw_top_menu ul.mw-mega-menu-top {position: relative;}
-.mw_top_menu ul.mw-mega-menu-top li {float: left; font-size: 12px; font-weight: bold; position: relative;}
+.mw-mega-menu-top ul {padding: 0; margin: 0;}
+.mw_top_menu ul.mw-mega-menu-top {}
+.mw_top_menu ul.mw-mega-menu-top li {float: left; font-size: 12px; font-weight: bold;}
 .mw_top_menu ul.mw-mega-menu-top li a {float: left; display: block; color: #A7C6DD; padding: 5px 12px 5px 8px; text-decoration: none;}
 
 .mw_top_menu ul.mw-mega-menu-top li a.dc-mega {position: relative;}
@@ -25,21 +25,37 @@
 .mw_top_menu ul.mw-mega-menu-top li.active a,
 .mw_top_menu ul.mw-mega-menu-top li.active a:hover { color:#d96708;}
 
-.mw_top_menu ul.mw-mega-menu-top li .sub-container {position: absolute; background: url(../images/bkg-sub.png) no-repeat bottom right; padding: 0px 8px 0px 0px;}
+.mw_top_menu ul.mw-mega-menu-top li .sub-container {
+    position: absolute; 
+    background: url(../images/bkg-sub.png) no-repeat bottom right; 
+    padding: 0px 0px 0px 0px; 
+    top: 43px!important;
+    width: 100%;
+}
 .mw_top_menu ul.mw-mega-menu-top li .sub {background: url(../images/bkg-sub-left.png) no-repeat bottom left; float: left; padding: 0px 0px 5px 8px;}
-.mw_top_menu ul.mw-mega-menu-top li .sub-container.mega .sub {}
+.mw_top_menu ul.mw-mega-menu-top li .sub-container.mega .sub {
+    border-top:5px solid #535353!important; 
+    width: 100%; 
+    padding: 10px 10px; 
+    background: #ffffff;
+    -webkit-box-shadow: 0px 9px 18px -7px rgba(0,0,0,0.54);
+    -moz-box-shadow: 0px 9px 18px -7px rgba(0,0,0,0.54);
+    box-shadow: 0px 9px 18px -7px rgba(0,0,0,0.54);
+    border-radius:0px 0px 5px 5px;
+}
 .mw_top_menu ul.mw-mega-menu-top li .sub .row {width: 100%; overflow: hidden; clear: both;}
-.mw_top_menu ul.mw-mega-menu-top li .sub li {list-style: none; float: none; width: 170px; font-weight: normal;}
+.mw_top_menu ul.mw-mega-menu-top li .sub li {list-style: none; float: none; width:300px; font-weight: normal;}
 .mw_top_menu ul.mw-mega-menu-top li .sub li.nm_center{}
 .mw_top_menu ul.mw-mega-menu-top li .sub li.mega-hdr {margin: 0 10px 10px 0; float: left;}
 .mw_top_menu ul.mw-mega-menu-top li .sub li.mega-hdr.last {margin-right: 0;}
 
 .mw_top_menu ul.mw-mega-menu-top li .sub a {text-shadow: none; color: #2f2f2f; padding: 7px 10px; display: block; float: none; text-decoration: none;}
 
-.mw_top_menu ul.mw-mega-menu-top li .sub li.mega-hdr a.mega-hdr-a {font-weight: bold; color: #2f2f2f;}
-.mw_top_menu ul.mw-mega-menu-top li .sub li.mega-hdr a.mega-hdr-a:hover {}
-.mw_top_menu ul.mw-mega-menu-top .sub li.mega-hdr li a {padding: 4px 5px 4px 20px; background: url(../images/arrow_off.png) no-repeat 5px 13px; font-weight: normal; color: #1e7ec8; text-decoration: underline;}
-.mw_top_menu ul.mw-mega-menu-top .sub li.mega-hdr li a:hover {text-decoration: none;}
+.mw_top_menu ul.mw-mega-menu-top li .sub li.mega-hdr a.mega-hdr-a {font-weight: bold; color: #777777; font-size: 14px;}
+.mw_top_menu ul.mw-mega-menu-top li .sub li.mega-hdr a.mega-hdr-a:hover {text-decoration: underline;}
+.mw_top_menu ul.mw-mega-menu-top .sub li.mega-hdr li a { font-size: 13px; padding: 6px 5px 6px 10px; /*background: url(../images/arrow_off.png) no-repeat 5px 13px;*/ font-weight: normal; color: #777777; text-decoration: none; text-transform: capitalize;}
+.mw_top_menu ul.mw-mega-menu-top .sub li.mega-hdr li:last-child { padding-bottom: 10px;}
+.mw_top_menu ul.mw-mega-menu-top .sub li.mega-hdr li a:hover {text-decoration: underline;}
 .mw_top_menu ul.mw-mega-menu-top .sub ul li {padding-right: 0;}
 .mw_top_menu ul.mw-mega-menu-top li .sub-container.non-mega .sub {}
 .mw_top_menu ul.mw-mega-menu-top li .sub-container.non-mega li {padding: 0; width: 190px; margin: 0;}
@@ -144,11 +160,21 @@ ul.nm-adver li{ display: inline;}
 .clear-both{clear:both;height:0px;}
 .sub-container{border-top:0px !important;}   
 .mw-nav-container {background:#FFFFFF; color: #636363; padding-bottom: 10px;padding-top: 10px;}
-.mw_top_menu ul.mw-mega-menu-top li a { color: #636363;}
-.mw_top_menu ul.mw-mega-menu-top li.active a, .mw_top_menu ul.mw-mega-menu-top li.active a:hover {color: #3399CC;} 
-.mw_top_menu ul.mw-mega-menu-top li.mega-hover a, .mw_top_menu ul.mw-mega-menu-top li a:hover { color:#3399CC;}
-.mw_top_menu ul.mw-mega-menu-top li a {padding: 0 12px 0 8px;}
-.nm_content_menu {background:#FBFBFB;}
+.mw_top_menu ul.mw-mega-menu-top > li { margin-bottom: -2px;}
+.mw_top_menu ul.mw-mega-menu-top li a { color: #FFFFFF;}
+
+.mw_top_menu ul.mw-mega-menu-top li.active a.dc-mega, 
+.mw_top_menu ul.mw-mega-menu-top li.active a.dc-mega:hover{ background-color: #535353; border-radius:5px 5px 0 0; color: #ffffff;}
+
+.mw_top_menu ul.mw-mega-menu-top li.mega-hover a.dc-mega, 
+.mw_top_menu ul.mw-mega-menu-top li a.dc-mega:hover {  background-color: #535353; border-radius:5px 5px 0 0; color: #ffffff;}
+
+.mw_top_menu ul.mw-mega-menu-top li.nm_menu_top_item:hover a.nm_menu_top_item_url,
+.mw_top_menu ul.mw-mega-menu-top li.active a.nm_menu_top_item_url:hover {background-color: #535353; border-radius:5px 5px 0 0; color: #ffffff;}
+
+.mw_top_menu ul.mw-mega-menu-top li a {padding: 15px 15px 15px 14px; text-transform: uppercase;}
+.mw_top_menu ul.mw-mega-menu-top li > a.dc-mega:after{content:'\e81c';font-family:"porto";width:10px;height:10px;top:50%;right:15px;left:auto;margin-top:-7px}
+.nm_content_menu {background:none;}
 
 /*************MOBILE***********/
 .mage-menu-driver-left-mobile{background:#fff !important;} 
