@@ -159,7 +159,7 @@ ul.nm-adver li{ display: inline;}
 .skip-content .mw_top_menu {width: 100%;} 
 .clear-both{clear:both;height:0px;}
 .sub-container{border-top:0px !important;}   
-.mw-nav-container {background:#FFFFFF; color: #636363; padding-bottom: 10px;padding-top: 10px;}
+.mw-nav-container {background:#FFFFFF; color: #636363; padding-bottom: 15px;padding-top: 0px;}
 .mw_top_menu ul.mw-mega-menu-top > li { margin-bottom: -2px;}
 .mw_top_menu ul.mw-mega-menu-top li a { color: #FFFFFF;}
 
