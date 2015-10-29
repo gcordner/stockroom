@@ -81,3 +81,14 @@ a.tooltip-close{position:absolute;right:10px;top:10px;color:#fff}
     color: #444;
   }
 }
+
+@media (max-width:990px){
+    .unimobile { margin-bottom: 10px;}
+    .header > .logo { max-width: 210px;}
+    .header-container.type4 .header .logo img{ height: auto;}
+    .header-container.type4 .header { padding: 15px 0px 5px;}
+}
+
+@media (max-width:340px){
+  .header > .logo {max-width: 195px;}
+}
