@@ -1110,13 +1110,15 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 			
 			//New and created data code start
 	    	$format = 'Y-m-d H:i:s';
-	    	$currenDateTime =  date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
-	    	$news_from_date = $currenDateTime;
-	    	$news_to_date = $currenDateTime;
-	    	$catalogNewproductDays = Mage::getStoreConfig('catalog/newproduct/days',Mage::app()->getStore());
-			$news_to_date = date($format,strtotime($catalogNewproductDays.' days' .$news_from_date));
-	    	$product->setNewsFromDate($news_from_date);
-			$product->setNewsToDate($news_to_date);
+            $catalogNewproductDays = Mage::getStoreConfig('catalog/newproduct/days',Mage::app()->getStore());
+            if(!empty($catalogNewproductDays) && $catalogNewproductDays >=0 ){
+                $currenDateTime =  date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
+                $news_from_date = $currenDateTime;
+                $news_to_date = $currenDateTime;
+                $news_to_date = date($format,strtotime($catalogNewproductDays.' days' .$news_from_date));
+                $product->setNewsFromDate($news_from_date);
+                $product->setNewsToDate($news_to_date);
+            }
         	if ($product->getCreatedTime == NULL || $product->getUpdateTime() == NULL)
 			{
 				$product->setCreatedTime($currenDateTime)->setUpdateTime($currenDateTime);
@@ -1316,13 +1318,15 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 	    	$product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
 			//New and created data code start
 	    	$format = 'Y-m-d H:i:s';
-	    	$currenDateTime =  date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
-	    	$news_from_date = $currenDateTime;
-	    	$news_to_date = $currenDateTime;
-	    	$catalogNewproductDays = Mage::getStoreConfig('catalog/newproduct/days',Mage::app()->getStore());
-			$news_to_date = date($format,strtotime($catalogNewproductDays.' days' .$news_from_date));
-	    	$product->setNewsFromDate($news_from_date);
-			$product->setNewsToDate($news_to_date);
+            $catalogNewproductDays = Mage::getStoreConfig('catalog/newproduct/days',Mage::app()->getStore());
+            if(!empty($catalogNewproductDays) && $catalogNewproductDays >=0 ){
+                $currenDateTime =  date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
+                $news_from_date = $currenDateTime;
+                $news_to_date = $currenDateTime;
+                $news_to_date = date($format,strtotime($catalogNewproductDays.' days' .$news_from_date));
+                $product->setNewsFromDate($news_from_date);
+                $product->setNewsToDate($news_to_date);
+            }
         	if ($product->getCreatedTime == NULL || $product->getUpdateTime() == NULL)
 			{
 				$product->setCreatedTime($currenDateTime)->setUpdateTime($currenDateTime);
@@ -1539,13 +1543,15 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 			$product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
 			//New and created data code start
 	    	$format = 'Y-m-d H:i:s';
-	    	$currenDateTime =  date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
-	    	$news_from_date = $currenDateTime;
-	    	$news_to_date = $currenDateTime;
-	    	$catalogNewproductDays = Mage::getStoreConfig('catalog/newproduct/days',Mage::app()->getStore());
-			$news_to_date = date($format,strtotime($catalogNewproductDays.' days' .$news_from_date));
-	    	$product->setNewsFromDate($news_from_date);
-			$product->setNewsToDate($news_to_date);
+            $catalogNewproductDays = Mage::getStoreConfig('catalog/newproduct/days',Mage::app()->getStore());
+            if(!empty($catalogNewproductDays) && $catalogNewproductDays >=0 ){
+                $currenDateTime =  date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
+                $news_from_date = $currenDateTime;
+                $news_to_date = $currenDateTime;
+                $news_to_date = date($format,strtotime($catalogNewproductDays.' days' .$news_from_date));
+                $product->setNewsFromDate($news_from_date);
+                $product->setNewsToDate($news_to_date);
+            }
         	if ($product->getCreatedTime == NULL || $product->getUpdateTime() == NULL)
 			{
 				$product->setCreatedTime($currenDateTime)->setUpdateTime($currenDateTime);
