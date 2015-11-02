@@ -1003,7 +1003,6 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 {
                     $attributeOcuurance[(string)$attr->id] = $i;
                     $configAttributeValue[(string)$attr->id] = (string)$attr->valueDefId;
-					$attrPos[(string)$attr->id] = (int)$attr->position;
                 }
             }
             $config_attribute_array = array();   //attributes with single occurance
@@ -1014,7 +1013,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     $config_attribute_array[] = $key;
                 }
             }
-			$attrnum = 0;
+            
             foreach($config_attribute_array as $attr)
             {
                 $external_id = $configAttributeValue[$attr];  // valueDefId from XML for an attribute
@@ -1022,7 +1021,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 $loadedattr = $model->loadByCode('catalog_product', $attr);
                 $attr_id = $loadedattr->getAttributeId();  // attribute id of magento
                 $attr_type = $loadedattr->getFrontendInput();
-                $attribute_label =   $loadedattr->getFrontendLabel();
+                
                 if($attr_type == 'select'){
                     $mapObj =  Mage::getModel('customimport/customimport');
                     $option_id = $mapObj->isOptionExistsInAttribute($external_id, $attr_id);
@@ -1033,12 +1032,8 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 }else{ //if attribute is textfield direct insert value
                     $product->setData($attr, $external_id);
                 }
-				$attr_detail = array('id'=>NULL, 'label' => "$attribute_label", 'position' => $attrPos[$attr_id], 'attribute_id' => $attr_id, 'attribute_code' => "$attribute_code", 'frontend_label' => "$attribute_label",
-									'html_id' => "config_super_product__attribute_$attrnum");
-				$attribute_detail[] = $attr_detail;
-				$attrnum++;
             }
-			$product->setConfigurableAttributesData($attribute_detail);
+			
             try{
             	Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
                 $product->save();
