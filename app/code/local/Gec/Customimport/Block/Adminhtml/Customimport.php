@@ -1273,6 +1273,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 	                    $stockStatus = Mage::getModel('cataloginventory/stock_status');
 	                    $stockStatus->assignProduct($product);
 	                    $stockStatus->saveProductStatus($product->getId(), 1);
+                        $this->_created_num++;
                 	}
                 	catch (Exception $e)
                 	{
