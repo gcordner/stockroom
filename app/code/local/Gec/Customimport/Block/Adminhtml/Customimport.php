@@ -932,7 +932,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         }
         else 
         {
-        	$this->customHelper->reportInfo($this->customHelper->__('ERROR: Product %s is skipped due to some error. %s',$item->id));
+        	$this->customHelper->reportInfo($this->customHelper->__('ERROR: Product %s is skipped due to some error. ',$item->id));
         }
     }
 
