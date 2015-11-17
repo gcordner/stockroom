@@ -178,7 +178,7 @@ if (!$ratio_height)
                             <?php if (Mage::getStoreConfig("porto_settings/category/product_price", $code)): ?>
                                 <?php echo $this->getPriceHtml($_product, true) ?>
                             <?php endif; ?>
-                            <?php if (Mage::getStoreConfig("porto_settings/category/actions", $code)): ?>
+                            <?php if (Mage::getStoreConfig("porto_settings/category/actions", $code) && false): ?>
                                 <div class="actions">
                                     <?php if (Mage::getStoreConfig("porto_settings/category/qty_field", $code)): ?>
                                         <?php if ($product->isSaleable()): ?>
