@@ -2,8 +2,7 @@
 $store = Mage::app()->getStore();
 $code = $store->getCode();
 $storeId = Mage::app()->getStore()->getId();
-$days = Mage::getStoreConfig('catalog/newproduct/days', $storeId);
-if ($days > 0 && get_class($this)=='Smartwave_Filterproducts_Block_Newproduct_Home_List') {
+if (get_class($this)=='Smartwave_Filterproducts_Block_Newproduct_Home_List') {
     $obj = new Stockroom_Newproduct_Block_Product_List();
     $_productCollection = $obj->getLoadedProductCollection();
 } else {	
