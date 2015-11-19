@@ -411,16 +411,16 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     reset($externall);
                     $first_key = key($externall);
                     foreach ($associate->product as $product) {
-                        $this->customHelper->reportInfo($this->customHelper->__("Start Process for category # %s and product %s association", $first_key, $product->id));
+                        $this->customHelper->reportInfo($this->customHelper->__("Start Process for category # %s and product %s association", $externall[$first_key], $product->id));
                         $this->associateProductToCategory($product, $first_key);
-                        $this->customHelper->reportInfo($this->customHelper->__("End Process for category # %s and product %s association", $first_key, $product->id));
+                        $this->customHelper->reportInfo($this->customHelper->__("End Process for category # %s and product %s association", $externall[$first_key], $product->id));
                     }
                 } else {
                     foreach ($externall as $systemCatid => $v) {
                         foreach ($associate->product as $product) {
-                            $this->customHelper->reportInfo($this->customHelper->__("Start Process for category # %s and product %s association", $systemCatid, $product->id));
+                            $this->customHelper->reportInfo($this->customHelper->__("Start Process for category # %s and product %s association", $v, $product->id));
                             $this->associateProductToCategory($product, $systemCatid);
-                            $this->customHelper->reportInfo($this->customHelper->__("End Process for category # %s and product %s association", $systemCatid, $product->id));
+                            $this->customHelper->reportInfo($this->customHelper->__("End Process for category # %s and product %s association", $v, $product->id));
                         }
                     }
                 }
