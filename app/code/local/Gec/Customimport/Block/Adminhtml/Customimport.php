@@ -2027,7 +2027,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $attr->addData($_attribute_data);
             $option['attribute_id'] = $attr_id;
             
-            if ($count_value > 0 && ($attribute_type == 'select' || $attribute_type == 'multiselect' || $attribute_type == 'text' || $attribute_type == 'textarea')) {
+            if ($count_value > 0 && ($attribute_type == 'select' || $attribute_type == 'multiselect' || $attribute_type == 'text' || $attribute_type == 'textarea' || $attribute_type == 'boolean')) {
                 for ($i = 0; $i < $count_value; $i++) {
                     $attrdet  = $attr_values['valueDef'][$i];
                     $optionId = $mapobj->isOptionExistsInAttribute($attrdet->id, $attr_id);
