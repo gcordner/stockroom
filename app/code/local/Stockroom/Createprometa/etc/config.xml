@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Stockroom_Createprometa>
+      <version>0.1.0</version>
+    </Stockroom_Createprometa>
+  </modules>
+  <global>
+	<models>
+	  <createprometa>
+		<class>Stockroom_Createprometa_Model</class>
+		<resourceModel>createprometa_mysql4</resourceModel>
+	  </createprometa>
+	</models>
+	<resources>
+	  <catalog_productmeta_setup>
+		<setup>
+		  <module>Stockroom_Createprometa</module>
+		  <class>Mage_Eav_Model_Entity_Setup</class>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </catalog_productmeta_setup>
+	  <catalog_productmeta_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </catalog_productmeta_write>
+	  <catalog_productmeta_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </catalog_productmeta_read>
+	</resources>
+  </global>
+</config> 

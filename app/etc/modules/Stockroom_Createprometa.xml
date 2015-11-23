@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Stockroom_Createprometa>
+      <active>true</active>
+      <codePool>local</codePool>
+      <version>0.1.0</version>
+    </Stockroom_Createprometa>
+  </modules>
+</config>
