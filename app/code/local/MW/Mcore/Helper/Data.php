@@ -257,7 +257,7 @@ class MW_Mcore_Helper_Data extends Mage_Core_Helper_Abstract
 		$linkactivedev = "active('".strtolower($modulename)."',1,'dev_site')";
 		$encmodule = $this->encryptMyName($modulename);		
 									
-		$url = Mage::helper('adminhtml')->getUrl('mcore/adminhtml_index/trial/module/'.$encmodule); // Mage::getUrl('mcore/index/trial/module/'.$encmodule);
+		$url = Mage::helper('adminhtml')->getUrl('adminhtml/mcore_index/trial/module/'.$encmodule); // Mage::getUrl('mcore/index/trial/module/'.$encmodule);
 		if(isset($arr_mod_inf[1]))
 		{
 		if(  intval($arr_mod_inf[1])!=2)

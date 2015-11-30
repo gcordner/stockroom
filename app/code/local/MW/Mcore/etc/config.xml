@@ -34,15 +34,14 @@
     </frontend>
     
     <admin>
-        <routers>
-			<mcore>
-				<use>admin</use>
-				<args>
-					<module>MW_Mcore</module>
-					<frontName>mcore</frontName>
-				</args>
-			</mcore>
-			
+    	<routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <mcore before="Mage_Adminhtml">MW_Mcore_Adminhtml</mcore>
+                    </modules>
+                </args>
+            </adminhtml>
         </routers>
     </admin>
     

@@ -14,17 +14,17 @@
 				<block type="mcore/adminhtml_head" name="top.mcore" as="top_mcore" template="mw_mcore/top.phtml"/>		
 		</reference>
 </default>
-    <mcore_adminhtml_mcore_index>
+    <adminhtml_mcore_mcore_index>
         <reference name="content">
             <block type="mcore/adminhtml_mcore" name="mcore" />
         </reference>
-    </mcore_adminhtml_mcore_index>
+    </adminhtml_mcore_mcore_index>
     
-    <mcore_adminhtml_notification_index>
+    <adminhtml_mcore_notification_index>
         <reference name="content">
             <block type="mcore/adminhtml_notification" name="notification" />
         </reference>
-    </mcore_adminhtml_notification_index>
+    </adminhtml_mcore_notification_index>
     
     <adminhtml_system_config_edit>		
 			<reference name="head">		

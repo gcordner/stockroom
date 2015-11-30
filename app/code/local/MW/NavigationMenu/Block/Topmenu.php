@@ -41,7 +41,7 @@ class MW_NavigationMenu_Block_Topmenu extends Mage_Core_Block_Template {
 	}
 	
 	public function getMenuItems() {
-		$menu_colections = Mage::getModel ( 'navigationmenu/menuitems' )->getCollection ()->addOrder ( "main_table.`order`", 'ASC' );
+		$menu_colections = Mage::getModel ( 'navigationmenu/menuitems' )->getCollection ()->addOrder ( "main_table.order", 'ASC' );
 		
 		$a = 0;
 		$items = array ();

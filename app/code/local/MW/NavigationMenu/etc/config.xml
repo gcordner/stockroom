@@ -34,13 +34,13 @@
     </frontend>
     <admin>
         <routers>
-			<navigationmenu>
-				<use>admin</use>
-				<args>
-					<module>MW_NavigationMenu</module>
-					<frontName>navigationmenu</frontName>
-				</args>
-			</navigationmenu>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <navigationmenu before="Mage_Adminhtml">MW_NavigationMenu_Adminhtml</navigationmenu>
+                    </modules>
+                </args>
+            </adminhtml>
         </routers>
     </admin>
     <adminhtml>
@@ -61,12 +61,12 @@
 					<menuitems module="navigationmenu">
 						<title>Manage Menu Categories</title>
 						<sort_order>0</sort_order>
-						<action>navigationmenu/adminhtml_menuitems</action>
+						<action>adminhtml/navigationmenu_menuitems</action>
 					</menuitems>
 					<contents module="navigationmenu">
 						<title>Manage Menu Contents</title>
 						<sort_order>1</sort_order>
-						<action>navigationmenu/adminhtml_contents</action>
+						<action>adminhtml/navigationmenu_contents</action>
 					</contents>
 					<config module="navigationmenu">
 						<title>Configuration</title>
@@ -77,19 +77,6 @@
 			</navigationmenu>
 		</menu>
 		<acl>
-			<!-- <resources>
-				<all>
-					<title>Allow Everything</title>
-				</all>
-				<admin>
-					<children>
-						<MW_NavigationMenu>
-							<title>NavigationMenu Module</title>
-							<sort_order>10</sort_order>
-						</MW_NavigationMenu>
-					</children>
-				</admin>
-			</resources> -->
 			<resources>
 			    <all>
 					<title>Allow Everything</title>
@@ -103,12 +90,12 @@
 								<menuitems module="navigationmenu">
 									<title>Manage Menu Categories</title>
 									<sort_order>0</sort_order>
-									<action>navigationmenu/adminhtml_menuitems</action>
+									<action>adminhtml/navigationmenu_menuitems</action>
 								</menuitems>
 							    <contents module="navigationmenu">
 							        <title>Manage Menu Contents</title>
 								    <sort_order>1</sort_order>
-									<action>navigationmenu/adminhtml_contents</action>
+									<action>adminhtml/navigationmenu_contents</action>
 								</contents>
 								<config module="navigationmenu">
 									<title>Configuration</title>
