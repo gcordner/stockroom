@@ -16,10 +16,10 @@ function getConnection()
 	
 	$data['_table_prefix'] = $tablePrefix;
 	try {
-		$data['_connection'] = mysql_connect($connection->host,$connection->username,$connection->password);
+		$data['_connection'] = mysqli_connect($connection->host,$connection->username,$connection->password);
 		if ($data['_connection']){
-			mysql_set_charset('utf8',$data['_connection']);
-			mysql_select_db($connection->dbname,$data['_connection']);
+			mysqli_set_charset($data['_connection'],'utf8');
+			mysqli_select_db($data['_connection'],$connection->dbname);
 		}
 	} catch (Exception $e){}
 	
@@ -31,7 +31,7 @@ function closeConnection()
 	global $data;
 	if (isset($data['_connection'])){
 		try {
-			mysql_close($data['_connection']);
+			mysqli_close($data['_connection']);
 		} catch (Exception $e){}
 	}
 }
@@ -80,9 +80,9 @@ function getAffiliateplusConfig($path, $store = null)
             $sql .= "OR (`scope` = 'stores' AND `scope_id` = $store) ";
         }
         $sql .= ") ORDER BY FIELD(`scope`, 'default', 'websites', 'stores')";
-        $result = mysql_query($sql, $link);
+        $result = mysqli_query($link, $sql);
         if ($result) {
-            while ($cfgRow = mysql_fetch_assoc($result)) {
+            while ($cfgRow = mysqli_fetch_assoc($result)) {
                 $actionConfig[str_replace('affiliateplus/', '', $cfgRow['path'])] = $cfgRow['value'];
             }
         }
@@ -100,8 +100,8 @@ function getBanner($bannerId, $store)
     $sql  = "SELECT m.`banner_id`,(IF(v.value IS NULL, m.title, v.value)) as `title`,m.`source_file` FROM `$table` as m ";
     $sql .= " LEFT JOIN `$valueTbl` as v ON (m.banner_id = v.banner_id AND v.store_id = $store AND v.attribute_code = 'title')";
     $sql .= " WHERE m.`banner_id` = $bannerId";
-    $result = mysql_query($sql, $link);
-    if ($result) return mysql_fetch_assoc($result);
+    $result = mysqli_query($link, $sql);
+    if ($result) return mysqli_fetch_assoc($result);
     return false;
 }
 
@@ -114,9 +114,9 @@ function getActionId($accountId, $bannerId, $storeId, $ipAddress)
     $sql .= " account_id = $accountId AND type = 1";
     $sql .= " AND banner_id = $bannerId AND store_id = $storeId";
     $sql .= " AND ip_address = '$ipAddress' AND created_date = '".date('Y-m-d')."'";
-    $result = mysql_query($sql, $link);
+    $result = mysqli_query($link, $sql);
     if ($result) {
-        $action = mysql_fetch_assoc($result);
+        $action = mysqli_fetch_assoc($result);
         if (isset($action['action_id'])) {
             return $action['action_id'];
         }
@@ -145,7 +145,7 @@ function controllerAction()
                 // update total view
                 $sql = "UPDATE `$table` SET `totals` = `totals` + 1,";
                 $sql .= "updated_time = '".date('Y-m-d H:i:s')."' WHERE `action_id` = $actionId";
-                mysql_query($sql, $link);
+                mysqli_query($link, $sql);
             } else {
                 // process for unique view row
                 $uniqueSql = "SELECT `is_unique` FROM `$table` WHERE ";
@@ -157,8 +157,8 @@ function controllerAction()
                 }
                 $uniqueSql .= " LIMIT 1";
                 $isUniqueView = 1;
-                if ($result = mysql_query($uniqueSql, $link)) {
-                    $result = mysql_fetch_assoc($result);
+                if ($result = mysqli_query($uniqueSql, $link)) {
+                    $result = mysqli_fetch_assoc($result);
                     if (isset($result['is_unique'])){
                         $isUniqueView = 0;
                     }
@@ -175,8 +175,8 @@ function controllerAction()
                     $totalSql .= " AND banner_id = $bannerId AND store_id = $storeId";
                     $totalSql .= " AND (action_id > ($lastSql) OR ($lastSql) IS NULL)";
                     
-                    if ($result = mysql_query($totalSql, $link)) {
-                        $result = mysql_fetch_assoc($result);
+                    if ($result = mysqli_query($totalSql, $link)) {
+                        $result = mysqli_fetch_assoc($result);
                         if (isset($result['total_view']) && ($result['total_view'] == 999 || $result['total_view'] == 1000)) {
                             $url = 'http';
                             if ($_SERVER["HTTPS"] == "on") {
@@ -202,7 +202,7 @@ function controllerAction()
                 $sql .= "account_id = $accountId,";
                 $sql .= "account_email = (SELECT email FROM `$accountTbl` WHERE account_id = $accountId),";
                 $sql .= "banner_id = $bannerId,";
-                $sql .= "banner_title = '".mysql_real_escape_string($banner['title'], $link)."',";
+                $sql .= "banner_title = '".mysqli_real_escape_string($banner['title'], $link)."',";
                 $sql .= "type = 1,totals = 1,";
                 $sql .= "ip_address = '$ipAddress',";
                 if (isset($_SERVER['HTTP_REFERER'])) {
@@ -214,7 +214,7 @@ function controllerAction()
                 $sql .= "store_id = $storeId,";
                 $sql .= "is_unique = $isUniqueView";
                 
-                mysql_query($sql, $link);
+                mysqli_query($link, $sql);
             }
         }
     }
@@ -341,7 +341,7 @@ function detectCookie()
 
 // Main Execute
 if (getConnection())
-{
+{      
     controllerAction();
     closeConnection();
 }
