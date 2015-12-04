@@ -190,6 +190,10 @@
                                         <input class="form-control" type="text" name="<?php echo $id ?>-to" id="<?php echo $this->getNameInLayout() . '-' . $id ?>-to"  value="<?php echo $this->getFilterValue($id, '-to') ?>" />
                                     </div>
                                 </div>
+                            </div> 
+                        <?php elseif ($id == 'program_name'): ?>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <input class="form-control" type="text" name="<?php echo $id ?>" id="<?php echo $this->getNameInLayout() . '-' . $id ?>"  value="<?php echo $this->getFilterValue($id) ?>" placeholder="<?php echo $this->__('Search here from your programs'); ?>" maxlength="43" />
                             </div>
                         <?php else: ?>
                             <div class="col-md-12 col-sm-12 col-xs-12">
