@@ -20,7 +20,7 @@ class Magestore_Affiliateplus_Block_Adminhtml_Transaction_Edit_Tab_Form extends 
 		
 		$fieldset->addField('account_email', 'link', array(
 			'label'	=> Mage::helper('affiliateplus')->__('Affiliate Account'),
-			'href'	=> $this->getUrl('*/adminhtml_account/edit', array('_current'=>true, 'id' => $data['account_id'])),
+			'href'	=> $this->getUrl('*/affiliateplus_account/edit', array('_current'=>true, 'id' => $data['account_id'])),  //Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
 			'title'	=> Mage::helper('affiliateplus')->__('View Affiliate Account Details'),
 		));
 

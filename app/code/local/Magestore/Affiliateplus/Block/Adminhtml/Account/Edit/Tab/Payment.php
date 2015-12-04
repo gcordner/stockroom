@@ -116,7 +116,8 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Payment
 	
 	public function getRowUrl($row) {
 		$id = $row->getId();
-		return $this->getUrl('*/adminhtml_payment/edit', array(
+                // Changed By Adam 10/11/2015: solve the problem of Supee-6788
+		return $this->getUrl('adminhtml/affiliateplus_payment/edit', array(
 			'id' => $id//,
 			//'store'	=> $this->getRequest()->getParam('store')
 		));

@@ -130,8 +130,9 @@ class Magestore_Affiliateplusprogram_Block_Adminhtml_Program_Edit_Tab_Transactio
     }
     
     public function getRowUrl($row){
-		return $this->getUrl('affiliateplusadmin/adminhtml_transaction/view', array('id' => $row->getTransactionId()));
-	}
+        //Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+        return $this->getUrl('adminhtml/affiliateplus_transaction/view', array('id' => $row->getTransactionId()));
+    }
 	
 	public function getGridUrl(){
         return $this->getUrl('*/*/transactionGrid',array(

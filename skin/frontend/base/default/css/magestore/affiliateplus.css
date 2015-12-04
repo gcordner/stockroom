@@ -678,3 +678,16 @@ textarea.widgets-code, textarea#affiliate-email-content{
     float: left;
     width: 100%;
 }
+
+
+/*Changed By Adam 02/05/2015: fix loi CSS cho dob, tax, gender*/
+.form-group .customer-dob{width:100%; float:left;}
+.form-group .dob-month{width:25%; float:left; padding-right:10px;}
+.form-group .dob-day{width:25%; float:left; padding-right:10px;}
+.form-group .dob-year{width:50%; float:left;} 
+.form-group .dob-month .input-text{border-radius:4px; height:34px;}
+.form-group .dob-day .input-text{border-radius:4px; height:34px;} 
+.form-group .dob-year .input-text{border-radius:4px; height:34px;}
+.affiliateplus-account-login .account-login .f-right{
+    float:right;
+}

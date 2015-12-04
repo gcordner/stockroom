@@ -868,18 +868,19 @@ th {
           box-sizing: border-box;
 }
 
+
 a {
-  color: #428bca;
+
   text-decoration: none;
 }
 a:hover,
 a:focus {
-  color: #2a6496;
+ 
   text-decoration: underline;
 }
 a:focus {
 
-  outline: 0;
+ 
 
 }
 figure {
@@ -1151,11 +1152,7 @@ a.bg-warning:hover {
 a.bg-danger:hover {
   background-color: #e4b9b9;
 }
-.page-header {
-  padding-bottom: 9px;
-  margin: 40px 0 20px;
-  border-bottom: 1px solid #eee;
-}
+
 ul,
 ol {
   margin-top: 0;
@@ -1323,27 +1320,6 @@ pre code {
 .pre-scrollable {
   max-height: 340px;
   overflow-y: scroll;
-}
-.container {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-}
-@media (min-width: 768px) {
-/*   .container {
-    width: 750px;
-  } */
-}
-@media (min-width: 992px) {
-  /* .container {
-    width: 970px;
-  } */
-}
-@media (min-width: 1200px) {
-  /* .container {
-    width: 1170px;
-  } */
 }
 .container-fluid {
   padding-right: 15px;

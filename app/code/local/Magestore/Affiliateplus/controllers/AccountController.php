@@ -150,6 +150,7 @@ class Magestore_Affiliateplus_AccountController extends Mage_Core_Controller_Fro
              */
             $account->setData('referring_website', $data['referring_website']);
             /* end updating */
+            $data['paypal_email'] = isset($data['paypal_email']) ? $data['paypal_email'] : '';
             $account->setData('name', $customer->getName())
                     ->setData('paypal_email', $data['paypal_email'])
                     ->setData('notification', isset($data['notification']) ? 1 : 0);
@@ -437,7 +438,7 @@ class Magestore_Affiliateplus_AccountController extends Mage_Core_Controller_Fro
             }
             */
             $successMessage = '';
-            $successMessage = Mage::helper('affiliateplus/account')->createAffiliateAccount($address, $data['paypal_email'], $customer, $this->getRequest()->getPost('notification'), $this->getRequest()->getPost('referring_website'), $successMessage, $referredBy, $coreSession);
+            $successMessage = Mage::helper('affiliateplus/account')->createAffiliateAccount($address, $this->getRequest()->getPost('paypal_email'), $customer, $this->getRequest()->getPost('notification'), $this->getRequest()->getPost('referring_website'), $successMessage, $referredBy, $coreSession);
 
             //add success
             $coreSession->addSuccess($successMessage);

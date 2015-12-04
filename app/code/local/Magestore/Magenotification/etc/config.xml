@@ -6,35 +6,45 @@
         </Magestore_Magenotification>
     </modules>
     <admin>
+        <!--        Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2-->
+<!--        <routers>
+            <magenotification>
+                <use>admin</use>
+                <args>
+                    <module>Magestore_Magenotification</module>
+                    <frontName>magenotification</frontName>
+                </args>
+            </magenotification>
+        </routers>-->
         <routers>
-			<magenotification>
-				<use>admin</use>
-				<args>
-					<module>Magestore_Magenotification</module>
-					<frontName>magenotification</frontName>
-				</args>
-			</magenotification>
+            <adminhtml> 
+                <args> 
+                    <modules> 
+                        <Magestore_Magenotification after="Mage_Adminhtml">Magestore_Magenotification_Adminhtml</Magestore_Magenotification>
+                    </modules> 
+                </args> 
+            </adminhtml>
         </routers>
     </admin>
     <adminhtml>
-		<events>
-			<controller_action_predispatch>
-				<observers>
-				  <magestore_magenotification_observer>
-					<type>singleton</type>
-					<class>magenotification/observer</class>
-					<method>controllerActionPredispatch</method>
-				  </magestore_magenotification_observer>
-			   </observers>					
-			</controller_action_predispatch>		
-		</events>			
-		<layout>
-			<updates>
-				<magenotification>
-					<file>magenotification.xml</file>
-				</magenotification>
-			</updates>
-		</layout>        
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <magestore_magenotification_observer>
+                        <type>singleton</type>
+                        <class>magenotification/observer</class>
+                        <method>controllerActionPredispatch</method>
+                    </magestore_magenotification_observer>
+                </observers>					
+            </controller_action_predispatch>		
+        </events>			
+        <layout>
+            <updates>
+                <magenotification>
+                    <file>magenotification.xml</file>
+                </magenotification>
+            </updates>
+        </layout>        
     </adminhtml>   
     <global>
         <models>
@@ -58,8 +68,8 @@
                         <table>magenotification_log</table>
                     </logger>
                     <license>
-                    	<table>magenotification_license</table>
-					</license>
+                        <table>magenotification_license</table>
+                    </license>
                 </entities>
             </magenotification_mysql4>
         </models>
@@ -87,7 +97,7 @@
             <magenotification>
                 <class>Magestore_Magenotification_Block</class>
             </magenotification>
-			<adminhtml>
+            <adminhtml>
                 <rewrite>
                     <notification_window>Magestore_Magenotification_Block_Adminhtml_Notification_Window</notification_window>
                 </rewrite>
@@ -99,13 +109,13 @@
             </magenotification>
         </helpers>
     </global>
-	<default>
-		<magenotification>
-			<general>				
-				<frequency>24</frequency>
-				<last_update backend_model="magenotification/source_time"></last_update>
-				<magestore_url>http://www.magestore.com/index.php</magestore_url>
-			</general>		
-		</magenotification>
-	</default>		
+    <default>
+        <magenotification>
+            <general>				
+                <frequency>24</frequency>
+                <last_update backend_model="magenotification/source_time"></last_update>
+                <magestore_url>http://www.magestore.com/index.php</magestore_url>
+            </general>		
+        </magenotification>
+    </default>		
 </config>

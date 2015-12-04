@@ -58,17 +58,30 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
                         </div>
                     </div>
     <?php endif ?>
+            <!--Changed By Adam 02/05/2015: fix loi CSS cho dob, tax, gender -->
                 <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
                 <?php if ($_dob->isEnabled()): ?>
-                    <li><?php echo $_dob->setDate($this->getFormData('dob'))->toHtml() ?></li>
+                    <div class="form-group">
+                        <div class="<?php echo $class_name_col; ?>">
+                            <?php echo $_dob->setDate($this->getFormData('dob'))->toHtml() ?>
+                        </div>
+                    </div>
                 <?php endif ?>
                 <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
                 <?php if ($_taxvat->isEnabled()): ?>
-                    <li><?php echo $_taxvat->setTaxvat($this->getFormData('taxvat'))->toHtml() ?></li>
+                    <div class="form-group">
+                        <div class="<?php echo $class_name_col; ?>">
+                            <?php echo $_taxvat->setTaxvat($this->getFormData('taxvat'))->toHtml() ?>
+                        </div>
+                    </div>
                 <?php endif ?>
                 <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
                 <?php if ($_gender->isEnabled()): ?>
-                    <li><?php echo $_gender->setGender($this->getFormData('gender'))->toHtml() ?></li>
+                    <div class="form-group">
+                        <div class="<?php echo $class_name_col; ?>">
+                            <?php echo $_gender->setGender($this->getFormData('gender'))->toHtml() ?>
+                        </div>
+                    </div>
                 <?php endif ?>
                 <div class="form-group">
                     <div class="<?php echo $class_name_col; ?>">

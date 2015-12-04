@@ -8,6 +8,12 @@
             <action method="addCss">
                 <styleSheet>css/magestore/affiliateplus.css</styleSheet>
             </action>
+            <action method="addCss">                
+                <styleSheet>css/bootstrap/bootstrap.min.css</styleSheet>            
+            </action>			
+            <action method="addCss">                
+                <styleSheet>css/bootstrap/custome-bootstrap.css</styleSheet>            
+            </action>
             <block type="affiliateplus/CheckIframe" name="affiliateplus_checkiframe" template="affiliateplus/checkiframe.phtml"/>
         </reference>
         <reference name="footer_links">
@@ -15,7 +21,6 @@
                 <action method="addFooterLink" />
             </block>
         </reference>
-		
         <reference name="before_body_end">
             <block type="core/template" name="popup_affiliate" template="affiliateplus/html/popup.phtml"/>
         </reference>
@@ -33,6 +38,7 @@
     </customer_account>
     
     <affiliateplus_default>
+        
         <update handle="page_one_column" />
         <reference name="after_body_start">
             <block type="affiliateplus/account_navigation" after="addbootstrap" name="account_navigatorxx" template="affiliateplus/m-navigation.phtml">
@@ -70,8 +76,7 @@
                 <action method="addLink" translate="label" module="affiliateplus">
                     <name>banners</name>
                     <path>affiliateplus/banner/list</path>
-                    <label><![CDATA[Banners & Links]]>
-                    </label>
+                    <label><![CDATA[Banners & Links]]></label>
                     <disabled helper="affiliateplus/account/accountNotLogin" />
                     <order>40</order>
                 </action>
@@ -237,8 +242,8 @@
     
     <affiliateplus_transaction>
         <update handle="affiliateplus_default" />
-        <reference name="head" translate="title">
-            <action method="setTitle">
+        <reference name="head">
+            <action method="setTitle" translate="title">
                 <title>Commissions</title>
             </action>
         </reference>

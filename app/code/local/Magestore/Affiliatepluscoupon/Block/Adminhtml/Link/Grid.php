@@ -141,7 +141,7 @@ class Magestore_Affiliatepluscoupon_Block_Adminhtml_Link_Grid extends Mage_Admin
 	}
 	
 	public function getRowUrl($row){
-		return $this->getUrl('affiliateplusadmin/adminhtml_transaction/view', array('id' => $row->getId()));
+		return $this->getUrl('adminhtml/affiliateplus_transaction/view', array('id' => $row->getId()));            //Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
 	}
 	
 	public function getGridUrl(){

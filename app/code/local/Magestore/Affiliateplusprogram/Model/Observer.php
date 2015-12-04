@@ -83,7 +83,8 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
         if ($transactionPrograms->getSize())
             foreach ($transactionPrograms as $transactionProgram) {
                 if ($transactionProgram->getProgramId()) {
-                    $url = Mage::getSingleton('adminhtml/url')->getUrl('affiliateplusprogramadmin/adminhtml_program/edit', array(
+                    //Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
+                    $url = Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/affiliateplusprogram_program/edit', array(    
                         '_current' => true,
                         'id' => $transactionProgram->getProgramId(),
                         'store' => $data['store_id'],
@@ -116,10 +117,11 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
             return;
         }
         $block = $observer->getEvent()->getForm();
+//        Changed By Adam 29/10/2015: Fix issue of SUPEE 6788 - in Magento 1.9.2.2
         $block->addTab('program_section', array(
             'label' => $this->_getHelper()->__('Programs'),
             'title' => $this->_getHelper()->__('Programs'),
-            'url' => $block->getUrl('affiliateplusprogramadmin/adminhtml_program/program', array(
+            'url' => $block->getUrl('adminhtml/affiliateplusprogram_program/program', array(
                 '_current' => true,
                 'id' => $block->getRequest()->getParam('id'),
                 'store' => $block->getRequest()->getParam('store')
@@ -136,8 +138,9 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
             return;
         }
         $affiliateplusAccount = $observer->getEvent()->getAffiliateplusAccount();
-        if ($affiliateplusAccount->hasData('account_program')) {
-            $joinPrograms = array();
+
+        if ($affiliateplusAccount && $affiliateplusAccount->hasData('account_program')) {
+            $joinPrograms = array(); 
             parse_str($affiliateplusAccount->getAccountProgram(), $joinPrograms);
             $joinPrograms = array_keys($joinPrograms);
 
@@ -171,7 +174,7 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                 $newProgram->setProgramId($programId)->setId(null)->save();
             }
             Mage::getModel('affiliateplusprogram/joined')->updateJoined(null, $affiliateplusAccount->getId());
-        } elseif ($affiliateplusAccount->isObjectNew()) {
+        } elseif ($affiliateplusAccount && $affiliateplusAccount->isObjectNew()) {
             $oldProgramCollection = Mage::getResourceModel('affiliateplusprogram/account_collection')
                     ->addFieldToFilter('account_id', $affiliateplusAccount->getId());
             if ($oldProgramCollection->getSize())
@@ -284,6 +287,25 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                 return $this;
             }
         return $this;
+    }
+
+    /**
+     * Changed By Adam: 06/11/2014: Fix loi hidden tax
+     * @param type $price
+     * @param type $rate
+     * @return type
+     */
+    public function calTax($price, $rate) {
+        return $this->round(Mage::getSingleton('tax/calculation')->calcTaxAmount($price, $rate, true, false));
+    }
+
+    /**
+     * Changed By Adam: 06/11/2014: Fix loi hidden tax
+     * @param type $price
+     * @return type
+     */
+    public function round($price) {
+        return Mage::getSingleton('tax/calculation')->round($price);
     }
 
     public function addressCollectTotal($observer) {
@@ -416,10 +438,10 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                                             $childBaseDiscount = $totalBaseDiscount * $price / $baseItemsPrice;
                                             $child->setBaseAffiliateplusAmount($childBaseDiscount)
                                                     ->setAffiliateplusAmount(Mage::app()->getStore()->convertPrice($childBaseDiscount))
-                                                    // Added By Adam 16/11/2014 to solve the problem of calculating item tax when create invoice 
-                                                    // ->setRowTotal($child->getRowTotal() - $childBaseDiscount)
-                                                    // ->setBaseRowTotal($child->getBaseRowTotal() - Mage::app()->getStore()->convertPrice($childBaseDiscount))
-                                                    ;
+                                            // Added By Adam 16/11/2014 to solve the problem of calculating item tax when create invoice 
+                                            // ->setRowTotal($child->getRowTotal() - $childBaseDiscount)
+                                            // ->setBaseRowTotal($child->getBaseRowTotal() - Mage::app()->getStore()->convertPrice($childBaseDiscount))
+                                            ;
 
                                             /* Changed By Adam: 06/11/2014: Fix loi hidden tax */
                                             /* Tinh discount cho hidden tax */
@@ -433,8 +455,11 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                                                 if (Mage::helper('tax')->priceIncludesTax()) {
                                                     $rate = $this->getItemRateOnQuote($address, $child->getProduct(), $store);
                                                     if ($rate > 0) {
-                                                        $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($child->getBaseTaxableAmount(), $rate));
-                                                        $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($child->getTaxableAmount(), $rate));
+//                                                        Changed By Adam 29/10/2015: Fixed the issue of calculate grandtotal
+                                                        $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount - $child->getBaseTaxableAmount(), $rate));
+                                                        $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount - $child->getTaxableAmount(), $rate));
+//                                                        $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($child->getBaseTaxableAmount(), $rate));
+//                                                        $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($child->getTaxableAmount(), $rate));
                                                     }
                                                 }
                                             }
@@ -448,10 +473,10 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                                         $itemBaseDiscount = $totalBaseDiscount * $price / $baseItemsPrice;
                                         $_item->setBaseAffiliateplusAmount($itemBaseDiscount)
                                                 ->setAffiliateplusAmount(Mage::app()->getStore()->convertPrice($itemBaseDiscount))
-                                                // Added By Adam 16/11/2014 to solve the problem of calculating item tax when create invoice 
-                                                // ->setRowTotal($_item->getRowTotal() - $itemBaseDiscount)
-                                                // ->setBaseRowTotal($_item->getBaseRowTotal() - Mage::app()->getStore()->convertPrice($itemBaseDiscount))
-                                                ;
+                                        // Added By Adam 16/11/2014 to solve the problem of calculating item tax when create invoice 
+                                        // ->setRowTotal($_item->getRowTotal() - $itemBaseDiscount)
+                                        // ->setBaseRowTotal($_item->getBaseRowTotal() - Mage::app()->getStore()->convertPrice($itemBaseDiscount))
+                                        ;
                                         /* Changed By Adam: 06/11/2014: Fix loi hidden tax */
                                         /* Tinh discount cho hidden tax */
                                         if ($applyTaxAfterDiscount) {
@@ -463,8 +488,11 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                                             if (Mage::helper('tax')->priceIncludesTax()) {
                                                 $rate = $this->getItemRateOnQuote($address, $_item->getProduct(), $store);
                                                 if ($rate > 0) {
-                                                    $_item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($_item->getBaseTaxableAmount(), $rate));
-                                                    $_item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($_item->getTaxableAmount(), $rate));
+//                                                    Changed By Adam 29/10/2015: Fixed the issue of calculate grandtotal
+                                                    $_item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount - $_item->getBaseTaxableAmount(), $rate));
+                                                    $_item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount - $_item->getTaxableAmount(), $rate));
+//                                                    $_item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($_item->getBaseTaxableAmount(), $rate));
+//                                                    $_item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($_item->getTaxableAmount(), $rate));
                                                 }
                                             }
                                         }
@@ -492,10 +520,10 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                                     $itemBaseDiscount += $childBaseDiscount;
                                     $child->setBaseAffiliateplusAmount($childBaseDiscount)
                                             ->setAffiliateplusAmount(Mage::app()->getStore()->convertPrice($childBaseDiscount))
-                                            // Added By Adam 16/11/2014 to solve the problem of calculating item tax when create invoice 
-                                            // ->setRowTotal($child->getRowTotal() - $childBaseDiscount)
-                                            // ->setBaseRowTotal($child->getBaseRowTotal() - Mage::app()->getStore()->convertPrice($childBaseDiscount))
-                                            ;
+                                    // Added By Adam 16/11/2014 to solve the problem of calculating item tax when create invoice 
+                                    // ->setRowTotal($child->getRowTotal() - $childBaseDiscount)
+                                    // ->setBaseRowTotal($child->getBaseRowTotal() - Mage::app()->getStore()->convertPrice($childBaseDiscount))
+                                    ;
                                     /* Changed By Adam: 06/11/2014: Fix loi hidden tax */
                                     /* Tinh discount cho hidden tax */
                                     if ($applyTaxAfterDiscount) {
@@ -507,8 +535,11 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                                         if (Mage::helper('tax')->priceIncludesTax()) {
                                             $rate = $this->getItemRateOnQuote($address, $child->getProduct(), $store);
                                             if ($rate > 0) {
-                                                $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($child->getBaseTaxableAmount(), $rate));
-                                                $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($child->getTaxableAmount(), $rate));
+//                                                Changed By Adam 29/10/2015: Fixed the issue of calculate grandtotal
+                                                $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount - $child->getBaseTaxableAmount(), $rate));
+                                                $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount - $child->getTaxableAmount(), $rate));
+//                                                $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($child->getBaseTaxableAmount(), $rate));
+//                                                $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($child->getTaxableAmount(), $rate));
                                             }
                                         }
                                     }
@@ -523,10 +554,10 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                                 $itemBaseDiscount = ($itemBaseDiscount < $price) ? $itemBaseDiscount : $price;
                                 $item->setBaseAffiliateplusAmount($itemBaseDiscount)
                                         ->setAffiliateplusAmount(Mage::app()->getStore()->convertPrice($itemBaseDiscount))
-                                        // Added By Adam 16/11/2014 to solve the problem of calculating item tax when create invoice 
-                                        // ->setRowTotal($item->getRowTotal() - $itemBaseDiscount)
-                                        // ->setBaseRowTotal($item->getBaseRowTotal() - Mage::app()->getStore()->convertPrice($itemBaseDiscount))
-                                        ;
+                                // Added By Adam 16/11/2014 to solve the problem of calculating item tax when create invoice 
+                                // ->setRowTotal($item->getRowTotal() - $itemBaseDiscount)
+                                // ->setBaseRowTotal($item->getBaseRowTotal() - Mage::app()->getStore()->convertPrice($itemBaseDiscount))
+                                ;
 
                                 /* Changed By Adam: 06/11/2014: Fix loi hidden tax */
                                 /* Tinh discount cho hidden tax */
@@ -539,8 +570,11 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                                     if (Mage::helper('tax')->priceIncludesTax()) {
                                         $rate = $this->getItemRateOnQuote($address, $item->getProduct(), $store);
                                         if ($rate > 0) {
-                                            $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($item->getBaseTaxableAmount(), $rate));
-                                            $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($item->getTaxableAmount(), $rate));
+//                                            Changed By Adam 29/10/2015: Fixed the issue of calculate grandtotal
+                                            $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount - $item->getBaseTaxableAmount(), $rate));
+                                            $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount - $item->getTaxableAmount(), $rate));
+//                                            $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($item->getBaseTaxableAmount(), $rate));
+//                                            $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($item->getTaxableAmount(), $rate));
                                         }
                                     }
                                 }
@@ -568,10 +602,10 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                                     $itemBaseDiscount += $childBaseDiscount;
                                     $child->setBaseAffiliateplusAmount($childBaseDiscount)
                                             ->setAffiliateplusAmount(Mage::app()->getStore()->convertPrice($childBaseDiscount))
-                                            // Added By Adam 16/11/2014 to solve the problem of calculating item tax when create invoice 
-                                            // ->setRowTotal($child->getRowTotal() - $childBaseDiscount)
-                                            // ->setBaseRowTotal($child->getBaseRowTotal() - Mage::app()->getStore()->convertPrice($childBaseDiscount))
-                                            ;
+                                    // Added By Adam 16/11/2014 to solve the problem of calculating item tax when create invoice 
+                                    // ->setRowTotal($child->getRowTotal() - $childBaseDiscount)
+                                    // ->setBaseRowTotal($child->getBaseRowTotal() - Mage::app()->getStore()->convertPrice($childBaseDiscount))
+                                    ;
 
                                     /* Changed By Adam: 06/11/2014: Fix loi hidden tax */
                                     /* Tinh discount cho hidden tax */
@@ -584,8 +618,11 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                                         if (Mage::helper('tax')->priceIncludesTax()) {
                                             $rate = $this->getItemRateOnQuote($address, $child->getProduct(), $store);
                                             if ($rate > 0) {
-                                                $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($child->getBaseTaxableAmount(), $rate));
-                                                $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($child->getTaxableAmount(), $rate));
+//                                                Changed By Adam 29/10/2015: Fixed the issue of calculate grandtotal
+                                                $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount - $child->getBaseTaxableAmount(), $rate));
+                                                $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount - $child->getTaxableAmount(), $rate));
+//                                                $child->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($child->getBaseTaxableAmount(), $rate));
+//                                                $child->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($child->getTaxableAmount(), $rate));
                                             }
                                         }
                                     }
@@ -601,10 +638,10 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                                 $itemBaseDiscount = $price * $discountValue / 100;
                                 $item->setBaseAffiliateplusAmount($itemBaseDiscount)
                                         ->setAffiliateplusAmount(Mage::app()->getStore()->convertPrice($itemBaseDiscount))
-                                        // Added By Adam 16/11/2014 to solve the problem of calculating item tax when create invoice 
-                                        // ->setRowTotal($item->getRowTotal() - $itemBaseDiscount)
-                                        // ->setBaseRowTotal($item->getBaseRowTotal() - Mage::app()->getStore()->convertPrice($itemBaseDiscount))
-                                        ;
+                                // Added By Adam 16/11/2014 to solve the problem of calculating item tax when create invoice 
+                                // ->setRowTotal($item->getRowTotal() - $itemBaseDiscount)
+                                // ->setBaseRowTotal($item->getBaseRowTotal() - Mage::app()->getStore()->convertPrice($itemBaseDiscount))
+                                ;
 
                                 /* Changed By Adam: 06/11/2014: Fix loi hidden tax */
                                 /* Tinh discount cho hidden tax */
@@ -617,8 +654,11 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                                     if (Mage::helper('tax')->priceIncludesTax()) {
                                         $rate = $this->getItemRateOnQuote($address, $item->getProduct(), $store);
                                         if ($rate > 0) {
-                                            $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($item->getBaseTaxableAmount(), $rate));
-                                            $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($item->getTaxableAmount(), $rate));
+//                                            Changed By Adam 29/10/2015: Fixed the issue of calculate grandtotal
+                                            $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount - $item->getBaseTaxableAmount(), $rate));
+                                            $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount - $item->getTaxableAmount(), $rate));
+//                                            $item->setAffiliateplusBaseHiddenTaxAmount($this->calTax($baseTaxableAmount, $rate) - $this->calTax($item->getBaseTaxableAmount(), $rate));
+//                                            $item->setAffiliateplusHiddenTaxAmount($this->calTax($taxableAmount, $rate) - $this->calTax($item->getTaxableAmount(), $rate));
                                         }
                                     }
                                 }
@@ -657,6 +697,7 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
         );
         $discountObj = $observer->getEvent()->getDiscountObj();
         $allInfo = Mage::helper('affiliateplus')->processDataWhenEditOrder();
+        $account = null; //Changed by Adam to solve the problem of Undefined variable: account when create order
         if (count($allInfo)) {
             if (isset($allInfo['account_info']))
                 $account = $allInfo['account_info'];
@@ -1361,7 +1402,9 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                         $child->setAffiliateplusCommissionItem($commissionObject->getAffiliateplusCommissionItem());
                         if (!isset($extraContent[$program->getId()]['total_amount']))
                             $extraContent[$program->getId()]['total_amount'] = 0;
-                        $extraContent[$program->getId()]['total_amount'] += $child->getBasePrice();
+                        // Changed By Adam: 19/09/2014: Fix loi sai total amount o program transaction khi mua 1 san pham qty lon hon 1
+//                            $extraContent[$program->getId()]['total_amount'] += $child->getBasePrice();
+                        $extraContent[$program->getId()]['total_amount'] += $child->getBasePrice() * $child->getQtyOrdered();
                         if (!isset($extraContent[$program->getId()]['commission']))
                             $extraContent[$program->getId()]['commission'] = 0;
                         $extraContent[$program->getId()]['commission'] += $commissionObject->getCommission();
@@ -1452,7 +1495,9 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
                     $extraContent[$program->getId()]['order_item_names'][] = $item->getName();
                     if (!isset($extraContent[$program->getId()]['total_amount']))
                         $extraContent[$program->getId()]['total_amount'] = 0;
-                    $extraContent[$program->getId()]['total_amount'] += $item->getBasePrice();
+                    // Changed By Adam: 19/09/2014: Fix loi sai total amount o program transaction khi mua 1 san pham qty lon hon 1
+//                            $extraContent[$program->getId()]['total_amount'] += $child->getBasePrice();
+                    $extraContent[$program->getId()]['total_amount'] += $item->getBasePrice() * $item->getQtyOrdered();
                     if (!isset($extraContent[$program->getId()]['commission']))
                         $extraContent[$program->getId()]['commission'] = 0;
                     $extraContent[$program->getId()]['commission'] += $commissionObject->getCommission();
@@ -1617,6 +1662,26 @@ class Magestore_Affiliateplusprogram_Model_Observer extends Varien_Object {
             $programTransaction->setCommission(0)
                     ->save();
         }
+    }
+    
+    /**
+     * Changed By Adam: 06/11/2014: Fix loi hidden tax
+     * @param type $address
+     * @param type $product
+     * @param type $store
+     * @return int
+     */
+    public function getItemRateOnQuote($address, $product, $store) {
+        $taxClassId = $product->getTaxClassId();
+        if ($taxClassId) {
+            $request = Mage::getSingleton('tax/calculation')->getRateRequest(
+                    $address, $address->getQuote()->getBillingAddress(), $address->getQuote()->getCustomerTaxClassId(), $store
+            );
+            $rate = Mage::getSingleton('tax/calculation')
+                    ->getRate($request->setProductClassId($taxClassId));
+            return $rate;
+        }
+        return 0;
     }
 
 }

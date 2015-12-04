@@ -23,7 +23,7 @@
 <config>
     <modules>
         <Magestore_AffiliateplusReferFriend>
-            <version>0.4.2</version>
+            <version>0.4.3</version>
         </Magestore_AffiliateplusReferFriend>
     </modules>
     <frontend>

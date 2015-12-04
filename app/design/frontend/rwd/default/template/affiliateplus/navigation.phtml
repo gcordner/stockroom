@@ -3,7 +3,7 @@ $store_id = Mage::app()->getStore()->getStoreId();
 $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_enable', $store_id);
 ?>
 
-<div class="navbar-default affiliate-navigation col-lg-3 col-md-3 <?php if ($check_responsvie): ?>hidden-sm hidden-xs<?php else:?>col-sm-3 col-xs-3<?php endif; ?> " role="navigation">
+<div class="navbar-default affiliate-navigation col-lg-3 col-md-3 <?php if ($check_responsvie): ?>hidden-sm hidden-xs<?php else: ?>col-sm-3 col-xs-3<?php endif; ?> " role="navigation">
     <div class="container-fluid">
 
         <div class="collapse1 navbar-collapse-aff" id="nav-aff" >
@@ -17,7 +17,7 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
                         <?php if ($_link->getDisabled()) continue; ?>
                         <?php if ($this->isActive($_link)): ?>
                             <li class="active"><a><?php echo $_link->getLabel() ?></a></li>
-                                <?php else: ?>
+                        <?php else: ?>
                             <li><a href="<?php echo $_link->getUrl() ?>"><?php echo $_link->getLabel() ?></a></li>
                         <?php endif; ?>
                     <?php endforeach; ?>
@@ -30,3 +30,18 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
     </div>
     <a class="navbar-hidden" style="cursor:pointer">&nbsp;</a>
 </div>
+<script type="text/javascript">
+    var $nav = jQuery.noConflict();
+    $nav(document).ready(function () {
+        $nav('.navbar-hidden').bind('click', function () {
+            if ($nav('.aff-mobile').hasClass('active')) {
+                $nav('.aff-mobile').removeClass('active');
+                $nav('#navi-bg').hide();
+            } else {
+                $nav('.aff-mobile').addClass('active');
+                $nav('#navi-bg').show();
+            }
+        });
+
+    });
+</script>

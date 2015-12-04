@@ -18,8 +18,8 @@ function getConnection()
 	try {
 		$data['_connection'] = mysqli_connect($connection->host,$connection->username,$connection->password);
 		if ($data['_connection']){
-			mysqli_set_charset($data['_connection'],'utf8');
-			mysqli_select_db($data['_connection'],$connection->dbname);
+			mysqli_set_charset($data['_connection'], 'utf8');
+			mysqli_select_db($data['_connection'], $connection->dbname);
 		}
 	} catch (Exception $e){}
 	
@@ -157,7 +157,7 @@ function controllerAction()
                 }
                 $uniqueSql .= " LIMIT 1";
                 $isUniqueView = 1;
-                if ($result = mysqli_query($uniqueSql, $link)) {
+                if ($result = mysqli_query($link, $uniqueSql)) {
                     $result = mysqli_fetch_assoc($result);
                     if (isset($result['is_unique'])){
                         $isUniqueView = 0;
@@ -175,7 +175,7 @@ function controllerAction()
                     $totalSql .= " AND banner_id = $bannerId AND store_id = $storeId";
                     $totalSql .= " AND (action_id > ($lastSql) OR ($lastSql) IS NULL)";
                     
-                    if ($result = mysqli_query($totalSql, $link)) {
+                    if ($result = mysqli_query($link, $totalSql)) {
                         $result = mysqli_fetch_assoc($result);
                         if (isset($result['total_view']) && ($result['total_view'] == 999 || $result['total_view'] == 1000)) {
                             $url = 'http';
@@ -341,7 +341,7 @@ function detectCookie()
 
 // Main Execute
 if (getConnection())
-{      
+{
     controllerAction();
     closeConnection();
 }
