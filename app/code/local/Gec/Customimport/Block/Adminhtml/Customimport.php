@@ -1210,12 +1210,14 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 $attr_type = $loadedattr->getFrontendInput();
                 if (array_key_exists((string) $attr->id, $attributeOcuurance)) {
                     $multiple_values[(string) $attr->id][]  = (string) $attr->valueDefId;
+                    $multiple_values[(string) $attr->id][]  = (string) $attr->value;
                     $attributeOcuurance[(string) $attr->id] = (int) $attributeOcuurance[(string) $attr->id] + 1;
                     if($attr_type == 'text' || $attr_type == 'textarea'){
                         $multiple_values[(string) $attr->id][]  = (string) $attr->value;
                     }
                 } else {
                     $multiple_values[(string) $attr->id][]  = (string) $attr->valueDefId;
+                    $multiple_values[(string) $attr->id][]  = (string) $attr->value;
                     $attributeOcuurance[(string) $attr->id] = $i;
                     if($attr_type == 'text' || $attr_type == 'textarea'){
                         $multiple_values[(string) $attr->id][]  = (string) $attr->value;
@@ -1476,12 +1478,14 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 $attr_type = $loadedattr->getFrontendInput();
                 if (array_key_exists((string) $attr->id, $attributeOcuurance)) {
                     $multiple_values[(string) $attr->id][]  = (string) $attr->valueDefId;
+                    $multiple_values[(string) $attr->id][]  = (string) $attr->value;
                     $attributeOcuurance[(string) $attr->id] = (int) $attributeOcuurance[(string) $attr->id] + 1;
                     if($attr_type == 'text' || $attr_type == 'textarea'){
                         $multiple_values[(string) $attr->id][]  = (string) $attr->value;
                     }
                 } else {
                     $multiple_values[(string) $attr->id][]  = (string) $attr->valueDefId;
+                    $multiple_values[(string) $attr->id][]  = (string) $attr->value;
                     $attributeOcuurance[(string) $attr->id] = $i;
                     if($attr_type == 'text' || $attr_type == 'textarea'){
                         $multiple_values[(string) $attr->id][]  = (string) $attr->value;
@@ -2041,7 +2045,6 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         if ($attr_id != '') {
             $attr->addData($_attribute_data);
             $option['attribute_id'] = $attr_id;
-
             if ($count_value > 0 && ($attribute_type == 'select' || $attribute_type == 'multiselect' || $attribute_type == 'boolean')) {
                 for ($i = 0; $i < $count_value; $i++) {
                     $attrdet  = $attr_values['valueDef'][$i];
