@@ -115,6 +115,6 @@ class Xtento_OrderExport_Helper_Xsl extends Mage_Core_Helper_Abstract
         $argv = func_get_args();
         array_shift($argv);
         $currentTimestamp = Mage::helper('core')->formatDate($argv[0], 'medium', true);
-        return $currentTimestamp;
+        return date($format, strtotime($currentTimestamp));
     }
 }
