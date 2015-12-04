@@ -109,4 +109,12 @@ class Xtento_OrderExport_Helper_Xsl extends Mage_Core_Helper_Abstract
     {
         return Mage::helper('directory')->currencyConvert($value, $fromCurrency, $toCurrency);
     }
+    
+    static function localDate($format)
+    {
+        $argv = func_get_args();
+        array_shift($argv);
+        $currentTimestamp = Mage::helper('core')->formatDate($argv[0], 'medium', true);
+        return $currentTimestamp;
+    }
 }
