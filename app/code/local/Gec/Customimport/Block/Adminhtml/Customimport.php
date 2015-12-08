@@ -456,6 +456,14 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 $crossArray      = array();
                 $associatedArray = array();
                 $bundleArray     = array();
+                $preAssociatedArray = array();
+                if ($mainProduct->getTypeId() == "configurable") {
+                    $configurable = Mage::getModel('catalog/product_type_configurable')->setProduct($mainProduct);
+                    $simpleCollection = $configurable->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
+                    foreach($simpleCollection as $simpleProduct){
+                        $preAssociatedArray[] = $simpleProduct->getId();
+                    }
+                }
                 foreach ($associate->associatedProduct as $association) {
                     if ($association instanceof Varien_Simplexml_Element) { // if associatedProduct is an object in form of <associatedProduct>
                         unset($prid);
@@ -475,16 +483,25 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                                     'position' => $position
                                 );
                             } else if ((string) $association->assocType == 3) {
-                                $associatedArray[] = $prid;
+                                $preAssociatedArray[] = $prid;             
                                 $this->_changeVisibility($prid);
                             } else if ((string) $association->assocType == 4) {
                                 $bundleArray[]         = $prid;
                                 $bundleQuantityArray[] = (int) $association->quantity;
                                 $bundlePositionArray[] = (int) $position;
                             }
+                        } else if($prid && strtolower((string) $association->isActive) == 'n') {
+                            if ((string) $association->assocType == 0) {
+                            } else if ((string) $association->assocType == 3) {
+                                 $associatedArray[] = $prid;
+                            }
                         }
                     }
                 }
+                if(is_array($preAssociatedArray) && count($preAssociatedArray) > 0){
+                     $associatedArray = array_unique(array_diff($preAssociatedArray, $associatedArray));
+                }
+                
                 $mainProduct->setCrossSellLinkData($crossArray);
                 $mainProduct->setUpSellLinkData($upsellArray);
                 $mainProduct->setRelatedLinkData($relatedArray);
