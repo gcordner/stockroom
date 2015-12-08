@@ -457,6 +457,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 $associatedArray = array();
                 $bundleArray     = array();
                 $preAssociatedArray = array();
+                $disAssociateArray = array();
                 if ($mainProduct->getTypeId() == "configurable") {
                     $configurable = Mage::getModel('catalog/product_type_configurable')->setProduct($mainProduct);
                     $simpleCollection = $configurable->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
@@ -493,13 +494,13 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                         } else if($prid && strtolower((string) $association->isActive) == 'n') {
                             if ((string) $association->assocType == 0) {
                             } else if ((string) $association->assocType == 3) {
-                                 $associatedArray[] = $prid;
+                                 $disAssociateArray[] = $prid;
                             }
                         }
                     }
                 }
                 if(is_array($preAssociatedArray) && count($preAssociatedArray) > 0){
-                     $associatedArray = array_unique(array_diff($preAssociatedArray, $associatedArray));
+                     $associatedArray = array_unique(array_diff($preAssociatedArray, $disAssociateArray));
                 }
                 
                 $mainProduct->setCrossSellLinkData($crossArray);
