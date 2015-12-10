@@ -850,7 +850,8 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     $attributeOcuurance[(string) $attr->id] = (int) $attributeOcuurance[(string) $attr->id] + 1;
                 } else {
                     $attributeOcuurance[(string) $attr->id]   = $i;
-                    $configAttributeValue[(string) $attr->id] = (string) $attr->valueDefId;
+                    $configAttributeValue[(string) $attr->id][] = (string) $attr->valueDefId;
+                    $configAttributeValue[(string) $attr->id][] = (string) $attr->value;
                 }
             }
             $config_attribute_array = array(); //attributes with single occurance
@@ -859,23 +860,23 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     $config_attribute_array[] = $key;
                 }
             }
-            
+
             foreach ($config_attribute_array as $attr) {
-                $external_id = $configAttributeValue[$attr]; // valueDefId from XML for an attribute
+                $external_id = $configAttributeValue[$attr][0]; // valueDefId from XML for an attribute
                 $model       = Mage::getModel('catalog/resource_eav_attribute');
                 $loadedattr  = $model->loadByCode('catalog_product', $attr);
                 $attr_id     = $loadedattr->getAttributeId(); // attribute id of magento
                 $attr_type   = $loadedattr->getFrontendInput();
-                
-                if ($attr_type == 'select') {
+                if ($attr_type == 'select' || $attr_type == 'multiselect' || $attr_type == 'boolean') {
                     $mapObj    = Mage::getModel('customimport/customimport');
                     $option_id = $mapObj->isOptionExistsInAttribute($external_id, $attr_id);
-                    //  $product->setData($attr, (string)$item->name);
                     if ($option_id) {
                         $product->setData($attr, $option_id);
                     }
-                } else { //if attribute is textfield direct insert value
-                    $product->setData($attr, $external_id);
+                } else if ($attr_type == 'text' || $attr_type == 'textarea')
+                {
+                    $attr_value = $configAttributeValue[$attr][1];
+                    $product->setData($attr, $attr_value);
                 }
             }
             
@@ -1000,7 +1001,8 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     $attributeOcuurance[(string) $attr->id] = (int) $attributeOcuurance[(string) $attr->id] + 1;
                 } else {
                     $attributeOcuurance[(string) $attr->id]   = $i;
-                    $configAttributeValue[(string) $attr->id] = (string) $attr->valueDefId;
+                    $configAttributeValue[(string) $attr->id][] = (string) $attr->valueDefId;
+		    $configAttributeValue[(String) $attr->id][] = (String) $attr->value;
                 }
             }
             $superattribute_array   = array(); // attributes with multiple occurances
@@ -1044,20 +1046,21 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     $product->setConfigurableAttributesData($attribute_detail);
                     $product->setCanSaveConfigurableAttributes(1);
                     foreach ($config_attribute_array as $attr) {
-                        $external_id = $configAttributeValue[$attr]; // valueDefId from XML for an attribute
+                        $external_id = $configAttributeValue[$attr][0]; // valueDefId from XML for an attribute
                         $model       = Mage::getModel('catalog/resource_eav_attribute');
                         $loadedattr  = $model->loadByCode('catalog_product', $attr);
                         $attr_id     = $loadedattr->getAttributeId(); // attribute id of magento
                         $attr_type   = $loadedattr->getFrontendInput();
-                        if ($attr_type == 'select') {
+                        if ($attr_type == 'select' || $attr_type == 'multiselect' || $attr_type == 'boolean') {
                             $mapObj    = Mage::getModel('customimport/customimport');
                             $option_id = $mapObj->isOptionExistsInAttribute($external_id, $attr_id);
                             if ($option_id) {
                                 $product->setData($attr, $option_id);
                             }
-                        } else //if attribute is textfield direct insert value
+                        } else if ($attr_type == 'text' || $attr_type == 'textarea')
                             {
-                            $product->setData($attr, $external_id);
+			                $attr_value = $configAttributeValue[$attr][1];
+                            $product->setData($attr, $attr_value);
                         }
                     }
                     try {
