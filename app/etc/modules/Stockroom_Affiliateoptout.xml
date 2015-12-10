@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Stockroom_Affiliateoptout>
+            <active>true</active>
+            <codePool>local</codePool>
+           <depends>
+				<Magestore_Affiliateplus/>
+                <Magestore_Affiliateplusprogram/>
+            </depends>
+        </Stockroom_Affiliateoptout>
+    </modules>
+</config>
