@@ -848,7 +848,6 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             foreach ($attributeValues->attribute as $attr) {
                 if (array_key_exists((string) $attr->id, $attributeOcuurance)) {
                     $attributeOcuurance[(string) $attr->id] = (int) $attributeOcuurance[(string) $attr->id] + 1;
-                    $attrPos[(string) $attr->id]            = (int) $attr->position;
                 } else {
                     $attributeOcuurance[(string) $attr->id]   = $i;
                     $configAttributeValue[(string) $attr->id] = (string) $attr->valueDefId;
@@ -999,11 +998,9 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             foreach ($attributeValues->attribute as $attr) {
                 if (array_key_exists((string) $attr->id, $attributeOcuurance)) {
                     $attributeOcuurance[(string) $attr->id] = (int) $attributeOcuurance[(string) $attr->id] + 1;
-                    $attrPos[(string) $attr->id]            = (int) $attr->position;
                 } else {
                     $attributeOcuurance[(string) $attr->id]   = $i;
                     $configAttributeValue[(string) $attr->id] = (string) $attr->valueDefId;
-                    $attrPos[(string) $attr->id]              = (int) $attr->position;
                 }
             }
             $superattribute_array   = array(); // attributes with multiple occurances
@@ -1035,7 +1032,6 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                         $attr_detail           = array(
                             'id' => NULL,
                             'label' => "$attribute_label",
-                            'position' => $attrPos[$attr_id],
                             'attribute_id' => $attr_id,
                             'attribute_code' => "$attribute_code",
                             'frontend_label' => "$attribute_label",
@@ -1210,14 +1206,12 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 $attr_type = $loadedattr->getFrontendInput();
                 if (array_key_exists((string) $attr->id, $attributeOcuurance)) {
                     $multiple_values[(string) $attr->id][]  = (string) $attr->valueDefId;
-                    $multiple_values[(string) $attr->id][]  = (string) $attr->value;
                     $attributeOcuurance[(string) $attr->id] = (int) $attributeOcuurance[(string) $attr->id] + 1;
                     if($attr_type == 'text' || $attr_type == 'textarea'){
                         $multiple_values[(string) $attr->id][]  = (string) $attr->value;
                     }
                 } else {
                     $multiple_values[(string) $attr->id][]  = (string) $attr->valueDefId;
-                    $multiple_values[(string) $attr->id][]  = (string) $attr->value;
                     $attributeOcuurance[(string) $attr->id] = $i;
                     if($attr_type == 'text' || $attr_type == 'textarea'){
                         $multiple_values[(string) $attr->id][]  = (string) $attr->value;
@@ -1478,14 +1472,12 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 $attr_type = $loadedattr->getFrontendInput();
                 if (array_key_exists((string) $attr->id, $attributeOcuurance)) {
                     $multiple_values[(string) $attr->id][]  = (string) $attr->valueDefId;
-                    $multiple_values[(string) $attr->id][]  = (string) $attr->value;
                     $attributeOcuurance[(string) $attr->id] = (int) $attributeOcuurance[(string) $attr->id] + 1;
                     if($attr_type == 'text' || $attr_type == 'textarea'){
                         $multiple_values[(string) $attr->id][]  = (string) $attr->value;
                     }
                 } else {
                     $multiple_values[(string) $attr->id][]  = (string) $attr->valueDefId;
-                    $multiple_values[(string) $attr->id][]  = (string) $attr->value;
                     $attributeOcuurance[(string) $attr->id] = $i;
                     if($attr_type == 'text' || $attr_type == 'textarea'){
                         $multiple_values[(string) $attr->id][]  = (string) $attr->value;
