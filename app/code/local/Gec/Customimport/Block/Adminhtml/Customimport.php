@@ -458,6 +458,40 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 $crossArray      = array();
                 $associatedArray = array();
                 $bundleArray     = array();
+				$preAssociatedArray = array();
+				$disAssociateArray = array(); 
+				$preRelatedArray    = array();
+				$preUpsellArray     = array();
+				$preCrossArray      =  array();
+ 
+                 if ($mainProduct->getTypeId() == "configurable") {
+                     $configurable = Mage::getModel('catalog/product_type_configurable')->setProduct($mainProduct);
+                    $simpleCollection = $configurable->getUsedProductCollection()->addAttributeToSelect('*')->addFilterByRequiredOptions();
+                    foreach($simpleCollection as $simpleProduct){
+                        $preAssociatedArray[] = $simpleProduct->getId();
+                    }
+                }
+                
+                $relatedCollection = $mainProduct->getRelatedLinkCollection();
+                foreach($relatedCollection as $item){
+                    $preRelatedArray[$item->getLinkedProductId()] = array(
+                                    'position' => $item->getPosition()
+                                );
+                }
+                
+                $upsellCollection = $mainProduct->getUpSellLinkCollection();
+                foreach($upsellCollection as $item){
+                    $preUpsellArray[$item->getLinkedProductId()] = array(
+                                    'position' => $item->getPosition()
+                                );
+                }
+                
+                $crossCollection = $mainProduct->getCrossSellLinkCollection();
+                foreach($crossCollection as $item){
+                    $preCrossArray[$item->getLinkedProductId()] = array(
+                                    'position' => $item->getPosition()
+                                );
+                }
                 foreach ($associate->associatedProduct as $association) {
                     if ($association instanceof Varien_Simplexml_Element) { // if associatedProduct is an object in form of <associatedProduct>
                         unset($prid);
@@ -465,32 +499,73 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                         if ($prid && (string) $association->isActive == 'Y') {
                             $position = (string) $association->position ? (string) $association->position : 0;
                             if ((string) $association->assocType == 0) {
-                                $crossArray[$prid] = array(
+                                $preCrossArray[$prid] = array(
                                     'position' => $position
                                 );
                             } else if ((string) $association->assocType == 1) {
-                                $upsellArray[$prid] = array(
+                                $preUpsellArray[$prid] = array(
                                     'position' => $position
                                 );
                             } else if ((string) $association->assocType == 2) {
-                                $relatedArray[$prid] = array(
+                                $preRelatedArray[$prid] = array(
                                     'position' => $position
                                 );
                             } else if ((string) $association->assocType == 3) {
-                                $associatedArray[] = $prid;
+                                $preAssociatedArray[] = $prid;
                                 $this->_changeVisibility($prid);
                             } else if ((string) $association->assocType == 4) {
                                 $bundleArray[]         = $prid;
                                 $bundleQuantityArray[] = (int) $association->quantity;
                                 $bundlePositionArray[] = (int) $position;
                             }
+                        } else if($prid && strtolower((string) $association->isActive) == 'n') {
+                           if ((string) $association->assocType == 0) {
+                                $crossArray[$prid] = array(
+                                    'position' => $position
+                                );
+                            } else if ((string) $association->assocType == 1) {
+                                 $upsellArray[$prid] = array(
+                                    'position' => $position
+                                );
+                            } else if ((string) $association->assocType == 2) {
+                                 $relatedArray[$prid] = array(
+                                    'position' => $position
+                                );
+                            } else if ((string) $association->assocType == 3) {
+                                 $disAssociateArray[] = $prid;
+                            }
                         }
                     }
                 }
-                $mainProduct->setCrossSellLinkData($crossArray);
-                $mainProduct->setUpSellLinkData($upsellArray);
-                $mainProduct->setRelatedLinkData($relatedArray);
-                if (count($bundleArray) > 0) {
+				
+				if(is_array($preAssociatedArray) && count($preAssociatedArray) > 0){
+                     $associatedArray = array_unique(array_diff($preAssociatedArray, $disAssociateArray));
+                }
+                
+                foreach($preRelatedArray as $preRelatedkey => $relatedPro){
+                    if (array_key_exists($preRelatedkey,$relatedArray)){
+                        unset($preRelatedArray[$preRelatedkey]);
+                    }
+                }
+                
+                foreach($preUpsellArray as $preUpsellkey => $upsellPro){
+                    if (array_key_exists($preUpsellkey,$upsellArray)){
+                        unset($preUpsellArray[$preUpsellkey]);
+                    }
+                }
+                
+                foreach($preCrossArray as $preCrosskey => $crossPro){
+                    if (array_key_exists($preCrosskey,$crossArray)){
+                        unset($preCrossArray[$preCrosskey]);
+                    }
+                }
+                
+                $mainProduct->setCrossSellLinkData($preCrossArray);
+                $mainProduct->setUpSellLinkData($preUpsellArray);
+                $mainProduct->setRelatedLinkData($preRelatedArray);
+                $mainProduct->save();
+				
+				if (count($bundleArray) > 0) {
                     $proobj        = Mage::getModel('catalog/product');
                     $productbundle = Mage::getModel('catalog/product')->setStoreId(0);
                     if ($productId) {
