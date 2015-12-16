@@ -58,11 +58,6 @@
 				</premiumrate>
 			</entities>
       </premiumrate_mysql4>
-       <googlecheckout>
- 		<rewrite>
- 			<api_xml_callback>Webshopapps_Premiumrate_GoogleCheckout_Model_Api_Xml_Callback</api_xml_callback>
- 		</rewrite>
- 	  </googlecheckout>
  	  <!--<tax>
 	  	  	 		<rewrite>
 	  	  	 			<calculation>Webshopapps_Premiumrate_Tax_Model_Calculation</calculation>
@@ -107,8 +102,30 @@
       <premiumrate>
           <class>Webshopapps_Premiumrate_Helper</class>
       </premiumrate>
-  	</helpers> 
+  	</helpers>
   </global>
+  <frontend>
+      <translate>
+        <modules>
+          <Webshopapps_Premiumrate>
+              <files>
+                  <default>Webshopapps_Premiumrate.csv</default>
+              </files>
+          </Webshopapps_Premiumrate>
+        </modules>
+      </translate>
+  </frontend>
+  <adminhtml>
+      <translate>
+          <modules>
+              <Webshopapps_Premiumrate>
+                  <files>
+                      <default>Webshopapps_Premiumrate.csv</default>
+                  </files>
+              </Webshopapps_Premiumrate>
+          </modules>
+      </translate>
+  </adminhtml>
     <default>
         <carriers>
             <premiumrate>
@@ -126,13 +143,15 @@
                 <title>Select Shipping Method</title>
                 <calculate_greater_volume>0</calculate_greater_volume>
                 <use_tax_incl>0</use_tax_incl>
-                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>  
+                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
                 <include_virtual_price>1</include_virtual_price>
-                <include_free_price>0</include_free_price>  
-                <postcode_filter>-1</postcode_filter>                 
-                <user_codes>0</user_codes> 
+                <include_free_price>0</include_free_price>
+                <postcode_filter>-1</postcode_filter>
+                <user_codes>0</user_codes>
              	<serial>6845e1f542614bbb7125756ecbb3523ba417addd</serial>
-		<lowest_price_free>0</lowest_price_free>
+		        <lowest_price_free>0</lowest_price_free>
+                <packing_weight>0</packing_weight>
+                <use_product_price>0</use_product_price>
             </premiumrate>
         </carriers>
     </default>

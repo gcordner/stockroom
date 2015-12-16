@@ -64,8 +64,8 @@ class Webshopapps_Wsacommon_Block_Adminhtml_Sales_Order_Create_Shipping_Method_F
 
     public function dontShowCommonFreight()
     {
-        return Mage::helper('wsafreightcommon')->dontShowCommonFreight(
-            $this->getQuote()->getAllItems(),$this->getQuote()->getShippingAddress()->getWeight());
+        return Mage::helper('wsafreightcommon')->dontShowCommonFreightForQuote(
+            $this->getQuote(),$this->getQuote()->getShippingAddress()->getWeight());
     }
     /**
      * Added in for compatibility with AddressValidator

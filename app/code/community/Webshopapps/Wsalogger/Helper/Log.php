@@ -69,7 +69,7 @@ class Webshopapps_Wsalogger_Helper_Log extends Mage_Core_Helper_Abstract
      */
     public static function postInfo($extension,$title,$description,$debug=true,$code=0,$url='') {
 
-		if (!Mage::getStoreConfig('wsalogmenu/wsalog/active')) {
+		if (!Mage::getStoreConfig('wsalogmenu/wsalog/active') || !$debug) {
     		return ;
     	}
 
@@ -94,7 +94,7 @@ class Webshopapps_Wsalogger_Helper_Log extends Mage_Core_Helper_Abstract
      */
 	public static function postWarning($extension,$title,$description,$debug=true,$code=0,$url='') {
 
-		if (!Mage::getStoreConfig('wsalogmenu/wsalog/active')) {
+		if (!Mage::getStoreConfig('wsalogmenu/wsalog/active') || !$debug) {
     		return ;
     	}
 
@@ -118,7 +118,7 @@ class Webshopapps_Wsalogger_Helper_Log extends Mage_Core_Helper_Abstract
      */
 	public static function postCritical($extension,$title,$description,$debug=true,$code=0,$url='') {
 
-		if (!Mage::getStoreConfig('wsalogmenu/wsalog/active')) {
+		if (!Mage::getStoreConfig('wsalogmenu/wsalog/active') || !$debug) {
     		return ;
     	}
 

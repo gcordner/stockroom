@@ -194,7 +194,8 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 					    $this->_excludedDeliveries[]=$data['delivery_type'];
 						continue;
 					}
-					$data['method_name']=$data['delivery_type'];
+                    $minShippingPrice = -1;
+                    $data['method_name']=$data['delivery_type'];
 					if ($data['algorithm']!="") {
 						$algorithm_array=explode("&",$data['algorithm']);  // Multi-formula extension
 						reset($algorithm_array);
@@ -290,13 +291,20 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 									}
 								} else if (strtolower($algorithm[0])=="m") {
 									$data['method_name']=$algorithm[1];
-								}
+								} else if (strtolower($algorithm[0])=="min") {
+                                    $minShippingPrice = $algorithm[1];
+                                }
+
 							}
 						}
 						if ($skipData) {
 							continue;
 						}
+
 					}
+                    if ($minShippingPrice > 0 && $data['price'] < $minShippingPrice) {
+                        $data['price'] = $minShippingPrice;
+                    }
 					$newData[]=$data;
 				}
 				break;
@@ -307,11 +315,15 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 			}
 		}
 
-		if(empty($newData)){return;};
+
+
+		if(empty($newData)) {
+            return null;
+        }
 
 		if (!empty($this->_excludedDeliveries)) {
 		    foreach ($newData as $key=>$result) {
-		        foreach ($this->_excludedDeliveries as $ekey=>$exclusionItem) {
+		        foreach ($this->_excludedDeliveries as $exclusionItem) {
 		            if ($result['delivery_type']==$exclusionItem) {
 		                $newData[$key]="";
 		                break;
@@ -319,6 +331,7 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 		        }
 
 		    }
+
 		    foreach ($newData as $key=>$result) {
 		        if (empty($newData[$key])) {
 		            unset($newData[$key]);
@@ -326,7 +339,7 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 		    }
 		}
 
-		if(!empty($newData)){ return $newData;} else return;
+		if(!empty($newData)){ return $newData;} else return null;
     }
 
 	private function getSwitchSelect($read,$j)
@@ -526,28 +539,23 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 		return $total_volweight;
     }
 
-
-
-
-
     public function uploadAndImport(Varien_Object $object)
     {
         $csvFile = $_FILES["groups"]["tmp_name"]["premiumrate"]["fields"]["import"]["value"];
         $csvName = $_FILES["groups"]["name"]["premiumrate"]["fields"]["import"]["value"];
 		$session = Mage::getSingleton('adminhtml/session');
         $dataStored = false;
-		
+
         if (!empty($csvFile)) {
-			
+
             $csv = trim(file_get_contents($csvFile));
 
             $table = Mage::getSingleton('core/resource')->getTableName('premiumrate_shipping/premiumrate');
-			
+
 			$websiteId = $object->getScopeId();
-            $websiteModel = Mage::app()->getWebsite($websiteId);
 
             Mage::helper('wsacommon/shipping')->saveCSV($csv, $csvName, $websiteId, 'premiumrate');
-           
+
             /*
             getting condition name from post instead of the following commented logic
             */
@@ -558,7 +566,6 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
                 $conditionName = $_POST['groups']['premiumrate']['fields']['condition_name']['value'];
             }
 
-            $conditionFullName = Mage::getModel('premiumrate_shipping/carrier_premiumrate')->getCode('condition_name_short', $conditionName);
             if (!empty($csv)) {
                 $exceptions = array();
                 $csvLines = explode("\n", $csv);
@@ -633,7 +640,6 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
                         $csvLine = $this->_getCsvValues($csvLine);
                         $splitCountries = explode(",", trim($csvLine[0]));
                         $splitRegions = explode(",", trim($csvLine[1]));
-                        //$splitPostcodes = explode(",",trim($csvLine[3]));
                         $splitPostcodes = explode(",",strtoupper(trim($csvLine[3])));
 
 						if ($csvLine[2] == '*' || $csvLine[2] == '') {
@@ -649,8 +655,6 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 							$zip_to = strtoupper(trim($csvLine[4]));
 						}
 
-
-
 						if ( $csvLine[5] == '*' || $csvLine[5] == '') {
 							$weightFrom = 0;
 						} else if (!$this->_isPositiveDecimalNumber($csvLine[5]) ) {
@@ -658,7 +662,6 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 						} else {
 							$weightFrom = (float)$csvLine[5];
 						}
-
 
 						if ( $csvLine[6] == '*' || $csvLine[6] == '') {
 							$weightTo = 10000000;
@@ -676,7 +679,6 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 							$priceFrom = (float)$csvLine[7];
 						}
 
-
 						if ( $csvLine[8] == '*' || $csvLine[8] == '') {
 							$priceTo = 10000000;
 						} else if (!$this->_isPositiveDecimalNumber($csvLine[8]) ) {
@@ -690,7 +692,6 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 						} else {
 							$itemFrom = $csvLine[9];
 						}
-
 
 						if ( $csvLine[10] == '*' || $csvLine[10] == '') {
 							$itemTo = 10000000;
@@ -708,6 +709,7 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 						} else {
 							$sortOrder=$csvLine[14];
 						}
+
                         foreach ($splitCountries as $country) {
 
                         	$country = trim($country);
@@ -732,8 +734,7 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 		                            $regionId = $regionCodesToIds[$countryCodesToIds[$country]][$region];
 		                        }
 
-                        		foreach ($splitPostcodes as $postcode){
-
+                        		foreach ($splitPostcodes as $postcode) {
 										if ($postcode == '*' || $postcode == '') {
 											$zip = '';
 											$new_zip_to = '';
@@ -752,18 +753,33 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 											}
 										}
 
-									$data[] = array('website_id'=>$websiteId, 'dest_country_id'=>$countryId, 'dest_region_id'=>$regionId,
-										'dest_city'=>$city, 'dest_zip'=>$zip, 'dest_zip_to'=>$new_zip_to, 'condition_name'=>$conditionName,
-										'weight_from_value'=>$weightFrom,'weight_to_value'=>$weightTo,
-										'price_from_value'=>$priceFrom,'price_to_value'=>$priceTo,
-										'item_from_value'=>$itemFrom,'item_to_value'=>$itemTo,
-										'price'=>$csvLine[11], 'algorithm'=>$algorithm, 'delivery_type'=>$csvLine[13], 'sort_order'=>$sortOrder);
+                                    $data[] = array(
+                                        'website_id'        => $websiteId,
+                                        'dest_country_id'   => $countryId,
+                                        'dest_region_id'    => $regionId,
+                                        'dest_city'         => $city,
+                                        'dest_zip'          => $zip,
+                                        'dest_zip_to'       => $new_zip_to,
+                                        'condition_name'    => $conditionName,
+                                        'weight_from_value' => $weightFrom,
+                                        'weight_to_value'   => $weightTo,
+                                        'price_from_value'  => $priceFrom,
+                                        'price_to_value'    => $priceTo,
+                                        'item_from_value'   => $itemFrom,
+                                        'item_to_value'     => $itemTo,
+                                        'price'             => $csvLine[11],
+                                        'algorithm'         => $algorithm,
+                                        'delivery_type'     => $csvLine[13],
+                                        'sort_order'        => $sortOrder
+                                    );
 
-
-									$dataDetails[] = array('country'=>$country, 'region'=>$region);
-									$counter++;
-	                        	}
-							}
+                                    $dataDetails[] = array(
+                                        'country' => $country,
+                                        'region'  => $region
+                                    );
+                                    $counter++;
+                                }
+                            }
 		                	$dataStored = false;
 		                   	if (!empty($exceptions)) {
 				            	break;
@@ -779,11 +795,10 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 
 	            								$exceptions[] = $messageStr;
 			                                   	Mage::helper('wsalogger/log')->postWarning('premiumrate','Duplicate Row',$messageStr,$this->_debug,
-	            									'302','http://wiki.webshopapps.com/troubleshooting-guide/duplicate-row-error');
-
-			                     		//$exceptions[] = Mage::helper('shipping')->__($e);
+	            									'302','http://support.webshopapps.com/premium/duplicate-row-error/');
 			                        }
 			                    }
+
 	            				Mage::helper('wsacommon/shipping')->updateStatus($session,count($data));
 			                    $counter = 0;
 			                    unset($data);
@@ -803,13 +818,12 @@ class Webshopapps_Premiumrate_Model_Mysql4_Carrier_Premiumrate extends Mage_Core
 	            			$exceptions[] = $messageStr;
 
 	            			Mage::helper('wsalogger/log')->postWarning('premiumrate','Duplicate Row',$messageStr,$this->_debug,
-	            				302,'http://wiki.webshopapps.com/troubleshooting-guide/duplicate-row-error');
-
+	            				302,'http://support.webshopapps.com/premium/duplicate-row-error/');
 	            		}
 	            	}
 	            	Mage::helper('wsacommon/shipping')->updateStatus($session,count($data));
-
 	            }
+
 	            if (!empty($exceptions)) {
 	            	throw new Exception( "\n" . implode("\n", $exceptions) );
 	            }

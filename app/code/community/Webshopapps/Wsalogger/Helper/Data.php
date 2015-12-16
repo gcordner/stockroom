@@ -33,12 +33,15 @@ class Webshopapps_Wsalogger_Helper_Data extends Mage_Core_Helper_Abstract
 	 * Enter description here ...
 	 */
 	public static function getNewVersion() {
-		$version = Mage::getVersion();	
+		$version = Mage::getVersion();
+
 		if (version_compare($version, '1.6', '>=')) {
 			if (version_compare($version, '1.12') >= 0) $eeVersion = 12;
+            else if (version_compare($version, '1.14') >= 0) $eeVersion = 14;
             else if (version_compare($version, '1.13') >= 0) $eeVersion = 13;
             else if (version_compare($version, '1.11') >= 0) $eeVersion = 11;
 			else if (version_compare($version, '1.10') >= 0) $eeVersion = 10;
+            else if (version_compare($version, '1.9') >= 0 && !self::isEnterpriseEdition()) $eeVersion = 14;  //CE 1.8, EE 1.13
             else if (version_compare($version, '1.8') >= 0 && !self::isEnterpriseEdition()) $eeVersion = 13;  //CE 1.8, EE 1.13
             else if (version_compare($version, '1.7') >= 0 && !self::isEnterpriseEdition()) $eeVersion = 12;  //CE 1.7, EE 1.12
 			else if (version_compare($version, '1.6') >= 0 && !self::isEnterpriseEdition()) $eeVersion = 11;  //CE 1.6, EE 1.11
@@ -56,6 +59,7 @@ class Webshopapps_Wsalogger_Helper_Data extends Mage_Core_Helper_Abstract
 			else if (version_compare($version, '1.3.2.4') >= 0) $eeVersion = 6;
 			else $eeVersion = 8;  // default to this if unsure, changed to assume is 1.4.1+
 		}
+
 		return $eeVersion;
 	}
 	
@@ -73,5 +77,10 @@ class Webshopapps_Wsalogger_Helper_Data extends Mage_Core_Helper_Abstract
 		return Mage::getStoreConfig($path) ? true : false;
 		
 	}
+
+    public function isDebugError()
+    {
+        return Mage::getStoreConfig('wsalogmenu/wsalog/debug_error_messages');
+    }
 	
 }

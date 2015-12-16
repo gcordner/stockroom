@@ -28,3 +28,19 @@
 7.0 - Moved to community
 7.1 - Added support for CSV export.
 7.2 - COMMON-26 Updated CSV export button 7.3  - PREMIUM-8 Added additional shipping price per unit of cart price
+7.3.1  - COMMON-34 - Updated Common
+7.3.2  - DROP-89 Issues with use cart price and premium rate.
+7.3.3  - DROP-89 - Resolved issue when using cart total price
+7.3.5  - New version of Common
+7.4  - PREMIUM-11 - Added in min= algorithm
+7.4.1  - PREMIUM-12 Fixed issue with virtual prices not being taken into account when set to include
+7.5  - PREMIUM-14 Packing weight feature.
+7.5.1  - New wsaCommon
+7.5.2  - PREMIUM-15 Fixed links to support documentation
+7.6  - PREMIUM-15 Removed GoogleCheckout logic
+7.5.3  - COMMON-39 Fixed getProducts issue for freight in earlier magento versions
+7.6  - PREMIUM-17 Added new switch to use base product price.
+7.7  - PREMIUM-17 Added new switch to use base product price.
+7.7.1  - PREMIUM-18 Resolved issue with Shipping Methods not displaying when Recurring Profile in the cart
+7.7.2  - Added locale files
+7.7.3  - New version of WSA Common module to address SUPEE-6285

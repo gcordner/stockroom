@@ -35,8 +35,31 @@ class Webshopapps_Wsacommon_Model_Usa_Shipping_Carrier_Ups extends Mage_Usa_Mode
             return Mage::registry('upscalendar_upsmodel')->collectRates($request);
         }
 
+        if (Mage::helper('wsacommon')->isModuleEnabled('Webshopapps_UPSDateShipping','shipping/webshopapps_dateshiphelper/active')) {
+            if (!Mage::registry('upsdateshipping_upsmodel')) {
+                $model = Mage::getModel('webshopapps_upsdateshipping/usa_shipping_carrier_ups');
+                Mage::register('upsdateshipping_upsmodel', $model);
+            }
+            return Mage::registry('upsdateshipping_upsmodel')->collectRates($request);
+        }
+
         // default
         return parent::collectRates($request);
     }
 
+    /**
+     * UC-17
+     * Added to ensure the max weight doesn't come into play with time in transit when used with dim shipping.
+     *
+     * @param Mage_Shipping_Model_Rate_Request $request
+     * @return bool|Mage_Shipping_Model_Carrier_Abstract|Mage_Shipping_Model_Rate_Result_Error
+     */
+    public function proccessAdditionalValidation(Mage_Shipping_Model_Rate_Request $request)
+    {
+        if (Mage::helper('wsacommon')->isModuleEnabled('Webshopapps_Shipusa','shipping/shipusa/active')) {
+            return  Mage::getModel('shipusa/shipping_carrier_ups')->proccessAdditionalValidation($request);
+        } else {
+            return parent::proccessAdditionalValidation($request);
+        }
+    }
 }

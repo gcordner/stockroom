@@ -26,8 +26,7 @@
  *
  * @category   Webshopapps
  * @package    Webshopapps_Wsacommon
- * @copyright   Copyright (c) 2013 Zowta Ltd (http://www.WebShopApps.com)
- *              Copyright, 2013, Zowta, LLC - US license
+ * @copyright  Copyright (c) 2012 Zowta Ltd (http://www.webshopapps.com)
  * @license    http://www.webshopapps.com/license/license.txt - Commercial license
  * @author     Karen Baker <sales@webshopapps.com>
 */
@@ -43,11 +42,6 @@
     		<wsacommon>
     			<class>Webshopapps_Wsacommon_Block</class>
     		</wsacommon>
-            <adminhtml>
-                <rewrite>
-                    <sales_order_create_shipping_method_form>Webshopapps_Wsacommon_Block_Adminhtml_Sales_Order_Create_Shipping_Method_Form</sales_order_create_shipping_method_form>
-                </rewrite>
-            </adminhtml>
     	   <wsacommon_adminhtml>
                 <class>Webshopapps_Wsacommon_Block_Adminhtml</class>
             </wsacommon_adminhtml>
@@ -65,7 +59,7 @@
             <wsacommon>
             	<class>Webshopapps_Wsacommon_Helper</class>
             </wsacommon>
-        </helpers>
+        </helpers> 
         <resources>
             <wsacommon_setup>
                 <setup>

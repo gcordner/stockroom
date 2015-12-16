@@ -42,6 +42,7 @@ class Webshopapps_Premiumrate_Model_Carrier_Premiumrate
     private $oldWeight = 0;
     private $oldQty = 0;
     private $oldPrice = 0;
+    protected $_isFixed = true;
 
     public function __construct()
     {
@@ -67,6 +68,7 @@ class Webshopapps_Premiumrate_Model_Carrier_Premiumrate
 
     	$this->_rawRequest = $request;
 
+
      	//Exclude virtual products price from package value if pre-configured
         if (!$this->getConfigFlag('include_virtual_price') && $request->getAllItems())
         {
@@ -89,6 +91,7 @@ class Webshopapps_Premiumrate_Model_Carrier_Premiumrate
                 {
                     $request->setPackageValue($request->getPackageValue() - $item->getBaseRowTotal());
                 }
+
             }
         }
 
@@ -97,7 +100,16 @@ class Webshopapps_Premiumrate_Model_Carrier_Premiumrate
 
     protected function _getQuotes()
     {
-    	if ($this->getConfigFlag('custom_sorting'))
+
+		// check doesn't exceed max weight
+		$result = $this->processAdditionalValidation($this->_rawRequest);
+
+		if (false === $result) {
+			return $result;
+		}
+
+
+			if ($this->getConfigFlag('custom_sorting'))
     	{
         	$result = Mage::getModel('premiumrate_shipping/rate_result');
         } else
@@ -107,7 +119,13 @@ class Webshopapps_Premiumrate_Model_Carrier_Premiumrate
        	$request = $this->_rawRequest;
 
 
-        $this->setTotalPrice($request,$this->getConfigFlag('use_discount'),$this->getConfigFlag('use_tax_incl'));
+        $this->setTotalPrice($request,
+                             $this->getConfigFlag('use_discount'),
+                             $this->getConfigFlag('use_tax_incl'),
+                             $this->getConfigFlag('include_virtual_price'),
+                             $this->getConfigData('packing_weight'),
+							 $this->getConfigData('use_product_price')
+        );
 
        	$rateArray = $this->getRate($request);
 
@@ -194,7 +212,11 @@ class Webshopapps_Premiumrate_Model_Carrier_Premiumrate
 		return $result;
     }
 
-    public function getRate(Mage_Shipping_Model_Rate_Request $request)
+
+
+
+
+	public function getRate(Mage_Shipping_Model_Rate_Request $request)
     {
     	return Mage::getResourceModel('premiumrate_shipping/carrier_premiumrate')->getNewRate($request);
     }
@@ -302,19 +324,23 @@ class Webshopapps_Premiumrate_Model_Carrier_Premiumrate
 
     /**
      * NOTE: This code is 1.4/1.5 specific - do not overwrite with 1.3 code
-     * @param unknown_type $request
-     * @return number
+     *
+     * @param $request
+     * @param $discounted
+     * @param $taxed
+     * @param $includeVirtual
      */
-     private function setTotalPrice($request, $discounted, $taxed)
+     private function setTotalPrice($request, $discounted, $taxed,$includeVirtual, $packingWeight, $useProductPrice)
      {
 		$totalPrice = 0;
 		$totalWeight = 0;
 		$totalQty = 0;
 		$temp='';
-		$includeVirtual = false;
 		$useParent = true;
 		$cartFreeShipping = false;
 		$useBase = false;
+		$basePriceInclTax = 0;
+		$freeMethodWeight = 0;
 
     	$items = $request->getAllItems();
 
@@ -327,13 +353,37 @@ class Webshopapps_Premiumrate_Model_Carrier_Premiumrate
 				$qty = 0;
 
 	         	if($item->getProduct()->isVirtual()) {
-					if (!Mage::helper('wsacommon/shipping')->getVirtualItemTotals($item, $weight, $qty, $price, $useParent,
-						$request->getIgnoreFreeItems(), $temp, $discounted, $cartFreeShipping, $useBase, $taxed, $includeVirtual)) {
+					if (!Mage::helper('wsacommon/shipping')->getVirtualItemTotals($item,
+																				  $weight,
+																				  $qty,
+																				  $price,
+																				  $useParent,
+																				  $request->getIgnoreFreeItems(),
+																				  $temp,
+																				  $discounted,
+																				  $cartFreeShipping,
+																				  $useBase,
+																				  $taxed,
+																				  $includeVirtual)
+					) {
 							continue;
 					}
 				} else {
-					if (!Mage::helper('wsacommon/shipping')->getItemTotals($item, $weight, $qty, $price, $useParent,
-						$request->getIgnoreFreeItems(), $temp, $discounted, $cartFreeShipping, $useBase, $taxed)) {
+					if (!Mage::helper('wsacommon/shipping')->getItemInclFreeTotals($item,
+																				   $weight,
+																				   $qty,
+																				   $price,
+																				   $freeMethodWeight,
+																				   $useParent,
+																				   $request->getIgnoreFreeItems(),
+																				   $temp,
+																				   $discounted,
+																				   $cartFreeShipping,
+																				   $useBase,
+																				   $taxed,
+																				   $basePriceInclTax,
+																				   $useProductPrice)
+					) {
 							continue;
 					}
 				}
@@ -343,6 +393,14 @@ class Webshopapps_Premiumrate_Model_Carrier_Premiumrate
 				$totalWeight += $weight;
          	}
 
+            /**
+             * PREMIUM-14
+             */
+            if($packingWeight > 0) {
+                $totalWeight += $packingWeight;
+                Mage::helper('wsalogger/log')->postDebug('premiumrate','Added Fixed Packing Weight', $packingWeight);
+            }
+
             if (Mage::helper('wsalogger')->isDebug('Webshopapps_Premiumrate')) {
                 Mage::helper('wsalogger/log')->postDebug('premiumrate','Original Package Weight',$request->getPackageWeight());
                 Mage::helper('wsalogger/log')->postDebug('premiumrate','Original Package Value',$request->getPackageValue());
@@ -351,8 +409,13 @@ class Webshopapps_Premiumrate_Model_Carrier_Premiumrate
                 Mage::helper('wsalogger/log')->postDebug('premiumrate','New Package Value',$totalPrice);
                 Mage::helper('wsalogger/log')->postDebug('premiumrate','New Package Qty',$totalQty);
             }
-            if(Mage::helper('core')->isModuleEnabled('Webshopapps_Dropship') && Mage::getStoreConfig('carriers/dropship/active') && Mage::getStoreConfig('carriers/dropship/use_cart_price')) {
-                $request->setPackageValue($request->getCartValue());
+
+            if(Mage::helper('core')->isModuleEnabled('Webshopapps_Dropship') && Mage::getStoreConfig('carriers/dropship/active')
+                && Mage::getStoreConfig('carriers/dropship/use_cart_price') && $request->getCartValue()) {
+                $request->setPackageValue($request->getCartValue()); //DROP-89
+                if (Mage::helper('wsalogger')->isDebug('Webshopapps_Premiumrate')) {
+                    Mage::helper('wsalogger/log')->postDebug('premiumrate','Using DropShip Cart Value',$request->getPackageValue());
+                }
             }
             else {
                 $request->setPackageValue($totalPrice);
