@@ -174,7 +174,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 $modelSet->save();
             }
             catch(Exception $e) {
-                $this->customHelper->reportError($this->customHelper->__('Attribute set name %s with id %s already exists in Magento system with same name', $attribute_set_name, $attributeSetId));
+                $this->customHelper->reportError($this->customHelper->__('Attribute set name %s with id %s already exists in Magento system with same name', $attribute_set_name, $external_id));
             }
             return $attributeSetId;
         }
@@ -188,7 +188,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }
         }
         catch (Exception $e) {
-            $this->customHelper->reportError($this->customHelper->__('Attribute set name %s with id %s already exists in Magento system with same name', $attribute_set_name, $attributeSetId));
+            $this->customHelper->reportError($this->customHelper->__('Attribute set name %s with id %s already exists in Magento system with same name', $attribute_set_name, $external_id));
         }
         $mapobj->mapAttributeSet($external_id, $attributeSetId);
         return $attributeSetId;
