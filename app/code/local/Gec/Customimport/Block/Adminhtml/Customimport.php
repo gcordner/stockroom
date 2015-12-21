@@ -1028,8 +1028,8 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $catalogNewproductDays = Mage::getStoreConfig('catalog/newproduct/days', Mage::app()->getStore());
             if (!empty($catalogNewproductDays) && $catalogNewproductDays >= 0) {
                 $currenDateTime = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
-                $new_from_date = $currenDateTime;
-                $new_to_date   = date($format, strtotime($catalogNewproductDays . ' days' . $new_from_date));
+                $new_from_date = date($format, strtotime('1 days' . $currenDateTime));
+                $new_to_date = date($format, strtotime($catalogNewproductDays . ' days' . $new_from_date));
                 $product->setNewsFromDate($new_from_date);
                 $product->setNewsToDate($new_to_date);
             }
@@ -1211,8 +1211,8 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $catalogNewproductDays = Mage::getStoreConfig('catalog/newproduct/days', Mage::app()->getStore());
             if (!empty($catalogNewproductDays) && $catalogNewproductDays >= 0) {
                 $currenDateTime = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
-                $new_from_date = $currenDateTime;
-                $new_to_date   = date($format, strtotime($catalogNewproductDays . ' days' . $new_from_date));
+                $new_from_date = date($format, strtotime('1 days' . $currenDateTime));
+                $new_to_date = date($format, strtotime($catalogNewproductDays . ' days' . $new_from_date));
                 $product->setNewsFromDate($new_from_date);
                 $product->setNewsToDate($new_to_date);
             }
@@ -1415,8 +1415,8 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $catalogNewproductDays = Mage::getStoreConfig('catalog/newproduct/days', Mage::app()->getStore());
             if (!empty($catalogNewproductDays) && $catalogNewproductDays >= 0) {
                 $currenDateTime = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
-                $new_from_date = $currenDateTime;
-                $new_to_date   = date($format, strtotime($catalogNewproductDays . ' days' . $new_from_date));
+                $new_from_date = date($format, strtotime('1 days' . $currenDateTime));
+                $new_to_date = date($format, strtotime($catalogNewproductDays . ' days' . $new_from_date));
                 $product->setNewsFromDate($new_from_date);
                 $product->setNewsToDate($new_to_date);
             }
