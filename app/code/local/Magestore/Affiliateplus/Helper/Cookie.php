@@ -67,7 +67,7 @@ class Magestore_Affiliateplus_Helper_Cookie extends Mage_Core_Helper_Abstract {
         $cookie = Mage::getSingleton('core/cookie');
         $map_index = $cookie->get('affiliateplus_map_index');
 
-        for ($i = $map_index; $i > 0; $i--) {
+        for ($i = 1; $i <= $map_index; $i++) {
             $accountCode = $cookie->get("affiliateplus_account_code_$i");
             $account = Mage::getModel('affiliateplus/account')->setStoreId(Mage::app()->getStore()->getId())->loadByIdentifyCode($accountCode);
             if ($account && $account->getStatus() == 1 && (Mage::helper('affiliateplus/account')->getAccount() && $account->getId() != Mage::helper('affiliateplus/account')->getAccount()->getId())) {
@@ -78,6 +78,7 @@ class Magestore_Affiliateplus_Helper_Cookie extends Mage_Core_Helper_Abstract {
                 );
             }
         }
+		
         $infoObj = new Varien_Object(array(
             'info' => $info,
         ));
