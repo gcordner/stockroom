@@ -94,7 +94,3 @@ a.tooltip-close{position:absolute;right:10px;top:10px;color:#fff}
 @media (max-width:340px){
   .header > .logo {max-width: 195px;}
 }
-
-#checkout-step-billing .name-middlename, #checkout-step-shipping .name-middlename{
-    float: left !important;
-}
