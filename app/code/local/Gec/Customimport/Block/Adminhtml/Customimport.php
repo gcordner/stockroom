@@ -543,7 +543,11 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                                 );
                             } elseif ((string) $association->assocType == 3) {
                                 $disAssociateArray[] = $prid;
-                                $this->_bothVisibility($prid);
+                                if ($this->_bothVisibility($prid,$productId)) { //child product id, parent product id
+                                    $this->customHelper->reportInfo($this->customHelper->__("Visibility turned on for # %s", $association->id));
+                                } else {
+                                    $this->customHelper->reportInfo($this->customHelper->__("Visibility left as is for # %s", $association->id));
+                                }
                             }
                         }
                     }
@@ -2238,12 +2242,17 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         $product->save();
     }
 
-    private function _bothVisibility($proid)
+    private function _bothVisibility($childProdId,$parentProdId)
     {
-        $product = Mage::getModel('catalog/product');
-        $product->load($proid);
-        $product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
-        $product->save();
+        $parent_ids = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($childProdId);
+        if (count(array_diff($parent_ids, array($parentProdId))) == 0) {
+            $product = Mage::getModel('catalog/product');
+            $product->load($childProdId);
+            $product->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
+            $product->save();
+            return true;
+        }
+        return false;
     }
 
 }
