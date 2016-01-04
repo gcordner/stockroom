@@ -495,4 +495,18 @@ class Magestore_Affiliateplus_Helper_Data extends Mage_Core_Helper_Abstract {
             /* end reload session */
         }
     /* */
+	
+	public function addTransaction($account_id, $account_name, $account_email, $commission, $storeId) {
+		$modelProgram = Mage::getModel('affiliateplus/transaction');
+		$modelProgram->setAccountId($account_id)
+				->setAccountName($account_name)
+				->setAccountEmail($account_email)
+				->setCommission($commission)
+				->setStoreId($storeId)
+				->setCreatedTime(now())
+				->setStatus('1')
+				->setType(10)
+				->save();
+        
+    }
 }

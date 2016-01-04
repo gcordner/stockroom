@@ -351,6 +351,16 @@ class Magestore_Affiliateplus_Adminhtml_AccountController extends Mage_Adminhtml
                     $account->sendMailToNewAccount($account->getIdentifyCode());
                 }
 
+		$affAccount = Mage::getModel('affiliateplus/account')->setStoreId($storeId)->load($account->getId());
+		if($data['update_balance'] < 0 && abs($data['update_balance']) > $affAccount->getBalance()) {
+			$error = "The balance is not enough to subtract. Please check it again!"; //Mage::getSingleton('adminhtml/session')->addError("The balance is not enough to subtract. Please check it again!");
+			throw new Exception($error);;
+		} else {
+			$balance = $affAccount->getBalance() + $data['update_balance'];
+			$account->setBalance($balance)->save();
+			Mage::helper('affiliateplus')->addTransaction($account->getId(), $account->getName(), $account->getEmail(), $data['update_balance'], $storeId);
+		}
+
                 //add event after save
                 Mage::dispatchEvent('affiliateplus_adminhtml_after_save_account', array('post_data' => $data, 'account' => $account));
                 //ssss
