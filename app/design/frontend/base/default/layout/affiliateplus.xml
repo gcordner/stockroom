@@ -428,7 +428,7 @@
         <reference name="sales_statistic">
             <action method="addTransactionBlock" translate="label" module="affiliateplus">
 				<name>update</name>
-				<label>Update Balance</label>
+				<label>Balance Updates</label>
 				<link>affiliateplus/index/listupdatebanlancetransaction</link>
 				<type>affiliateplus/updatebalancetransactions</type>
 				<template>affiliateplus/updatebalancetransactions.phtml</template>
