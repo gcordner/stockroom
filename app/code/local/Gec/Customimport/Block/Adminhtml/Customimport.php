@@ -880,7 +880,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 }
             }
         } else {
-            $this->customHelper->reportInfo($this->customHelper->__('Product import skipped due to some error for # %s ', $item->id));
+            $this->customHelper->reportError($this->customHelper->__('Product import skipped due to some error for # %s ', $item->id));
         }
     }
     
