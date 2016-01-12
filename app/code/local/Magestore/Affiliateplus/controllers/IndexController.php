@@ -591,5 +591,15 @@ class Magestore_Affiliateplus_IndexController extends Mage_Core_Controller_Front
             $this->getResponse()->setBody('');
         }
     }
+	
+	public function listUpdateBanlanceTransactionAction() {
+		if(!Mage::helper('affiliateplus')->isAffiliateModuleEnabled()) return $this->_redirectUrl(Mage::getBaseUrl());
+		if(!Mage::helper('magenotification')->checkLicenseKeyFrontController($this)){ return; }
+		if ($this->_getAccountHelper()->accountNotLogin())
+    		return $this->_redirect('affiliateplus/account/login');
+    	$this->loadLayout();
+    	$this->getLayout()->getBlock('head')->setTitle($this->__('Update Balance Transactions'));
+    	$this->renderLayout();
+	}
 
 }

@@ -270,8 +270,8 @@
             </action>
         </reference>
     </affiliateplus_index_listtransaction>
-    
-    <affiliateplus_index_payments>
+	
+	<affiliateplus_index_payments>
         <update handle="affiliateplus_default" />
         <reference name="content">
             <block type="affiliateplus/payment_list" name="affiliateplus_payment_list" template="affiliateplus/payment/list.phtml">
@@ -423,5 +423,25 @@
             <block type="affiliateplus/sales_credit_creditmemo" />
         </reference>		
     </sales_email_order_creditmemo_items>
+	
+	<affiliateplus_transaction>
+        <reference name="sales_statistic">
+            <action method="addTransactionBlock" translate="label" module="affiliateplus">
+				<name>update</name>
+				<label>Update Balance</label>
+				<link>affiliateplus/index/listupdatebanlancetransaction</link>
+				<type>affiliateplus/updatebalancetransactions</type>
+				<template>affiliateplus/updatebalancetransactions.phtml</template>
+			</action>
+        </reference>
+    </affiliateplus_transaction>
+    <affiliateplus_index_listupdatebanlancetransaction> 
+        <update handle="affiliateplus_transaction" />
+        <reference name="affiliateplus_sales">
+            <action method="activeTransactionBlock">
+                <name>update</name>
+            </action>
+        </reference>
+    </affiliateplus_index_listupdatebanlancetransaction>
     
 </layout>
