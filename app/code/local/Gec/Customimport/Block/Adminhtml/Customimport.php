@@ -473,6 +473,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 				$preRelatedArray    = array();
 				$preUpsellArray     = array();
 				$preCrossArray      =  array();
+		$parentProductAttSetId = '';
  
                  if ($mainProduct->getTypeId() == "configurable") {
                      $configurable = Mage::getModel('catalog/product_type_configurable')->setProduct($mainProduct);
@@ -480,6 +481,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     foreach($simpleCollection as $simpleProduct){
                         $preAssociatedArray[] = $simpleProduct->getId();
                     }
+		    $parentProductAttSetId = $mainProduct->getAttributeSetId();
                 }
                 
                 $relatedCollection = $mainProduct->getRelatedLinkCollection();
@@ -521,8 +523,14 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                                     'position' => $position
                                 );
                             } elseif ((string) $association->assocType == 3) {
-                                $preAssociatedArray[] = $prid;
-                                $this->_hideVisibility($prid);
+				$childProduct = Mage::getModel('catalog/product')->load($prid);
+				$childProductAttSetId = $childProduct->getAttributeSetId();
+				if(0 == strcmp($parentProductAttSetId, $childProductAttSetId)) {
+                                	$preAssociatedArray[] = $prid;
+                                	$this->_hideVisibility($prid);
+				} else {
+				        $this->customHelper->reportError($this->customHelper->__('Product association failed for %s due to attribute set mismatch. Delete and re-import the simple product with the correct attribute set', $association->id));
+				}
                             } elseif ((string) $association->assocType == 4) {
                                 $bundleArray[]         = $prid;
                                 $bundleQuantityArray[] = (int) $association->quantity;
@@ -635,7 +643,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                         Mage::getResourceModel('catalog/product_type_configurable')->saveProducts($mainProduct, $associatedArray);
                     }
                     catch (Exception $e) {
-                        $this->customHelper->reportError($this->customHelper->__('ERROR: product association failed for %s', $associate->productIdFrom));
+                        $this->customHelper->reportError($this->customHelper->__('Product association failed for %s', $associate->productIdFrom));
                     }
                 }
                 
@@ -644,7 +652,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 unset($relatedArray);
                 unset($associatedArray);
             } else {
-                $this->customHelper->reportError($this->customHelper->__('INFO: product not found for association %s', $associate->productIdFrom));
+                $this->customHelper->reportError($this->customHelper->__('Product not found for association %s', $associate->productIdFrom));
             }
             $this->customHelper->reportInfo($this->customHelper->__('End Process for product association # %s', $associate->productIdFrom));
         }
@@ -869,11 +877,11 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             } else {
                 try {
                     if ((string) $item->type == 'configurable') {
-                        $this->updateConfigurableProduct($item, $pid); //create con product
+                        $this->updateConfigurableProduct($item, $pid); //update con product
                     } elseif ((string) $item->type == 'simple') {
-                        $this->updateProduct($item, $pid); //create simple product
+                        $this->updateProduct($item, $pid); //update simple product
                     } elseif ((string) $item->type == 'bundle') {
-                        $this->updateBundleProduct($item, $pid); //create simple product
+                        $this->updateBundleProduct($item, $pid); //update bundle product
                     }
                 } catch (Exception $e) {
                     $this->customHelper->reportError($this->customHelper->__('Product update failed for # %s', $item->id));
@@ -1562,7 +1570,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 else
                     $product->setSpecialToDate("");
             }
-            
+
             $product->setWeight((real) $item->weight);
             $product->setStatus($p_status);
             $product->setTaxClassId($p_taxclass);
