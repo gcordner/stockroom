@@ -4,7 +4,7 @@
     <?php if ($this->isEnabledUnobtrusiveInterface()): ?>
         <ul class="form-list">
             <li class="control">
-                <input type="checkbox" id="use_coupon_code" name="use_coupon_code" value="1" title="<?php echo $this->__('I have a coupon code'); ?>" class="checkbox"<?php if ($this->isCouponApplied()): ?> checked="checked"<?php endif; ?>><label for="use_coupon_code"><?php echo $this->__('I have a coupon code'); ?></label>
+                <input type="checkbox" id="use_coupon_code" name="use_coupon_code" value="1" title="<?php echo $this->__('I have a discount code'); ?>" class="checkbox"<?php if ($this->isCouponApplied()): ?> checked="checked"<?php endif; ?>><label for="use_coupon_code"><?php echo $this->__('I have a discount code'); ?></label>
             </li>
         </ul>
     <?php endif; ?>
