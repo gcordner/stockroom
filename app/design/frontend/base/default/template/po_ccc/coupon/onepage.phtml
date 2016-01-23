@@ -15,14 +15,14 @@
         <ul class="po_ccc-message messages" style="display: none;"></ul>
         <div class="po_ccc-discount-form field-row">
             <input type="text" class="input-text" id="po_ccc_coupon_code" name="coupon_code" value="<?php echo $this->getCouponCode(); ?>">
-            <button type="button" id="po_ccc-apply" title="<?php echo $this->__('Apply Coupon'); ?>" class="button" value="<?php echo $this->__('Apply Coupon'); ?>"<?php if ($this->isCouponApplied() && $this->_getApi()->canShowCancelButton()): ?> style="display:none;"<?php endif; ?>>
+            <button type="button" id="po_ccc-apply" title="<?php echo $this->__('Apply Code'); ?>" class="button" value="<?php echo $this->__('Apply Code'); ?>"<?php if ($this->isCouponApplied() && $this->_getApi()->canShowCancelButton()): ?> style="display:none;"<?php endif; ?>>
                 <span>
-                    <span><?php echo $this->__('Apply Coupon'); ?></span>
+                    <span><?php echo $this->__('Apply Code'); ?></span>
                 </span>
             </button>
-            <button type="button" id="po_ccc-cancel" title="<?php echo $this->__('Cancel Coupon'); ?>" class="button" value="<?php echo $this->__('Cancel Coupon'); ?>"<?php if (!$this->isCouponApplied() || !$this->_getApi()->canShowCancelButton()): ?> style="display:none;"<?php endif; ?>>
+            <button type="button" id="po_ccc-cancel" title="<?php echo $this->__('Cancel Code'); ?>" class="button" value="<?php echo $this->__('Cancel Code'); ?>"<?php if (!$this->isCouponApplied() || !$this->_getApi()->canShowCancelButton()): ?> style="display:none;"<?php endif; ?>>
                 <span>
-                    <span><?php echo $this->__('Cancel Coupon'); ?></span>
+                    <span><?php echo $this->__('Cancel Code'); ?></span>
                 </span>
             </button>
             <span id="po_ccc-please-wait" style="display: none;" class="opc-please-wait please-wait f-right">
