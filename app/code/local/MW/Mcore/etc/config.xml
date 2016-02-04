@@ -38,7 +38,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <MW_Mcorenotification before="Mage_Adminhtml">MW_Mcore_Adminhtml</MW_Mcorenotification>
+                        <MW_Mcorenotification after="Mage_Adminhtml">MW_Mcore_Adminhtml</MW_Mcorenotification>
                     </modules>
                 </args>
             </adminhtml>
