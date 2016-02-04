@@ -20,11 +20,11 @@
         </reference>
     </adminhtml_mcore_mcore_index>
     
-    <adminhtml_mcore_notification_index>
+    <adminhtml_mcore_mcorenotification_index>
         <reference name="content">
             <block type="mcore/adminhtml_notification" name="notification" />
         </reference>
-    </adminhtml_mcore_notification_index>
+    </adminhtml_mcore_mcorenotification_index>
     
     <adminhtml_system_config_edit>		
 			<reference name="head">		

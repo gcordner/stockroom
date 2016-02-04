@@ -38,7 +38,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <mcore before="Mage_Adminhtml">MW_Mcore_Adminhtml</mcore>
+                        <MW_Mcorenotification before="Mage_Adminhtml">MW_Mcore_Adminhtml</MW_Mcorenotification>
                     </modules>
                 </args>
             </adminhtml>
@@ -46,7 +46,21 @@
     </admin>
     
     <adminhtml>
-        	
+        <menu>
+            <system>
+                <children>
+                    <adminnotification>
+                        <children>
+                            <mcore_notification translate="title" module="mcore">
+                                <title>Mage World</title>
+                                <sort_order>40</sort_order>
+                                <action>adminhtml/mcore_mcorenotification</action>
+                            </mcore_notification>
+                        </children>
+                    </adminnotification>
+                </children>
+            </system>
+        </menu>	
 		<acl>
 			<resources>
 				<all>
@@ -60,6 +74,14 @@
 							</MW_Mcore>
 							<system>
 								<children>
+                                    <adminnotification>
+                                        <children>
+                                            <mcore_notification translate="title" module="mcore">
+                                                <title>Mage World</title>
+                                                <sort_order>40</sort_order>
+                                            </mcore_notification>
+                                        </children>
+                                    </adminnotification>
 									<config>
 										<children>
 											<mcore translate="title" module="mcore">
