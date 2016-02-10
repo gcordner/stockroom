@@ -158,7 +158,16 @@ var i = 0;
                     </div>
                     <div class="action-area">
                     <?php if(Mage::getStoreConfig("porto_settings/category/product_price", $code)):?>
-                        <?php echo $this->getPriceHtml($_product, true) ?>
+                        <div class="price-box">
+                            <p class="old-price">
+                                <span class="price-label">Regular Price:</span>
+                                <span class="price"><?php echo $_coreHelper->currency($_product->getPrice()) ?></span>
+                            </p>
+                            <p class="special-price">
+                                <span class="price-label">Special Price</span>
+                                <span class="price"><?php echo $_coreHelper->currency($deal->getDealPrice()); ?></span>
+                            </p>
+                        </div>
                     <?php endif; ?>
                     <?php if(Mage::getStoreConfig("porto_settings/category/actions", $code)):?>
                         <div class="actions">
@@ -385,7 +394,16 @@ var i = 0;
                     <?php endif; ?>
                     <?php endif; ?>
                     <?php if(Mage::getStoreConfig("porto_settings/category/product_price", $code)):?>
-                    <?php echo $this->getPriceHtml($_product, true) ?>
+                        <div class="price-box">
+                            <p class="old-price">
+                                <span class="price-label">Regular Price:</span>
+                                <span class="price"><?php echo $_coreHelper->currency($_product->getPrice()) ?></span>
+                            </p>
+                            <p class="special-price">
+                                <span class="price-label">Special Price</span>
+                                <span class="price"><?php echo $_coreHelper->currency($deal->getDealPrice()); ?></span>
+                            </p>
+                        </div>
                     <?php endif; ?>
                     <?php if(Mage::getStoreConfig("porto_settings/category/actions", $code)):?>
                     <div class="actions">
