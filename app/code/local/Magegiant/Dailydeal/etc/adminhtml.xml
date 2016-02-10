@@ -2,7 +2,7 @@
 <config>
     <menu>
         <dailydeal module="dailydeal" translate="title">
-            <title>Daily deal</title>
+            <title>Daily Deal</title>
             <sort_order>71</sort_order>
             <children>
                 <newdeal module="dailydeal" translate="title">
@@ -35,7 +35,7 @@
                             <config>
                                 <children>
                                     <dailydeal module="dailydeal" translate="title">
-                                        <title>Daily deal</title>
+                                        <title>Daily Deal</title>
                                         <sort_order>71</sort_order>
                                     </dailydeal>
                                 </children>
@@ -43,7 +43,7 @@
                         </children>
                     </system>
                     <dailydeal module="dailydeal" translate="title">
-                        <title>Daily deal</title>
+                        <title>Daily Deal</title>
                         <sort_order>71</sort_order>
                         <children>
                             <newdeal module="dailydeal" translate="title">
