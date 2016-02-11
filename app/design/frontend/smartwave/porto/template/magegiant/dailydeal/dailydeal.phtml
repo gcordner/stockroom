@@ -96,7 +96,7 @@ var i = 0;
                         
                         
                         // Get the Deal Price
-                        $dealprice = $product->getFinalPrice();
+                        $dealprice = $deal->getDealPrice();
                         $orgprice = $product->getPrice();
                      
                         if ($dealprice<$orgprice && $dealprice != ''){
