@@ -97,6 +97,8 @@ function sliderAjax(url) {
             }*/
             <?php endif; ?>
             var param = "";
+            if(url.indexOf("?")==-1 && url.indexOf("&")>-1)
+                  url = url.replace("&","?");
             if(url.indexOf("ajaxcatalog") == -1){
                 param = "ajaxcatalog=true";
                 if(url.indexOf("?")==-1 && url.indexOf("&")>-1)
