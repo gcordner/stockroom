@@ -59,7 +59,11 @@ $specialPriceFromDate = $_product->getSpecialFromDate();
 $specialPriceToDate = $_product->getSpecialToDate();
 // Get Current date
 $today =  strtotime(Mage::getModel('core/date')->date('Y-m-d H:i:s'));
-if ($specialprice<$orgprice){
+
+$deal = Mage::getModel('dailydeal/dailydeal')->getDealByProduct($_product->getEntityId());
+if ($deal and $deal->getDealPrice()) {
+   $_convertedFinalPrice = $_store->roundPrice($deal->getDealPrice());
+} elseif ($specialprice<$orgprice){
     if($today >= strtotime( $specialPriceFromDate) && $today <= strtotime($specialPriceToDate) || $today >= strtotime( $specialPriceFromDate) && is_null($specialPriceToDate) && $specialPriceFromDate != ''){
         $_convertedFinalPrice = $_store->roundPrice($_store->convertPrice($specialprice));
     }else{
@@ -87,6 +91,7 @@ $_specialPriceStoreLabel = $this->getProductAttribute('special_price')->getStore
     <?php $_finalPrice = $_taxHelper->getPrice($_product, $_convertedFinalPrice) ?>
     <?php $_finalPriceInclTax = $_taxHelper->getPrice($_product, $_convertedFinalPrice, true) ?>
     <?php $_weeeDisplayType = $_weeeHelper->getPriceDisplayType(); ?>
+    
     <?php if ($_finalPrice >= $_price): ?>
         <?php if ($_taxHelper->displayBothPrices()): ?>
             <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 0)): // including ?>
