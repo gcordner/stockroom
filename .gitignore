@@ -70,3 +70,4 @@ skin/frontend/base/default/images/thestockroom01.svg
 skin/frontend/smartwave/porto/images/thestockroom-christmas.png
 var/backups/
 xcache/
+robots.txt
