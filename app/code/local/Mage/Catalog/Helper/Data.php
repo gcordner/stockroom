@@ -97,9 +97,10 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
 	if ($this->getProduct() && !$this->getCategory()) {
 		$_categoryIds = $this->getProduct()->getCategoryIds();
 
-		if ($_categoryId = $_categoryIds[0]) {
-		$_category = Mage::getModel('catalog/category')->load($_categoryId);
-		Mage::register('current_category', $_category);
+		if(!empty($_categoryIds)) {
+		   $_categoryId = $_categoryIds[0];
+		   $_category = Mage::getModel('catalog/category')->load($_categoryId);
+		   Mage::register('current_category', $_category);
 		}
 
 	}
