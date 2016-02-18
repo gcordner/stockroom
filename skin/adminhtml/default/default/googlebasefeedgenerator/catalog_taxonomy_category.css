@@ -1,0 +1,318 @@
+[class^="icon-"]:before, [class*=" icon-"]:before {
+    font-family: "icon_font";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1em;
+    margin-left: .2em;
+}
+.icon-check:before { content: '\e804'; cursor: pointer; }
+.icon-cancel:before { content: '\e805'; cursor: pointer; }
+.icon-carrot-closed:before { content: '\e800'; cursor: pointer; }
+.icon-carrot-opened:before { content: '\e803'; cursor: pointer; }
+
+.category_taxonomy_category ul {list-style: none;}
+li .category_list {
+    display:block;
+    margin:0;
+    padding-left: 15px;
+}
+.category_taxonomy_category .category_taxonomy_category_all,
+.category_taxonomy_category .category_taxonomy_toggle_all {
+    cursor:pointer;
+}
+#categories_provider_taxonomy_by_category .loading{
+    background: url('../images/rule-ajax-loader.gif') top right no-repeat;
+}
+.category_taxonomy_category .category_list input[type=text] {
+    width: 60%;
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    margin-top: -10px;
+    padding: 1px 5px;
+}
+.category_taxonomy_category .category_list input[type=text]:disabled {
+    background: #EAEAEA;
+}
+.category_taxonomy_category .category_list .red {
+    color:#b3281c;
+}
+.category_taxonomy_category .category_list .green {
+    color:green;
+}
+
+.category_taxonomy_category .title {
+    display: inline-block;
+    float: left;
+    width: 30%;
+    margin: 0;
+    padding-left: 0;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position: relative;
+    font-weight: bold;
+}
+
+.category_taxonomy_category .carrot {
+    cursor: pointer;
+    float:left;
+    width: 30px;
+    position: relative;
+    font-size: 1.4em;
+    color: #b3281c;
+}
+
+.category_taxonomy_category .category_row {
+    border: 1px solid #afafaf;
+    border-radius: 3px;
+    margin: 3px;
+    padding: 3px;
+    position: relative;
+}
+.category_taxonomy_category .category_row:after {
+    content: '';
+    clear: both;
+    display: table;
+}
+.category_taxonomy_category .category_row .input-box {
+    float: left;
+    width: 70%;
+}
+.category_taxonomy_category span.status {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -0.7em;
+}
+
+/**************FTP-style**************/
+
+#form_tabs_googlebasefeedgenerator_ftp_content .success{
+    display: inline-block;
+    color: #3d6611;
+    font-weight: 700;
+    position: relative;
+    padding: 2px 0;
+    width: 70px;
+    padding-left: 10px;
+    border: 1px solid #95a486;
+    background: #eff5ea;
+    border-radius: 100px;
+    text-align: center;
+    top: -2px;
+}
+#form_tabs_googlebasefeedgenerator_ftp_content .success:before{
+    content:"";
+    position: absolute;
+    left: 5px;
+    top: 3px;
+    width: 15px;
+    height: 15px;
+    background: url("../images/success_msg_icon.gif");
+}
+
+#matage-options-panel .ftp-row .scalable.save{
+    position: relative;
+    pointer-events: none;
+}
+#matage-options-panel .ftp-row th sup{
+    margin-top: 10px;
+    color: red;
+}
+
+#matage-options-panel .ftp-row .buttons-cell{
+    width: 80px !important;
+}
+
+.form-info sup{
+    color: red;
+}
+#matage-options-panel .ftp-row .scalable.save:before{
+    content:"";
+    position: absolute;
+    left:0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.5);
+    z-index: 9999;
+}
+
+#matage-options-panel .ftp-row .scalable.save.transparent{
+    pointer-events: initial;
+}
+
+#matage-options-panel .ftp-row .scalable.save.transparent:before{
+    left: -100000px;
+}
+
+#matage-options-panel .ftp-row td{
+    position: relative;
+}
+#matage-options-panel .ftp-row td input{
+    /*width: 90% !important;*/
+}
+#matage-options-panel .ftp-row td .validation-failed{
+    margin-bottom: 25px;
+    /*width: 95% !important;*/
+}
+
+#matage-options-panel .ftp-row td .validation-advice{
+    position: relative;
+    top: -18px;
+    display: table-cell;
+}
+
+.adminhtml-rocketfeed-edit .messages ul li{
+    color: #000;
+    font-weight: 500 !important;
+    font-size: 1.1em !important;
+}
+
+.adminhtml-rocketfeed-edit .form-list p.note{
+    background: url("icons/info-icon.png") no-repeat;
+    background-size: 12px;
+    background-position: 0 3px;
+}
+
+.floating-div{
+    position: fixed;
+    left: 25px;
+    padding: 5px 10px 5px 30px;
+    width: 222px;
+    background: #fa9f01;
+    border: 1px solid;
+    border-color: #ed6502;
+    border-radius: 3px;
+    color: white;
+    font-weight: 700;
+    top: 625px;
+    box-sizing: border-box;
+    border-right: 0;
+    font-size: 11px;
+    transition: all 0.2s ease-in;
+}
+.floating-div:hover{
+    background: #fbb02c;
+    cursor: pointer;
+}
+
+.floating-div:after{
+    content:"";
+    width: 5px;
+    background: #fa9f01;
+    position: absolute;
+    top: -1px;
+    bottom: -1px;
+    right: 0;
+    -webkit-box-shadow: inset -1px 0px 10px 0px rgba(133,73,21,0.2);
+    -moz-box-shadow: inset -1px 0px 10px 0px rgba(133,73,21,0.2);
+    box-shadow: inset -1px 0px 10px 0px rgba(133,73,21,0.2);
+}
+
+.floating-div:before{
+    content:"?";
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    width:16px;
+    height: 16px;
+    border: 1px solid #FFF;
+    border-radius: 100px;
+    text-align: center;
+    line-height: 18px;
+}
+
+.floating-div.docs{
+    top: 590px;
+}
+
+.floating-div.docs:before{
+    content:"";
+    background: url("icons/book.png");
+    width: 18px;
+    height: 18px;
+    background-size: cover;
+    border: 0 none;
+}
+
+.alphacube_minimize{
+    display: none;
+}
+
+.alphacube_nw.top_draggable,
+.alphacube_n,
+.alphacube_ne.top_draggable{
+    background: #fa9f01 !important;
+    height: 35px;
+    line-height: 35px;
+}
+
+.alphacube_title{
+    color: #fff !important;
+    font-size: 17px !important;
+}
+
+.alphacube_content{
+    padding: 10px 0 !important;
+}
+
+.adminhtml-rocketfeed-edit .dialog{
+    z-index: 9999 !important;
+}
+
+.alphacube_maximize,
+.alphacube_close{
+    top: 8px !important;
+    border-top: 1px solid black;
+}
+
+#form_tabs_googlebasefeedgenerator_filters_content{
+    width: 100%;
+}
+
+#form_tabs_googlebasefeedgenerator_filters_content table{
+    width: 100%;
+}
+#form_tabs_googlebasefeedgenerator_filters_content table  table select,
+#form_tabs_googlebasefeedgenerator_filters_content table  table input{
+    width: 98% !important;
+}
+
+.loading .alphacube_content{
+    position: relative;
+}
+
+.loading .mid.table_window{
+    height: 100%;
+}
+
+.dialog{
+    transition: all 0.5s ease-out;
+}
+
+.loading .alphacube_content:before{
+    content:"";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -16px;
+    margin-left: -16px;
+    width: 32px;
+    height: 32px;
+    background: url("icons/ajax-loader.gif");
+    background-size: cover;
+}
+
+#form_tabs_googlebasefeedgenerator_categories_content table{
+    width: 70%;
+}

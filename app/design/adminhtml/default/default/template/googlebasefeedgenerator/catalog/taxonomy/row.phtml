@@ -1,0 +1,34 @@
+<?php
+$category = $this->getCategory();
+$catNames = $this->getNames(); // Not being used yet
+$children = $this->getChildren();
+$catId = $category['entity_id'];
+
+/** @var RocketWeb_GoogleBaseFeedGenerator_Block_Adminhtml_Catalog_Taxonomy_Category $parent */
+$parent = $this->getParent();
+$fieldName = $parent->getId();
+$value = $parent->getFieldValues($catId);
+$jsStrings = $parent->getJsStrings();
+?>
+
+<li id="<?php echo $fieldName; ?>_<?php echo $catId; ?>">
+    <div class="category_row">
+        <?php if (!empty($children['html'])): ?>
+            <span class="icon-carrot-closed carrot"> </span>
+        <?php endif; ?>
+        <p class="title">
+            <?php echo $category['name']; ?> </p>
+        <input type="hidden" class="el_disabled" name="config[<?php echo $fieldName; ?>][<?php echo $catId; ?>][disabled]"
+            value="<?php echo (string)$value['disabled']; ?>"
+               />
+        <input type="hidden" name="config[<?php echo $fieldName; ?>][<?php echo $catId; ?>][category]" value="<?php echo $catId; ?>" />
+        <input type="text" class="input-text <?php echo $value['disabled'] ? 'disabled' : ''; ?>"
+               name="config[<?php echo $fieldName; ?>][<?php echo $catId; ?>][value]"
+               value="<?php echo $value['value']; ?>" placeholder="Type at least 3 characters"/>
+        <span class="status">
+                <?php echo $value['disabled']
+                    ? $jsStrings['row_disabled'] : $jsStrings['row_enabled'] ?>
+        </span>
+    </div>
+    <?php echo $children['html']; ?>
+</li>

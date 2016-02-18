@@ -1,0 +1,90 @@
+<?php
+/**
+ * RocketWeb
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category  RocketWeb
+ * @package   RocketWeb_GoogleBaseFeedGenerator
+ * @copyright Copyright (c) 2012 RocketWeb (http://rocketweb.com)
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author    RocketWeb
+ */
+
+/** @var RocketWeb_GoogleBaseFeedGenerator_Block_Adminhtml_Catalog_Taxonomy_Category  $this */
+$id = $this->getId();
+/** @var RocketWeb_GoogleBaseFeedGenerator_Helper_Data $helper */
+$helper = Mage::helper('googlebasefeedgenerator');
+$skinUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN);
+?>
+<div class="category_taxonomy_category" id="div_<?php echo $id; ?>">
+    <h4><?php echo $helper->__('Map Product Categories to Taxonomy'); ?></h4>
+    <p><?php echo $helper->__('To include products of certain category, check the right checkbox. <br />To fill in the taxonomy start typing and an autocomplete list would let you choose one of the possible taxonomies.'); ?></p>
+    <p>
+        <a class="expand category_taxonomy_category_all">Expand all</a>
+        | <a class="enable category_taxonomy_toggle_all">Enable all</a>
+    </p>
+    <?php echo $this->getTaxonomyMappings(); ?>
+    <script type="text/javascript">
+        Event.observe(window, 'dom:loaded', function () {
+            var taxonomy = new taxonomyCategory();
+            taxonomy.fieldName = '<?php echo $id; ?>';
+            taxonomy.fieldStrings = {
+                <?php foreach ($this->getJsStrings() as $key => $value):?>
+                <?php echo $key; ?>: '<?php echo $value; ?>',
+                <?php endforeach; ?>
+            };
+            $$('.status').each(function (element) {
+                $(element).observe('click', function (e) {
+                    taxonomy.toggleSelect(element);
+                });
+            });
+            $$('.carrot').each(function(element){
+                $(element).observe('click', function(e) {
+                    taxonomy.toggleShow(element);
+                });
+            });
+            $$('.category_taxonomy_category_all').first().observe('click', function(e) {
+                taxonomy.toggleShowAll(this);
+            });
+
+            $$('.category_taxonomy_toggle_all').first().observe('click', function(e) {
+                taxonomy.toggleSelectAll(this);
+            });
+
+        <?php if ($this->isTaxonomyEnabled()): ?>
+            $$('.category_list .input-text').each(function(el) {
+                new AutoComplete(el, '<?php echo $this->getAutocompleteUrl(); ?>?partial=', {
+                    delay: 0.25,
+                    resultFormat: AutoComplete.Options.RESULT_FORMAT_JSON,
+                    onSelect: function(element) {
+                        taxonomy.autoFillChildren(element);
+                    }
+                });
+            });
+        <?php endif; ?>
+        });
+
+    </script>
+    <style type="text/css">
+        @font-face {
+            font-family: 'icon_font';
+            src: url('<?php echo $skinUrl; ?>adminhtml/default/default/googlebasefeedgenerator/font/icon_font.eot?81826725');
+            src: url('<?php echo $skinUrl; ?>adminhtml/default/default/googlebasefeedgenerator/font/icon_font.eot?81826725#iefix') format('embedded-opentype'),
+            url('<?php echo $skinUrl; ?>adminhtml/default/default/googlebasefeedgenerator/font/icon_font.svg?81826725#icon_font') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'icon_font';
+            src: url('<?php echo $skinUrl; ?>adminhtml/default/default/googlebasefeedgenerator/font/icon_font.woff') format('woff'),
+            url('<?php echo $skinUrl; ?>adminhtml/default/default/googlebasefeedgenerator/font/icon_font.ttf') format('truetype');
+        }
+    </style>
+</div>
+<br />
