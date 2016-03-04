@@ -245,7 +245,7 @@ class Magestore_Affiliateplus_Adminhtml_Affiliateplus_AccountController extends 
         // Changed By Adam 23/04/2015
         $storeId = $this->getRequest()->getParam('store');
         if ($data = $this->getRequest()->getPost()) {
-            $accountId = $this->getRequest()->getParam('id');
+			$accountId = $this->getRequest()->getParam('id');
             
             $customer = Mage::getModel('customer/customer')->load($data['customer_id']);
 
@@ -339,7 +339,8 @@ class Magestore_Affiliateplus_Adminhtml_Affiliateplus_AccountController extends 
                             ->setApproved(1)//approved
                     ;
                 }
-
+				
+				
                 $account->save();
 
                 if ($accountId) {
@@ -352,16 +353,18 @@ class Magestore_Affiliateplus_Adminhtml_Affiliateplus_AccountController extends 
                     // Adam 01/07/2015: Fix issue of the affiliate's link in email is wrong when create account from back-end
                     $account->sendMailToNewAccount($account->getIdentifyCode());
                 }
-
-		$affAccount = Mage::getModel('affiliateplus/account')->setStoreId($storeId)->load($account->getId());
-		if($data['update_balance'] < 0 && abs($data['update_balance']) > $affAccount->getBalance()) {
-			$error = "The balance is not enough to subtract. Please check it again!";
-			throw new Exception($error);;
-		} else {
-			$balance = $affAccount->getBalance() + $data['update_balance'];
-			$account->setBalance($balance)->save();
-			Mage::helper('affiliateplus')->addTransaction($account->getId(), $account->getName(), $account->getEmail(), $data['update_balance'], $storeId);
-		}
+				
+				/*Added By Adam (30/12/2015) to change the balance manually*/ 
+				$affAccount = Mage::getModel('affiliateplus/account')->setStoreId($storeId)->load($account->getId());
+				if($data['update_balance'] < 0 && abs($data['update_balance']) > $affAccount->getBalance()) {
+					$error = "The balance is not enough to subtract. Please check it again!"; //Mage::getSingleton('adminhtml/session')->addError("The balance is not enough to subtract. Please check it again!");
+					throw new Exception($error);;
+				} else {
+					$balance = $affAccount->getBalance() + $data['update_balance'];
+					$affAccount->setBalance($balance)->save();
+					Mage::helper('affiliateplus')->addTransaction($account->getId(), $account->getName(), $account->getEmail(), $data['update_balance'], $storeId);
+				}
+				/*End code*/
 				
                 //add event after save
                 Mage::dispatchEvent('affiliateplus_adminhtml_after_save_account', array('post_data' => $data, 'account' => $account));

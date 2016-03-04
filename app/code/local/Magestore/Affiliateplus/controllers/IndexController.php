@@ -598,7 +598,7 @@ class Magestore_Affiliateplus_IndexController extends Mage_Core_Controller_Front
 		if ($this->_getAccountHelper()->accountNotLogin())
     		return $this->_redirect('affiliateplus/account/login');
     	$this->loadLayout();
-    	$this->getLayout()->getBlock('head')->setTitle($this->__('Balance Update Transactions'));
+    	$this->getLayout()->getBlock('head')->setTitle($this->__('Update Balance Transactions'));
     	$this->renderLayout();
 	}
 

@@ -11,7 +11,7 @@ class Magestore_Affiliateplus_Model_System_Config_Source_Actiontype
         $types = new Varien_Object(array(
     		'actions'	=> array(
     			array('value' => '3', 'label'=>Mage::helper('affiliateplus')->__('Sale')),
-				array('value' => '10', 'label'=>Mage::helper('affiliateplus')->__('Administrator')),
+				array('value' => '10', 'label'=>Mage::helper('affiliateplus')->__('Administrator')),		/*Add By Adam (30/12/2015) to change the balance manually*/ 
     		)
     	));
         Mage::dispatchEvent('affiliateplus_get_action_types',array(

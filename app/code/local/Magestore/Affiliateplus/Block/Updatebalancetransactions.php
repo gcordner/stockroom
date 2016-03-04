@@ -163,7 +163,7 @@ class Magestore_Affiliateplus_Block_Updatebalancetransactions extends Mage_Core_
             'number_commission' => count($collection),
             'transactions' => $this->__('Update Transactions'),
             'commissions' => $totalCommission,
-            'earning' => $this->__('Balance Updates')
+            'earning' => $this->__('Update Balance')
         );
     }
 }

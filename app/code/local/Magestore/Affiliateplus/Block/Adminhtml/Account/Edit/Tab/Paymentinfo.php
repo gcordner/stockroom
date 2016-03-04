@@ -21,16 +21,16 @@ class Magestore_Affiliateplus_Block_Adminhtml_Account_Edit_Tab_Paymentinfo exten
         } else {
             $store = Mage::app()->getStore();
         }
+		$fieldset = $form->addFieldset('paymentinfo_form', array('legend' => Mage::helper('affiliateplus')->__('Payment Information')));
         
-        $fieldset = $form->addFieldset('paymentinfo_form', array('legend' => Mage::helper('affiliateplus')->__('Payment Information')));
-        
+		/*Added By Adam (30/12/2015) to change the balance manually*/ 
 		$fieldset->addField('update_balance', 'text', array(
                 'label' => Mage::helper('affiliateplus')->__('Update Balance'),
                 'class' => '',
                 'name' => 'update_balance',
 				'note' => 'enter the negative number (-10) to subtract',
             ));
-			
+		
         if (Mage::helper('affiliateplus/config')->getSharingConfig('required_paypal')) {
             $fieldset->addField('paypal_email', 'text', array(
                 'label' => Mage::helper('affiliateplus')->__('PayPal Email Address'),

@@ -496,6 +496,7 @@ class Magestore_Affiliateplus_Helper_Data extends Mage_Core_Helper_Abstract {
         }
     /* */
 	
+	/*Added By Adam (30/12/2015) to change the balance manually, create transactioin to log*/ 
 	public function addTransaction($account_id, $account_name, $account_email, $commission, $storeId) {
 		$modelProgram = Mage::getModel('affiliateplus/transaction');
 		$modelProgram->setAccountId($account_id)
