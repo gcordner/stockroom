@@ -80,11 +80,6 @@ class Magestore_Affiliateplus_Model_Payment extends Mage_Core_Model_Abstract {
             $this->applyTax();
         }
 
-        // send email for completed payment
-        if ($this->getOrigData('status') < 3 && $this->getStatus() == 3 && !$this->getData('is_created_by_recurring')) {
-            $this->sendMailProcessPaymentToAccount();
-        }
-
         if ($this->getId() && $this->getOrigData('status') < 3 && $this->getStatus() == 3) {
             $this->addComment(Mage::helper('affiliateplus')->__('Complete Withdrawal'));
         }
@@ -132,6 +127,10 @@ class Magestore_Affiliateplus_Model_Payment extends Mage_Core_Model_Abstract {
                     $this->addComment(Mage::helper('affiliateplus')->__('Cancel Withdrawal'));
                 }
             }
+        }
+        // send email for completed payment
+        if ($this->getOrigData('status') < 3 && $this->getStatus() == 3 && !$this->getData('is_created_by_recurring')) {
+            $this->sendMailProcessPaymentToAccount();
         }
         return parent::_beforeSave();
     }
@@ -272,7 +271,7 @@ class Magestore_Affiliateplus_Model_Payment extends Mage_Core_Model_Abstract {
         $this->addPaymentInfo()->setAccountName($account->getName())
                 ->setAccountEmail($account->getEmail())
                 ->setAccountPaypalEmail($account->getPaypalEmail())
-                ->setBalanceFormated(Mage::helper('core')->currency($account->getBalance() - $this->getAmount()))
+                ->setBalanceFormated(Mage::helper('core')->currency($account->getBalance())) //Balance will be updated before sending email
                 ->setRequestPayment(Mage::helper('core')->currency($this->getAmount()))
                 ->setPayPayment(Mage::helper('core')->currency($payAmount))
                 ->setFeeFormated(Mage::helper('core')->currency($this->getFrontendFee()))
