@@ -249,9 +249,10 @@ class Magestore_Affiliateplus_Adminhtml_Affiliateplus_PaymentController extends 
                 //create payment paypal
                 // Changed By Adam 15/10/2014
                 $dataEmail = isset($data['paypal_email']) ? $data['paypal_email'] : '';
+                $transaction_id = isset($data['transaction_id']) ? $data['transaction_id'] : '';
                 $paypalPayment = $payment->getPayment()->addData($data)
                         ->setEmail($dataEmail)
-                        ->setTransactionId($data['transaction_id'])
+                        ->setTransactionId($transaction_id)
                         ->savePaymentMethodInfo();
 
 

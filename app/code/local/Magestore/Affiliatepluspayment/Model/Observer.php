@@ -73,9 +73,9 @@ class Magestore_Affiliatepluspayment_Model_Observer extends Varien_Object {
             $addressId = $data['payment']->getAddressId();
             $verify = Mage::getModel('affiliateplus/payment_verify')->loadExist($accountId, $addressId, 'offline');
             if($verify->isVerified())
-                $elementHtml .= '<div class="element-success"><h2>Verified</h2></div>';
+                $elementHtml = '<div class="element-success"><h2>Verified</h2></div>';
             else
-                $elementHtml .= '<div class="element-failed"><h2>Not verified</h2></div>';
+                $elementHtml = '<div class="element-failed"><h2>Not verified</h2></div>';
             $fieldset->addField('offline_address_html', 'note', array(
                 'label' => Mage::helper('affiliatepluspayment')->__('Address'),
                 'text' => $data['offline_address_html'],
