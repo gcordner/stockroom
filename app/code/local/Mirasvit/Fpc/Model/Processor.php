@@ -519,6 +519,7 @@ class Mirasvit_Fpc_Model_Processor
     {
         $content = preg_replace('/<\[!--\{(.*?)\}--\]>/', '', $content);
         $content = preg_replace('/<\[!--\/\{(.*?)\}--\]>/', '', $content);
+        $content = str_replace('?___SID=U&amp;', '?', $content);
         $content = str_replace('?___SID=U', '', $content);
 
         return $this;
