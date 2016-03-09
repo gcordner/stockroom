@@ -102,13 +102,13 @@ class Magestore_Affiliateplus_Helper_Data extends Mage_Core_Helper_Abstract {
             return true;
         if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'])
             return true;
-        define("UNKNOWN", 0);
-        define("TRIDENT", 1);
-        define("GECKO", 2);
-        define("PRESTO", 3);
-        define("WEBKIT", 4);
-        define("VALIDATOR", 5);
-        define("ROBOTS", 6);
+        if (!defined("UNKNOWN"))   define("UNKNOWN", 0);
+        if (!defined("TRIDENT"))   define("TRIDENT", 1);
+        if (!defined("GECKO"))     define("GECKO", 2);
+        if (!defined("PRESTO"))    define("PRESTO", 3);
+        if (!defined("WEBKIT"))    define("WEBKIT", 4);
+        if (!defined("VALIDATOR")) define("VALIDATOR", 5);
+        if (!defined("ROBOTS"))    define("ROBOTS", 6);
 
         if (!isset($_SESSION["info"]['browser'])) {
 

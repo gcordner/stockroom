@@ -82,7 +82,9 @@ class Mirasvit_Fpc_Model_Crawler_Url extends Mage_Core_Model_Abstract
     {
         $url = $this->getUrl();
         $content = '';
-        $content = implode(PHP_EOL, get_headers($url));
+        $headers = empty($url) ? null : get_headers($url);
+        if(!empty($headers))
+            $content = implode(PHP_EOL, $headers);
 
         if (strpos($content, '404 Not Found') !== false) {
             $this->delete();
