@@ -20,7 +20,9 @@ class Magestore_Webpos_Block_Listproduct extends Mage_Core_Block_Template {
         $this->_productCollection->addAttributeToSelect('*')
                 ->setStoreId($this->_storeId)
                 ->addStoreFilter($this->_storeId)
-                ->addAttributeToFilter("status", 1);
+                ->addAttributeToFilter("status", 1)
+				->distinct(true);//Duy Tuan
+				
         $this->_productCollection->setCurPage($this->_currentPage)->setPageSize($this->_numberProductPerpage);
     }
 
@@ -100,6 +102,7 @@ class Magestore_Webpos_Block_Listproduct extends Mage_Core_Block_Template {
                     ->setStoreId($storeId)
                     ->addStoreFilter($storeId)
                     ->addAttributeToFilter("status", 1)
+					->distinct(true);//Duy Tuan
             ;
 
             $orderString = array('CASE e.entity_id');
@@ -146,7 +149,7 @@ class Magestore_Webpos_Block_Listproduct extends Mage_Core_Block_Template {
                     ->setStoreId($storeId)
                     ->addStoreFilter($storeId)
                     ->addAttributeToFilter("status", 1)
-
+					->distinct(true);//Duy Tuan
             ;
             $orderString = array('CASE e.entity_id');
             foreach ($productIds as $i => $productId) {
@@ -180,7 +183,7 @@ class Magestore_Webpos_Block_Listproduct extends Mage_Core_Block_Template {
             //Mage::getSingleton('core/session')->setData('pos_ccategory',null);
         }
         $showOutofstock = Mage::getStoreConfig('webpos/general/show_product_outofstock', $storeId);
-        if ($keyword) {
+        if ($keyword) { 
             $sql = array();
             $strAttributes = Mage::helper('webpos')->getProductAttributeForSearch();
             $attributes = explode(",", $strAttributes);
@@ -199,18 +202,21 @@ class Magestore_Webpos_Block_Listproduct extends Mage_Core_Block_Template {
                     ->setStoreId($storeId)
                     ->addStoreFilter($storeId)
                     ->addAttributeToFilter("status", 1)
-					->addAttributeToFilter($sql);
+					->addAttributeToFilter($sql)
+					->distinct(true);//Duy Tuan
 			Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_productCollection);
             if (!$showOutofstock)
                 Mage::getSingleton('cataloginventory/stock')->addInStockFilterToCollection($this->_productCollection);
-			if(count($this->_productCollection) != 1){
+				//Zend_Debug::dump($this->_productCollection->getSize());die();
+			if($this->_productCollection->getSize() != 1){
 				$this->_productCollection = Mage::getModel('catalog/product')->getCollection()
                     ->addAttributeToSelect('*')
                     ->setStoreId($storeId)
                     ->addStoreFilter($storeId)
                     ->addAttributeToFilter("status", 1)
-					->addAttributeToFilter($sql)
+					->addAttributeToFilter($sql)->distinct(true)
 					->addAttributeToFilter('visibility',array('neq' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE))
+					->distinct(true) //Duy Tuan
 				;
 				Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_productCollection);
 				if (!$showOutofstock)
@@ -222,17 +228,17 @@ class Magestore_Webpos_Block_Listproduct extends Mage_Core_Block_Template {
             }
             if (!$this->_productCollection->getSize()) {
 
-				$this->_productCollection->addAttributeToFilter('entity_id', array('in' => $productIds));
+				$this->_productCollection->addAttributeToFilter('entity_id', array('in' => $productIds))->distinct(true); //Duy Tuan;
 			}
 
 			Mage::dispatchEvent('webpos_block_listproduct_event', array('pos_get_product_colection' => $this->_productCollection));
 			$this->_coreSession->setData('numberProduct', $this->_productCollection->getSize());
             $this->_coreSession->setData('pos_cpage', $pageNumber);
             $this->_productCollection->setCurPage($pageNumber)->setPageSize($numberProductPerpage);
-            return $this->_productCollection;
+            return $this->_productCollection->distinct(true);
         }
-        $this->_productCollection = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('*')->addAttributeToFilter('status', 1);
-        $simpleCollection = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('product_id')->addAttributeToSelect('category_id')->addAttributeToFilter('status', 1);
+        $this->_productCollection = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('*')->addAttributeToFilter('status', 1)->distinct(true);//Duy Tuan;
+        $simpleCollection = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('product_id')->addAttributeToSelect('category_id')->addAttributeToFilter('status', 1)->distinct(true);//Duy Tuan;
 
         if (isset($categoryId) && $categoryId != 0) {
             $this->_productCollection->getSelect()->joinLeft(array("t1" => $this->_productCollection->getTable('catalog/category_product')), "t1.product_id = e.entity_id", array("*"));
@@ -297,7 +303,7 @@ class Magestore_Webpos_Block_Listproduct extends Mage_Core_Block_Template {
                 $prdIdIncart = $item->getProduct()->getId();
                 $productIdsInCart[] = $prdIdIncart;
             }
-        $productsInCart = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('*')->addAttributeToFilter('entity_id', array('in' => $productIdsInCart));
+        $productsInCart = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('*')->addAttributeToFilter('entity_id', array('in' => $productIdsInCart))->distinct(true);//Duy Tuan;
         Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($productsInCart);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($productsInCart);
         if (!$showOutofstock)

@@ -81,7 +81,63 @@
                 <script>magestore/webpos/lib/webpos.offline.receipt.js</script>
             </action>
             <!-- E: Daniel- updated: v2.3 -->
-			
+			<!-- Duy Tuan Start -->
+			<action method="removeItem" >
+                <type>skin_js</type>
+                <name>js/lib/imagesloaded.js</name>
+                <params/>
+            </action>   
+			<action method="removeItem" >
+                <type>skin_js</type>
+                <name>js/configurableswatches/app.js</name>
+                <params/>
+            </action>    
+			<action method="removeItem" >
+                <type>skin_js</type>
+                <name>mw_navigationmenu/js/navigationmenu.js</name>
+                <params/>
+            </action>    
+			<action method="removeItem" >
+                <type>skin_js</type>
+                <name>mw_navigationmenu/js/jquery.hoverIntent.minified.js</name>
+                <params/>
+            </action>   
+			<action method="removeItem" >
+                <type>skin_js</type>
+                <name>mw_navigationmenu/js/jquery.dcmegamenu.1.3.3.js</name>
+                <params/>
+            </action>    
+			<action method="removeItem" >
+                <type>skin_js</type>
+                <name>mw_navigationmenu/js/jquery.dcverticalmegamenu.1.3.js</name>
+                <params/>
+            </action>    
+			<action method="removeItem" >
+                <type>skin_js</type>
+                <name>mw_navigationmenu/js/jquery.accordion.js</name>
+                <params/>
+            </action>    
+			<action method="removeItem" >
+                <type>skin_js</type>
+                <name>quickview/js/sw_quickview.js</name>
+                <params/>
+            </action>   
+			<action method="removeItem" >
+                <type>skin_js</type>
+                <name>socialfeeds/js/twitterfetcher.js</name>
+                <params/>
+            </action>    
+			<action method="removeItem" >
+                <type>skin_js</type>
+                <name>js/wow.min.js</name>
+                <params/>
+            </action>    
+			<action method="removeItem" >
+                <type>skin_js</type>
+                <name>js/porto.js</name>
+                <params/>
+            </action>    
+            <!-- Duy Tuan End -->
             <action method="removeItem" >
                 <type>skin_js</type>
                 <name>js/slideshow.js</name>
@@ -289,9 +345,9 @@
             <action method="addCss">
                 <stylesheet>css/magestore/webpos/webpos22.css</stylesheet>
             </action>
-            <action method="addCss">
+            <!-- <action method="addCss">
                 <stylesheet>css/magestore/webpos/mobilewebpos.css</stylesheet>
-            </action>
+            </action> -->
             <action method="addCss">
                 <stylesheet>css/magestore/webpos/tinybox.css</stylesheet>
             </action> 	
