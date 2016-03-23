@@ -645,6 +645,17 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     catch (Exception $e) {
                         $this->customHelper->reportError($this->customHelper->__('Product association failed for %s', $associate->productIdFrom));
                     }
+                    //Updating category of simple associated products.
+                    try {
+                        foreach ($associatedArray as $associatedproductId) { 
+                            $associatedproduct = Mage::getModel('catalog/product')->load($associatedproductId);
+                            $associatedproduct->setCategoryIds($mainProduct->getCategoryIds());
+                            $associatedproduct->save();
+                        }
+                    }
+                    catch (Exception $e) {
+                        $this->customHelper->reportError($this->customHelper->__('Failed to update categories of associated products for %s', $associate->productIdFrom));
+                    }
                 }
                 
                 unset($crossArray);
