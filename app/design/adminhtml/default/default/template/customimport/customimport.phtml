@@ -9,13 +9,51 @@ background-repeat: repeat-x;border-color: #28a4c9;}
 </style>
 <form action="<?php echo $this->getUrl('*/*/'); ?>" method="post" enctype="multipart/form-data"><br>
     <?php echo $this->getBlockHtml('formkey')?>
-    <div class="import_div" style="font-size:16px;">
-        <?php echo $this->__('Select File to import') ?>: <br/><br/>
+	<?php $websites = Mage::app()->getWebsites();
+	if (!empty($websites) and count($websites) > 1):?>
+	<div class="entry-edit">
+	<div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Select File to import') ?></h4>
     </div>
-    <input class="btn btn-info" type="file" name="uploadFile"> <br/><br/>
-    <input class="fileUpload btn btn-primary" name="upload_xml"  type="submit" value="Upload File">
-    <br /><br />
+	<fieldset id="uploadfile_set">
+		<input class="btn group-stores" type="file" name="uploadFile">
+		<br /><br />
     <i>Allowed file name characters - [a-z,A-Z,0-9,_,-]. <br />(If any other character is part of the file name, then the import process shall not complete successfully.)</i>
+	</fieldset>
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Import Products To Websites') ?></h4>
+    </div>
+    <fieldset id="grop_fields">
+    <?php foreach ($websites as $_website): ?>
+    <div>
+        <div class="website-name">
+            <input name="add_website_ids[]" value="<?php echo $_website->getId() ?>" <?php if($this->getWebsitesReadonly()): ?>disabled="disabled"<?php endif;?> class="checkbox website-checkbox" id="add_product_website_<?php echo $_website->getId() ?>" type="checkbox" checked />
+            <big><strong><label for="add_product_website_<?php echo $_website->getId() ?>"><?php echo $this->escapeHtml($_website->getName()) ?></label></strong></big>
+        </div>
+        <div class="webiste-groups" id="add_product_website_<?php echo $_website->getId() ?>_data">
+        <?php foreach ($_website->getGroups() as $_group): ?>
+            <h4><?php echo $this->escapeHtml($_group->getName()) ?></h4>
+            <div class="group-stores">
+            <table>
+            <?php foreach ($_group->getStores() as $_store): ?>
+                <tr>
+                    <td><?php echo $this->escapeHtml($_store->getName()) ?></td>
+                    <td>&nbsp;</td>
+                </tr>
+            <?php endforeach; ?>
+            </table>
+            </div>
+        <?php endforeach; ?>
+        </div>
+    </div>
+    <?php endforeach; ?>
+    <i>This will be applied to new products only.</i>
+    </fieldset>
+</div>
+<?php endif; ?>
+
+    
+    <input class="fileUpload btn btn-primary" name="upload_xml"  type="submit" value="Start Import">
 </form>
 <?php
 ob_start();
@@ -26,6 +64,10 @@ $logPath  = Mage::getBaseDir('log') . '/customimport.log';
 
 if ($data = $this->getRequest()->getPost()) {
     $customHelper = Mage::helper('customimport');
+	$add_website_ids = array();
+	if(!empty($_POST['add_website_ids']))
+		$add_website_ids = $_POST['add_website_ids'];
+		
     if (isset($_FILES['uploadFile']['name']) && $_FILES['uploadFile']['name'] != '') {
         $filename = $_FILES["uploadFile"]['name'];
         try {
@@ -48,7 +90,7 @@ if ($data = $this->getRequest()->getPost()) {
         $new_completed_file_path = $xmlPath . $file . '_' . $today_date . '_completed.xml';
         $t0                      = microtime(true);
         unlink($logPath);
-        $this->parseXml($pathAndName);
+        $this->parseXml($pathAndName, $add_website_ids);
         $flag = true;
         try {
             #################    Code start for import categories    #################

@@ -22,7 +22,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
 {
     protected $customHelper;
     protected $logPath;
-    
+    protected $website_ids = array();
     public function __construct()
     {
         parent::__construct();
@@ -30,9 +30,12 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         $this->logPath      = Mage::getBaseDir('log') . '/customimport.log';
     }
     
-    public function parseXml($xmlPath)
+    public function parseXml($xmlPath, $add_website_ids = array())
     {
         $this->_store_id            = Mage::app()->getWebsite()->getDefaultGroup()->getDefaultStoreId();
+        foreach ( $add_website_ids as $website_id) {
+            $this->website_ids[] = (int)$website_id;
+        }
         $this->_default_category_id = Mage::app()->getStore('default')->getRootCategoryId();
         $xmlObj                     = new Varien_Simplexml_Config($xmlPath);
         $this->_xmlObj              = $xmlObj;
@@ -1271,12 +1274,10 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }
             //New and created data code end
             $product->setSku((string) $item->id); //Product custom id
-            $product->setWebsiteIds(array(
-                Mage::app()->getStore(true)->getWebsite()->getId()
-            )); //Default website (main website) ?? To Do : make it dynamic
+            $product->setWebsiteIds($this->website_ids); //Default website (main website) ?? To Do : make it dynamic
             $product->setStoreIDs(array(
                 $this->_store_id
-            )); // Default store id .
+            ));
             $inventory  = $item->inventory;
             $manageItem = (string) $inventory->manageStock;
             $manageItem = strtoupper($manageItem);
