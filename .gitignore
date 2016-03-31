@@ -71,3 +71,4 @@ var/backups/
 xcache/
 robots.txt
 var/ait_patch
+wp/wp-config.php
