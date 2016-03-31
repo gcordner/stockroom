@@ -8,10 +8,10 @@
  * Please refer to http://www.magentocommerce.com for more information.
  *
  * @category  Mirasvit
- * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @package   Full Page Cache
+ * @version   1.0.5.3
+ * @build     520
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -25,7 +25,11 @@ class Mirasvit_MstCore_Model_Attachment extends Mage_Core_Model_Abstract
 
     public function getUrl()
     {
-        return Mage::getUrl("mstcore/attachment/download", array('uid' => $this->getUid()));
+        $store = Mage::getModel('core/store')->getCollection()
+            ->addFieldToFilter('is_active', 1)
+            ->getFirstItem();
+
+        return Mage::getUrl('mstcore/attachment/download', array('uid' => $this->getUid(), '_store' => $store->getId()));
     }
 
     public function _beforeSave()
@@ -33,7 +37,7 @@ class Mirasvit_MstCore_Model_Attachment extends Mage_Core_Model_Abstract
         parent::_beforeSave();
         if (!$this->getUid()) {
             $uid = md5(
-                Mage::getSingleton('core/date')->gmtDate() .
+                Mage::getSingleton('core/date')->gmtDate().
                 Mage::helper('mstcore/string')->generateRandHeavy(100));
             $this->setUid($uid);
         }

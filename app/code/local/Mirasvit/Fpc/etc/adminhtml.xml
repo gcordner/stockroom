@@ -12,9 +12,12 @@
                             <fpc translate="title" module="fpc">
                                 <title>Full Page Cache</title>
                                 <children>
-                                    <crawler module="fpc">
-                                        <title>Crawler URLs</title>
-                                    </crawler>
+                                    <fpc_settings module="fpc">
+                                        <title>Settings</title>
+                                    </fpc_settings>
+                                    <fpc_optimal_configuration module="fpc">
+                                        <title>Suggest Optimal Configuration</title>
+                                    </fpc_optimal_configuration>
                                 </children>
                             </fpc>
                             <config>
@@ -37,16 +40,16 @@
                     <title>Full Page Cache</title>
                     <sort_order>50</sort_order>
                     <children>
-                        <crawler module="fpc">
-                            <title>Crawler URLs</title>
-                            <sort_order>10</sort_order>
-                            <action>fpc/adminhtml_crawler_url</action>
-                        </crawler>
                         <fpc_settings module="fpc">
                             <title>Settings</title>
                             <action>adminhtml/system_config/edit/section/fpc</action>
-                            <sort_order>20</sort_order>
+                            <sort_order>40</sort_order>
                         </fpc_settings>
+                        <fpc_optimal_configuration module="fpc">
+                            <title>Suggest Optimal Configuration</title>
+                            <action>adminhtml/fpc_optimalConfiguration</action>
+                            <sort_order>50</sort_order>
+                        </fpc_optimal_configuration>
                     </children>
                 </fpc>
             </children>

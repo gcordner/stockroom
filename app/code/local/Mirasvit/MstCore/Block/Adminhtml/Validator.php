@@ -8,11 +8,12 @@
  * Please refer to http://www.magentocommerce.com for more information.
  *
  * @category  Mirasvit
- * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @package   Full Page Cache
+ * @version   1.0.5.3
+ * @build     520
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
+
 
 
 class Mirasvit_MstCore_Block_Adminhtml_Validator extends Mage_Adminhtml_Block_Template
@@ -22,27 +23,46 @@ class Mirasvit_MstCore_Block_Adminhtml_Validator extends Mage_Adminhtml_Block_Te
         $this->setTemplate('mstcore/validator.phtml');
     }
 
+    protected $results = array();
     /**
-     * Get test results
+     * Get test results.
      *
-     * @param  string $testType 'test' - for common tests, 'dev' - for dev tests
+     * @param string $testType 'test' - for common tests, 'dev' - for dev tests
+     *
      * @return array
      */
     public function getResults($testType = 'test')
     {
-        $results = array();
+        if (!isset($this->results[$testType])) {
+            $results = array();
 
-        $modules = Mage::helper('mstcore')->getModules();
+            $modules = Mage::helper('mstcore')->getModules();
 
-        foreach ($modules as $module) {
-            $helper = $this->getValidatorHelper($module);
-            if ($helper) {
-                $results += $helper->runTests($testType);
+            foreach ($modules as $module) {
+                $helper = $this->getValidatorHelper($module);
+                if ($helper) {
+                    $results += $helper->runTests($testType);
+                }
+            }
+            $this->results[$testType] = $results;
+        }
+
+        return $this->results[$testType];
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsPassed()
+    {
+        $results = $this->getResults();
+        foreach ($results as $result) {
+            if ($result[0] == Mirasvit_MstCore_Helper_Validator_Abstract::FAILED) {
+                return false;
             }
         }
 
-        return $results;
-
+        return true;
     }
 
     public function getValidatorHelper($module)
@@ -51,12 +71,15 @@ class Mirasvit_MstCore_Block_Adminhtml_Validator extends Mage_Adminhtml_Block_Te
             $module = 'Seo';
         } elseif ($module == 'MCore') {
             $module = 'MstCore';
+        } elseif ($module == 'RMA') {
+            $module = 'Rma';
         }
 
         $file = Mage::getBaseDir().'/app/code/local/Mirasvit/'.$module.'/Helper/Validator.php';
 
         if (file_exists($file)) {
             $helper = Mage::helper(strtolower($module).'/Validator');
+
             return $helper;
         }
     }

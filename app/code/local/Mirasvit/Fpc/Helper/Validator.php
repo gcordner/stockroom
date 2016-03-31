@@ -9,26 +9,15 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.1
- * @build     394
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   1.0.5.3
+ * @build     520
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
 
 class Mirasvit_Fpc_Helper_Validator extends Mirasvit_MstCore_Helper_Validator_Abstract
 {
-    public function testMagentoCrc()
-    {
-        $filter = array(
-            'app/code/core/Mage/Core',
-            'app/code/core/Mage/Review',
-            'js',
-        );
-
-        return Mage::helper('mstcore/validator_crc')->testMagentoCrc($filter);
-    }
-
     public function testMirasvitCrc()
     {
         $modules = array('Fpc');
@@ -39,37 +28,17 @@ class Mirasvit_Fpc_Helper_Validator extends Mirasvit_MstCore_Helper_Validator_Ab
     public function testTablesExists()
     {
         $result = self::SUCCESS;
-        $title = 'FPC: Required tables are exists';
+        $title = 'FPC: Required tables exist';
         $description = array();
 
         $tables = array(
             'fpc/log',
             'fpc/log_aggregated_daily',
-            'fpc/crawler_url',
         );
 
         foreach ($tables as $table) {
             if (!$this->dbTableExists($table)) {
-                $description[] = "Table '$table' not exists";
-                $result = self::FAILED;
-            }
-        }
-
-        return array($result, $title, $description);
-    }
-
-    public function testColumnsExists()
-    {
-        $result = self::SUCCESS;
-        $title = 'FPC: Required columns are exists';
-        $description = array();
-        $tableName = 'fpc/crawler_url';
-        $fullTableName = Mage::getSingleton('core/resource')->getTableName($tableName);
-        $tableColumns = array('sort_by_page_type', 'sort_by_product_attribute');
-
-        foreach ($tableColumns as $column) {
-            if (!$this->dbTableColumnExists($tableName, $column)) {
-                $description[] = "Column '$column' not exists in table '$fullTableName'";
+                $description[] = "Table '$table' does not exist";
                 $result = self::FAILED;
             }
         }
@@ -80,7 +49,7 @@ class Mirasvit_Fpc_Helper_Validator extends Mirasvit_MstCore_Helper_Validator_Ab
     public function testConflicts()
     {
         $result = self::SUCCESS;
-        $title = 'Full Page Cache: Conflicts';
+        $title = 'FPC: Conflicts';
         $description = array();
 
         if (Mage::helper('mstcore')->isModuleInstalled('Devinc_Gomobile')) {
@@ -96,12 +65,136 @@ class Mirasvit_Fpc_Helper_Validator extends Mirasvit_MstCore_Helper_Validator_Ab
             $description[] = "Full Page Cache can't work correctly with Lesti Fpc installed.";
         }
 
-        if (file_exists(Mage::getBaseDir().'/app/design/frontend/base/default/layout/fpc.xml')) {
+        if (Mage::helper('mstcore')->isModuleInstalled('Emagicone_Mobassistantconnector')) {
             $result = self::FAILED;
-            $description[] = "File /app/design/frontend/base/default/layout/fpc.xml exists. It can do an exception 'Mage registry key \"_singleton/fpc/observer_save\" already exists'.";
-            $description[] = 'It is not Mirasvit file. Please, rename file /app/design/frontend/base/default/layout/fpc.xml to /app/design/frontend/base/default/layout/fpc.xml_OLD. Then flush all cache.';
+            $description[] = "Extension Emagicone Mobassistantconnector installed. If FPC flush cache very often without visible reason the reason can be in Emagicone_Mobassistantconnector extension.";
+            $description[] = "To fix the issue in file /app/code/community/Emagicone/Mobassistantconnector/controllers/IndexController.php comment line  Mage::app()->cleanCache();";
+        }
+
+        if (Mage::helper('mstcore')->isModuleInstalled('Aitoc_Aitsys')) {
+            $result = self::FAILED;
+            $description[] = "Extension Aitoc_Aitsys installed. If FPC don't cache pages without visible reason the reason can be in Aitoc_Aitsys extension.";
+            $description[] = 'To fix the issue in file /app/code/community/Aitoc/Aitsys/Abstract/Service.php comment line $this->getCache()->flush();';
         }
 
         return array($result, $title, $description);
+    }
+
+    public function testSimilarExtensions()
+    {
+        $result = self::SUCCESS;
+        $title = 'FPC: Conflicts with similar extensions';
+        $description = array();
+
+        $modules = array_keys((array)Mage::getConfig()->getNode('modules')->children());
+
+        foreach ($modules as $module) {
+            if (stripos($module, 'fpc') !== false && $module != 'Mirasvit_Fpc' && $module != 'Mirasvit_FpcCrawler') {
+                $result = self::FAILED;
+                $description[] = "Another FPC extension '$module' installed, please remove it.";
+            }
+        }
+
+        return array($result, $title, $description);
+    }
+
+    public function testCompatibility()
+    {
+        $result = self::SUCCESS;
+        $title = 'FPC: Compatibility with extensions';
+        $description = array();
+
+        if (Mage::helper('mstcore')->isModuleInstalled('Simple_Forum')) {
+            $result = self::INFO;
+            $description[] = "If you want cache forum page add in System->Configuration->Full Page Cache->Cachable Actions: forum/topic_index, forum/topic_view, forum/index_index.";
+            $description[] = "And in System->Configuration->Full Page Cache->Ignored Pages: /forum/\like/\like/";
+            $description[] = 'To enable autoflush when user like post or add post comment out code <br/>
+             $content = Mage::helper(\'fpc/simpleforum\')->prepareContent($content);<br/>
+             and<br/>
+             if ($topicCacheId = Mage::helper(\'fpc/simpleforum\')->getSimpleForumCacheId()) {<br/>
+             &nbsp;&nbsp;&nbsp;   $this->_requestId .= $del . $topicCacheId;<br/>
+             }<br/>
+             in file /app/code/local/Mirasvit/Fpc/Model/Processor.php (Simple_Forum extension compatibility).
+             ';
+        }
+
+        if (Mage::helper('mstcore')->isModuleInstalled('Ophirah_Qquoteadv')) {
+            $result = self::INFO;
+            $description[] = 'Ophirah Qquoteadv is installed.<br/>
+            Comment out code between text:<br/>
+            //Ophirah_Qquoteadv compatibility - begin<br/>
+            and<br/>
+            //Ophirah_Qquoteadv compatibility - end<br/>
+            in file /app/code/local/Mirasvit/Fpc/Model/Processor.php (Ophirah_Qquoteadv compatibility).
+            ';
+        }
+
+        return array($result, $title, $description);
+    }
+
+    public function testBugs()
+    {
+        $result = self::SUCCESS;
+        $title = 'FPC: Current version errors';
+        $description = array();
+
+        if (($version = $this->checkExtensionVersion())
+            && ($description = $this->getErrorDescription($version))) {
+            $result = self::INFO;
+        }
+
+        return array($result, $title, $description);
+    }
+
+    private function getErrorDescription($version) {
+        $description = array();
+        $version = $this->prepareVersion($version);
+
+        if ($version <= $this->prepareVersion('1.0.1.316')) {
+            $description[] = 'Error with excluding reports/product_viewed block. Fixed in new version (file app/code/local/Mirasvit/Fpc/Model/Container/Productviewed.php)';
+        }
+
+        if ($version > $this->prepareVersion('1.0.3.0') && $version < $this->prepareVersion('1.0.3.477')) {
+            $description[] = '"Last crawler job run time" incorrect info. Fixed in new version.';
+            $description[] = 'For manual fix change in file /app/code/local/Mirasvit/FpcCrawler/controllers/Adminhtml/Fpccrawler/UrlController.php $this->_getLastCronTime(\'fpccrawler\') at  $this->_getLastCronTime(\'fpc_crawler\')';
+            $description[] = 'and in file /app/code/local/Mirasvit/FpcCrawler/controllers/Adminhtml/Fpccrawlerlogged/UrlController.php $this->_getLastCronTime(\'fpccrawlerlogged\') at  $this->_getLastCronTime(\'fpc_crawlerlogged\')';
+        }
+
+        return $description;
+    }
+
+    private function prepareVersion($version) {
+        return str_replace('.', '', $version);
+    }
+
+    private function checkExtensionVersion() {
+        if ($helper = $this->_getCodeHelper('Fpc')) {
+
+            if (method_exists($helper, '_sku')
+                && method_exists($helper, '_version')
+                && method_exists($helper, '_build')
+                && method_exists($helper, '_key')) {
+                $extension = array(
+                    'v' => $helper->_version(),
+                    'r' => $helper->_build(),
+                );
+
+                return implode('.',$extension);
+            }
+        }
+
+        return false;
+    }
+
+    private function _getCodeHelper($moduleName)
+    {
+        $file = Mage::getBaseDir().'/app/code/local/Mirasvit/'.$moduleName.'/Helper/Code.php';
+
+        if (file_exists($file)) {
+            $helper = Mage::helper(strtolower($moduleName).'/code');
+            return $helper;
+        }
+
+        return false;
     }
 }

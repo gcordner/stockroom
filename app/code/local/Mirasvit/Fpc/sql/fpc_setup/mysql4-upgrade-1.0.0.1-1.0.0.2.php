@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.1
- * @build     394
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   1.0.5.3
+ * @build     520
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -19,19 +19,9 @@
 $installer = $this;
 
 $installer->startSetup();
-$installer->run("DROP TABLE IF EXISTS `{$installer->getTable('fpc/crawler_url')}`;");
 $installer->run("
-CREATE TABLE `{$installer->getTable('fpc/crawler_url')}` (
-    `url_id`        int(11)       NOT NULL AUTO_INCREMENT COMMENT 'Url Id',
-    `url`           text          NOT NULL,
-    `cache_id`      varchar(255)  NOT NULL,
-    `status`        int(11)       NOT NULL DEFAULT 0,
-    `rate`          int(11)       NOT NULL DEFAULT 0,
-    `created_at`    datetime      NOT NULL DEFAULT '0000-00-00 00:00:00',
-    `updated_at`    datetime      NOT NULL DEFAULT '0000-00-00 00:00:00',
-    `checked_at`    datetime      NOT NULL DEFAULT '0000-00-00 00:00:00',
-    PRIMARY KEY (`url_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='FPC Log';
+    ALTER TABLE `{$this->getTable('fpc/log')}`
+	ADD INDEX `response_time` (`response_time`),
+	ADD INDEX `from_cache` (`from_cache`);
 ");
-
 $installer->endSetup();

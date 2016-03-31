@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.1
- * @build     394
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   1.0.5.3
+ * @build     520
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -25,6 +25,28 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
     protected $_definition = null;
     protected static $_layoutXml = null;
     protected $_hash = null;
+
+    //dependences values
+    protected static $_customer = null;
+    protected static $_customerGroup = null;
+    protected static $_loggedIn = null;
+    protected static $_cart = null;
+    protected static $_compare = null;
+    protected static $_wishlist = null;
+    protected static $_product = null;
+    protected static $_category = null;
+    protected static $_store = null;
+    protected static $_currency = null;
+    protected static $_locale = null;
+    protected static $_isHome = null;
+    protected static $_allowSaveCookies = null;
+    protected static $_demoNotice = null;
+    protected static $_owCookieNotice = null;
+    protected static $_amastyPreorder = null;
+    protected static $_secure = null;
+    protected static $_packageName = null;
+    protected static $_cms = null;
+    protected static $_globalDependences = null;
 
     public function __construct($definition, $block)
     {
@@ -82,23 +104,40 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
 
     public function applyToContent(&$content)
     {
+        Mage::helper('fpc/debug')->startTimer('FPC_BLOCK_' . $this->getDefinitionHash());
         $pattern = '/'.preg_quote($this->_getStartReplacerTag(), '/').'(.*?)'.preg_quote($this->_getEndReplacerTag(), '/').'/ims';
         $html = $this->getBlockHtml();
 
         if ($html !== false) {
             ini_set('pcre.backtrack_limit', 100000000);
-            $content = preg_replace($pattern, str_replace('$', '\\$', $html), $content, 1);
+            $replaceCount = 1;
+            if (strpos($this->_definition['block'], 'checkout') !== false
+                || strpos($this->_definition['block'], 'cart') !== false) { // cart can be added more than one time
+                    $replaceCount = 3;
+            }
+            $content = preg_replace($pattern, str_replace('$', '\\$', $html), $content, $replaceCount);
 
-            return true;
+            $result = true;
         } else {
-            return false;
+            $result = false;
         }
+        Mage::helper('fpc/debug')->stopTimer('FPC_BLOCK_' . $this->getDefinitionHash());
+
+        return $result;
     }
 
     public function getBlockHtml()
     {
         $startTime = microtime(true);
         $html = $this->loadCache();
+
+        if (!$this->inApp() && !trim($this->_definition['depends'])) {
+            try {
+                $html = Mage::helper('fpc/layout')->renderBlock($this->_definition);
+            } catch (Exception $e) {
+                $html = $this->loadCache();
+            }
+        }
 
         if ($html) {
             Mage::helper('fpc/debug')->appendDebugInformationToBlock($html, $this, 1, $startTime);
@@ -123,10 +162,24 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
         return isset($this->_definition['in_app']) && $this->_definition['in_app'] == true;
     }
 
+    public function inRegister()
+    {
+        if (isset($this->_definition['in_app']) && $this->_definition['in_register']) {
+            return $this->_definition['in_register'];
+        }
+
+        return false;
+    }
+
+    public function inSession()
+    {
+        return isset($this->_definition['in_session']) && $this->_definition['in_session'] == true;
+    }
+
     protected function _getCacheId()
     {
-        if ($this->_getIdentifier()) {
-            return self::CONTAINER_ID_PREFIX.'_'.md5($this->getDefinitionHash().($this->_getIdentifier()));
+        if ($identifier = $this->_getIdentifier()) {
+            return self::CONTAINER_ID_PREFIX.'_'.md5($this->getDefinitionHash().($identifier));
         }
 
         return false;
@@ -146,7 +199,12 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
     {
         $cacheId = $this->_getCacheId();
         if ($cacheId !== false) {
-            $this->_saveCache($blockContent, $cacheId);
+            if ($this->inSession() && Mage::helper('fpc')->getSessionSize()
+                && Mage::helper('fpc')->getSessionSize() < Mirasvit_Fpc_Model_Config::MAX_SESSION_SIZE) {
+                    $this->_saveSessionCache($blockContent, $cacheId);
+            } else {
+                $this->_saveCache($blockContent, $cacheId);
+            }
         }
 
         return $this;
@@ -155,6 +213,12 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
     public function loadCache()
     {
         $id = $this->_getCacheId();
+        if ($this->inSession() && ($cacheHtml = $this->_getSessionCache($id))) {
+            return $cacheHtml;
+        }
+
+        // echo 'loadCache: ' . $this->_definition['block'] . "_________" . $id . "<br/>";
+        // echo 'loadCache: ' . $this->getDefinitionHash() . "_________" . $this->_getIdentifier() . "<br/>";
 
         return Mirasvit_Fpc_Model_Cache::getCacheInstance()->load($id);
     }
@@ -180,6 +244,28 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
         return $this;
     }
 
+     protected function _getSessionCache($id) {
+        if ($cache = Mage::getSingleton('core/session')->getData($id)) {
+            $html = $cache->getHtml();
+            $html = preg_replace('/\/uenc\/(.*?)\//ims', '/uenc/' . Mage::helper('core/url')->getEncodedUrl() . '/', $html); //need for cart
+
+            // echo '_getSessionCache: ' . $this->_definition['block'] . "_________" . $id . "<br/>";
+            // echo '_getSessionCache: ' . $this->getDefinitionHash() . "_________" . $this->_getIdentifier() . "<br/>";
+
+            return $html;
+        }
+
+        return false;
+    }
+
+    protected function _saveSessionCache($data, $id) {
+        $blockObject = new Varien_Object();
+        $blockObject->html = $data;
+        Mage::getSingleton('core/session')->setData($id, $blockObject);
+
+        return true;
+    }
+
     public function getDependenceHash($dependences)
     {
         $hash = array();
@@ -192,93 +278,67 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
             $hash[] = $dependence;
             switch ($dependence) {
                 case 'customer':
-                    $customer = Mage::getSingleton('customer/session');
-                    $hash[] = $customer->getCustomerId();
+                    $hash[] = $this->getCustomer();
                     break;
 
                 case 'customer_group':
-                    $customer = Mage::getSingleton('customer/session');
-                    $hash[] = $customer->getCustomerGroupId();
+                    $hash[] = $this->getCustomerGroup();
                     break;
 
                 case 'logged_in':
-                    $loggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
-                    $hash[] = (string) $loggedIn;
+                    $hash[] = (string) $this->getLoggedIn();
                     break;
 
                 case 'cart':
-                    $checkout = Mage::getSingleton('checkout/session');
-                    foreach ($checkout->getQuote()->getAllItems() as $item) {
-                        $hash[] = $item->getId().'/'.$item->getQty();
-                    }
+                    $hash[] = $this->getCart();
                     break;
 
                 case 'compare':
-                    $items = Mage::helper('catalog/product_compare')->getItemCollection();
-                    foreach ($items as $item) {
-                        $hash[] = $item->getId();
-                    }
+                    $hash[] = $this->getCompare();
                     break;
 
                 case 'wishlist':
-                    $wishlistHelper = Mage::helper('wishlist');
-
-                    if ($wishlistHelper->hasItems()) {
-                        $items = $wishlistHelper->getItemCollection();
-                        foreach ($items as $item) {
-                            $hash[] = $item->getId();
-                        }
-                    }
+                    $hash[] = $this->getWishlist();
                     break;
 
                 case 'product':
-                    if (Mage::registry('current_product')) {
-                        $hash[] = Mage::registry('current_product')->getId();
-                    } elseif (Mage::registry('current_product_id')) {
-                        $hash[] = Mage::registry('current_product_id');
-                    }
+                    $hash[] = $this->getProduct();
                     break;
 
                 case 'category':
-                    if (Mage::registry('current_category')) {
-                        $hash[] = Mage::registry('current_category')->getId();
-                    } elseif (Mage::registry('current_category_id')) {
-                        $hash[] = Mage::registry('current_category_id');
-                    }
+                    $hash[] = $this->getCategory();
                     break;
 
                 case 'store':
-                    $hash[] = Mage::app()->getStore()->getCode();
+                    $hash[] = $this->getStore();
                     break;
 
                 case 'currency':
-                    $hash[] = Mage::app()->getStore()->getCurrentCurrencyCode();
+                    $hash[] = $this->getCurrency();
                     break;
 
                 case 'locale':
-                    $hash[] = Mage::app()->getLocale()->getLocaleCode();
+                    $hash[] = $this->getLocale();
                     break;
 
                 case 'rotator':
-                    $hash[] = 'rotator_'.rand(0, 10);
+                    $hash[] = 'rotator_'.rand(0, 5);
                     break;
 
                 case 'is_home':
-                    if (Mage::getBlockSingleton('page/html_header')->getIsHomePage()) {
-                        $hash[] = 'home';
-                    }
+                    $hash[] = $this->isHome();
                     break;
 
                 case 'allow_save_cookies':
-                    if (version_compare(Mage::getVersion(), '1.7.0.1', '>=')) {
-                        $hash[] = Mage::helper('core/cookie')->isUserNotAllowSaveCookie();
-                    }
+                    $hash[] = $this->getAllowSaveCookies();
+                    break;
+
+                case 'demo_notice':
+                    $hash[] = $this->getDemoNotice();
                     break;
 
                 case 'ow_cookie_notice':
-                    if (isset($_COOKIE) && isset($_COOKIE['ow_cookie_notice'])) {
-                        $hash[] = $_COOKIE['ow_cookie_notice'];
-                    }
+                    $hash[] = $this->getOwCookieNotice();
                     break;
 
                 case 'get':
@@ -286,30 +346,19 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
                     break;
 
                 case 'amasty_preorder':
-                    $preorder = false;
-                    if (Mage::registry('current_product')) {
-                        $product = Mage::registry('current_product');
-                    } elseif (Mage::registry('current_product_id')) {
-                        $product = Mage::getModel('catalog/product')->load(Mage::registry('current_product_id'));
-                    }
-                    if ($product) {
-                        $preorder = Mage::helper('ampreorder')->getIsProductPreorder($product);
-                    }
-                    $currentUrl = Mage::helper('core/url')->getCurrentUrl();
-                    $currentUrl = strtok($currentUrl, '?');
-                    if ($preorder) {
-                        $hash[] = $product->getId().$currentUrl;
-                    } else {
-                        $hash[] = $currentUrl;
-                    }
+                    $hash[] = $this->getAmastyPreorder();
                     break;
 
                 case 'secure':
-                    $hash[] = Mage::app()->getStore()->isCurrentlySecure();
+                    $hash[] = $this->getSecure();
                     break;
 
                 case 'package_name':
-                    $hash[] = Mage::getSingleton('core/design_package')->getPackageName();
+                    $hash[] = $this->getPackageName();
+                    break;
+
+                case 'cms':
+                    $hash[] = $this->getCms();
                     break;
 
                 default:
@@ -317,22 +366,7 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
             }
         }
 
-        foreach ($this->getConfig()->getUserAgentSegmentation() as $segment) {
-            if (preg_match($segment['useragent_regexp'], Mage::helper('core/http')->getHttpUserAgent())) {
-                $hash[] = $segment['cache_group'];
-            }
-        }
-
-        if (Mage::helper('mstcore')->isModuleInstalled('AW_Mobile2')
-            && Mage::helper('aw_mobile2')->isCanShowMobileVersion()) {
-                $hash[] = 'aw_mobile';
-        }
-
-        // if (class_exists('Mobile_Detect', false)) {
-        //     $detect = new Mobile_Detect;
-        //     $deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'mobile') : 'computer');
-        //     $hash[] = $deviceType;
-        // }
+        $hash[] = $this->getGlobalDependences();
 
         return implode(' | ', $hash);
     }
@@ -340,5 +374,386 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
     public function getConfig()
     {
         return Mage::getSingleton('fpc/config');
+    }
+
+    /**
+     * @param string $dependenceName
+     * @return string
+     */
+    protected function _prepareDependenceName($dependenceName)
+    {
+        return str_replace('get', '', $dependenceName);
+    }
+
+    /**
+     * @return int
+     */
+    protected function getCustomer()
+    {
+        if (self::$_customer === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            $customer = Mage::getSingleton('customer/session');
+            self::$_customer = $customer->getCustomerId();
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_customer;
+    }
+
+    /**
+     * @return int
+     */
+    protected function getCustomerGroup()
+    {
+        if (self::$_customerGroup === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            $customer = Mage::getSingleton('customer/session');
+            self::$_customerGroup = $customer->getCustomerGroupId();
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_customerGroup;
+    }
+
+    /**
+     * @return int
+     */
+    protected function getLoggedIn()
+    {
+        if (self::$_loggedIn === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            self::$_loggedIn = Mage::getSingleton('customer/session')->isLoggedIn();
+            if (preg_match('/FpcCrawlerlogged/', Mage::helper('core/http')->getHttpUserAgent())) { //need for logged in user Magecrawler
+                self::$_loggedIn = 1;
+            }
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_loggedIn;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCart()
+    {
+        if (self::$_cart === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            $checkout = Mage::getSingleton('checkout/session');
+            $cartItemsCollection = $checkout->getQuote()->getItemsCollection();
+            if ($cartItemsCollection->getSize() > 0) {
+                Mage::getSingleton('core/resource_iterator')->walk(
+                    $cartItemsCollection->getSelect(),
+                    array(array($this, 'callbackValidateCartItem'))
+                );
+            }
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_cart;
+    }
+
+    public function callbackValidateCartItem($args)
+    {
+        if (isset($args['row']['item_id'])) {
+            self::$_cart .= $args['row']['item_id'] . '/';
+        }
+        if (isset($args['row']['qty'])) {
+            self::$_cart .= $args['row']['qty'];
+        }
+    }
+
+
+    /**
+     * @return string
+     */
+    protected function getCompare()
+    {
+        if (self::$_compare === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            $items = Mage::helper('catalog/product_compare')->getItemCollection();
+            foreach ($items as $item) {
+                self::$_compare .= $item->getId();
+            }
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_compare;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getWishlist()
+    {
+        if (self::$_wishlist === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            $wishlistHelper = Mage::helper('wishlist');
+
+            if ($wishlistHelper->hasItems()) {
+                $items = $wishlistHelper->getItemCollection();
+                foreach ($items as $item) {
+                    self::$_wishlist .= $item->getId();
+                }
+            }
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_wishlist;
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getProduct()
+    {
+        if (self::$_product === null && Mage::registry('current_product_id')) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            self::$_product = Mage::registry('current_product_id');
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        } elseif (self::$_product === null && Mage::registry('current_product')) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            self::$_product = Mage::registry('current_product')->getId();
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_product;
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getCategory()
+    {
+        if (self::$_category === null && Mage::registry('current_category_id')) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            self::$_category = Mage::registry('current_category_id');
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        } elseif (self::$_category === null && Mage::registry('current_category')) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            self::$_category = Mage::registry('current_category')->getId();
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_category;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getStore()
+    {
+        if (self::$_store === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            self::$_store = Mage::app()->getStore()->getCode();
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_store;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCurrency()
+    {
+        if (self::$_currency === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            self::$_currency = Mage::app()->getStore()->getCurrentCurrencyCode();
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_currency;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getLocale()
+    {
+        if (self::$_locale === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            self::$_locale = Mage::app()->getLocale()->getLocaleCode();
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_locale;
+    }
+
+    /**
+     * @return string
+     */
+    protected function isHome()
+    {
+        if (self::$_isHome === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            if (Mage::getBlockSingleton('page/html_header')->getIsHomePage()) {
+                self::$_isHome = 'home';
+            }
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_isHome;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getAllowSaveCookies()
+    {
+        if (self::$_allowSaveCookies === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            if(version_compare(Mage::getVersion(), '1.7.0.1', '>=')) {
+                self::$_allowSaveCookies = Mage::helper('core/cookie')->isUserNotAllowSaveCookie();
+            }
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_allowSaveCookies;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDemoNotice()
+    {
+        if (self::$_demoNotice === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            self::$_demoNotice = Mage::getStoreConfig('design/head/demonotice');
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_demoNotice;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getOwCookieNotice()
+    {
+        if (self::$_owCookieNotice === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            if (isset($_COOKIE) && isset($_COOKIE['ow_cookie_notice'])) {
+                self::$_owCookieNotice = $_COOKIE['ow_cookie_notice'];
+            }
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_owCookieNotice;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getAmastyPreorder()
+    {
+        if (self::$_amastyPreorder === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            $preorder = false;
+            if (Mage::registry('current_product')) {
+                $product = Mage::registry('current_product');
+            } elseif (Mage::registry('current_product_id')) {
+                $product = Mage::getModel('catalog/product')->load(Mage::registry('current_product_id'));
+            }
+            if ($product) {
+                $preorder = Mage::helper('ampreorder')->getIsProductPreorder($product);
+            }
+            $currentUrl = Mage::helper('core/url')->getCurrentUrl();
+            $currentUrl = strtok($currentUrl, '?');
+            if ($preorder) {
+                self::$_amastyPreorder = $product->getId().$currentUrl;
+            } else {
+                self::$_amastyPreorder = $currentUrl;
+            }
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_amastyPreorder;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getSecure()
+    {
+        if (self::$_secure === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            self::$_secure = Mage::app()->getStore()->isCurrentlySecure();
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_secure;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getPackageName()
+    {
+        if (self::$_packageName === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            self::$_packageName = Mage::getSingleton('core/design_package')->getPackageName();
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_packageName;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getCms()
+    {
+        if (self::$_cms === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            $request = Mage::app()->getRequest();
+            $action = $request->getModuleName().'/'.$request->getControllerName().'_'.$request->getActionName();
+            if ($action == 'cms/page_view'
+                && ($cmsPage = $request->getParams('page_id'))
+                && isset($cmsPage['page_id'])) {
+                    self::$_cms = $cmsPage['page_id'];
+            }
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_cms;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getGlobalDependences()
+    {
+        if (self::$_globalDependences === null) {
+            Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+            $hash = array();
+            foreach ($this->getConfig()->getUserAgentSegmentation() as $segment) {
+                if (preg_match($segment['useragent_regexp'], Mage::helper('core/http')->getHttpUserAgent())) {
+                    $hash[] = $segment['cache_group'];
+                }
+            }
+
+            if (Mage::helper('mstcore')->isModuleInstalled('AW_Mobile2')
+                && Mage::helper('aw_mobile2')->isCanShowMobileVersion()) {
+                $hash[] = 'awMobileGroup';
+            }
+
+            if ($deviceType = Mage::helper('fpc/mobile')->getMobileDeviceType()) {
+                $hash[] = $deviceType;
+            }
+
+            $hash[] = Mage::app()->getStore()->isCurrentlySecure();
+            // if (Mage::getBlockSingleton('page/html_header')->getIsHomePage()) {
+            //     $hash[] = 'home';
+            // }
+            $hash[] = Mage::app()->getStore()->getCode();
+            $hash[] = $this->getCurrency();
+            $hash[] = $this->getLocale();
+
+            self::$_globalDependences = implode(' | ', $hash);
+            Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        }
+
+        return self::$_globalDependences;
     }
 }

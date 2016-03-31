@@ -1,7 +1,10 @@
 <?php
-$_data = $this->getChartData();
-$_info = $this->getCacheInfo();
-$_cron = $this->getCronInfo();
+$_data                  = $this->getChartData();
+$_info                  = $this->getCacheInfo();
+$_cron                  = $this->getCronInfo();
+$_extensionDisabledInfo = $this->getExtensionDisabledInfo();
+$_cronStatus            = $this->getCronStatus();
+$_freeHddSpace          = $this->getFreeHddSpace();
 ?>
 
 <br><br>
@@ -10,11 +13,56 @@ $_cron = $this->getCronInfo();
         <tbody><tr>
             <td><h3><?php echo ('Full Page Cache') ?></h3></td>
             <td class="form-buttons">
-                <button onclick="setLocation('<?php echo $this->getUrl('fpc/adminhtml_log/update')?>')" type="button" class="scalable"><span><?php echo ('Update Chart Data') ?></span></button>
+                <button onclick="setLocation('<?php echo $this->getUrl('*/fpc_log/update')?>')" type="button" class="scalable"><span><?php echo ('Update Chart Data') ?></span></button>
             </td>
          </tr>
     </tbody></table>
 </div>
+<?php if ($_freeHddSpace): ?>
+    <div id="messages">
+        <ul class="messages">
+            <li class="error-msg">
+                <ul>
+                    <li>
+                        <span>
+                            <?php echo $_freeHddSpace; ?>
+                        </span>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+<?php endif;?>
+<?php if ($_extensionDisabledInfo): ?>
+    <div id="messages">
+        <ul class="messages">
+            <li class="error-msg">
+                <ul>
+                    <li>
+                        <span>
+                            <?php echo $_extensionDisabledInfo; ?>
+                        </span>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+<?php endif;?>
+<?php if ($_cronStatus !== true): ?>
+    <div id="messages">
+        <ul class="messages">
+            <li class="error-msg">
+                <ul>
+                    <li>
+                        <span>
+                            <?php echo $_cronStatus; ?>
+                        </span>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+<?php endif;?>
 <?php echo $_info ?>
 <?php if ($_data): ?>
 <div id="fpclog" style="width: 100%; height: 400px;"></div>

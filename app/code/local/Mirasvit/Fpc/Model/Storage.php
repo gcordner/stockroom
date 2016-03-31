@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.1
- * @build     394
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   1.0.5.3
+ * @build     520
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -52,10 +52,11 @@ class Mirasvit_Fpc_Model_Storage extends Varien_Object
         return false;
     }
 
-    protected function _isFilecache() {
-        $cache    = Mage::getSingleton('fpc/cache')->getCacheInstance();
+    protected function _isFilecache()
+    {
+        $cache = Mage::getSingleton('fpc/cache')->getCacheInstance();
         $frontend = $cache->getFrontend();
-        $backend  = $frontend->getBackend();
+        $backend = $frontend->getBackend();
         if ($backend instanceof Zend_Cache_Backend_File) {
             return true;
         }

@@ -8,11 +8,12 @@
  * Please refer to http://www.magentocommerce.com for more information.
  *
  * @category  Mirasvit
- * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @package   Full Page Cache
+ * @version   1.0.5.3
+ * @build     520
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
+
 
 
 class Mirasvit_MstCore_Block_System_Config_Form_Logger extends Mage_Adminhtml_Block_System_Config_Form_Fieldset
@@ -21,10 +22,10 @@ class Mirasvit_MstCore_Block_System_Config_Form_Logger extends Mage_Adminhtml_Bl
     {
         $html = $this->_getHeaderHtml($element);
         foreach ($element->getElements() as $field) {
-            $html.= $field->toHtml();
+            $html .= $field->toHtml();
         }
 
-        $url = Mage::getSingleton('adminhtml/url')->getUrl('mstcore/adminhtml_logger/index');
+        $url = Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/mstcore_logger/index');
         $html .= '
             <tr>
                 <td class="label"></td>
@@ -36,6 +37,7 @@ class Mirasvit_MstCore_Block_System_Config_Form_Logger extends Mage_Adminhtml_Bl
             </tr>
             ';
         $html .= $this->_getFooterHtml($element);
+
         return $html;
     }
 }

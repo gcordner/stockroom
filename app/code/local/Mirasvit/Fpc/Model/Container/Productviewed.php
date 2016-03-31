@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.1
- * @build     394
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   1.0.5.3
+ * @build     520
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -116,7 +116,7 @@ class Mirasvit_Fpc_Model_Container_Productviewed extends Mirasvit_Fpc_Model_Cont
 
             $html = $block->toHtml();
         } else {
-            $html = self::EMPTY_VALUE;
+            $html = '';
         }
 
         return $html;

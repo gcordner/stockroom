@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.1
- * @build     394
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   1.0.5.3
+ * @build     520
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -61,6 +61,10 @@ class Mirasvit_Fpc_Helper_Layout
 
     public function renderBlock($definition)
     {
+        if (!$definition['layout'] || $definition['layout'] == '<layout/>') { //don't create an empty block
+            return false;
+        }
+
         Mage::getSingleton('core/layout');
 
         $layout = new Mage_Core_Model_Layout($definition['layout']);

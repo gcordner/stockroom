@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.1
- * @build     394
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   1.0.5.3
+ * @build     520
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -19,7 +19,7 @@
 class Mirasvit_Fpc_Model_Container_Breadcrumbs extends Mirasvit_Fpc_Model_Container_Abstract
 {
     protected $_placeholderBlock;
-    protected $_category;
+    protected $_currentCategory;
     protected $_categoryPath;
 
     /**
@@ -72,7 +72,9 @@ class Mirasvit_Fpc_Model_Container_Breadcrumbs extends Mirasvit_Fpc_Model_Contai
         $pattern = '/'.preg_quote($this->_getStartReplacerTag(), '/').'(.*?)'.preg_quote($this->_getEndReplacerTag(), '/').'/ims';
         $html = $this->_renderBlock();
 
-        if ($html !== false) {
+        if ($html === null) {
+            return true;
+        } elseif ($html !== false) {
             ini_set('pcre.backtrack_limit', 100000000);
             $content = preg_replace($pattern, str_replace('$', '\\$', $html), $content, 1);
 
@@ -89,12 +91,12 @@ class Mirasvit_Fpc_Model_Container_Breadcrumbs extends Mirasvit_Fpc_Model_Contai
 
         //No need breadcrumbs on CMS pages
         if (!$productId && !$categoryId) {
-            return '';
+            return null;
         }
 
         //cookie
         if (!$productId && $categoryId) {
-            Mage::getModel('core/cookie')->set('mfpcbreadcrumb', Mage::registry('current_category')->getId(), time() + 86400, '/');
+            Mage::getModel('core/cookie')->set('mfpcbreadcrumb', Mage::registry('current_category_id'), time() + 86400, '/');
         }
         if ($productId && $categoryId) {
             if (isset($_COOKIE['mfpcbreadcrumb'])) {
@@ -155,11 +157,11 @@ class Mirasvit_Fpc_Model_Container_Breadcrumbs extends Mirasvit_Fpc_Model_Contai
 
     protected function _getCategory($categoryId)
     {
-        if (!$this->_category) {
-            $this->_category = Mage::getModel('catalog/category')->setStoreId(Mage::app()->getStore()->getStoreId())->load($categoryId);
+        if (!$this->_currentCategory) {
+            $this->_currentCategory = Mage::getModel('catalog/category')->setStoreId(Mage::app()->getStore()->getStoreId())->load($categoryId);
         }
 
-        return $this->_category;
+        return $this->_currentCategory;
     }
 
     protected function _getProduct()
@@ -219,13 +221,6 @@ class Mirasvit_Fpc_Model_Container_Breadcrumbs extends Mirasvit_Fpc_Model_Contai
             }
         }
 
-        if ($this->_getProductId()) {
-            //cookie
-            if ($categoryId = Mage::getModel('core/cookie')->get('mfpcbreadcrumb')) {
-                return $categoryId;
-            }
-        }
-
         if (Mage::registry('current_category')) {
             $categoryId = Mage::registry('current_category')->getId();
         }
@@ -247,6 +242,13 @@ class Mirasvit_Fpc_Model_Container_Breadcrumbs extends Mirasvit_Fpc_Model_Contai
             $categoryIds = array_reverse($categoryIds);
             if (isset($categoryIds[0])) {
                 $categoryId = $categoryIds[0];
+            }
+        }
+
+        if ($this->_getProductId() && !$categoryId) {
+            //cookie
+            if ($categoryId = Mage::getModel('core/cookie')->get('mfpcbreadcrumb')) {
+                return $categoryId;
             }
         }
 

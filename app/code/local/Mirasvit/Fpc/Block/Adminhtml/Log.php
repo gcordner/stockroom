@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.1
- * @build     394
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   1.0.5.3
+ * @build     520
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -88,5 +88,20 @@ class Mirasvit_Fpc_Block_Adminhtml_Log extends Mage_Adminhtml_Block_Template
         }
 
         return implode('<br>', $html);
+    }
+
+    public function getCronStatus()
+    {
+        return Mage::helper('fpc')->showCronStatusError(true);
+    }
+
+    public function getExtensionDisabledInfo()
+    {
+        return Mage::helper('fpc')->showExtensionDisabledInfo(true);
+    }
+
+    public function getFreeHddSpace()
+    {
+        return Mage::helper('fpc')->showFreeHddSpace(true, false);
     }
 }

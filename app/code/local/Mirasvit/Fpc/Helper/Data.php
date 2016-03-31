@@ -9,44 +9,24 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.1
- * @build     394
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   1.0.5.3
+ * @build     520
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
 
 class Mirasvit_Fpc_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    public $_ignoredUrlParams = array(
-        'gclid',
-        'utm_source',
-        'utm_medium',
-        'utm_term',
-        'utm_content',
-        'utm_campaign',
-        '___SID',
-    );
+    protected static $_ignoredUrlParams = array();
 
-    public function setVariable($key, $value)
+    protected function _getIgnoredUrlParams()
     {
-        $variable = Mage::getModel('core/variable');
-        $variable = $variable->loadByCode('fpc_'.$key);
+        if (!self::$_ignoredUrlParams) {
+            self::$_ignoredUrlParams = $this->getConfig()->getIgnoredUrlParams();
+        }
 
-        $variable->setPlainValue($value)
-            ->setHtmlValue(Mage::getSingleton('core/date')->gmtTimestamp())
-            ->setName($key)
-            ->setCode('fpc_'.$key)
-            ->save();
-
-        return $variable;
-    }
-
-    public function getVariable($key)
-    {
-        $variable = Mage::getModel('core/variable')->loadByCode('fpc_'.$key);
-
-        return $variable->getPlainValue();
+        return self::$_ignoredUrlParams;
     }
 
     protected function _getCacheInfo()
@@ -86,7 +66,7 @@ class Mirasvit_Fpc_Helper_Data extends Mage_Core_Helper_Abstract
         return $info['number'];
     }
 
-    public function getNormlizedUrl($protocol = false)
+    public function getNormalizedUrl($protocol = false)
     {
         $uri = false;
 
@@ -107,7 +87,7 @@ class Mirasvit_Fpc_Helper_Data extends Mage_Core_Helper_Abstract
             }
 
             $query = $_GET;
-            foreach ($this->_ignoredUrlParams as $param) {
+            foreach ($this->_getIgnoredUrlParams() as $param) {
                 if (isset($query[$param])) {
                     unset($query[$param]);
                 }
@@ -115,43 +95,147 @@ class Mirasvit_Fpc_Helper_Data extends Mage_Core_Helper_Abstract
             ksort($query);
             $query = http_build_query($query);
             if ($query) {
-                $uri .= '?'.$query;
+                $uri .= '?' . $query;
             }
         }
 
         if ($protocol) {
             $ssl = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? true : false;
             $sp = strtolower($_SERVER['SERVER_PROTOCOL']);
-            $protocol = substr($sp, 0, strpos($sp, '/')).(($ssl) ? 's' : '');
-            $uri = $protocol.'://'.$uri;
+            $protocol = substr($sp, 0, strpos($sp, '/')) . (($ssl) ? 's' : '');
+            $uri = $protocol . '://' . $uri;
         }
 
         return $uri;
-    }
-
-    public function getOrderSql($orderByAttribute = false)
-    {
-        $order = array();
-        $actions = array();
-        foreach (Mage::getSingleton('fpc/config')->getSortByPageType() as $action) {
-            $actions[] = "'".$action->getActionOption()."'";
-        }
-        krsort($actions);
-        $order[] = new Zend_Db_Expr('FIELD(sort_by_page_type, '.implode(',', $actions).') desc');
-        if ($orderByAttribute) {
-            $order[] = 'sort_by_product_attribute asc';
-        }
-        $order[] = 'rate desc';
-
-        return $order;
     }
 
     public function checkCronStatusFunctionVersion() //check if we use new version of function
     {
         $checkCronStatusReflectionMethod = new ReflectionMethod('Mirasvit_MstCore_Helper_Cron', 'checkCronStatus');
         if (is_object($checkCronStatusReflectionMethod)
-            && $checkCronStatusReflectionMethod->getNumberOfParameters() > 2) {
-               return true;
+            && $checkCronStatusReflectionMethod->getNumberOfParameters() > 2
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    //MW Dailydeal Timer compatibility
+    public function prepareMwDailydealTimer(&$content)
+    {
+        if (Mage::registry('current_product_id') && Mage::helper('mstcore')->isModuleInstalled('MW_Dailydeal')) {
+            $_deal = Mage::getModel('dailydeal/dailydeal')->getCollection()->loadcurrentdeal(Mage::registry('current_product_id'));
+            if ($_deal && is_object($_deal)) {
+                $remainSecond = strtotime($_deal->getEndDateTime()) - Mage::getModel('core/date')->timestamp();
+                $content = preg_replace('/var product_detail_server_time = {[^s]+second : [0-9]+,/ims', 'var product_detail_server_time = { second : ' . $remainSecond . ',', $content);
+            }
+        }
+
+        return $this;
+    }
+
+    public function showCronStatusError($errorHtml = false)
+    {
+        if ($this->checkCronStatusFunctionVersion()) {
+            $cronStatus = Mage::helper('mstcore/cron')->checkCronStatus(false, false, 'Cron job is required for correct work of Full Page Cache.');
+            if ($cronStatus !== true && !$errorHtml) {
+                Mage::getSingleton('adminhtml/session')->addError($cronStatus);
+            } elseif ($cronStatus !== true && $errorHtml) {
+                return $cronStatus;
+            }
+        }
+
+        return true;
+    }
+
+    public function showExtensionDisabledInfo($errorHtml = false)
+    {
+        $info = array();
+        $storeInfo = array();
+        $activeStoreCount = 0;
+
+        foreach (Mage::app()->getStores() as $store) {
+            if ($store->getIsActive()) {
+                $activeStoreCount += 1;
+                if (!$this->getConfig()->getCacheEnabled($store->getId())) {
+                    $storeInfo[] = 'Full Page Cache disabled for "' . $store->getName() . '" store — ' . $store->getBaseUrl() . '&nbsp;&nbsp;&nbsp;( ID: ' . $store->getId() . ')
+                    in <a href="' . Mage::helper("adminhtml")->getUrl('*/system_config/edit/section/fpc/website/' . $store->getWebsite()->getCode() . '/store/' . $store->getCode())
+                        . '" target="_blank">System->Configuration->Full Page Cache->General Settings</a>';
+                }
+            }
+        }
+
+        if ($activeStoreCount == count($storeInfo) && !$this->getConfig()->getCacheEnabled()) {
+            $info[] = 'Full Page Cache disabled in <a href="' . Mage::helper("adminhtml")->getUrl('*/system_config/edit/section/fpc') . '" target="_blank">System->Configuration->Full Page Cache->General Settings</a>';
+        } else {
+            $info = array_merge($info, $storeInfo);
+        }
+
+        if (!Mage::app()->useCache('fpc')) {
+            $info[] = 'Full Page Cache disabled in "Cache Storage Management" ( <a href="' . Mage::helper("adminhtml")->getUrl('*/cache') . '" target="_blank">System->Cache Management</a> )';
+        }
+
+        $infoText = implode('<br/>', $info);
+
+        if (!$errorHtml && $infoText) {
+            Mage::getSingleton('adminhtml/session')->addError($infoText);
+            return true;
+        }
+
+        return $infoText;
+    }
+
+    public function showFreeHddSpace($errorHtml = false, $freeValue = false)
+    {
+        $cacheType = Mage::getSingleton('fpc/cache')
+            ->getCacheInstance()
+            ->getFrontend()
+            ->getBackend();
+
+        $infoText = '';
+        $dir = '/';
+        @$free = disk_free_space($dir);
+        @$total = disk_total_space($dir);
+        if (!$total
+            || get_class($cacheType) == 'Cm_Cache_Backend_Redis'
+            || get_class($cacheType) == 'Mage_Cache_Backend_Redis'
+        ) {
+            return false;
+        }
+        $freeToMb = $free / (1024 * 1024);
+        $totalToMb = $total / (1024 * 1024);
+
+        if ($freeValue) {
+            return $freeToMb;
+        }
+
+        if ($freeToMb <= Mirasvit_Fpc_Model_Config::ALLOW_HDD_FREE_SPACE) {
+            $infoText = 'You have HDD free space ' . $freeToMb . ' Mb from ' . $totalToMb . ' total Mb. FPC stop add pages in cache. Increase the free space on the disk.';
+        }
+
+        if (!$errorHtml && $infoText) {
+            Mage::getSingleton('adminhtml/session')->addError($infoText);
+            return true;
+        }
+
+        return $infoText;
+    }
+
+    public function getConfig()
+    {
+        return Mage::getSingleton('fpc/config');
+    }
+
+    public function getFullActionCode()
+    {
+        $request = Mage::app()->getRequest();
+        return strtolower($request->getModuleName() . '/' . $request->getControllerName() . '_' . $request->getActionName());
+    }
+
+    public function getSessionSize() {
+        if(isset($_SESSION)) {
+            return strlen(serialize($_SESSION))/1000000; //Mb-
         }
 
         return false;
