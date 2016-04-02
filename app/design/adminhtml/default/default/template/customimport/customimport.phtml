@@ -9,8 +9,7 @@ background-repeat: repeat-x;border-color: #28a4c9;}
 </style>
 <form action="<?php echo $this->getUrl('*/*/'); ?>" method="post" enctype="multipart/form-data"><br>
     <?php echo $this->getBlockHtml('formkey')?>
-	<?php $websites = Mage::app()->getWebsites();
-	if (!empty($websites) and count($websites) > 1):?>
+	<?php $websites = Mage::app()->getWebsites(); ?> 
 	<div class="entry-edit">
 	<div class="entry-edit-head">
         <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Select File to import') ?></h4>
@@ -20,6 +19,7 @@ background-repeat: repeat-x;border-color: #28a4c9;}
 		<br /><br />
     <i>Allowed file name characters - [a-z,A-Z,0-9,_,-]. <br />(If any other character is part of the file name, then the import process shall not complete successfully.)</i>
 	</fieldset>
+<?php	if (!empty($websites) and count($websites) > 1):?>
     <div class="entry-edit-head">
         <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Import Products To Websites') ?></h4>
     </div>
@@ -49,8 +49,8 @@ background-repeat: repeat-x;border-color: #28a4c9;}
     <?php endforeach; ?>
     <i>This will be applied to new products only.</i>
     </fieldset>
-</div>
 <?php endif; ?>
+</div>
 
     
     <input class="fileUpload btn btn-primary" name="upload_xml"  type="submit" value="Start Import">
