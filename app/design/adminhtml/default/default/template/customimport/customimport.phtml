@@ -7,7 +7,7 @@ background-repeat: repeat-x;border-color: #28a4c9;}
 .btn-primary{background-color: #535353;border-color: #535353;color: #fff;text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);}
 .btn-primary:hover{background-color: #0099e6;border-color: #0099e6;color: #fff;}
 </style>
-<form action="<?php echo $this->getUrl('*/*/'); ?>" method="post" enctype="multipart/form-data"><br>
+<form action="<?php echo $this->getUrl('*/*/'); ?>" method="post" enctype="multipart/form-data" id="import-form"><br>
     <?php echo $this->getBlockHtml('formkey')?>
 	<?php $websites = Mage::app()->getWebsites(); ?> 
 	<div class="entry-edit">
@@ -15,7 +15,7 @@ background-repeat: repeat-x;border-color: #28a4c9;}
         <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Select File to import') ?></h4>
     </div>
 	<fieldset id="uploadfile_set">
-		<input class="btn group-stores" type="file" name="uploadFile">
+		<input class="btn group-stores required-entry" type="file" name="uploadFile">
 		<br /><br />
     <i>Allowed file name characters - [a-z,A-Z,0-9,_,-]. <br />(If any other character is part of the file name, then the import process shall not complete successfully.)</i>
 	</fieldset>
@@ -27,7 +27,7 @@ background-repeat: repeat-x;border-color: #28a4c9;}
     <?php foreach ($websites as $_website): ?>
     <div>
         <div class="website-name">
-            <input name="add_website_ids[]" value="<?php echo $_website->getId() ?>" <?php if($this->getWebsitesReadonly()): ?>disabled="disabled"<?php endif;?> class="checkbox website-checkbox" id="add_product_website_<?php echo $_website->getId() ?>" type="checkbox" checked />
+            <input name="add_website_ids[]" value="<?php echo $_website->getId() ?>" <?php if($this->getWebsitesReadonly()): ?>disabled="disabled"<?php endif;?> class="checkbox website-checkbox validate-one-required-by-name" id="add_product_website_<?php echo $_website->getId() ?>" type="checkbox" checked />
             <big><strong><label for="add_product_website_<?php echo $_website->getId() ?>"><?php echo $this->escapeHtml($_website->getName()) ?></label></strong></big>
         </div>
         <div class="webiste-groups" id="add_product_website_<?php echo $_website->getId() ?>_data">
@@ -55,6 +55,12 @@ background-repeat: repeat-x;border-color: #28a4c9;}
     
     <input class="fileUpload btn btn-primary" name="upload_xml"  type="submit" value="Start Import">
 </form>
+<script>
+//<![CDATA[
+    var import_form = new varienForm('import-form', true);
+//]]>
+</script>
+
 <?php
 ob_start();
 set_time_limit(0);
