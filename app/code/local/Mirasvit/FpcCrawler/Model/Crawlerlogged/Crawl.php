@@ -209,6 +209,9 @@ class Mirasvit_FpcCrawler_Model_Crawlerlogged_Crawl extends Varien_Object
 
         foreach ($collection as $url) {
             $url->delete();
+//            Mage::log($url, null, 'mir_fpc_crawllog.log', true);
+//            Mage::log('_removeDublicates', null, 'mir_fpc_crawllog.log', true);
+//            Mage::log('+++++++++++++++++++++++++++++++++++++++++++', null, 'mir_fpc_crawllog.log', true);
         }
 
         return $this;

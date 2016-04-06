@@ -117,6 +117,17 @@ class Mirasvit_FpcCrawler_Model_Crawlerlogged_Url extends Mage_Core_Model_Abstra
 
         if (strpos($content, '404 Not Found') !== false) {
             $this->delete();
+//            Mage::log($url, null, 'mir_fpc_crawllog.log', true);
+//            Mage::log('404 Not Found', null, 'mir_fpc_crawllog.log', true);
+//            Mage::log('+++++++++++++++++++++++++++++++++++++++++++', null, 'mir_fpc_crawllog.log', true);
+        }
+
+        if (strpos($content, '301 Moved Permanently') !== false) {
+            $this->delete();
+        }
+
+        if (strpos($content, 'HTTP/1.1 302 Found') !== false) {
+            $this->delete();
         }
 
         preg_match('/Fpc-Cache-Id: ('.Mirasvit_Fpc_Model_Config::REQUEST_ID_PREFIX.'[a-z0-9]{32})/', $content, $matches);
@@ -127,7 +138,11 @@ class Mirasvit_FpcCrawler_Model_Crawlerlogged_Url extends Mage_Core_Model_Abstra
                     ->save();
             }
         } else {
-            $this->delete();
+//            $this->delete();
+//            Mage::log($url, null, 'mir_fpc_crawllog.log', true);
+//            Mage::log($matches, null, 'mir_fpc_crawllog.log', true);
+//            Mage::log('Fpc-Cache-Id', null, 'mir_fpc_crawllog.log', true);
+//            Mage::log('+++++++++++++++++++++++++++++++++++++++++++', null, 'mir_fpc_crawllog.log', true);
         }
 
         return $this;
