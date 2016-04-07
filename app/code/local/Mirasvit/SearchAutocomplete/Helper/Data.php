@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   2.3.3.1
+ * @build     1299
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -60,7 +60,10 @@ class Mirasvit_SearchAutocomplete_Helper_Data extends Mage_Core_Helper_Data
                 $indexes = Mage::helper('searchindex/index')->getIndexes();
                 uasort($indexes, array($this, 'sortIndexes'));
                 foreach ($indexes as $index) {
-                    $this->_indexes[$index->getCode()] = $index->getTitle();
+                    // if multistore mode enabled, we select index only for current store
+                    if (!$index->getStoreId() || $index->getStoreId() == Mage::app()->getStore()->getId()) {
+                        $this->_indexes[$index->getCode()] = $index->getTitle();
+                    }
                 }
             } else {
                 $this->_indexes['mage_catalog_product'] = '';

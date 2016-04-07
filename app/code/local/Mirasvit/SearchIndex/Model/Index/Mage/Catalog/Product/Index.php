@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   2.3.3.1
+ * @build     1299
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -60,7 +60,7 @@ class Mirasvit_SearchIndex_Model_Index_Mage_Catalog_Product_Index extends Mirasv
                     $indexModel = clone $this;
                     $indexModel->setTitle($store->getFrontendName())
                         ->setStoreId($store->getId());
-                    $searchTabs[$this->getIndexCode() . $store->getId()] = $indexModel;
+                    $searchTabs[$this->getIndexCode().$store->getId()] = $indexModel;
                 }
             }
         }
@@ -97,8 +97,8 @@ class Mirasvit_SearchIndex_Model_Index_Mage_Catalog_Product_Index extends Mirasv
     /**
      * After process search, we save count search results to query.
      *
-     * @var string  $queryText
-     * @var integer $storeId
+     * @var string
+     * @var int
      *
      * @return $this
      */
@@ -106,7 +106,7 @@ class Mirasvit_SearchIndex_Model_Index_Mage_Catalog_Product_Index extends Mirasv
     {
         parent::_processSearch($queryText, $storeId);
 
-        $query = Mage::helper('catalogsearch')->getQuery();
+        $query = $this->getQuery();
         $query->setNumResults(count($this->_matchedIds[$queryText]))
             ->setIsProcessed(1)
             ->save();

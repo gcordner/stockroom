@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   2.3.3.1
+ * @build     1299
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -208,7 +208,8 @@ class Mirasvit_SearchIndex_Model_Resource_Catalogsearch_Fulltext_Engine
             $index[$productId]['category_'.$attrCode] = '';
         }
 
-        foreach ($adapter->fetchAll($select) as $row) {
+        $rows = $adapter->fetchAll($select);
+        foreach ($rows as $row) {
             $index[$row['product_id']]['data_index']          .= '|'.$row['category'];
             $index[$row['product_id']]['category_'.$attrCode] .= ' '.$row['category'];
         }

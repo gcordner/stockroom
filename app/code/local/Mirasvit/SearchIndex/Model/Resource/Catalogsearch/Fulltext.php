@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   2.3.3.1
+ * @build     1299
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -168,6 +168,11 @@ class Mirasvit_SearchIndex_Model_Resource_Catalogsearch_Fulltext extends Mage_Ca
             $arConfigurable = $this->_getProductChildIds($entityId, 'configurable');
             if (is_array($arConfigurable) && count($arConfigurable)) {
                 $productChildren = array_merge($productChildren, $arConfigurable);
+            }
+
+            $arBundle = $this->_getProductChildIds($entityId, 'bundle');
+            if (is_array($arBundle) && count($arBundle)) {
+                $productChildren = array_merge($productChildren, $arBundle);
             }
 
             if (count($productChildren)) {

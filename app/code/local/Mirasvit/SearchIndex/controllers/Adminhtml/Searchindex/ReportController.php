@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   2.3.3.1
+ * @build     1299
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -20,6 +20,7 @@ class Mirasvit_SearchIndex_Adminhtml_Searchindex_ReportController extends Mage_A
 {
     public function _initAction()
     {
+        Mage::register(Mirasvit_SearchIndex_Block_Adminhtml_Report::SEARCHINDEX_REPORT, true);
         $this->loadLayout()
             ->_setActiveMenu('search')
             ->_addBreadcrumb(Mage::helper('searchindex')->__('Search Index'), Mage::helper('searchindex')->__('Search Index'));

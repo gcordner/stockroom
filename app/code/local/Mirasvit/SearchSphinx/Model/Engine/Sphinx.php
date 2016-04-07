@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   2.3.3.1
+ * @build     1299
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -145,9 +145,11 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx extends Mirasvit_SearchIndex_Mod
 
         # add search index weight after normalize
         foreach ($entityIds as $id => $weight) {
-            $entityIds[$id] += $entityIdsWeights[$id];
+            if (isset($entityIdsWeights[$id])) {
+                $entityIds[$id] += $entityIdsWeights[$id];
+            }
         }
-        // pr($entityIds);die();
+
         Mage::helper('mstcore/debug')->end($uid, $entityIds);
 
         return $entityIds;
@@ -235,7 +237,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx extends Mirasvit_SearchIndex_Mod
     protected function escapeSphinxQL($string)
     {
         $from = array('.', ' ', '\\', '(',')','|','-','!','@','~','"','&', '/', '^', '$', '=', "'");
-        $to = array('', ' ', '\\\\', '\(','\)','\|','\-','\!','\@','\~','\"', '\&', '\/', '\^', '\$', '\=', "\'");
+        $to = array('\.', ' ', '\\\\', '\(','\)','\|','\-','\!','\@','\~','\"', '\&', '\/', '\^', '\$', '\=', "\'");
 
         return str_replace($from, $to, $string);
     }

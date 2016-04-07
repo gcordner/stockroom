@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   2.3.3.1
+ * @build     1299
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -51,6 +51,9 @@ class Mirasvit_Misspell_Model_Indexer extends Varien_Object
         }
 
         foreach ($tables as $table) {
+            if (strpos($table, '.') !== false) {
+                continue;
+            }
             $like = false;
 
             foreach ($this->_likeTables as $likeTable) {

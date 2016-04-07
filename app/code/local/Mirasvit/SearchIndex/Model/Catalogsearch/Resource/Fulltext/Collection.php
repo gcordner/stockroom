@@ -9,13 +9,24 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   2.3.3.1
+ * @build     1299
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
-class Mirasvit_SearchIndex_Model_Catalogsearch_Resource_Fulltext_Collection extends Mage_CatalogSearch_Model_Resource_Fulltext_Collection
+
+if (class_exists('Mage_CatalogSearch_Model_Resource_Fulltext_Collection')) {
+    class Mirasvit_SearchIndex_Model_Catalogsearch_Resource_Fulltext_Collection_Mediator extends Mage_CatalogSearch_Model_Resource_Fulltext_Collection
+    {
+    }
+} else {
+    class Mirasvit_SearchIndex_Model_Catalogsearch_Resource_Fulltext_Collection_Mediator extends Mage_CatalogSearch_Model_Mysql4_Fulltext_Collection
+    {
+    }
+}
+
+class Mirasvit_SearchIndex_Model_Catalogsearch_Resource_Fulltext_Collection extends Mirasvit_SearchIndex_Model_Catalogsearch_Resource_Fulltext_Collection_Mediator
 {
     public function addSearchFilter($query)
     {
@@ -39,12 +50,17 @@ class Mirasvit_SearchIndex_Model_Catalogsearch_Resource_Fulltext_Collection exte
         if ($index->getProperty('out_of_stock_to_end')) {
             $resource = Mage::getSingleton('core/resource');
             $select = $collection->getSelect();
+
             $select->joinLeft(
-                array('_inventory_table' => $resource->getTableName('cataloginventory/stock_item')),
-                '_inventory_table.product_id = e.entity_id',
-                array()
+                array('ss_inventory_table' => $resource->getTableName('cataloginventory_stock_item')),
+                'ss_inventory_table.product_id = e.entity_id',
+                array('is_in_stock', 'manage_stock')
             );
-            $select->order('_inventory_table.is_in_stock DESC');
+
+            $select->order(new Zend_Db_Expr('(CASE WHEN (((ss_inventory_table.use_config_manage_stock = 1)
+                AND (ss_inventory_table.is_in_stock = 1)) OR  ((ss_inventory_table.use_config_manage_stock = 0)
+                AND (1 - ss_inventory_table.manage_stock + ss_inventory_table.is_in_stock >= 1)))
+                THEN 1 ELSE 0 END) DESC'));
         }
 
         return $this;

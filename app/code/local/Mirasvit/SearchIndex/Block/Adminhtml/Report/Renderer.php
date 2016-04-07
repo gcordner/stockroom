@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   2.3.3.1
+ * @build     1299
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -33,12 +33,14 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Report_Renderer extends Mage_Adminhtm
             Mage_Core_Model_App_Area::AREA_FRONTEND
         );
 
-        $queryHelper = Mage::helper('catalogsearch');
+        if ($row instanceof Mage_CatalogSearch_Model_Query) {
+            $query = $row;
+        } else {
+            $query = Mage::getModel('catalogsearch/query')->load($row->getQueryId());
+        }
 
-        $this->getRequest()->setParam($queryHelper->getQueryParamName(), $row->getQueryText());
-
-        $searchResultCollection = Mage::getModel('catalogsearch/fulltext')->getResourceCollection();
-        Mage::getModel('catalogsearch/layer')->prepareProductCollection($searchResultCollection);
+        Mage::helper('searchindex/index')->getIndex('mage_catalog_product')->setQuery($query);
+        $searchResultCollection = Mage::getModel('catalogsearch/layer')->getProductCollection();
         $searchResultCollection->getSelect()->group('e.entity_id');
         //$searchResultCollection->getSelect()->order('relevance desc');
         $searchResultCollection->setPageSize($limit)

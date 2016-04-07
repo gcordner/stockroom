@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   2.3.3.1
+ * @build     1299
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -28,6 +28,16 @@ class Mirasvit_SearchAutocomplete_Helper_Validator extends Mirasvit_MstCore_Help
 
         foreach ($modules as $module) {
             if (stripos($module, 'autocomplete') !== false && $module != 'Mirasvit_SearchAutocomplete') {
+                $result = self::FAILED;
+                $description[] = "Another Search Autocomplete extension '$module' installed, please remove it.";
+            }
+
+            if ($module == 'Smartwave_CatalogCategorySearch') {
+                $result = self::FAILED;
+                $description[] = "Another Search Autocomplete extension '$module' installed, please remove it.";
+            }
+
+            if ($module == 'Webdziner_Ajaxsearch') {
                 $result = self::FAILED;
                 $description[] = "Another Search Autocomplete extension '$module' installed, please remove it.";
             }

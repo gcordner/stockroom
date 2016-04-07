@@ -21,6 +21,11 @@
                     <!-- <search_collection>Mirasvit_SearchIndex_Model_Catalogsearch_Resource_Search_Collection</search_collection> -->
                 </rewrite>
             </catalogsearch_resource>
+            <catalogsearch_mysql4>
+                <rewrite>
+                    <fulltext_collection>Mirasvit_SearchIndex_Model_Catalogsearch_Resource_Fulltext_Collection</fulltext_collection>
+                </rewrite>
+            </catalogsearch_mysql4>
 
             <searchindex>
                 <class>Mirasvit_SearchIndex_Model</class>

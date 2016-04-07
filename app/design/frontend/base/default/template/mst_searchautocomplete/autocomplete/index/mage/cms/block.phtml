@@ -1,10 +1,9 @@
 <?php
 $_item         = $this->getItem();
 ?>
-<li data-url="<?php echo $_url ?>">
+<li>
     <?php echo $_item->getData('title') ?>
     <br>
-    <?php if ($_configHelper->isShowShortDescription()): ?>
     <div class="highlight">
         <?php 
             $_html = Mage::helper('cms')->getPageTemplateProcessor()->filter($_item->getContent());
@@ -12,5 +11,4 @@ $_item         = $this->getItem();
         ?>
         <?php echo Mage::helper('core/string')->truncate(strip_tags($_html), 300) ?>
     </div>
-    <?php endif ?>
 </li>

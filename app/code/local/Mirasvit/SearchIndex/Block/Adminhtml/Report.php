@@ -9,15 +9,17 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   2.3.3.1
+ * @build     1299
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
 
 class Mirasvit_SearchIndex_Block_Adminhtml_Report extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
+    const SEARCHINDEX_REPORT = 'searchindex_report_entry_point';
+
     public function __construct()
     {
         $this->_controller = 'adminhtml_report';

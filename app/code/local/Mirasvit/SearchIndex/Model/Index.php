@@ -9,9 +9,9 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.2
- * @build     1238
- * @copyright Copyright (C) 2015 Mirasvit (http://mirasvit.com/)
+ * @version   2.3.3.1
+ * @build     1299
+ * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
@@ -209,9 +209,20 @@ class Mirasvit_SearchIndex_Model_Index extends Mage_Core_Model_Abstract
 
     public function getQuery()
     {
-        $queryHelper = new Mage_CatalogSearch_Helper_Data();
+        if (!$this->query) {
+            $queryHelper = new Mage_CatalogSearch_Helper_Data();
+            $this->query = $queryHelper->getQuery();
 
-        return $queryHelper->getQuery();
+            $this->query
+                ->save();
+        }
+
+        return $this->query;
+    }
+
+    public function setQuery(Mage_CatalogSearch_Model_Query $query)
+    {
+        return $this->query = $query;
     }
 
     /**
@@ -293,9 +304,21 @@ class Mirasvit_SearchIndex_Model_Index extends Mage_Core_Model_Abstract
         return Mage::getSingleton('core/resource')->getConnection('core_read');
     }
 
+    /**
+     * Create table for storing search results.
+     *
+     * if table already created and current page is not searchindex_report - use stored results
+     * otherwise - process search for each query in report
+     *
+     * @param $matchedIds
+     *
+     * @return $this
+     */
     protected function _createTemporaryTable($matchedIds)
     {
-        if ($this->_tmpTableCreated && Mage::app()->getRequest()->getRequestedControllerName() !== 'adminhtml_report') {
+        if ($this->_tmpTableCreated &&
+            !Mage::registry(Mirasvit_SearchIndex_Block_Adminhtml_Report::SEARCHINDEX_REPORT)
+        ) {
             return $this;
         }
 
