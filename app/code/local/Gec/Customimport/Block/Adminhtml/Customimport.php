@@ -899,6 +899,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     }
                 } catch (Exception $e) {
                     $this->customHelper->reportError($this->customHelper->__('Product update failed for # %s', $item->id));
+                    $this->customHelper->reportError($e->getMessage());
                 }
             }
         } else {
@@ -1554,7 +1555,6 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
         $p_taxclass = ((string) $item->isTaxable == 'Y') ? 2 : 0;
         $SKU        = (string) $item->id;
         $product    = Mage::getModel('catalog/product')->loadByAttribute('sku', $SKU);
-        
         if ($product) {
             //Product found, so we need to update it in Magento.
             $product->setData('name', (string) $item->name);
@@ -1663,7 +1663,6 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                     }
                 }
             }
-
             Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
             $productId = $product->save()->getId();
             $this->_updated_num++;
@@ -1688,7 +1687,6 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
                 $stockItem->setData('use_config_manage_stock', 0);
                 $stockItem->setData('manage_stock', 0); // manage stock to no
             }
-
             Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
             $stockItem->save();
             unset($product);
