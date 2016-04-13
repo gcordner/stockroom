@@ -76,3 +76,4 @@ app/code/community/Alekseon/*
 app/design/adminhtml/default/default/template/alekseon/*
 app/etc/modules/Alekseon_ModulesConflictDetector.xml
 wp/.htaccess
+wp/wp-content/uploads/
