@@ -231,17 +231,21 @@ class Magestore_Webpos_Model_Observer {
         $date = getdate();
         $updated_time = $date[0];
         $fileContent = file_get_contents($product_updatedfile);
-        $fileContent = Zend_Json::decode($fileContent);
-        if (count($productIds) > 0) {
-            foreach ($productIds as $prdId) {
-                $fileContent[$prdId] = $updated_time;
+        try {
+            $fileContent = Zend_Json::decode($fileContent);
+            if (count($productIds) > 0) {
+                foreach ($productIds as $prdId) {
+                    $fileContent[$prdId] = $updated_time;
+                }
+            } else {
+                $fileContent[$productId] = $updated_time;
             }
-        } else {
-            $fileContent[$productId] = $updated_time;
+            //$fileContent = array_unique($fileContent);
+            $fileContent = Zend_Json::encode($fileContent);
+            file_put_contents($product_updatedfile, $fileContent);
+        } catch (Exception $e) {
+        
         }
-        //$fileContent = array_unique($fileContent);
-        $fileContent = Zend_Json::encode($fileContent);
-        file_put_contents($product_updatedfile, $fileContent);
     }
 
     public function customerSaveAfter($observer) {
