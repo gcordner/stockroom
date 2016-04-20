@@ -1075,9 +1075,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }
             //New and created data code end
             $product->setSku((string) $item->id); //Product custom id
-            $product->setWebsiteIds(array(
-                Mage::app()->getStore(true)->getWebsite()->getId()
-            ));
+            $product->setWebsiteIds($this->website_ids);
             $product->setStoreIDs(array(
                 $this->_store_id
             )); // Default store id .
@@ -1275,7 +1273,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }
             //New and created data code end
             $product->setSku((string) $item->id); //Product custom id
-            $product->setWebsiteIds($this->website_ids); //Default website (main website) ?? To Do : make it dynamic
+            $product->setWebsiteIds($this->website_ids);
             $product->setStoreIDs(array(
                 $this->_store_id
             ));
@@ -1471,9 +1469,7 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             }
             //New and created data code end
             $product->setSku((string) $item->id); //Product custom id
-            $product->setWebsiteIds(array(
-                Mage::app()->getStore(true)->getWebsite()->getId()
-            ));
+            $product->setWebsiteIds($this->website_ids);
             $product->setStoreIDs(array(
                 $this->_store_id
             )); // Default store id .
