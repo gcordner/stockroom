@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_OrderExport (1.8.5)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-27T15:10:35+00:00
- * Last Modified: 2015-07-24T12:58:06+02:00
+ * Product:       Xtento_OrderExport (1.9.2)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2015-12-08T20:26:09+01:00
  * File:          app/code/local/Xtento/OrderExport/Model/Export/Data/Shared/Items.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_OrderExport_Model_Export_Data_Shared_Items extends Xtento_OrderExport_Model_Export_Data_Abstract
@@ -185,6 +185,9 @@ class Xtento_OrderExport_Model_Export_Data_Shared_Items extends Xtento_OrderExpo
                 $this->_writeArray['product_options_data'] = array();
                 $this->_writeArray = & $this->_origWriteArray['product_options_data'];
                 foreach ($productOptions as $productOptionKey => $productOptionValue) {
+                    if (($productOptionKey == 'giftcard_created_codes' || $productOptionKey == 'giftcard_sent_codes') && is_array($productOptionValue)) {
+                        $productOptionValue = implode(",", $productOptionValue);
+                    }
                     if (!is_array($productOptionKey) && !is_object($productOptionKey) && !is_object($productOptionValue)) {
                         $this->writeValue($productOptionKey, $productOptionValue);
                     }
@@ -205,7 +208,7 @@ class Xtento_OrderExport_Model_Export_Data_Shared_Items extends Xtento_OrderExpo
             if ($this->fieldLoadingRequired('additional_options') && $productOptions && isset($productOptions['additional_options']) && is_array($productOptions['additional_options'])) {
                 $this->_writeArray['additional_options'] = array();
                 foreach ($productOptions['additional_options'] as $additionalOption) {
-                    $this->_writeArray = & $this->_writeArray['additional_options'][];
+                    $this->_writeArray = & $this->_origWriteArray['additional_options'][];
                     foreach ($additionalOption as $productOptionKey => $productOptionValue) {
                         if (!is_array($productOptionKey) && !is_object($productOptionKey) && !is_array($productOptionValue) && !is_object($productOptionValue)) {
                             $this->writeValue($productOptionKey, $productOptionValue);
@@ -237,7 +240,7 @@ class Xtento_OrderExport_Model_Export_Data_Shared_Items extends Xtento_OrderExpo
                         $this->_writeArray['downloadable_links'] = array();
                         $downloadableLinksCollection = Mage::getModel('downloadable/link')->getCollection()
                             ->addTitleToResult()
-                            ->addFieldToFilter('`main_table`.link_id', array('in' => $productOptions['links']));
+                            ->addFieldToFilter('main_table.link_id', array('in' => $productOptions['links']));
                         foreach ($downloadableLinksCollection as $downloadableLink) {
                             $this->_writeArray = & $this->_origWriteArray['downloadable_links'][];
                             foreach ($downloadableLink->getData() as $downloadableKey => $downloadableValue) {
@@ -277,6 +280,8 @@ class Xtento_OrderExport_Model_Export_Data_Shared_Items extends Xtento_OrderExpo
                 if ($this->fieldLoadingRequired('product_attributes') || $this->fieldLoadingRequired('products_total_cost') || $this->fieldLoadingRequired('product_total_cost')) {
                     $this->_writeProductAttributes($object, $parentItem, true);
                 }
+                $this->_writeArray =& $tempOrigArray;
+                #$this->writeStockAndGroupPricing($object, $parentItem);
             }
             $this->_writeArray = & $this->_origWriteArray;
             // Export product attributes
@@ -285,6 +290,7 @@ class Xtento_OrderExport_Model_Export_Data_Shared_Items extends Xtento_OrderExpo
             }
 
             $this->_writeArray = & $this->_origWriteArray;
+            #$this->writeStockAndGroupPricing($object, $item);
             // Export product options
             if ($this->fieldLoadingRequired('custom_options') && $options = $item->getProductOptions()) {
                 // Export custom options
@@ -460,12 +466,16 @@ class Xtento_OrderExport_Model_Export_Data_Shared_Items extends Xtento_OrderExpo
                             if ($values->count()) {
                                 $value = $values->getFirstItem();
                                 if ($value->getOptionId() && $value->getSku()) {
+                                    $option = Mage::getModel('catalog/product_option')->load($value->getOptionId());
+                                    $value->setOption($option);
                                     $optionCount++;
                                     $this->_writeArray = & $writeArray['custom_options'][];
                                     $this->writeValue('name', $customOption['label']);
                                     $this->writeValue('value', $customOption['value']);
                                     $this->writeValue('sku', $value->getSku());
-                                    $this->writeValue('price', $value->getPrice(true));
+                                    if ($option && $value->getOption() && $value->getOption()->getProduct()) {
+                                        $this->writeValue('price', $value->getPrice(true));
+                                    }
 
                                     if (isset($customOption['option_id'])) {
                                         $this->writeValue('option_id', $customOption['option_id']);
@@ -609,6 +619,51 @@ class Xtento_OrderExport_Model_Export_Data_Shared_Items extends Xtento_OrderExpo
                 $this->writeValue('product_total_cost', $product->getCost() * $item->getQtyOrdered());
                 $this->_cache['product_attributes'][$object->getStoreId()][$item->getProductId()]['product_total_cost'] = $product->getCost() * $item->getQtyOrdered();
             }
+        }
+    }
+
+    protected function writeStockAndGroupPricing($object, $item) {
+        $tempOrigArray = & $this->_writeArray;
+        if ($this->fieldLoadingRequired('stock')) {
+            $this->_writeArray['stock'] = array();
+            $this->_writeArray = & $this->_writeArray['stock'];
+
+            $stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($item->getProductId());
+            if ($stock->getId()) {
+                foreach ($stock->getData() as $key => $value) {
+                    if (!$this->fieldLoadingRequired($key)) {
+                        continue;
+                    }
+                    if ($key == 'qty') {
+                        $value = sprintf('%d', $value);
+                    }
+                    $this->writeValue($key, $value);
+                }
+            }
+
+            $this->_writeArray =& $tempOrigArray;
+        }
+        if ($this->fieldLoadingRequired('group_prices')) {
+            $this->_writeArray['group_prices'] = array();
+            #$this->_writeArray = & $this->_writeArray['group_prices'];
+
+            $product = Mage::getModel('catalog/product')->load($item->getProductId());
+            $attribute = $product->getResource()->getAttribute('group_price');
+
+            if ($attribute) {
+                $attribute->getBackend()->afterLoad($product);
+                $groupPrices = $product->getData('group_price');
+                if (is_array($groupPrices)) {
+                    foreach ($groupPrices as $groupPrice) {
+                        $this->_writeArray = & $tempOrigArray['group_prices'][];
+                        foreach ($groupPrice as $key => $value) {
+                            $this->writeValue($key, $value);
+                        }
+                    }
+                }
+            }
+
+            $this->_writeArray =& $tempOrigArray;
         }
     }
 }

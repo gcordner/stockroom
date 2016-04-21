@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_OrderExport (1.8.5)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-27T15:10:35+00:00
- * Last Modified: 2013-11-09T15:50:09+01:00
+ * Product:       Xtento_OrderExport (1.9.2)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2015-08-27T12:46:45+02:00
  * File:          app/code/local/Xtento/OrderExport/Controller/Abstract.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_OrderExport_Controller_Abstract extends Mage_Adminhtml_Controller_Action
@@ -28,6 +28,9 @@ class Xtento_OrderExport_Controller_Abstract extends Mage_Adminhtml_Controller_A
                 // Try creating it using the PHP ZIP functions
                 $zipArchive = new ZipArchive();
                 $zipFile = tempnam(sys_get_temp_dir(), 'zip');
+                if (!$zipFile) {
+                    $this->_getSession()->addError(Mage::helper('xtento_orderexport')->__('Could not generate temporary file in tmp folder to store ZIP file. Please contact your hoster and make sure the PHP "tmp" (tempnam(sys_get_temp_dir())) directory is writable. ZIP creation failed.'));
+                }
                 if ($zipArchive->open($zipFile, ZIPARCHIVE::CREATE) !== TRUE) {
                     $this->_getSession()->addError(Mage::helper('xtento_orderexport')->__('Could not open file ' . $zipFile . '. ZIP creation failed.'));
                     return $this->_redirectReferer();
@@ -40,6 +43,9 @@ class Xtento_OrderExport_Controller_Abstract extends Mage_Adminhtml_Controller_A
                 // Try creating it using the PclZip class
                 require_once(Mage::getModuleDir('', 'Xtento_OrderExport') . DS . 'lib' . DS . 'PclZip.php');
                 $zipFile = tempnam(sys_get_temp_dir(), 'zip');
+                if (!$zipFile) {
+                    $this->_getSession()->addError(Mage::helper('xtento_orderexport')->__('Could not generate temporary file in tmp folder to store ZIP file. Please contact your hoster and make sure the PHP "tmp" (tempnam(sys_get_temp_dir())) directory is writable. ZIP creation failed.'));
+                }
                 $zipArchive = new PclZip($zipFile);
                 if (!$zipArchive) {
                     $this->_getSession()->addError(Mage::helper('xtento_orderexport')->__('Could not open file ' . $zipFile . '. ZIP creation failed.'));
@@ -119,7 +125,7 @@ class Xtento_OrderExport_Controller_Abstract extends Mage_Adminhtml_Controller_A
 
             }
             // Check if this module was made for the edition (CE/PE/EE) it's being run in
-            if (Xtento_OrderExport_Helper_Data::EDITION !== 'CE' && Xtento_OrderExport_Helper_Data::EDITION !== '') {
+            if (Xtento_OrderExport_Helper_Data::EDITION !== '%!version!%' && Xtento_OrderExport_Helper_Data::EDITION !== '') {
                 if (Mage::helper('xtcore/utils')->getIsPEorEE() && Mage::helper('xtento_orderexport')->getModuleEnabled()) {
                     if (Xtento_OrderExport_Helper_Data::EDITION !== 'EE') {
                         $this->addError(Mage::helper('xtento_orderexport')->__('Attention: The installed extension version is not compatible with the Enterprise Edition of Magento. The compatibility of the currently installed extension version has only been confirmed with the Community Edition of Magento. Please go to <a href="https://www.xtento.com" target="_blank">www.xtento.com</a> to purchase or download the Enterprise Edition of this extension in our store if you\'ve already purchased it.'));

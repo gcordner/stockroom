@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_OrderExport (1.8.5)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-27T15:10:35+00:00
- * Last Modified: 2013-02-18T17:30:50+01:00
+ * Product:       Xtento_OrderExport (1.9.2)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2016-03-10T13:02:05+01:00
  * File:          app/code/local/Xtento/OrderExport/controllers/Adminhtml/Orderexport/ToolsController.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_OrderExport_Adminhtml_Orderexport_ToolsController extends Xtento_OrderExport_Controller_Abstract
@@ -30,7 +30,7 @@ class Xtento_OrderExport_Adminhtml_Orderexport_ToolsController extends Xtento_Or
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('xtento_orderexport')->__('No profiles / destinations to export specified.'));
             return $this->_redirectReferer();
         }
-        $randIdPrefix = rand(10000, 99999);
+        $randIdPrefix = rand(100000, 999999);
         $exportData = array();
         $exportData['profiles'] = array();
         $exportData['destinations'] = array();
@@ -41,7 +41,7 @@ class Xtento_OrderExport_Adminhtml_Orderexport_ToolsController extends Xtento_Or
             $newDestinationIds = array();
             foreach (explode("&", $profileDestinationIds) as $destinationId) {
                 if (is_numeric($destinationId)) {
-                    $newDestinationIds[] = $randIdPrefix . $destinationId;
+                    $newDestinationIds[] = substr($randIdPrefix . $destinationId, 0, 8);
                 }
             }
             $profile->setData('new_destination_ids', implode("&", $newDestinationIds));
@@ -49,7 +49,7 @@ class Xtento_OrderExport_Adminhtml_Orderexport_ToolsController extends Xtento_Or
         }
         foreach ($destinationIds as $destinationId) {
             $destination = Mage::getModel('xtento_orderexport/destination')->load($destinationId);
-            $destination->setData('new_destination_id', $randIdPrefix . $destination->getDestinationId());
+            $destination->setData('new_destination_id', substr($randIdPrefix . $destinationId, 0, 8));
             #$destination->unsetData('destination_id');
             $destination->unsetData('password');
             $exportData['destinations'][] = $destination->toArray();

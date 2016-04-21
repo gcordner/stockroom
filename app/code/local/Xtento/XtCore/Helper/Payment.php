@@ -2,15 +2,11 @@
 
 /**
  * Product:       Xtento_XtCore (1.1.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
-<<<<<<< HEAD
- * Packaged:      2015-07-27T15:10:35+00:00
-=======
- * Packaged:      2015-07-24T22:15:50+00:00
->>>>>>> Installed Shipping TrackingImport extension. [#93534360]
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
  * Last Modified: 2014-09-22T11:55:02+02:00
  * File:          app/code/local/Xtento/XtCore/Helper/Payment.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_XtCore_Helper_Payment extends Mage_Payment_Helper_Data

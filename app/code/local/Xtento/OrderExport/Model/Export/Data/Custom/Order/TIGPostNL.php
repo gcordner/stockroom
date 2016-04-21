@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_OrderExport (1.8.5)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-27T15:10:35+00:00
- * Last Modified: 2014-07-02T20:09:40+02:00
+ * Product:       Xtento_OrderExport (1.9.2)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2015-11-30T11:53:04+01:00
  * File:          app/code/local/Xtento/OrderExport/Model/Export/Data/Custom/Order/TIGPostNL.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_OrderExport_Model_Export_Data_Custom_Order_TIGPostNL extends Xtento_OrderExport_Model_Export_Data_Abstract
@@ -66,6 +66,7 @@ class Xtento_OrderExport_Model_Export_Data_Custom_Order_TIGPostNL extends Xtento
                         foreach ($dataRow->getData() as $key => $value) {
                             $this->writeValue($key, $value);
                         }
+                        $this->writeValue('delivery_date_formatted', Mage::helper('core')->formatDate($dataRow->getDeliveryDate(), Mage_Core_Model_Locale::FORMAT_TYPE_FULL));
                     }
                 }
             } catch (Exception $e) {

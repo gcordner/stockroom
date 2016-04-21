@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_OrderExport (1.8.5)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-27T15:10:35+00:00
- * Last Modified: 2015-04-20T11:18:32+02:00
+ * Product:       Xtento_OrderExport (1.9.2)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2015-11-16T11:00:43+01:00
  * File:          app/code/local/Xtento/OrderExport/Model/Export.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_OrderExport_Model_Export extends Mage_Core_Model_Abstract
@@ -149,6 +149,19 @@ class Xtento_OrderExport_Model_Export extends Mage_Core_Model_Abstract
         return true;
     }
 
+    public function mergedExport($filters)
+    {
+        $this->setExportType(self::EXPORT_TYPE_CRONJOB);
+        $this->_beforeExport();
+        $generatedFiles = $this->_runExport($filters);
+        $this->getLogEntry()->addResultMessage(
+            Mage::helper('xtento_orderexport')->__('Exported in merged export mode.')
+        );
+        $this->_saveFiles();
+        $this->_afterExport();
+        return $generatedFiles;
+    }
+
     private function _runExport($filters, $forcedCollectionItem = false)
     {
         try {
@@ -157,32 +170,71 @@ class Xtento_OrderExport_Model_Export extends Mage_Core_Model_Abstract
             if (!$this->getProfile()) {
                 Mage::throwException(Mage::helper('xtento_orderexport')->__('No profile to export specified.'));
             }
-            $returnArray = $this->_exportObjects($filters, $forcedCollectionItem);
-            if (empty($returnArray) && !$this->getProfile()->getExportEmptyFiles()) {
-                Mage::throwException(Mage::helper('xtento_orderexport')->__('0 %ss have been exported.', $this->getProfile()->getEntity()));
-            }
-            $this->setReturnArrayWithObjects($returnArray);
-            // Get output type
-            if ($this->getProfile()->getOutputType() == 'csv') {
-                $type = 'csv';
-            } else if ($this->getProfile()->getOutputType() == 'xml') {
-                $type = 'xml';
-            } else {
-                $type = 'xsl';
-            }
-            // Convert data
-            if ($this->getProfile()->getExportOneFilePerObject()) {
-                // Create one file per exported object
+            if (preg_match('/\|merge\:/', $this->getProfile()->getXslTemplate())) { // Merge multiple profiles. Format: filename|merge:1,3,4,5 (<- profile ids)
                 $generatedFiles = array();
-                foreach ($this->getReturnArrayWithObjects() as $returnObject) {
-                    $generatedFiles = array_merge(
-                        $generatedFiles,
-                        Mage::getModel('xtento_orderexport/output_' . $type, array('profile' => $this->getProfile()))->convertData(array($returnObject))
-                    );
+                $mergeConfig = $this->getProfile()->getXslTemplate();
+                $mergeResultFilename = array_shift(explode("|", $mergeConfig));
+                $mergeConfig = str_replace($mergeResultFilename."|merge:", '', $mergeConfig);
+                $profileIds = explode(",", $mergeConfig);
+                $recordsExported = 0;
+                $generatedFile = "";
+                foreach ($profileIds as $profileId) {
+                    $profile = Mage::getModel('xtento_orderexport/profile')->load($profileId);
+                    if ($profile->getId()) {
+                        $exportModel = Mage::getModel('xtento_orderexport/export', array('profile' => $profile));
+                        $exportedFiles = $exportModel->mergedExport($filters);
+                        foreach ($exportedFiles as $exportedFilename => $exportedData) {
+                            $generatedFile .= $exportedData;
+                            $recordsExported += Mage::registry('export_log')->getRecordsExported();
+                        }
+                    }
                 }
+                if (Mage::registry('xtento_orderexport_export_variables') !== null) {
+                    $replaceableVariables = Mage::registry('xtento_orderexport_export_variables');
+                    $generatedFilename = preg_replace(
+                        array_keys($replaceableVariables),
+                        array_values($replaceableVariables),
+                        $mergeResultFilename
+                    );
+                    $generatedFiles[$generatedFilename] = $generatedFile;
+                } else {
+                    $generatedFiles[$mergeResultFilename] = $generatedFile;
+                }
+                // Re-register profile, log
+                Mage::unregister('export_log');
+                Mage::unregister('order_export_profile');
+                Mage::register('export_log', $this->getLogEntry());
+                Mage::register('order_export_profile', $this->getProfile());
+                $this->getLogEntry()->setRecordsExported($recordsExported);
             } else {
-                // Create just one file for all exported objects
-                $generatedFiles = Mage::getModel('xtento_orderexport/output_' . $type, array('profile' => $this->getProfile()))->convertData($this->getReturnArrayWithObjects());
+                // Normal export, no merging of profiles
+                $returnArray = $this->_exportObjects($filters, $forcedCollectionItem);
+                if (empty($returnArray) && !$this->getProfile()->getExportEmptyFiles()) {
+                    Mage::throwException(Mage::helper('xtento_orderexport')->__('0 %ss have been exported.', $this->getProfile()->getEntity()));
+                }
+                $this->setReturnArrayWithObjects($returnArray);
+                // Get output type
+                if ($this->getProfile()->getOutputType() == 'csv') {
+                    $type = 'csv';
+                } else if ($this->getProfile()->getOutputType() == 'xml') {
+                    $type = 'xml';
+                } else {
+                    $type = 'xsl';
+                }
+                // Convert data
+                if ($this->getProfile()->getExportOneFilePerObject()) {
+                    // Create one file per exported object
+                    $generatedFiles = array();
+                    foreach ($this->getReturnArrayWithObjects() as $returnObject) {
+                        $generatedFiles = array_merge(
+                            $generatedFiles,
+                            Mage::getModel('xtento_orderexport/output_' . $type, array('profile' => $this->getProfile()))->convertData(array($returnObject))
+                        );
+                    }
+                } else {
+                    // Create just one file for all exported objects
+                    $generatedFiles = Mage::getModel('xtento_orderexport/output_' . $type, array('profile' => $this->getProfile()))->convertData($this->getReturnArrayWithObjects());
+                }
             }
             // Check for empty files
             if (!$this->getProfile()->getExportEmptyFiles()) {

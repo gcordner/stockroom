@@ -405,3 +405,27 @@ Xtento_OrderExport
 
 ===== 1.8.5 =====
  * Fixed a bug for product_attribute export data; image fields could be empty for repeated export of same product in an order
+ * Fixed repeated "additional_options" export
+
+===== 1.8.6 =====
+ + Added ability to export multiple export profiles *from* one profile and merge the resulting files into one file
+
+===== 1.8.7 =====
+ + Added "delivery_date_formatted" field for "TIG_PostNl" extension
+ * SUPEE-6788 fix, compatibility established
+
+===== 1.8.8 =====
+ * Fixed export of custom options with price type "percent". Error message: "Call to a member function getProduct() on a non-object in app/code/core/Mage/Catalog/Model/Product/Option/Value.php on line 150"
+ * PDF files are not output into the %content% variable for email destinations anymore
+
+===== 1.8.9 =====
+ + Added ability to export payment transactions, on payment level transactions/transaction
+
+===== 1.9.0 =====
+ + Added ability to export custom fields stored by Magalter_Shippingoptions extension
+
+===== 1.9.1 =====
+ + Added ability to export shipment comments (for "Shipment" exports)
+
+===== 1.9.2 =====
+ + Added ability to use variable %customeremail% for email destinations. So emails can be sent to the customer email now. Requires "One file per object" to be enabled.

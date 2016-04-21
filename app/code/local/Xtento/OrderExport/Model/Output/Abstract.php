@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_OrderExport (1.8.5)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-27T15:10:35+00:00
- * Last Modified: 2015-05-06T22:26:44+02:00
+ * Product:       Xtento_OrderExport (1.9.2)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2016-03-30T18:10:48+02:00
  * File:          app/code/local/Xtento/OrderExport/Model/Output/Abstract.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 abstract class Xtento_OrderExport_Model_Output_Abstract extends Mage_Core_Model_Abstract implements Xtento_OrderExport_Model_Output_Interface
@@ -43,9 +43,10 @@ abstract class Xtento_OrderExport_Model_Output_Abstract extends Mage_Core_Model_
             '/%timestamp%/' => Mage::getSingleton('core/date')->timestamp(time()),
             '/%lastentityid%/' => $this->getVariableValue('last_entity_id', $exportArray, $filename, '%lastentityid%'),
             '/%orderid%/' => $this->getVariableValue('last_entity_id', $exportArray, $filename, '%orderid%'), // Legacy
-            '/%lastincrementid%/' => $this->getVariableValue('last_increment_id', $exportArray, $filename, '%lastincrementid%'),
+            '/%lastincrementid%/' => $this->getVariableValue('last_increment_id', $exportArray, '/%lastincrementid%/' . $filename, '%lastincrementid%'), // Variable in filename so it's always retrieved
             '/%firstincrementid%/' => $this->getVariableValue('first_increment_id', $exportArray, $filename, '%firstincrementid%'),
             '/%lastorderincrementid%/' => $this->getVariableValue('last_order_increment_id', $exportArray, $filename, '%lastorderincrementid%'),
+            '/%lastcustomeremail%/' => $this->getVariableValue('last_customer_email', $exportArray, '/%lastcustomeremail%/' . $filename, '%lastcustomeremail%'), // Variable in filename so it's always retrieved
             '/%realorderid%/' => $this->getVariableValue('last_increment_id', $exportArray, $filename, '%realorderid%'), // Legacy
             '/%ordercount%/' => $this->getVariableValue('collection_count', $exportArray, $filename, '%ordercount%'), // Legacy
             '/%collectioncount%/' => $this->getVariableValue('collection_count', $exportArray, $filename, '%collectioncount%'),
@@ -62,9 +63,12 @@ abstract class Xtento_OrderExport_Model_Output_Abstract extends Mage_Core_Model_
         Mage::dispatchEvent('xtento_orderexport_replace_filename_variables_before', array('transport' => $transportObject));
         $replaceableVariables = array_merge($replaceableVariables, $transportObject->getCustomVariables());
 
-        // Remember last exported ID
-        Mage::unregister('last_exported_increment_id');
-        Mage::register('last_exported_increment_id', $this->getVariableValue('last_increment_id', $exportArray, false, false));
+        // Register variables for other usage
+        if (!empty($exportArray) || (empty($exportArray) && Mage::registry('xtento_orderexport_export_variables') === null)) {
+            Mage::register('xtento_orderexport_export_variables', $replaceableVariables, true);
+        }
+
+        // Replace variables in filename
         $filename = preg_replace(array_keys($replaceableVariables), array_values($replaceableVariables), $filename);
         return $filename;
     }
@@ -127,6 +131,16 @@ abstract class Xtento_OrderExport_Model_Output_Abstract extends Mage_Core_Model_
                 return $lastItem['increment_id'];
             } else {
                 return '';
+            }
+        }
+        if ($variable == 'last_customer_email') {
+            $lastItem = array_pop($arrayToWorkWith);
+            if (isset($lastItem['customer_email'])) {
+                return $lastItem['customer_email'];
+            } elseif (isset($lastItem['order']) && isset($lastItem['order']['customer_email'])) {
+                return $lastItem['order']['customer_email'];
+            } else {
+                return 'no_customer_email_set' . $lastItem['entity_id'];
             }
         }
         if ($variable == 'date_from_timestamp') {
@@ -226,7 +240,8 @@ abstract class Xtento_OrderExport_Model_Output_Abstract extends Mage_Core_Model_
     {
         $message .= "\n";
         foreach (libxml_get_errors() as $error) {
-            $message .= "\tLine " . $error->line . ": " . $error->message;
+            // XML error codes: http://www.xmlsoft.org/html/libxml-xmlerror.html
+            $message .= "\tLine " . $error->line . " (Error Code: ".$error->code."): " . $error->message;
             if (strpos($error->message, "\n") === FALSE) {
                 $message .= "\n";
             }

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_OrderExport (1.8.5)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-27T15:10:35+00:00
+ * Product:       Xtento_OrderExport (1.9.2)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
  * Last Modified: 2015-04-03T22:00:11+02:00
  * File:          app/code/local/Xtento/OrderExport/Helper/Xsl.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_OrderExport_Helper_Xsl extends Mage_Core_Helper_Abstract
@@ -108,13 +108,5 @@ class Xtento_OrderExport_Helper_Xsl extends Mage_Core_Helper_Abstract
     static function currencyConvert($value, $fromCurrency, $toCurrency = null)
     {
         return Mage::helper('directory')->currencyConvert($value, $fromCurrency, $toCurrency);
-    }
-    
-    static function localDate($format)
-    {
-        $argv = func_get_args();
-        array_shift($argv);
-        $currentTimestamp = Mage::helper('core')->formatDate($argv[0], 'medium', true);
-        return date($format, strtotime($currentTimestamp));
     }
 }

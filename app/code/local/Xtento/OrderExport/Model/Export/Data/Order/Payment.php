@@ -1,16 +1,18 @@
 <?php
 
 /**
- * Product:       Xtento_OrderExport (1.8.5)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-27T15:10:35+00:00
- * Last Modified: 2013-05-15T20:49:28+02:00
+ * Product:       Xtento_OrderExport (1.9.2)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2016-02-02T14:19:04+01:00
  * File:          app/code/local/Xtento/OrderExport/Model/Export/Data/Order/Payment.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_OrderExport_Model_Export_Data_Order_Payment extends Xtento_OrderExport_Model_Export_Data_Abstract
 {
+    private $_origWriteArray;
+
     public function getConfiguration()
     {
         return array(
@@ -27,6 +29,7 @@ class Xtento_OrderExport_Model_Export_Data_Order_Payment extends Xtento_OrderExp
         // Set return array
         $returnArray = array();
         $this->_writeArray = & $returnArray['payment']; // Write on payment level
+        $this->_origWriteArray = & $this->_writeArray;
         // Fetch fields to export
         $order = $collectionItem->getOrder();
         $payment = $order->getPayment();
@@ -121,6 +124,29 @@ class Xtento_OrderExport_Model_Export_Data_Order_Payment extends Xtento_OrderExp
                     }
                 }
             }
+            $this->_writeArray = & $this->_origWriteArray;
+
+            if ($this->fieldLoadingRequired('transactions/')) {
+                $this->_writeArray = & $returnArray['payment']['transactions']; // Write on "transactions" level
+                // Output payment transactions
+                $txnCollection = Mage::getModel('sales/order_payment_transaction')->getCollection()
+                    ->setOrderFilter($order)
+                    ->addPaymentIdFilter($payment->getId());
+                foreach ($txnCollection as $txn) {
+                    $this->_writeArray = & $returnArray['payment']['transactions'][];
+                    $txn->setOrderPaymentObject($payment);
+                    foreach ($txn->getData() as $key => $value) {
+                        $this->writeValue($key, $value);
+                    }
+                    $additionalInformation = $txn->getAdditionalInformation();
+                    if (is_array($additionalInformation)) {
+                        foreach ($additionalInformation as $key => $value) {
+                            $this->writeValue('additional_' . $key, $value);
+                        }
+                    }
+                }
+            }
+            $this->_writeArray = & $this->_origWriteArray;
         }
         $this->_writeArray = & $returnArray;
         // Done

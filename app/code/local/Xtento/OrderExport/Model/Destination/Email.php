@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_OrderExport (1.8.5)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-27T15:10:35+00:00
- * Last Modified: 2014-09-03T20:57:02+02:00
+ * Product:       Xtento_OrderExport (1.9.2)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2016-03-30T18:18:37+02:00
  * File:          app/code/local/Xtento/OrderExport/Model/Destination/Email.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_OrderExport_Model_Destination_Email extends Xtento_OrderExport_Model_Destination_Abstract
@@ -73,22 +73,26 @@ class Xtento_OrderExport_Model_Destination_Email extends Xtento_OrderExport_Mode
             }
         }
 
+        $bodyFiles = array();
         foreach ($fileArray as $filename => $data) {
             if ($this->getDestination()->getEmailAttachFiles()) {
                 $attachment = $mail->createAttachment($data);
                 $attachment->filename = $filename;
             }
             $savedFiles[] = $filename;
+            if (stripos($filename, '.pdf') === false) {
+                $bodyFiles[] = $data;
+            }
         }
 
         #$mail->setSubject($this->_replaceVariables($this->getDestination()->getEmailSubject(), $firstFileContent));
         if ($charset === "utf-8") {
-            $mail->setSubject('=?utf-8?B?' . base64_encode($this->_replaceVariables($this->getDestination()->getEmailSubject(), implode("\n\n", $fileArray))) . '?=');
+            $mail->setSubject('=?utf-8?B?' . base64_encode($this->_replaceVariables($this->getDestination()->getEmailSubject(), implode("\n\n", $bodyFiles))) . '?=');
         } else {
-            $mail->setSubject($this->_replaceVariables($this->getDestination()->getEmailSubject(), implode("\n\n", $fileArray)));
+            $mail->setSubject($this->_replaceVariables($this->getDestination()->getEmailSubject(), implode("\n\n", $bodyFiles)));
         }
-        $mail->setBodyText(strip_tags($this->_replaceVariables($this->getDestination()->getEmailBody(), implode("\n\n", $fileArray))));
-        $mail->setBodyHtml($this->_replaceVariables($this->getDestination()->getEmailBody(), implode("\n\n", $fileArray)));
+        $mail->setBodyText(strip_tags($this->_replaceVariables($this->getDestination()->getEmailBody(), implode("\n\n", $bodyFiles))));
+        $mail->setBodyHtml(nl2br($this->_replaceVariables($this->getDestination()->getEmailBody(), implode("\n\n", $bodyFiles))));
 
         try {
             $mail->send(Mage::helper('xtcore/utils')->getEmailTransport());
@@ -102,6 +106,9 @@ class Xtento_OrderExport_Model_Destination_Email extends Xtento_OrderExport_Mode
 
     private function _replaceVariables($string, $content)
     {
+        $additionalVariables = Mage::registry('xtento_orderexport_export_variables');
+        $additionalVariables = is_array($additionalVariables) ? $additionalVariables : array();
+
         $replaceableVariables = array(
             '%d%' => Mage::getSingleton('core/date')->date('d'),
             '%m%' => Mage::getSingleton('core/date')->date('m'),
@@ -111,7 +118,8 @@ class Xtento_OrderExport_Model_Destination_Email extends Xtento_OrderExport_Mode
             '%i%' => Mage::getSingleton('core/date')->date('i'),
             '%s%' => Mage::getSingleton('core/date')->date('s'),
             '%exportid%' => (Mage::registry('export_log')) ? Mage::registry('export_log')->getId() : 0,
-            '%lastexportedincrementid%' => (Mage::registry('last_exported_increment_id')) ? Mage::registry('last_exported_increment_id') : 0,
+            '%lastexportedincrementid%' => isset($additionalVariables['/%lastincrementid%/']) ? $additionalVariables['/%lastincrementid%/'] : 0,
+            '%customeremail%' => isset($additionalVariables['/%lastcustomeremail%/']) ? $additionalVariables['/%lastcustomeremail%/'] : '',
             '%recordcount%' => (Mage::registry('export_log')) ? Mage::registry('export_log')->getRecordsExported() : 0,
             '%content%' => $content,
         );

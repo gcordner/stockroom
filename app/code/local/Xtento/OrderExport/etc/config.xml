@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Xtento_OrderExport>
-            <version>1.8.5</version>
+            <version>1.9.2</version>
         </Xtento_OrderExport>
     </modules>
     <global>
@@ -400,11 +400,11 @@
 </config>
 <!--
 /**
- * Product:       Xtento_OrderExport (1.8.5)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-27T15:10:35+00:00
- * Last Modified: 2015-07-24T13:00:12+02:00
+ * Product:       Xtento_OrderExport (1.9.2)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2016-03-30T18:11:34+02:00
  * File:          app/code/local/Xtento/OrderExport/etc/config.xml
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 -->
