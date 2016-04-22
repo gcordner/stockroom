@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
- * Last Modified: 2015-06-26T15:46:30+02:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2016-02-26T16:13:33+01:00
  * File:          app/code/local/Xtento/TrackingImport/Model/Import/Action/Order/Invoice.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_TrackingImport_Model_Import_Action_Order_Invoice extends Xtento_TrackingImport_Model_Import_Action_Abstract
 {
     public function invoice()
     {
+        /** @var Mage_Sales_Model_Order $order */
         $order = $this->getOrder();
 
         // Prepare items to process
@@ -28,6 +29,20 @@ class Xtento_TrackingImport_Model_Import_Action_Order_Invoice extends Xtento_Tra
                     $itemsToProcess[$itemRecord['sku']]['qty'] = $itemRecord['qty'];
                 }
             }
+        }
+
+        // Customization: Only invoice shipped items
+        /*$itemsToProcess = array();
+        foreach ($order->getAllItems() as $orderItem) {
+            if ($orderItem->getQtyShipped() > $orderItem->getQtyInvoiced() && $orderItem->getQtyToInvoice() > 0) {
+                $itemsToProcess[strtolower($orderItem->getSku())] = ($orderItem->getQtyShipped() - $orderItem->getQtyInvoiced());
+            }
+        }*/
+
+        // Check if order is holded and unhold if should be shipped
+        if ($order->canUnhold() && $this->getActionSettingByFieldBoolean('invoice_create', 'enabled')) {
+            $order->unhold()->save();
+            $this->addDebugMessage(Mage::helper('xtento_trackingimport')->__("Order '%s': Order was unholded so it can be invoiced.", $order->getIncrementId()));
         }
 
         // Create Invoice
@@ -59,33 +74,31 @@ class Xtento_TrackingImport_Model_Import_Action_Order_Invoice extends Xtento_Tra
                         }
                         // Item matched?
                         if (isset($itemsToProcess[$orderItemSku])) {
-                            if ($itemsToProcess[$orderItemSku]['qty'] == '' || $itemsToProcess[$orderItemSku]['qty'] < 0) {
-                                $qty = $orderItem->getQtyOrdered();
-                            } else {
-                                $qtyToProcess = $itemsToProcess[$orderItemSku]['qty'];
-                                $maxQty = $orderItem->getQtyToInvoice();
-                                if ($qtyToProcess > $maxQty) {
-                                    if ($orderItem->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_SIMPLE && $orderItem->getParentItem() && $orderItem->getParentItem()->getQtyToInvoice() > 0) {
-                                        // Has a parent item that must be invoiced instead
-                                        $maxQty = $orderItem->getParentItem()->getQtyToInvoice();
-                                        if ($qtyToProcess > $maxQty) {
-                                            $qty = round($maxQty);
-                                            $itemsToProcess[$orderItemSku]['qty'] -= $maxQty;
-                                        } else {
-                                            $qty = round($qtyToProcess);
-                                        }
-                                    } else {
+                            $orderItemId = $orderItem->getId();
+                            $qtyToProcess = $itemsToProcess[$orderItemSku]['qty'];
+                            $maxQty = $orderItem->getQtyToInvoice();
+                            if ($qtyToProcess > $maxQty) {
+                                if ($orderItem->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_SIMPLE && $orderItem->getParentItem() && $orderItem->getParentItem()->getQtyToInvoice() > 0) {
+                                    // Has a parent item that must be invoiced instead
+                                    $orderItemId = $orderItem->getParentItem()->getId();
+                                    $maxQty = $orderItem->getParentItem()->getQtyToInvoice();
+                                    if ($qtyToProcess > $maxQty) {
                                         $qty = round($maxQty);
                                         $itemsToProcess[$orderItemSku]['qty'] -= $maxQty;
+                                    } else {
+                                        $qty = round($qtyToProcess);
                                     }
                                 } else {
-                                    $qty = round($qtyToProcess);
+                                    $qty = round($maxQty);
+                                    $itemsToProcess[$orderItemSku]['qty'] -= $maxQty;
                                 }
+                            } else {
+                                $qty = round($qtyToProcess);
                             }
                             if ($qty > 0) {
-                                $qtys[$orderItem->getId()] = round($qty);
+                                $qtys[$orderItemId] = round($qty);
                             } else {
-                                $qtys[$orderItem->getId()] = 0;
+                                $qtys[$orderItemId] = 0;
                             }
                         } else {
                             $qtys[$orderItem->getId()] = 0;
@@ -93,6 +106,11 @@ class Xtento_TrackingImport_Model_Import_Action_Order_Invoice extends Xtento_Tra
                     }
                     if (!empty($qtys)) {
                         $invoice = $order->prepareInvoice($qtys);
+                        // Check if proper items have been found in $qtys
+                        if (!$invoice->getTotalQty()) {
+                            $doInvoiceOrder = false;
+                            $this->addDebugMessage(Mage::helper('xtento_trackingimport')->__("Order '%s' has NOT been invoiced. Partial invoicing enabled, however the items specified in the import file couldn't be found in the order. (Could not find any qtys to invoice)", $order->getIncrementId()));
+                        }
                     } else {
                         // We're supposed to import partial shipments, but no SKUs were found at all. Do not touch invoice.
                         $this->addDebugMessage(Mage::helper('xtento_trackingimport')->__("Order '%s' has NOT been invoiced. Partial invoicing enabled, however the items specified in the import file couldn't be found in the order.", $order->getIncrementId()));
@@ -111,7 +129,12 @@ class Xtento_TrackingImport_Model_Import_Action_Order_Invoice extends Xtento_Tra
                         $invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
                     }
 
-                    $invoice->register();
+                    try {
+                        $invoice->register();
+                    } catch (Exception $e) {
+                        Mage::throwException($e->getMessage());
+                        return false;
+                    }
                     if ($this->getActionSettingByFieldBoolean('invoice_send_email', 'enabled')) {
                         $invoice->setEmailSent(true);
                     }

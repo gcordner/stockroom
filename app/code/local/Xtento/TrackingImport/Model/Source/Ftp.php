@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
- * Last Modified: 2015-05-29T10:03:37+02:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2015-12-18T17:09:31+01:00
  * File:          app/code/local/Xtento/TrackingImport/Model/Source/Ftp.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_TrackingImport_Model_Source_Ftp extends Xtento_TrackingImport_Model_Source_Abstract
@@ -123,7 +123,7 @@ class Xtento_TrackingImport_Model_Source_Ftp extends Xtento_TrackingImport_Model
                 if (!empty($buffer)) {
                     $filesToProcess[] = array('source_id' => $this->getSource()->getId(), 'path' => $this->getSource()->getPath(), 'filename' => $filename, 'data' => $buffer);
                 } else {
-                    $this->archiveFiles(array(array('source_id' => $this->getSource()->getId(), 'path' => $this->getSource()->getPath(), 'filename' => $filename)), false, false);
+                    $this->archiveFiles(array(array('source_id' => $this->getSource()->getId(), 'path' => $this->getSource()->getPath(), 'filename' => $filename)), false, false, false);
                 }
             } else {
                 $logEntry->setResult(Xtento_TrackingImport_Model_Log::RESULT_WARNING);
@@ -137,7 +137,7 @@ class Xtento_TrackingImport_Model_Source_Ftp extends Xtento_TrackingImport_Model
         return $filesToProcess;
     }
 
-    public function archiveFiles($filesToProcess, $forceDelete = false, $chDir = true)
+    public function archiveFiles($filesToProcess, $forceDelete = false, $chDir = true, $closeConnection = true)
     {
         $logEntry = Mage::registry('tracking_import_log');
 
@@ -188,7 +188,9 @@ class Xtento_TrackingImport_Model_Source_Ftp extends Xtento_TrackingImport_Model
                     }
                 }
             }
-            @ftp_close($this->_connection);
+            if ($closeConnection) {
+                @ftp_close($this->_connection);
+            }
         }
     }
 }

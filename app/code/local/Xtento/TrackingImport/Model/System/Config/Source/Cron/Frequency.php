@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
  * Last Modified: 2014-07-27T12:36:36+02:00
  * File:          app/code/local/Xtento/TrackingImport/Model/System/Config/Source/Cron/Frequency.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_TrackingImport_Model_System_Config_Source_Cron_Frequency
 {
     protected static $_options;
 
-    const VERSION = 'E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=';
+    const VERSION = '%!uniqueid!%';
 
     public function toOptionArray()
     {

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
- * Last Modified: 2015-05-14T17:07:55+02:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2016-02-03T15:28:52+01:00
  * File:          app/code/local/Xtento/TrackingImport/Model/Import/Action/Abstract.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 abstract class Xtento_TrackingImport_Model_Import_Action_Abstract extends Mage_Core_Model_Abstract

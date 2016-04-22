@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
  * Last Modified: 2013-11-09T15:18:08+01:00
  * File:          app/code/local/Xtento/TrackingImport/Helper/Data.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_TrackingImport_Helper_Data extends Mage_Core_Helper_Abstract
 {
     static $_isModuleProperlyInstalled = null;
-    const EDITION = 'CE';
+    const EDITION = '%!version!%';
 
     public function getDebugEnabled()
     {

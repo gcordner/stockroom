@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
  * Last Modified: 2015-05-16T21:39:37+02:00
  * File:          app/code/local/Xtento/TrackingImport/Controller/Abstract.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_TrackingImport_Controller_Abstract extends Mage_Adminhtml_Controller_Action
@@ -114,7 +114,7 @@ class Xtento_TrackingImport_Controller_Abstract extends Mage_Adminhtml_Controlle
         }
         if ($this->getRequest()->getActionName() !== 'redirect') {
             // Check if this module was made for the edition (CE/PE/EE) it's being run in
-            if (Xtento_TrackingImport_Helper_Data::EDITION !== 'CE' && Xtento_TrackingImport_Helper_Data::EDITION !== '') {
+            if (Xtento_TrackingImport_Helper_Data::EDITION !== '%!version!%' && Xtento_TrackingImport_Helper_Data::EDITION !== '') {
                 if (Mage::helper('xtcore/utils')->getIsPEorEE() && Mage::helper('xtento_trackingimport')->getModuleEnabled()) {
                     if (Xtento_TrackingImport_Helper_Data::EDITION !== 'EE') {
                         $this->addError(Mage::helper('xtento_trackingimport')->__('Attention: The installed extension version is not compatible with the Enterprise Edition of Magento. The compatibility of the currently installed extension version has only been confirmed with the Community Edition of Magento. Please go to <a href="https://www.xtento.com" target="_blank">www.xtento.com</a> to purchase or download the Enterprise Edition of this extension in our store if you\'ve already purchased it.'));

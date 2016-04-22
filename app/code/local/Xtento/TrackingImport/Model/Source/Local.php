@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
- * Last Modified: 2013-11-12T17:12:53+01:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2015-08-24T15:27:04+02:00
  * File:          app/code/local/Xtento/TrackingImport/Model/Source/Local.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_TrackingImport_Model_Source_Local extends Xtento_TrackingImport_Model_Source_Abstract
@@ -26,7 +26,7 @@ class Xtento_TrackingImport_Model_Source_Local extends Xtento_TrackingImport_Mod
             if (@realpath($importDirectory) == $forbiddenFolder) {
                 return $testResult->setSuccess(false)->setMessage(Mage::helper('xtento_trackingimport')->__('It is not allowed to load import files from the directory you have specified. Please change the local import directory to be located in the ./var/ folder for example. Do not use the Magento root directory for example.'));
             }
-            if (@realpath($archiveDirectory) == $forbiddenFolder) {
+            if (!empty($archiveDirectory) && @realpath($archiveDirectory) == $forbiddenFolder) {
                 return $testResult->setSuccess(false)->setMessage(Mage::helper('xtento_trackingimport')->__('It is not allowed to move archived files into the directory you have specified. Please change the archive directory to be located in the ./var/ folder for example. Do not use the Magento root directory for example.'));
             }
         }

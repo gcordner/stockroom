@@ -126,3 +126,51 @@ Xtento_TrackingImport
 
 ===== 2.0.7 =====
  + Added ability to cancel order upon import
+
+===== 2.0.8 =====
+ + XML: Added ability to import "SKU and QTY in one field" (SKU1:QTY1;SKU2:QTY2;...) format for XML imports: Specify the following "Additional Configuration" for the "Product Identifier" field in the mapping: <configuration><sku_qty_one_field>1</sku_qty_one_field></configuration>
+
+===== 2.0.9 =====
+ + CSV: Added ability to import "SKU and QTY in one field" (SKU1:QTY1;SKU2:QTY2;...) format for CSV imports: Specify the following "Additional Configuration" for the "Product Identifier" field in the mapping: <configuration><sku_qty_one_field>1</sku_qty_one_field></configuration>
+
+===== 2.1.0 =====
+ * Fixed a bug for condition based actions ("set value to false if...") for multiple orders within one import
+
+===== 2.1.1 =====
+ * Fixed local directory source: Error message if "Archive" directory is empty
+ * Added missing js/xtento/jquery folder
+ + Order is unholded (if it is holded) before invoicing/shipping
+
+===== 2.1.2 =====
+ * Fixed "Import no shipments without tracking numbers" action, no shipments are created if there are no tracking numbers if this action is enabled.
+
+===== 2.1.3 =====
+ + "Remove" strings in whole import XML file (only possible for XML processor). In "Data XPath", specify: //orders/order!|!ns1:,ns2: - will lead to the strings "ns1:" and "ns2" being removed from the whole import data before processing the file
+ * Fixed "Skip" Field Configuration XML feature that skips rows for CSV/XML files, configured in "Additional Configuration" using the skip node.
+
+===== 2.1.4 =====
+ + Added new action to send order status update email
+ * Fixed "Notice: Undefined index: id in \app\code\local\Xtento\TrackingImport\Model\Processor\Csv.php on line 283"
+
+===== 2.1.5 =====
+ * Fixed "Skip" Field Configuration feature. Would fail if there are multiple rows for one order/ID for CSV imports
+
+===== 2.1.6 =====
+ * Fixed "Skip" Field Configuration for XML file imports
+
+===== 2.1.7 =====
+ * Fixed a bug for FTP import sources that could lead to files being not processed if there are empty files in the FTP import directory
+ * Fixed a bug for Fixed-Length-Formats where default values weren't used
+
+===== 2.1.8 =====
+ + Dispatching event xtento_trackingimport_process_order_before before an order is processed
+ * XML Processor: Fixed merging of orders split across multiple nodes
+ * For the error message "Exception catched for" the order increment_id is shown instead of the entity_id now.
+ * Fixed "Set" Field Configuration XML feature that didn't work for values that should be set to "false"
+
+===== 2.1.9 =====
+ * Fixed partial invoice/shipment creation for items with parent items (configurable products, etc.)
+ * Fixed a bug that could lead to empty invoices/shipments being created if invoice/shipment creation fails with an exception
+
+===== 2.2.0 =====
+ * Fixed a bug for invoice/shipment creation that could lead to an item being invoiced/shipped even though qty in import file is 0 or "" (empty string)

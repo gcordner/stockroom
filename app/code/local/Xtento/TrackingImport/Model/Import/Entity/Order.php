@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
- * Last Modified: 2015-05-29T13:02:32+02:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2016-02-17T21:26:36+01:00
  * File:          app/code/local/Xtento/TrackingImport/Model/Import/Entity/Order.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_TrackingImport_Model_Import_Entity_Order extends Xtento_TrackingImport_Model_Import_Entity_Abstract
@@ -123,7 +123,14 @@ class Xtento_TrackingImport_Model_Import_Entity_Order extends Xtento_TrackingImp
         Mage::app()->getLocale()->emulate($order->getStoreId());
 
         // Register update data for third party processing
-        Mage::register('xtento_trackingimport_updatedata', $updateData, true);
+        Mage::unregister('xtento_trackingimport_updatedata');
+        Mage::register('xtento_trackingimport_updatedata', $updateData);
+
+        Mage::dispatchEvent('xtento_trackingimport_process_order_before',  array(
+            'import_profile' => $validationProfile,
+            'update_data' => &$updateData,
+            'order' => $order
+        ));
 
         // Apply actions
         #var_dump($this->getActions()); die();
@@ -143,10 +150,13 @@ class Xtento_TrackingImport_Model_Import_Entity_Order extends Xtento_TrackingImp
                             }
                         } catch (Exception $e) {
                             // Don't break execution, but log the order related error.
-                            $errorMessage = "Exception catched for order '" . $order->getId() . "' while executing action '" . $actionData['class'] . "::" . $actionData['method'] . "':\n" . $e->getMessage();
+                            $errorMessage = "Exception catched for order '" . $order->getIncrementId() . "' while executing action '" . $actionData['class'] . "::" . $actionData['method'] . "':\n" . $e->getMessage();
                             $importDebugMessages[] = $errorMessage;
                             Mage::registry('tracking_import_log')->setResult(Xtento_TrackingImport_Model_Log::RESULT_WARNING);
                             Mage::registry('tracking_import_log')->addResultMessage($errorMessage);
+                            // Re-load order to "kill" changes made in order object by invoice/shipment creation
+                            $order = $this->loadOrder($rowIdentifier);
+                            #return $this->_returnDebugResult($importChanged, $importDebugMessages);
                             continue;
                         }
                     }

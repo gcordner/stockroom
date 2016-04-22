@@ -1,17 +1,18 @@
 <?php
 
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
- * Last Modified: 2015-07-08T13:28:01+02:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2016-02-02T14:46:22+01:00
  * File:          app/code/local/Xtento/TrackingImport/Model/Processor/Xml.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_TrackingImport_Model_Processor_Xml extends Xtento_TrackingImport_Model_Processor_Abstract
 {
     #protected $update = null;
+    protected $rowData;
 
     public function getRowsToProcess($filesToProcess)
     {
@@ -49,6 +50,14 @@ class Xtento_TrackingImport_Model_Processor_Xml extends Xtento_TrackingImport_Mo
             Mage::throwException('Please configure the XML Processor in the configuration section of this import profile. The Data XPath field may not be empty.');
         }
 
+        $importDataXpath = explode("!|!", $config['IMPORT_DATA_XPATH']);
+        $config['IMPORT_DATA_XPATH'] = $importDataXpath[0];
+        $replaceStrings = array();
+        if (isset($importDataXpath[1])) {
+            // "Replace" value in import data XPath: //orders/order!|!ns1:,ns2: - will lead to the strings "ns1:" and "ns2" being removed from the file
+            $replaceStrings = explode(",", $importDataXpath[1]);
+        }
+
         foreach ($filesToProcess as $importFile) {
             $data = $importFile['data'];
             $filename = $importFile['filename'];
@@ -64,6 +73,11 @@ class Xtento_TrackingImport_Model_Processor_Xml extends Xtento_TrackingImport_Mo
             // Prepare data - replace namespace
             $data = str_replace('xmlns=', 'ns=', $data); // http://www.php.net/manual/en/simplexmlelement.xpath.php#96153
             $data = str_replace('xmlns:', 'ns:', $data); // http://www.php.net/manual/en/simplexmlelement.xpath.php#96153
+
+            // Replace values from "data xpath" field
+            if (!empty($replaceStrings)) {
+                $data = str_replace($replaceStrings, '', $data);
+            }
 
             #$loadEntities = libxml_disable_entity_loader(true);
             try {
@@ -98,6 +112,9 @@ class Xtento_TrackingImport_Model_Processor_Xml extends Xtento_TrackingImport_Mo
                 $updateDOM->appendChild($updateDOM->importNode($update, true));
                 $updateXPath = new DOMXPath($updateDOM);
                 #$this->update = $updateXPath;
+                $this->rowData = $updateXPath;
+
+                #var_dump($updateDOM->saveXML()); die();
 
                 $skipRow = false;
                 // First run: Get order number for row
@@ -114,12 +131,11 @@ class Xtento_TrackingImport_Model_Processor_Xml extends Xtento_TrackingImport_Mo
                         $skipRow = true;
                     }
                 }
-                if ($skipRow) {
-                    // Field in field_configuration XML determined that this row should be skipped. "<skip>" parameter in XML field config
-                    continue;
-                }
                 if (empty($rowIdentifier)) {
                     continue;
+                }
+                if ($skipRow) {
+                    $rowIdentifier .= '_SKIP';
                 }
                 $updateCounter++;
                 if (!isset($updatesToProcess[$rowIdentifier])) {
@@ -180,8 +196,26 @@ class Xtento_TrackingImport_Model_Processor_Xml extends Xtento_TrackingImport_Mo
                                         if (!in_array($fieldName, $foundFields)) {
                                             $foundFields[] = $fieldName;
                                         }
-                                        //$writeArray[$fieldName] = $this->mappingModel->formatField($fieldName, $fieldValue);
-                                        $rowArray[$currentGroup][$arrayRowIdentifier][$fieldName] = $this->mappingModel->formatField($fieldName, $fieldValue);
+                                        // Import SKU1:QTY1;SKU2:QTY2;... format
+                                        if ($fieldName == 'sku' && isset($fieldData['config']['sku_qty_one_field']) && $fieldData['config']['sku_qty_one_field'] == 1) {
+                                            // We're supposed to import the SKU and Qtys all from one field. Each combination separated by a ; and sku/qty separated by :
+                                            $skuAndQtys = explode(";", $fieldValue);
+                                            foreach ($skuAndQtys as $skuAndQty) {
+                                                $nodeCounter++;
+                                                $arrayRowIdentifier = $updateCounter . $groupRowCounter . $nodeCounter;
+                                                if (!isset($rowArray[$currentGroup][$arrayRowIdentifier])) {
+                                                    $rowArray[$currentGroup][$arrayRowIdentifier] = array();
+                                                }
+                                                list ($sku, $qty) = explode(":", $skuAndQty);
+                                                if ($sku !== '') {
+                                                    $rowArray[$currentGroup][$arrayRowIdentifier]['sku'] = $sku;
+                                                    $rowArray[$currentGroup][$arrayRowIdentifier]['qty'] = $qty;
+                                                }
+                                            }
+                                        } else {
+                                            // Normal field - not SKU/QTY, not combined into one field
+                                            $rowArray[$currentGroup][$arrayRowIdentifier][$fieldName] = $this->mappingModel->formatField($fieldName, $fieldValue);
+                                        }
                                     }
                                 }
                             }
@@ -203,13 +237,54 @@ class Xtento_TrackingImport_Model_Processor_Xml extends Xtento_TrackingImport_Mo
                                 $foundFields[] = $fieldName;
                             }
                             if (isset($fieldData['group']) && !empty($fieldData['group'])) {
-                                $rowArray[$fieldData['group']][$updateCounter - 1][$fieldName] = $this->mappingModel->formatField($fieldName, $fieldValue);
+                                // Import SKU1:QTY1;SKU2:QTY2;... format
+                                if ($fieldName == 'sku' && isset($fieldData['config']['sku_qty_one_field']) && $fieldData['config']['sku_qty_one_field'] == 1) {
+                                    // We're supposed to import the SKU and Qtys all from one field. Each combination separated by a ; and sku/qty separated by :
+                                    $skuAndQtys = explode(";", $fieldValue);
+                                    foreach ($skuAndQtys as $skuAndQty) {
+                                        $updateCounter++;
+                                        list ($sku, $qty) = explode(":", $skuAndQty);
+                                        if ($sku !== '') {
+                                            $rowArray[$fieldData['group']][$updateCounter - 1]['sku'] = $sku;
+                                            $rowArray[$fieldData['group']][$updateCounter - 1]['qty'] = $qty;
+                                        }
+                                    }
+                                } else {
+                                    // Normal field - not SKU/QTY, not combined into one field
+                                    $rowArray[$fieldData['group']][$updateCounter - 1][$fieldName] = $this->mappingModel->formatField(
+                                        $fieldName,
+                                        $fieldValue
+                                    );
+                                }
                             } else {
                                 $rowArray[$fieldName] = $this->mappingModel->formatField($fieldName, $fieldValue);
                             }
                         }
                     }
                 }
+                if ($skipRow) {
+                    // Field in field_configuration XML determined that this row should be skipped. "<skip>" parameter in XML field config
+                    $rowArray['SKIP_FLAG'] = true;
+                }
+                if (isset($updatesToProcess[$rowIdentifier]) && !empty($updatesToProcess[$rowIdentifier])) {
+                    $rowArray = $this->array_merge_recursive_distinct($updatesToProcess[$rowIdentifier], $rowArray);
+                }
+
+                // Combine items
+                if (isset($rowArray['items']) && !empty($rowArray['items'])) {
+                    $rowItems = array();
+                    foreach ($rowArray['items'] as $arrayRowIdentifier => $fieldData) {
+                        if (!empty($fieldData) && isset($fieldData['sku'])) {
+                            if (isset($rowItems[$fieldData['sku']])) {
+                                $fieldData['qty'] += $rowItems[$fieldData['sku']]['qty'];
+                            }
+                            $rowItems[$fieldData['sku']] = $fieldData;
+                        }
+                    }
+                    $rowArray['items'] = $rowItems;
+                }
+
+                // Add row array to updates
                 $updatesToProcess[$rowIdentifier] = $rowArray;
             }
 
@@ -281,6 +356,9 @@ class Xtento_TrackingImport_Model_Processor_Xml extends Xtento_TrackingImport_Mo
     {
         $field = $fieldData['field'];
         if ($fieldData['value'] != '') {
+            if (!is_object($updateXPath) && $updateXPath == 1) {
+                $updateXPath = $this->rowData;
+            }
             $data = $this->_runCurrentUntilString($updateXPath->query($fieldData['value']));
             $data = Mage::getSingleton('xtento_trackingimport/processor_mapping_fields_configuration')->handleField($field, $data, $fieldData['config']);
             /*
@@ -294,17 +372,32 @@ class Xtento_TrackingImport_Model_Processor_Xml extends Xtento_TrackingImport_Mo
                     }
                 }
             }
-            if ($data == '') {
+            if ($data == '' && isset($fieldData['id'])) {
                 // Try to get the default value at least.. otherwise ''
                 $data = $this->mappingModel->getDefaultValue($fieldData['id']);
             }
         } else {
             $data = Mage::getSingleton('xtento_trackingimport/processor_mapping_fields_configuration')->handleField($field, '', $fieldData['config']);
-            if (empty($data)) {
+            if (empty($data) && isset($fieldData['id'])) {
                 // Try to get the default value at least.. otherwise ''
                 $data = $this->mappingModel->getDefaultValue($fieldData['id']);
             }
         }
         return trim($data);
+    }
+
+    protected function array_merge_recursive_distinct(array &$array1, array &$array2)
+    {
+        $merged = $array1;
+
+        foreach ($array2 as $key => &$value) {
+            if (is_array($value) && isset ($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = $this->array_merge_recursive_distinct($merged[$key], $value);
+            } else {
+                $merged[$key] = $value;
+            }
+        }
+
+        return $merged;
     }
 }

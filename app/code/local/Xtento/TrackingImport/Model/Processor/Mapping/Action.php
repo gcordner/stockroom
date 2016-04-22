@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
- * Last Modified: 2015-07-18T14:11:32+02:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2015-11-20T14:05:05+01:00
  * File:          app/code/local/Xtento/TrackingImport/Model/Processor/Mapping/Action.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_TrackingImport_Model_Processor_Mapping_Action extends Xtento_TrackingImport_Model_Processor_Mapping_Abstract
@@ -158,6 +158,12 @@ class Xtento_TrackingImport_Model_Processor_Mapping_Action extends Xtento_Tracki
                 'default_values' => $this->getDefaultValues('order_status'),
                 'default_value' => '',
                 'tooltip' => Mage::helper('xtento_trackingimport')->__('You can either import the status from the file you are importing (see processor options), or statically change the order status to the status set here after the order has been completely shipped.'),
+            ),
+            'send_order_update_email' => array(
+                'label' => Mage::helper('xtento_trackingimport')->__('Send order update email to customer (see help)'),
+                'default_values' => $this->getDefaultValues('yesno'),
+                'default_value' => '',
+                'tooltip' => Mage::helper('xtento_trackingimport')->__('If enabled, the order update email will be sent to the customer. This is the same email that also gets sent if you add a comment to an order from the Orders view, so it makes sense especially if you add an order comment. Note, this only works if order update emails are enabled in System - Configuration.'),
             ),
             /*'custom_actions' => array(
                 'label' => Mage::helper('xtento_trackingimport')->__('-- Custom Actions -- '),

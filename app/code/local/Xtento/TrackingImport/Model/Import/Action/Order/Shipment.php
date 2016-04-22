@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
- * Last Modified: 2015-07-02T14:56:53+02:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2016-02-26T16:13:42+01:00
  * File:          app/code/local/Xtento/TrackingImport/Model/Import/Action/Order/Shipment.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_TrackingImport_Model_Import_Action_Order_Shipment extends Xtento_TrackingImport_Model_Import_Action_Abstract
 {
     public function ship()
     {
+        /** @var Mage_Sales_Model_Order $order */
         $order = $this->getOrder();
         $updateData = $this->getUpdateData();
 
@@ -40,6 +41,9 @@ class Xtento_TrackingImport_Model_Import_Action_Order_Shipment extends Xtento_Tr
         $tracksToImport = array();
         if (isset($updateData['tracks']) && !empty($updateData['tracks'])) {
             foreach ($updateData['tracks'] as $trackRecord) {
+                if (empty($trackRecord['tracking_number'])) {
+                    continue;
+                }
                 $tracksToImport[$trackRecord['tracking_number']] = array(
                     'tracking_number' => $trackRecord['tracking_number'],
                     'carrier_code' => (isset($trackRecord['carrier_code'])) ? $trackRecord['carrier_code'] : '',
@@ -48,6 +52,12 @@ class Xtento_TrackingImport_Model_Import_Action_Order_Shipment extends Xtento_Tr
             }
         }
         #var_dump($updateData, $tracksToImport); die();
+
+        // Check if order is holded and unhold if should be shipped
+        if ($order->canUnhold() && $this->getActionSettingByFieldBoolean('shipment_create', 'enabled')) {
+            $order->unhold()->save();
+            $this->addDebugMessage(Mage::helper('xtento_trackingimport')->__("Order '%s': Order was unholded so it can be shipped.", $order->getIncrementId()));
+        }
 
         // Create Shipment
         if ($this->getActionSettingByFieldBoolean('shipment_create', 'enabled')) {
@@ -82,31 +92,29 @@ class Xtento_TrackingImport_Model_Import_Action_Order_Shipment extends Xtento_Tr
                         }
                         // Item matched?
                         if (isset($itemsToProcess[$orderItemSku])) {
-                            if ($itemsToProcess[$orderItemSku]['qty'] == '' || $itemsToProcess[$orderItemSku]['qty'] < 0) {
-                                $qty = $orderItem->getQtyOrdered();
-                            } else {
-                                $qtyToProcess = $itemsToProcess[$orderItemSku]['qty'];
-                                $maxQty = $orderItem->getQtyToShip();
-                                if ($qtyToProcess > $maxQty) {
-                                    if ($orderItem->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_SIMPLE && $orderItem->getParentItem() && $orderItem->getParentItem()->getQtyToShip() > 0) {
-                                        // Has a parent item that must be shipped instead
-                                        $maxQty = $orderItem->getParentItem()->getQtyToShip();
-                                        if ($qtyToProcess > $maxQty) {
-                                            $qty = round($maxQty);
-                                            $itemsToProcess[$orderItemSku]['qty'] -= $maxQty;
-                                        } else {
-                                            $qty = round($qtyToProcess);
-                                        }
-                                    } else {
+                            $orderItemId = $orderItem->getId();
+                            $qtyToProcess = $itemsToProcess[$orderItemSku]['qty'];
+                            $maxQty = $orderItem->getQtyToShip();
+                            if ($qtyToProcess > $maxQty) {
+                                if ($orderItem->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_SIMPLE && $orderItem->getParentItem() && $orderItem->getParentItem()->getQtyToShip() > 0) {
+                                    // Has a parent item that must be shipped instead
+                                    $orderItemId = $orderItem->getParentItem()->getId();
+                                    $maxQty = $orderItem->getParentItem()->getQtyToShip();
+                                    if ($qtyToProcess > $maxQty) {
                                         $qty = round($maxQty);
                                         $itemsToProcess[$orderItemSku]['qty'] -= $maxQty;
+                                    } else {
+                                        $qty = round($qtyToProcess);
                                     }
                                 } else {
-                                    $qty = round($qtyToProcess);
+                                    $qty = round($maxQty);
+                                    $itemsToProcess[$orderItemSku]['qty'] -= $maxQty;
                                 }
+                            } else {
+                                $qty = round($qtyToProcess);
                             }
                             if ($qty > 0) {
-                                $qtys[$orderItem->getId()] = round($qty);
+                                $qtys[$orderItemId] = round($qty);
                             }
                         }
                     }
@@ -114,9 +122,11 @@ class Xtento_TrackingImport_Model_Import_Action_Order_Shipment extends Xtento_Tr
                     #die();
                     if (!empty($qtys)) {
                         $shipment = $order->prepareShipment($qtys);
-                        // Ship whole order if no items could be found in $qtys
+                        // Check if proper items have been found in $qtys
                         if (!$shipment->getTotalQty()) {
-                            $shipment = $order->prepareShipment();
+                            #$shipment = $order->prepareShipment();
+                            $doShipOrder = false;
+                            $this->addDebugMessage(Mage::helper('xtento_trackingimport')->__("Order '%s' has NOT been shipped. Partial shipping enabled, however the items specified in the import file couldn't be found in the order. (Could not find any qtys to ship)", $order->getIncrementId()));
                         }
                     } else {
                         // We're supposed to import partial shipments, but no SKUs were found at all. Do not touch shipment.
@@ -127,11 +137,13 @@ class Xtento_TrackingImport_Model_Import_Action_Order_Shipment extends Xtento_Tr
                     $shipment = $order->prepareShipment();
                 }
 
+                /* @var $shipment Mage_Sales_Model_Order_Shipment */
                 if ($shipment && $doShipOrder) {
                     $shipment->register();
                     if ($this->getActionSettingByFieldBoolean('shipment_send_email', 'enabled')) {
                         $shipment->setEmailSent(true);
                     }
+                    #if (isset($updateData['custom1']) && !empty($updateData['custom1'])) $shipment->addComment($updateData['custom1'], true);
                     $shipment->getOrder()->setIsInProcess(true);
 
                     $trackCount = 0;

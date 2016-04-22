@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
- * Last Modified: 2015-06-26T17:37:54+02:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2015-12-30T20:09:10+01:00
  * File:          app/code/local/Xtento/TrackingImport/Model/Processor/Csv.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_TrackingImport_Model_Processor_Csv extends Xtento_TrackingImport_Model_Processor_Abstract
@@ -102,12 +102,11 @@ class Xtento_TrackingImport_Model_Processor_Csv extends Xtento_TrackingImport_Mo
                             $skipRow = true;
                         }
                     }
-                    if ($skipRow) {
-                        // Field in field_configuration XML determined that this row should be skipped. "<skip>" parameter in XML field config
-                        continue;
-                    }
                     if (empty($rowIdentifier)) {
                         continue;
+                    }
+                    if ($skipRow) {
+                        $rowIdentifier .= '_SKIP';
                     }
                     if (!isset($updatesToProcess[$rowIdentifier])) {
                         $updatesToProcess[$rowIdentifier] = array();
@@ -131,6 +130,10 @@ class Xtento_TrackingImport_Model_Processor_Csv extends Xtento_TrackingImport_Mo
                                 $rowArray[$fieldName] = $this->mappingModel->formatField($fieldName, $fieldValue);
                             }
                         }
+                    }
+                    if ($skipRow) {
+                        // Field in field_configuration XML determined that this row should be skipped. "<skip>" parameter in XML field config
+                        $rowArray['SKIP_FLAG'] = true;
                     }
                     $updatesToProcess[$rowIdentifier] = $rowArray;
                 }
@@ -157,6 +160,7 @@ class Xtento_TrackingImport_Model_Processor_Csv extends Xtento_TrackingImport_Mo
                         }
                     }
 
+                    $skipRow = false;
                     // First run: Get order number for row
                     $rowIdentifier = "";
                     foreach ($this->mappingModel->getMapping() as $fieldId => $fieldData) {
@@ -166,9 +170,16 @@ class Xtento_TrackingImport_Model_Processor_Csv extends Xtento_TrackingImport_Mo
                                 $rowIdentifier = $fieldValue;
                             }
                         }
+                        // Check if row should be skipped.
+                        if (true === Mage::getSingleton('xtento_trackingimport/processor_mapping_fields_configuration')->checkSkipImport($fieldData['field'], $fieldData['config'], $this)) {
+                            $skipRow = true;
+                        }
                     }
                     if (empty($rowIdentifier)) {
                         continue;
+                    }
+                    if ($skipRow) {
+                        $rowIdentifier .= '_SKIP';
                     }
                     if (!isset($updatesToProcess[$rowIdentifier])) {
                         $updatesToProcess[$rowIdentifier] = array();
@@ -187,12 +198,29 @@ class Xtento_TrackingImport_Model_Processor_Csv extends Xtento_TrackingImport_Mo
                             if (!in_array($fieldName, $foundFields)) {
                                 $foundFields[] = $fieldName;
                             }
-                            if (isset($fieldData['group']) && !empty($fieldData['group'])) {
-                                $rowArray[$fieldData['group']][$rowCounter - 1][$fieldName] = $this->mappingModel->formatField($fieldName, $fieldValue);
+                            if ($fieldName == 'sku' && isset($fieldData['config']['sku_qty_one_field']) && $fieldData['config']['sku_qty_one_field'] == 1) {
+                                // We're supposed to import the SKU and Qtys all from one field. Each combination separated by a ; and sku/qty separated by :
+                                $skuAndQtys = explode(";", $fieldValue);
+                                foreach ($skuAndQtys as $skuAndQty) {
+                                    $rowCounter++;
+                                    list ($sku, $qty) = explode(":", $skuAndQty);
+                                    if ($sku !== '' && isset($fieldData['group']) && !empty($fieldData['group'])) {
+                                        $rowArray[$fieldData['group']][$rowCounter - 1]['sku'] = $sku;
+                                        $rowArray[$fieldData['group']][$rowCounter - 1]['qty'] = $qty;
+                                    }
+                                }
                             } else {
-                                $rowArray[$fieldName] = $this->mappingModel->formatField($fieldName, $fieldValue);
+                                if (isset($fieldData['group']) && !empty($fieldData['group'])) {
+                                    $rowArray[$fieldData['group']][$rowCounter - 1][$fieldName] = $this->mappingModel->formatField($fieldName, $fieldValue);
+                                } else {
+                                    $rowArray[$fieldName] = $this->mappingModel->formatField($fieldName, $fieldValue);
+                                }
                             }
                         }
+                    }
+                    if ($skipRow) {
+                        // Field in field_configuration XML determined that this row should be skipped. "<skip>" parameter in XML field config
+                        $rowArray['SKIP_FLAG'] = true;
                     }
                     $updatesToProcess[$rowIdentifier] = $rowArray;
                 }
@@ -200,7 +228,7 @@ class Xtento_TrackingImport_Model_Processor_Csv extends Xtento_TrackingImport_Mo
 
             // Output the header row in a nicer string
             $hasHeaderRow = ($this->config['IMPORT_SKIP_HEADER']) ? "Yes" : "No";
-            $headerRowTemp = $this->headerRow;
+            $headerRowTemp = $this->headerRow ? $this->headerRow : array();
             array_walk($headerRowTemp, create_function('&$i,$k', '$i=" \"$k\"=\"$i\"";'));
             // File processed
             $updatesInFilesToProcess[] = array(
@@ -246,8 +274,14 @@ class Xtento_TrackingImport_Model_Processor_Csv extends Xtento_TrackingImport_Mo
     {
         if ($this->config['IMPORT_FIXED_LENGTH_FORMAT']) {
             $fieldPosition = explode("-", $this->getFieldPos($fieldData['value']));
-            if (!isset($fieldPosition[1])) return "";
-            $data = trim(substr($this->rowData, $fieldPosition[0] - 1, $fieldPosition[1] - $fieldPosition[0]));
+            if (!isset($fieldPosition[1])) {
+                $data = "";
+                if (isset($fieldData['id'])) {
+                    $data = $this->mappingModel->getDefaultValue($fieldData['id']);
+                }
+            } else {
+                $data = trim(substr($this->rowData, $fieldPosition[0] - 1, $fieldPosition[1] - $fieldPosition[0]));
+            }
         } else {
             $field = $fieldData['field'];
             $fieldPos = $this->getFieldPos($fieldData['value']);
@@ -256,7 +290,7 @@ class Xtento_TrackingImport_Model_Processor_Csv extends Xtento_TrackingImport_Mo
                 if (!$bypassFieldConfiguration) {
                     $data = Mage::getSingleton('xtento_trackingimport/processor_mapping_fields_configuration')->handleField($field, $data, $fieldData['config']);
                 }
-                if ($data == '') {
+                if ($data == '' && isset($fieldData['id'])) {
                     // Try to get the default value at least.. otherwise ''
                     $data = $this->mappingModel->getDefaultValue($fieldData['id']);
                 }
@@ -266,7 +300,7 @@ class Xtento_TrackingImport_Model_Processor_Csv extends Xtento_TrackingImport_Mo
                 } else {
                     $data = '';
                 }
-                if (empty($data)) {
+                if (empty($data) && isset($fieldData['id'])) {
                     // Try to get the default value at least.. otherwise ''
                     $data = $this->mappingModel->getDefaultValue($fieldData['id']);
                 }

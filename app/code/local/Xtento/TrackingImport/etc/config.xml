@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Xtento_TrackingImport>
-            <version>2.0.7</version>
+            <version>2.2.0</version>
         </Xtento_TrackingImport>
     </modules>
     <global>
@@ -277,11 +277,11 @@
 </config>
 <!--
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
- * Last Modified: 2015-07-18T14:30:41+02:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2016-02-26T16:14:28+01:00
  * File:          app/code/local/Xtento/TrackingImport/etc/config.xml
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 -->

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Product:       Xtento_TrackingImport (2.0.7)
- * ID:            E9SxdSArAtghPnqpLQa5+iZnmFC0juNdBgxNd8DOfAM=
- * Packaged:      2015-07-24T22:15:50+00:00
- * Last Modified: 2015-05-27T19:41:29+02:00
+ * Product:       Xtento_TrackingImport (2.2.0)
+ * ID:            %!uniqueid!%
+ * Packaged:      %!packaged!%
+ * Last Modified: 2015-11-27T19:48:18+01:00
  * File:          app/code/local/Xtento/TrackingImport/Model/Import/Iterator/Order.php
- * Copyright:     Copyright (c) 2015 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ * Copyright:     Copyright (c) 2016 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
 class Xtento_TrackingImport_Model_Import_Iterator_Order extends Xtento_TrackingImport_Model_Import_Iterator_Abstract
@@ -50,6 +50,10 @@ class Xtento_TrackingImport_Model_Import_Iterator_Order extends Xtento_TrackingI
                 $totalRecordCount++;
                 try {
                     if (empty($rowIdentifier)) {
+                        continue;
+                    }
+                    if (isset($updateData['SKIP_FLAG']) && $updateData['SKIP_FLAG'] === true) {
+                        $logEntry->addDebugMessage(Mage::helper('xtento_trackingimport')->__("Row with identifier '%s' was skipped because of 'skip' field configuration XML set up in profile.", str_replace('_SKIP', '', $rowIdentifier)));
                         continue;
                     }
 
