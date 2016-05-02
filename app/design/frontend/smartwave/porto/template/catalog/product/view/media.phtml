@@ -22,9 +22,15 @@
     else
         $hide_smallthumb_single = "true";
 ?>
+<?php
+    $zoom_disabled = Mage::getStoreConfig("porto_settings/product_view/disable_product_zoom", $code);
+    $zoom_type = Mage::getStoreConfig("porto_settings/product_view/zoom_type", $code);
+    $thumb_type = Mage::getStoreConfig("porto_settings/product_view/thumbnail_image_type", $code);
+?>
 <?php if (count($this->getGalleryImages()) > 0): ?>
 <ul id="etalage_<?php echo $rnd_str; ?>">
 <?php foreach ($this->getGalleryImages() as $_image): ?>
+    <?php if(substr($_image->getLabel(), -7) != "-swatch"): ?>
     <li>
         <?php
             if(!$aspect_ratio)
@@ -36,10 +42,11 @@
         <img class="etalage_thumb_image" src="<?php echo $image_src; ?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>"/>
         <img class="etalage_source_image" src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail', $_image->getFile())->resize(100, 100*$ratio)?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>"/>
     </li>
+    <?php endif; ?>
 <?php endforeach; ?>
 </ul>
 <?php else: ?>
-<ul id="etalage_<?php echo $rnd_str; ?>">
+<ul id="etalage_<?php echo $rnd_str; ?>" class="<?php echo $thumb_type; ?>">
     <li>
         <?php
             if(!$aspect_ratio)
@@ -62,14 +69,11 @@
     <a href="javascript:void(0)" class="etalage-next"><i class="icon-angle-left"></i></a>
 <?php endif; ?>
 </div>
-<?php
-    $zoom_disabled = Mage::getStoreConfig("porto_settings/product_view/disable_product_zoom", $code);
-    $zoom_type = Mage::getStoreConfig("porto_settings/product_view/zoom_type", $code);
-    $thumb_type = Mage::getStoreConfig("porto_settings/product_view/thumbnail_image_type", $code);
-?>
 <div class="product-view-zoom-area">
 </div>
 <script type="text/javascript">
+    var zoom_enabled = false;
+    var zoom_type = 0;
     jQuery(document).ready(function(){
         reloadEtalage();
         <?php if(!$zoom_disabled): ?>
@@ -79,6 +83,10 @@
         <?php endif; ?>
             touch:false
         });
+        zoom_enabled = true;
+        <?php if($zoom_type == 1): ?>
+        zoom_type = 1;
+        <?php endif; ?>
         <?php endif; ?>
         setTimeout(function(){reloadEtalage();}, 500);
         jQuery(window).resize(function(e){
@@ -126,8 +134,6 @@
                 smallthumb_hide_single: <?php echo $hide_smallthumb_single; ?>,
                 smallthumbs_position: thumb_position,
                 small_thumbs_width_offset: 0,
-                smallthumb_select_on_hover: true,
-                smallthumb_inactive_opacity:0.6,
                 show_icon: false,
                 autoplay: false
             });
@@ -157,3 +163,4 @@
     });
 </script>
 <div class="clear"></div>
+<?php echo $this->getChildHtml("after"); ?>

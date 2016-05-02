@@ -75,6 +75,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
         $active = ''; if ($this->isCategoryActive($category)) $active = ' act';
         
         $float = $catModel->getData('sw_cat_float_type');
+        $hide_item = $catModel->getData('sw_cat_hide_menu_item');
         if($float == "right")
             $float = "fl-right";
         
@@ -98,7 +99,8 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
             $cat_icon = '<i class="category-icon '.$cat_font_icon.'"></i>';
         }
         
-        $drawPopup = ($block_top || $block_left || $block_right || $block_bottom || count($activeChildren));        
+        $drawPopup = ($block_top || $block_left || $block_right || $block_bottom || count($activeChildren));
+        if(!$hide_item){
         if ($drawPopup) {
             //Has subcategories or static blocks
             if ($blockType == 'wide') {
@@ -170,6 +172,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
             $html[] = '<li class="'.$active.' '.$float.'">';
             $html[] = '<a href="'.$this->getCategoryUrl($category).'">'.$cat_icon.$name.$catLabel.'</a>';
             $html[] = '</li>';
+        }
         }
         $html = implode("\n", $html);
         return $html;
@@ -295,6 +298,8 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
                 if (count($activeChildren) > 0) {
                     $class .= ' menu-item-has-children menu-parent-item';
                 }
+                $hide_item = $catModel->getData('sw_cat_hide_menu_item');
+                if(!$hide_item){
                 if ($level == 1) {
                     if ($type == 'wide') {
                         //$class .= ' col-sm-'.$width;  ---version 1.0.0---
@@ -329,6 +334,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
                     }
                 }
                 $html .= '</li>';
+                }
             }
         }        
         return $html;

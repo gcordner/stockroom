@@ -9,7 +9,7 @@
     <sections>
         <dailydeal translate="label" module="dailydeal">
             <class>separator-top</class>
-            <label>Daily Deal</label>
+            <label>Daily deal</label>
             <tab>magegiant</tab>
             <frontend_type>text</frontend_type>
             <sort_order>299</sort_order>

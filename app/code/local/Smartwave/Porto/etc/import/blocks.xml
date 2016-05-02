@@ -313,8 +313,7 @@
       <cms_block>
          <title>Porto - Homepage Slider 4</title>
          <identifier>porto_homeslider_4</identifier>
-         <content><![CDATA[<style type="text/css">.header-wrapper{border-bottom:0;} .main-nav{margin-bottom:0;}</style>
-<div class="container" style="padding:20px 15px;">
+         <content><![CDATA[<div class="container" style="padding:20px 15px;">
     <div class="row" style="margin:0 -10px;">
         <div class="col-md-9 md-f-right" style="padding:0 10px;">
             <div id="banner-slider-demo-4" class="owl-carousel owl-theme owl-bottom-narrow owl-banner-carousel sm-xs-margin-bottom">
@@ -323,21 +322,11 @@
                 </div>
                 <div class="item" style="border-radius:7px;overflow:hidden;">
                     <img src="{{media url="wysiwyg/porto/homepage/slider/04/slide2.jpg"}}" alt="" />
-                    <div class="content owl-item-links-block" style="position:absolute;left:0;bottom:23%;width:100%;text-align:center;">
-                        <ul style="display:inline-block; vertical-align:middle;">
-                            <li><a href="http://newsmartwave.net/magento/porto/index.php/fashion.html">Fashion</a></li>
-                            <li><a href="http://newsmartwave.net/magento/porto/index.php/electronics.html">Electronics</a></li>
-                            <li><a href="http://newsmartwave.net/magento/porto/index.php/gifts.html">Gifts</a></li>
-                            <li><a href="http://newsmartwave.net/magento/porto/index.php/music.html">Music</a></li>
-                            <li><a href="http://newsmartwave.net/magento/porto/index.php/sports.html">Sports</a></li>
-                        </ul>
-                        <span style="display:inline-block; vertical-align:middle;color: #fff;color: rgba(255,255,255,0.8);font-weight: 300;border-left: 1px solid #fff;border-left-color: rgba(255,255,255,0.8);">Shop now <i class="icon-angle-down" style="border-radius: 50%;background-color: #ee3d43;vertical-align: middle;"></i></span>
-                    </div>
                 </div>
             </div>
             <script type="text/javascript">
                 jQuery(function($){
-                    $("#banner-slider-demo-4").owlCarousel({autoPlay:true,lazyLoad:true, stopOnHover: true,pagination: true, autoPlay: true,navigation: false,slideSpeed : 500,paginationSpeed : 500,singleItem:true,transitionStyle : "fadeUp"});
+                    $("#banner-slider-demo-4").owlCarousel({autoPlay:true,lazyLoad:true, stopOnHover: true,pagination: true, autoPlay: true,navigation: false,slideSpeed : 500,paginationSpeed : 500,singleItem:true});
                 });
             </script>
         </div>
@@ -346,12 +335,12 @@
             <div class="side-custom-menu" style="margin-bottom:11px;">
                 <h2><i class="icon-menu"></i> TOP CATEGORIES</h2>
                 <ul>
-                    <li><a href="http://newsmartwave.net/magento/porto/index.php/fashion.html">Fashion</a></li>
-                    <li><a href="http://newsmartwave.net/magento/porto/index.php/electronics.html">Electronics</a></li>
-                    <li><a href="http://newsmartwave.net/magento/porto/index.php/gifts.html">Gifts</a></li>
-                    <li><a href="http://newsmartwave.net/magento/porto/index.php/home-garden.html">Home & Garden</a></li>
-                    <li><a href="http://newsmartwave.net/magento/porto/index.php/music.html">Music</a></li>
-                    <li><a href="http://newsmartwave.net/magento/porto/index.php/sports.html">Sports</a></li>
+                    <li><a href="http://newsmartwave.net/magento/porto/index.php/demo4_en/fashion.html">Fashion</a></li>
+                    <li><a href="http://newsmartwave.net/magento/porto/index.php/demo4_en/electronics.html">Electronics</a></li>
+                    <li><a href="http://newsmartwave.net/magento/porto/index.php/demo4_en/gifts.html">Gifts</a></li>
+                    <li><a href="http://newsmartwave.net/magento/porto/index.php/demo4_en/home-garden.html">Home & Garden</a></li>
+                    <li><a href="http://newsmartwave.net/magento/porto/index.php/demo4_en/music.html">Music</a></li>
+                    <li><a href="http://newsmartwave.net/magento/porto/index.php/demo4_en/sports.html">Sports</a></li>
                 </ul>
             </div>
             </div>
@@ -416,18 +405,6 @@
                 <div style="margin-bottom:0px;">
                     <a class="image-link" href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/04/image23.jpg"}}" alt="" /></a>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="parallax-wrapper parallax-with-subscribe">
-    <div class="overlay overlay-color" style="background-color: #222; opacity: 0.7; filter: alpha(opacity=70);"></div>
-    <div class="parallax" data-stellar-background-ratio="0.4" style="background-image: url({{media url="wysiwyg/porto/homepage/content/05/2.jpg"}});margin: 0;">
-        <div class="parallax-slider" style="position: relative; z-index: 3;">
-            <div class="container" style="max-width: 525px;">
-                <h2 style="font-size: 25.12px;color: #fff;font-weight: 300;">SIGN UP BELOW FOR <b style="font-weight: 600;">EARLY UPDATES</b></h2>
-                <p style="font-size: 16.33px;color: #fff;font-weight: 300;margin-bottom: 25px;">Please sign up to the mailing list to receive updates on new arrivals, special offers and other discount information.</p>
-                {{block type="newsletter/subscribe" template="newsletter/parallax_subscribe.phtml"}}
             </div>
         </div>
     </div>
@@ -1553,13 +1530,15 @@ body.side-header.cms-index-index .top-container .full-screen-slider{width:100vw;
 	<div class="masonry-grid-item"><a href="javascript:void(0)"><img src="{{media url="wysiwyg/porto/homepage/slider/18/grid_item_11.jpg"}}" alt="" /></a></div>
 </div>
 <script type="text/javascript">
-	jQuery( function($) {
-		var $masonry_grid_18 = $('#masonry_grid_18').packery({
-			itemSelector: ".masonry-grid-item",
-			columnWidth: ".grid-sizer",
-			percentPosition: true
-		});
-	});
+    jQuery( function($) {
+        var $container = $('#masonry_grid_18').imagesLoaded(function(){
+            $container.packery({
+                itemSelector: ".masonry-grid-item",
+                columnWidth: ".grid-sizer",
+                percentPosition: true
+            });
+        });
+    });
 </script>
 <style type="text/css">
 	.masonry-grid{margin: 3px;position:relative;}
@@ -1596,16 +1575,6 @@ body.side-header.cms-index-index .top-container .full-screen-slider{width:100vw;
                 </div>
                 <div class="item" style="border-radius:7px;overflow:hidden;">
                     <img src="{{media url="wysiwyg/porto/homepage/slider/04/slide2.jpg"}}" alt="" />
-                    <div class="content owl-item-links-block" style="position:absolute;left:0;bottom:23%;width:100%;text-align:center;">
-                        <ul style="display:inline-block; vertical-align:middle;">
-                            <li><a href="http://newsmartwave.net/magento/porto/index.php/fashion.html">Fashion</a></li>
-                            <li><a href="http://newsmartwave.net/magento/porto/index.php/electronics.html">Electronics</a></li>
-                            <li><a href="http://newsmartwave.net/magento/porto/index.php/gifts.html">Gifts</a></li>
-                            <li><a href="http://newsmartwave.net/magento/porto/index.php/music.html">Music</a></li>
-                            <li><a href="http://newsmartwave.net/magento/porto/index.php/sports.html">Sports</a></li>
-                        </ul>
-                        <span style="display:inline-block; vertical-align:middle;color: #fff;color: rgba(255,255,255,0.8);font-weight: 300;border-right: 1px solid #fff;border-right-color: rgba(255,255,255,0.8);">Shop now <i class="icon-angle-down" style="border-radius: 50%;background-color: #ee3d43;vertical-align: middle;"></i></span>
-                    </div>
                 </div>
             </div>
             <script type="text/javascript">
@@ -1689,18 +1658,6 @@ body.side-header.cms-index-index .top-container .full-screen-slider{width:100vw;
                 <div style="margin-bottom:0px;">
                     <a class="image-link" href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/04/image23.jpg"}}" alt="" /></a>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="parallax-wrapper parallax-with-subscribe">
-    <div class="overlay overlay-color" style="background-color: #222; opacity: 0.7; filter: alpha(opacity=70);"></div>
-    <div class="parallax" data-stellar-background-ratio="0.4" style="background-image: url({{media url="wysiwyg/porto/homepage/content/05/2.jpg"}});margin: 0;">
-        <div class="parallax-slider" style="position: relative; z-index: 3;">
-            <div class="container" style="max-width: 525px;">
-                <h2 style="font-size: 25.12px;color: #fff;font-weight: 300;">SIGN UP BELOW FOR <b style="font-weight: 600;">EARLY UPDATES</b></h2>
-                <p style="font-size: 16.33px;color: #fff;font-weight: 300;margin-bottom: 25px;">Please sign up to the mailing list to receive updates on new arrivals, special offers and other discount information.</p>
-                {{block type="newsletter/subscribe" template="newsletter/parallax_subscribe.phtml"}}
             </div>
         </div>
     </div>

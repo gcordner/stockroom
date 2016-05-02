@@ -6,7 +6,7 @@ jQuery(document).ready(function($){
     $.fn.et_menu = function ( options ) {
         var methods = {
             showChildren: function(el) {
-                el.fadeIn(350).css({
+                el.fadeIn(100).css({
                     display: 'list-item',
                     listStyle: 'none'
                 }).find('li').css({listStyle: 'none'});
@@ -92,7 +92,7 @@ jQuery(document).ready(function($){
             }
         }, function () {
             if(!$(this).hasClass('open-by-click') || (!settings.openByClick && $(this).hasClass('open-by-click'))) {
-                $(this).find('> .nav-sublist-dropdown').fadeOut(350);
+                $(this).find('> .nav-sublist-dropdown').fadeOut(100);
             }
         });
 

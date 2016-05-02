@@ -1,4 +1,5 @@
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $is_persistent=""; ?>
 <p class="left"><a class="login-trigger opc-login-trigger signin-modal theme-bg-color <?php if($is_persistent):?>is_persistent<?php endif;?>" data-modal="modal-login"><?php echo $this->__('LOGIN')?></a></p>
 
 <div class="md-modal md-effect-7" id="modal-login">

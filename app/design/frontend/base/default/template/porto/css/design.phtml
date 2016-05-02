@@ -417,7 +417,7 @@ if($d['header']['custom']==1){
 .header-container.type9 .main-nav ul.menu>li>a,
 .header-container.type10 .main-nav ul.menu>li>a,
 .header-container.type11 .main-nav ul.menu>li>a,
-.header-container.type12 .main-nav ul.menu>li>a{
+.header-container.type12 .menu.side-menu>li>a{
     color:<?php echo $d['header']['header_menu_color'];?>;
 }
 <?php
@@ -437,7 +437,7 @@ if($d['header']['custom']==1){
 .header-container.type9 .main-nav ul.menu>li:hover,.header-container.type9 .main-nav ul.menu>li.act,
 .header-container.type10 .main-nav ul.menu>li:hover,.header-container.type10 .main-nav ul.menu>li.act,
 .header-container.type11 .main-nav ul.menu>li:hover,.header-container.type11 .main-nav ul.menu>li.act,
-.header-container.type12 .main-nav ul.menu>li:hover,.header-container.type12 .main-nav ul.menu>li.act{
+.header-container.type12 .menu.side-menu>li:hover,.header-container.type12 .menu.side-menu>li.act{
     background-color:<?php echo $d['header']['header_menu_hover_bgcolor'];?>;
 }
 <?php
@@ -457,7 +457,7 @@ if($d['header']['custom']==1){
 .header-container.type9 .main-nav ul.menu>li:hover>a,.header-container.type9 .main-nav ul.menu>li.act>a,
 .header-container.type10 .main-nav ul.menu>li:hover>a,.header-container.type10 .main-nav ul.menu>li.act>a,
 .header-container.type11 .main-nav ul.menu>li:hover>a,.header-container.type11 .main-nav ul.menu>li.act>a,
-.header-container.type12 .main-nav ul.menu>li:hover>a,.header-container.type12 .main-nav ul.menu>li.act>a{
+.header-container.type12 .menu.side-menu>li:hover>a,.header-container.type12 .menu.side-menu>li.act>a{
     color:<?php echo $d['header']['header_menu_hover_color'];?>;
 }
 <?php
@@ -904,7 +904,7 @@ if($d['main']['custom']==1){
     background-color:<?php echo $d['main']['main_bgcolor']; ?>;
 <?php
     }
-    if($d['main']['main_bg_image']){
+    if(isset($d['main']['main_bg_image']) && $d['main']['main_bg_image']){
 ?>
     background-image:url(<?php echo str_replace("http://","//",str_replace("https://","//",Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)."porto/main/".$d['main']['main_bg_image']));?>);
 <?php

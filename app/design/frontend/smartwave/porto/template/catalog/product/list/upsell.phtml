@@ -22,7 +22,7 @@ $ratio_height = Mage::getStoreConfig("porto_settings/category/ratio_height",$cod
 <?php for($_i=0;$_i<$this->getRowCount();$_i++): ?>
     <?php for($_j=0;$_j<$this->getColumnCount();$_j++): ?>
         <?php if($_product=$this->getIterableItem()): ?>
-        <?php $product = Mage::getModel('catalog/product')->load($_product->getId()); ?>
+        <?php $product = $_product; //Mage::getModel('catalog/product')->load($_product->getId()); ?>
             <li class="item"><div class="item-area">
                 <div class="product-image-area">
                     <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
@@ -48,21 +48,24 @@ $ratio_height = Mage::getStoreConfig("porto_settings/category/ratio_height",$cod
                         $specialprice = $product->getFinalPrice();
                         $orgprice = $product->getPrice();
                         // Get the Special Price FROM date
-                        $specialPriceFromDate = $product->getSpecialFromDate();
+                        $now = date("Y-m-d");
+                        $specialPriceFromDate = substr($product->getSpecialFromDate(),0,10);
                         // Get the Special Price TO date
-                        $specialPriceToDate = $product->getSpecialToDate();
+                        $specialPriceToDate = substr($product->getSpecialToDate(),0,10);
                         // Get Current date
                         $today =  time();
                      
                         if ($specialprice<$orgprice){
                             $save_percent = 100-round(($specialprice/$orgprice)*100);
-                            if($today >= strtotime( $specialPriceFromDate) && $today <= strtotime($specialPriceToDate) || $today >= strtotime( $specialPriceFromDate) && is_null($specialPriceToDate)){
+                            if ($specialPriceToDate != '' || $specialPriceFromDate != ''){
+                            if (($specialPriceToDate != '' && $specialPriceFromDate != '' && $now>=$specialPriceFromDate && $now<=$specialPriceToDate) || ($specialPriceToDate == '' && $now >=$specialPriceFromDate) || ($specialPriceFromDate == '' && $now<=$specialPriceToDate)){
                                 if(Mage::getStoreConfig("porto_settings/product_label/sale", $code)){
                                     $sale_label = true;
                     ?>
-                                <div class="product-label"><span class="sale-product-icon"><?php if(Mage::getStoreConfig("porto_settings/product_label/sale_label_type", $code)):?><?php echo "-".$save_percent."%"; ?><?php else: ?><?php echo Mage::getStoreConfig("porto_settings/product_label/sale_label_text", $code);?><?php endif; ?></span></div>
+                                <div class="product-label" style="right: 10px;"><span class="sale-product-icon"><?php if(Mage::getStoreConfig("porto_settings/product_label/sale_label_type", $code)):?><?php echo "-".$save_percent."%"; ?><?php else: ?><?php echo Mage::getStoreConfig("porto_settings/product_label/sale_label_text", $code);?><?php endif; ?></span></div>
                     <?php       
                                 }
+                            }
                             }
                         }
                     ?>
@@ -75,7 +78,7 @@ $ratio_height = Mage::getStoreConfig("porto_settings/category/ratio_height",$cod
                             {
                                 if(Mage::getStoreConfig("porto_settings/product_label/new", $code)){
                         ?> 
-                                <div class="product-label" style="<?php echo ($sale_label)?"top: 40px;":""; ?>"><span class="new-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/new_label_text", $code);?></span></div>
+                                <div class="product-label" style="right: 10px; <?php echo ($sale_label)?"top: 40px;":""; ?>"><span class="new-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/new_label_text", $code);?></span></div>
                         <?php 
                                 }
                             }

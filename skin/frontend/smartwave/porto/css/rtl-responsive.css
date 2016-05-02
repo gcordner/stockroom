@@ -145,6 +145,7 @@
     .my-account .data-table tbody tr{display:block;border-bottom:1px solid #ddd;padding:15px 0 5px;position:relative}
     .my-account .data-table tbody tr:first-child{border-top:1px solid #ddd}
     .my-account .data-table tbody td{display:block;padding:0 15px 10px;width:100%;text-align:center!important;border-width:0}
+    .my-account .data-table tfoot td{display:block;text-align:center !important}
     .my-account .data-table .add-to-cart-alt{margin:10px auto}
     .my-account .data-table tbody .btn-remove{position:absolute;top:15px;left:15px}
 
@@ -979,6 +980,8 @@ border-top-color:transparent}
     .product-img-box .etalage:hover + .etalage-control + .product-view-zoom-area{display:none}
 	a.quickview-icon{display:none}
 	.product-view .product-img-box .etalage-control{visibility:visible}
+    
+    .product-view .product-img-box .etalage.vertical+.etalage-control a.etalage-prev{right:0}
 }
 
 @media (max-width:640px){
@@ -1094,7 +1097,7 @@ border-top-color:transparent}
 
 @media (max-width:480px){
 	.category-products .products-grid.flex-grid .item .details-area .actions{margin:0 -20px}
-
+    .item .details-area .actions a.addtowishlist,.item .details-area .actions a.comparelink{display:none}
     body.boxed .page{width:320px}
     .add-to-cart button.button{width:110px}
     .add-to-cart button.button span{font-size:11px}
@@ -1180,6 +1183,7 @@ border-top-color:transparent}
     #banner-slider-demo-16 .text-content p a{font-size:9px;padding:5px 11px;margin-right:0;margin-top:5px;float:right !important}
     
     .top-newsletter{display:none}
+    .product-tabs>ul li{display:block;float:none}
 }
 @media (min-width:992px){
     .header-container.type10 .mobile-nav.side-block {

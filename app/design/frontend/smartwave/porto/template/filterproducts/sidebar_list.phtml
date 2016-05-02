@@ -19,7 +19,7 @@
     <?php $_collectionSize = $_productCollection->count() ?>
     <div class="products small-list sidebar-list owl-carousel owl-theme">
     <?php $i=0; foreach ($_productCollection as $_product): ?>
-    <?php $product = Mage::getModel('catalog/product')->load($_product->getId()); ?>
+    <?php $product = $_product; //Mage::getModel('catalog/product')->load($_product->getId()); ?>
     <?php
         if(($i%3) == 0){
     ?>

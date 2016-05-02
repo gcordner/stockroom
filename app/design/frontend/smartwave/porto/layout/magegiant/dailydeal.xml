@@ -3,9 +3,9 @@
     <default>
         <reference name="top.links">
             <action method="addLink" translate="label title" module="dailydeal" ifconfig="dailydeal/general/enable" condition="1">
-                <label>Daily Deal</label>
+                <label>Daily deal</label>
                 <url helper="dailydeal/getTopLink"/>
-                <title>Daily Deal</title>
+                <title>Daily deal</title>
                 <prepare/>
                 <urlParams/>
                 <position>10</position>

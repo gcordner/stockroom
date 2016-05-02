@@ -31,7 +31,7 @@ class Smartwave_Ajaxcart_IndexController extends Mage_Checkout_CartController
 				if (!empty($related)) {
 					$cart->addProductsByIds(explode(',', $related));
 				}
-
+                $cart->getQuote()->setTotalsCollectedFlag(false);
 				$cart->save();
 
 				$this->_getSession()->setCartWasUpdated(true);

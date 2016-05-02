@@ -8,7 +8,7 @@
     <col width="1" />
     <thead>
         <tr>
-            <th><?php echo $this->__('Product Name') ?></th>
+            <th class="a-center"><?php echo $this->__('Product Name') ?></th>
             <?php if ($this->getCanShowProductPrice($_product)): ?>
             <th class="a-right"><?php echo $this->__('Price') ?></th>
             <?php endif; ?>
@@ -22,7 +22,11 @@
     <?php foreach ($_associatedProducts as $_item): ?>
         <?php $_finalPriceInclTax = $this->helper('tax')->getPrice($_item, $_item->getFinalPrice(), true) ?>
         <tr>
-            <td><?php echo $this->escapeHtml($_item->getName()) ?></td>
+            <td class="a-center"><p><img class="thumbnail"
+                         src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->constrainOnly(true)->resize(100); ?>"
+                         alt="<?php echo $this->escapeHtml($this->getImageLabel()) ?>"
+                         title="<?php echo $this->escapeHtml($this->getImageLabel()); ?>" /></p>
+            <?php echo $this->escapeHtml($_item->getName()) ?></td>
             <?php if ($this->getCanShowProductPrice($_product)): ?>
             <td class="a-right">
                 <?php if ($this->getCanShowProductPrice($_item)): ?>

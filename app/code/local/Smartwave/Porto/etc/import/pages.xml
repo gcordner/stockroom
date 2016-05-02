@@ -266,7 +266,50 @@
         {{block type="filterproducts/bestsellers_home_list" name="bestsellers_list" product_count="3" template="filterproducts/small_list.phtml"}}
         <h2 class="filter-title" style="background-image:none;margin-bottom:-15px;margin-top:20px;"><span class="content"><strong>From the Blog</strong></span></h2>
         <div id="latest_news" style="margin:0 -10px;">
-            {{block type="blog/last" name="latest_news" template="blog/recentposts_home.phtml"}}
+            <div class="recent-posts">
+                <div class="owl-carousel owl-theme">
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="post-image">
+                                    <img src="{{media url="wysiwyg/smartwave/blog/01.jpg"}}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="post-date">
+                                    <span class="day">08</span>
+                                    <span class="month">Dec</span>
+                                </div>
+                                <div class="postTitle">
+                                    <h2><a href="#">Post Format – Video</a></h2>
+                                </div>
+                                <div class="postContent"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non placerat mi…</p></div>
+                                <a class="readmore" href="#">Read more &gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="post-image">
+                                <img src="{{media url="wysiwyg/smartwave/blog/02.jpg"}}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="post-date">
+                                    <span class="day">07</span>
+                                    <span class="month">Dec</span>
+                                </div>
+                                <div class="postTitle">
+                                    <h2><a href="#">Post Format – Image Gallery</a></h2>
+                                </div>
+                                <div class="postContent"><p>Euismod atras vulputate iltricies etri elit. Class aptent taciti sociosqu ad litora torquent…</p></div>
+                                <a class="readmore" href="#">Read more &gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <style type="text/css">.recent-posts .item .col-sm-5, .recent-posts .item .col-sm-7{width:100%;}</style>
         <script type="text/javascript">
@@ -314,7 +357,50 @@
 	<div class="col-sm-12">
 		<h2 style="font-size:19px;font-weight:600;margin-top:40px;" class="theme-color a-center">FROM THE BLOG</h2>
 		<div id="latest_news" class="owl-top-narrow">
-			{{block type="blog/last" name="latest_news" template="blog/recentposts_home.phtml"}}
+			<div class="recent-posts">
+                <div class="owl-carousel owl-theme">
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="post-image">
+                                    <img src="{{media url="wysiwyg/smartwave/blog/01.jpg"}}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="post-date">
+                                    <span class="day">08</span>
+                                    <span class="month">Dec</span>
+                                </div>
+                                <div class="postTitle">
+                                    <h2><a href="#">Post Format – Video</a></h2>
+                                </div>
+                                <div class="postContent"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non placerat mi…</p></div>
+                                <a class="readmore" href="#">Read more &gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="post-image">
+                                <img src="{{media url="wysiwyg/smartwave/blog/02.jpg"}}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="post-date">
+                                    <span class="day">07</span>
+                                    <span class="month">Dec</span>
+                                </div>
+                                <div class="postTitle">
+                                    <h2><a href="#">Post Format – Image Gallery</a></h2>
+                                </div>
+                                <div class="postContent"><p>Euismod atras vulputate iltricies etri elit. Class aptent taciti sociosqu ad litora torquent…</p></div>
+                                <a class="readmore" href="#">Read more &gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 		</div>
 		<script type="text/javascript">
 		jQuery(function($){
@@ -502,7 +588,50 @@
 </div>
 <h2 class="filter-title" style="margin-top:40px;"><span class="content"><strong>FROM THE BLOG</strong></span></h2>
 <div id="latest_news" class="owl-top-narrow">
-    {{block type="blog/last" name="latest_news" template="blog/recentposts_home.phtml"}}
+    <div class="recent-posts">
+        <div class="owl-carousel owl-theme">
+            <div class="item">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="post-image">
+                            <img src="{{media url="wysiwyg/smartwave/blog/03.jpg"}}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="post-date">
+                            <span class="day">08</span>
+                            <span class="month">Dec</span>
+                        </div>
+                        <div class="postTitle">
+                            <h2><a href="#">Post Format – Video</a></h2>
+                        </div>
+                        <div class="postContent"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non placerat mi…</p></div>
+                        <a class="readmore" href="#">Read more &gt;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="post-image">
+                        <img src="{{media url="wysiwyg/smartwave/blog/04.jpg"}}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="post-date">
+                            <span class="day">07</span>
+                            <span class="month">Dec</span>
+                        </div>
+                        <div class="postTitle">
+                            <h2><a href="#">Post Format – Image Gallery</a></h2>
+                        </div>
+                        <div class="postContent"><p>Euismod atras vulputate iltricies etri elit. Class aptent taciti sociosqu ad litora torquent…</p></div>
+                        <a class="readmore" href="#">Read more &gt;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
 jQuery(function($){
@@ -652,7 +781,50 @@ jQuery(function($){
         </script>
         <h2 class="filter-title" style="background-image:none;margin-bottom:-15px;margin-top:20px;"><span class="content"><strong>From the Blog</strong></span></h2>
         <div id="latest_news" style="margin:0 -10px;">
-            {{block type="blog/last" name="latest_news" template="blog/recentposts_home.phtml"}}
+            <div class="recent-posts">
+                <div class="owl-carousel owl-theme">
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="post-image">
+                                    <img src="{{media url="wysiwyg/smartwave/blog/03.jpg"}}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="post-date">
+                                    <span class="day">08</span>
+                                    <span class="month">Dec</span>
+                                </div>
+                                <div class="postTitle">
+                                    <h2><a href="#">Post Format – Video</a></h2>
+                                </div>
+                                <div class="postContent"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non placerat mi…</p></div>
+                                <a class="readmore" href="#">Read more &gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="post-image">
+                                <img src="{{media url="wysiwyg/smartwave/blog/04.jpg"}}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="post-date">
+                                    <span class="day">07</span>
+                                    <span class="month">Dec</span>
+                                </div>
+                                <div class="postTitle">
+                                    <h2><a href="#">Post Format – Image Gallery</a></h2>
+                                </div>
+                                <div class="postContent"><p>Euismod atras vulputate iltricies etri elit. Class aptent taciti sociosqu ad litora torquent…</p></div>
+                                <a class="readmore" href="#">Read more &gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <style type="text/css">.recent-posts .item .col-sm-5, .recent-posts .item .col-sm-7{width:100%;}</style>
         <script type="text/javascript">
@@ -821,7 +993,50 @@ jQuery(function($){
     <div class="col-sm-6">
         <h2 class="filter-title" style="background-image:none;margin-bottom:-10px;"><span class="content"><strong>Latest Blog Posts</strong></span></h2>
         <div id="latest_news" style="margin:0 -10px;">
-            {{block type="blog/last" name="latest_news" template="blog/recentposts_home.phtml"}}
+            <div class="recent-posts">
+                <div class="owl-carousel owl-theme">
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="post-image">
+                                    <img src="{{media url="wysiwyg/smartwave/blog/03.jpg"}}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="post-date">
+                                    <span class="day">08</span>
+                                    <span class="month">Dec</span>
+                                </div>
+                                <div class="postTitle">
+                                    <h2><a href="#">Post Format – Video</a></h2>
+                                </div>
+                                <div class="postContent"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non placerat mi…</p></div>
+                                <a class="readmore" href="#">Read more &gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="post-image">
+                                <img src="{{media url="wysiwyg/smartwave/blog/04.jpg"}}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="post-date">
+                                    <span class="day">07</span>
+                                    <span class="month">Dec</span>
+                                </div>
+                                <div class="postTitle">
+                                    <h2><a href="#">Post Format – Image Gallery</a></h2>
+                                </div>
+                                <div class="postContent"><p>Euismod atras vulputate iltricies etri elit. Class aptent taciti sociosqu ad litora torquent…</p></div>
+                                <a class="readmore" href="#">Read more &gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <script type="text/javascript">
         jQuery(function($){
@@ -1009,7 +1224,50 @@ jQuery(function($){
         </div>
         <h2 class="filter-title" style="background-image:none;margin-bottom:-15px;margin-top:20px;"><span class="content"><strong>From the Blog</strong></span></h2>
         <div id="latest_news" class="custom-block" style="margin:0 -10px;padding-bottom:37px;margin-bottom:35px;">
-            {{block type="blog/last" name="latest_news" template="blog/recentposts_home.phtml"}}
+            <div class="recent-posts">
+                <div class="owl-carousel owl-theme">
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="post-image">
+                                    <img src="{{media url="wysiwyg/smartwave/blog/05.jpg"}}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="post-date">
+                                    <span class="day">08</span>
+                                    <span class="month">Dec</span>
+                                </div>
+                                <div class="postTitle">
+                                    <h2><a href="#">Post Format – Video</a></h2>
+                                </div>
+                                <div class="postContent"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non placerat mi…</p></div>
+                                <a class="readmore" href="#">Read more &gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="post-image">
+                                <img src="{{media url="wysiwyg/smartwave/blog/06.jpg"}}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="post-date">
+                                    <span class="day">07</span>
+                                    <span class="month">Dec</span>
+                                </div>
+                                <div class="postTitle">
+                                    <h2><a href="#">Post Format – Image Gallery</a></h2>
+                                </div>
+                                <div class="postContent"><p>Euismod atras vulputate iltricies etri elit. Class aptent taciti sociosqu ad litora torquent…</p></div>
+                                <a class="readmore" href="#">Read more &gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <style type="text/css">.recent-posts .item .col-sm-5, .recent-posts .item .col-sm-7{width:100%;}</style>
         <script type="text/javascript">
@@ -1208,7 +1466,7 @@ jQuery(function($){
                 <div class="item"><img src="{{media url="wysiwyg/porto/homepage/content/08/brand4.png"}}" alt=""/></div>
                 <div class="item"><img src="{{media url="wysiwyg/porto/homepage/content/08/brand5.png"}}" alt=""/></div>
             </div>
-            <!--{{block type="zeon_manufacturer/home" template="zeon/manufacturer/owl_list.phtml"}}-->
+            <!--{_{block type="zeon_manufacturer/home" template="zeon/manufacturer/owl_list.phtml"}_}-->
             <script type="text/javascript">
             jQuery(function($){
                 $("#brands-slider-demo-10 .owl-carousel").owlCarousel({
@@ -1292,7 +1550,7 @@ jQuery(function($){
             <div class="item" style="padding-top:10px;"><img src="{{media url="wysiwyg/porto/homepage/content/08/brand4.png"}}" alt="" /></div>
             <div class="item" style="padding-top:10px;"><img src="{{media url="wysiwyg/porto/homepage/content/08/brand5.png"}}" alt="" /></div>
         </div>
-        <!--{{block type="zeon_manufacturer/home" template="zeon/manufacturer/owl_list.phtml"}}--><!--Please enable this block, when you installed zeon manufacturer extension-->
+        <!--{_{block type="zeon_manufacturer/home" template="zeon/manufacturer/owl_list.phtml"}_}--><!--Please enable this block, when you installed zeon manufacturer extension-->
     </div>
     <script type="text/javascript">
     jQuery(function($){
@@ -1483,7 +1741,7 @@ jQuery(function($){
                 <div class="item" style="padding-top:10px;"><img class="lazyOwl" data-src="{{media url="wysiwyg/porto/homepage/content/04/brand5.jpg"}}" alt="" /></div>
                 <div class="item" style="padding-top:10px;"><img class="lazyOwl" data-src="{{media url="wysiwyg/porto/homepage/content/04/brand6.jpg"}}" alt="" /></div>
             </div>
-            <!--{{block type="zeon_manufacturer/home" template="zeon/manufacturer/owl_list.phtml"}}-->
+            <!--{_{block type="zeon_manufacturer/home" template="zeon/manufacturer/owl_list.phtml"}_}-->
             <script type="text/javascript">
             jQuery(function($){
                 $("#brands-slider-demo-7 .owl-carousel").owlCarousel({
@@ -1544,16 +1802,6 @@ jQuery(function($){
          <layout_update_xml><![CDATA[<remove name="content"/>]]></layout_update_xml>
       </cms_block>
       <cms_block>
-         <title>Porto - Homepage 16</title>
-         <identifier>porto_home_16</identifier>
-         <content><![CDATA[Blank!!!]]></content>
-         <is_active>1</is_active>
-         <stores><item>0</item></stores>
-         <root_template>one_column</root_template>
-         <layout_update_xml><![CDATA[<remove name="content"/>
-<remove name="footer"/>]]></layout_update_xml>
-      </cms_block>
-	  <cms_block>
          <title>Porto - Homepage 16</title>
          <identifier>porto_home_16</identifier>
          <content><![CDATA[Blank!!!]]></content>

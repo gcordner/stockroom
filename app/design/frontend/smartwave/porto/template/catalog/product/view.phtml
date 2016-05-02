@@ -83,9 +83,17 @@ if($enable_addtocart_sticky){
                                 <div class="rating" style="width:0"></div>
                             </div>
                         </div>
-                    <?php 
-                    endif;
-                    ?>
+                    <?php endif; ?>
+                    <?php if($enabled_richsnippets): ?>
+                    <?php if ($this->getReviewsCount()): ?>
+                        <span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                            <meta itemprop="ratingValue" content="<?php echo $this->getRatingSummary(); ?>"/>
+                            <meta itemprop="reviewCount" content="<?php echo $this->getReviewsCount(); ?>" />
+                            <meta itemprop="bestRating" content="100"/>
+                            <meta itemprop="worstRating" content="0"/>
+                        </span>
+                    <?php endif; ?>
+                    <?php endif; ?>
 					<?php if ($_product->isAvailable()): ?>
 						<p class="availability in-stock"><span>(<?php echo $this->__('In stock') ?>)</span></p>
 					<?php else: ?>
@@ -148,7 +156,28 @@ if($enable_addtocart_sticky){
                 <div class="product-name">
                     <h1 <?php if($enabled_richsnippets): ?>itemprop="name"<?php endif; ?>><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
                 </div>
+                <?php if($enabled_richsnippets): ?>
+                <?php
+                    $storeId = Mage::app()->getStore()->getId();
+                    $summaryData = Mage::getModel('review/review_summary')->setStoreId($storeId)->load($_product->getId());
+                ?>
+                <?php if ($summaryData['reviews_count']): ?>
+                    <span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating" class="no-display">
+                        <span itemprop="ratingValue"><?php echo $summaryData['rating_summary']; ?></span>
+                        <span itemprop="reviewCount"><?php echo $summaryData['reviews_count']; ?></span>
+                        <span itemprop="bestRating">100</span>
+                        <span itemprop="worstRating">0</span>
+                    </span>
+                <?php endif; ?>
+                <?php endif; ?>
+
                 <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
+                <?php if ($_product->getShortDescription()):?>
+                    <div class="short-description">
+                        <h2><?php echo $this->__('Quick Overview') ?></h2>
+                        <div class="std" <?php if($enabled_richsnippets): ?>itemprop="description"<?php endif; ?>><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
+                    </div>
+                <?php endif;?>
                 <div class="product-info">
                     <div <?php if($enabled_richsnippets) echo $helper_richsnippets->getOfferItemscope(); ?>>
                         <?php echo $this->getChildHtml('product_type_data'); ?>
@@ -187,12 +216,6 @@ if($enable_addtocart_sticky){
                     <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
                 <?php endif;?>
                 <div class="clearer"></div>
-                <?php $_description = $this->getProduct()->getDescription(); ?>
-                <?php if ($_description): ?>
-                    <div class="std">
-                        <?php echo $this->helper('catalog/output')->productAttribute($this->getProduct(), $_description, 'description') ?>
-                    </div>
-                <?php endif; ?>
                 <?php echo $this->getChildHtml('addthis_sharetool'); ?>
             </div>
 
@@ -320,6 +343,9 @@ if($enable_addtocart_sticky){
                 if (e) {
                     throw e;
                 }
+            } else {
+                if(jQuery('#product-options-wrapper'))
+                    jQuery('#product-options-wrapper').scrollToMe();
             }
         }.bind(productAddToCartForm);
     //]]>
@@ -349,6 +375,9 @@ if($enable_addtocart_sticky){
                 if (button && button != 'undefined') {
                     button.disabled = true;
                 }
+            } else {
+                if(jQuery('#product-options-wrapper'))
+                    jQuery('#product-options-wrapper').scrollToMe();
             }
         }.bind(productAddToCartForm);
         //]]>
@@ -375,6 +404,9 @@ if($enable_addtocart_sticky){
                     this.form.submit();
                 }
                 Object.extend(Validation.methods, nv);
+            } else {
+                if(jQuery('#product-options-wrapper'))
+                    jQuery('#product-options-wrapper').scrollToMe();
             }
         }.bind(productAddToCartForm);
     </script>

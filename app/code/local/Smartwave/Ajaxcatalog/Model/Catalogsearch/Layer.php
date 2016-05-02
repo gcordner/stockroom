@@ -10,10 +10,8 @@ class Smartwave_Ajaxcatalog_Model_Catalogsearch_Layer extends Mage_CatalogSearch
      */
     public function prepareProductCollection($collection)
     {
-	$websiteId = Mage::app()->getStore()->getWebsiteId();
         $collection
             ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
-	    ->joinTable(array('cisi' => 'cataloginventory/stock_status'),'product_id=entity_id','stock_status', array('website_id'=> $websiteId), 'left')
             ->addSearchFilter(Mage::helper('catalogsearch')->getQuery()->getQueryText())
             ->setStore(Mage::app()->getStore())
             ->addMinimalPrice()
@@ -37,8 +35,8 @@ class Smartwave_Ajaxcatalog_Model_Catalogsearch_Layer extends Mage_CatalogSearch
             $where .= ' AND final_price <= "'.$max.'"';
         }
         $where ='('.$where.') OR (final_price is NULL)';
-        $collection->getSelect()->reset(Zend_Db_Select::ORDER); 
-        $collection->getSelect()->where($where)->order('stock_status desc');
+        $collection->getSelect()->where($where);
+        
         return $collection;
     }
     

@@ -13,7 +13,9 @@
                         
             <action method="addCss"><stylesheet>fancybox/css/jquery.fancybox.css</stylesheet></action>
             <action method="addItem"><type>js_css</type><name>smartwave/ajaxcart/ajaxaddto.css</name></action>
-            <block type="core/template" name="ajaxcart_mask" template="ajaxcart/loading_mask.phtml"/>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="ajaxcart_mask" before="-" template="ajaxcart/loading_mask.phtml"/>
         </reference>
         <reference name="catalog.compare.sidebar">
             <action method="setTemplate" ifconfig="ajaxcart/addtolinks/enablecategory"><template>ajaxcart/catalog/product/compare/sidebar.phtml</template></action>

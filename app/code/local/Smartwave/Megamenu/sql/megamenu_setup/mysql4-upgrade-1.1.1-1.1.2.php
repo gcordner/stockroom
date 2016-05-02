@@ -7,15 +7,15 @@
 $installer = $this;
 $installer->startSetup();
 
-$installer->addAttribute('catalog_category', 'sw_cat_float_type', array(
+$installer->addAttribute('catalog_category', 'sw_cat_hide_menu_item', array(
     'group'             => 'Menu',
-    'label'             => 'Float',
-    'note'              => "This field is applicable only for top-level categories.",
-    'type'              => 'varchar',
+    'label'             => 'Hide This Menu Item',
+    'type'              => 'int',
     'input'             => 'select',
-    'source'            => 'megamenu/category_attribute_source_type_float',
+    'source'            => 'megamenu/category_attribute_source_block_yesno',
     'visible'           => true,
     'required'          => false,
+    'sort_order'        => 0,
     'backend'           => '',
     'frontend'          => '',
     'searchable'        => false,

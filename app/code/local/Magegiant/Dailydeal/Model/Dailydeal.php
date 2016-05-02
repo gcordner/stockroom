@@ -10,33 +10,13 @@ class Magegiant_Dailydeal_Model_Dailydeal extends Mage_Core_Model_Abstract
 		parent::_construct();
 		$this->_init('dailydeal/dailydeal');
 	}
-	public function getStartingdeals($starttime, $endtime)
-	{
-		return $this->getDailydealsByTimeRange('start_time', $starttime, $endtime);
-	}
-	public function getEndingdeals($starttime, $endtime)
-	{
-		return $this->getDailydealsByTimeRange('close_time', $starttime, $endtime);
-	}
 
-	private function getDailydealsByTimeRange($field, $starttime, $endtime)
-	{
-		$store = Mage::app()->getStore()->getStoreId();
-		$deals = $this->getCollection()
-		    ->addFieldToFilter('store_id', $this->getArrayFilter($store))
-		    ->addFieldToFilter($field, array( 'gteq' => $starttime ))
-		    ->addFieldToFilter($field, array( 'lteq' => $endtime ))
-		    ->addFieldToFilter('product_id', array('nin' => 0));
-		
-		$this->_dealsCollection = $deals;
-		return $this->_dealsCollection;
-	}
 	public function getDailydeals()
 	{
         
-        $expired_deals = $this->getCollection()
+        $expired_deals                  = $this->getCollection()
                 ->addFieldToFilter('status', 3);
-        $current_time = date("Y-m-d H:i:s", strtotime(Mage::getModel('core/date')->gmtDate()));
+        $current_time = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
         $expired_deals->getSelect()->where('(close_time <= ?)', $current_time);
         
         foreach($expired_deals as $entry){
@@ -51,9 +31,8 @@ class Magegiant_Dailydeal_Model_Dailydeal extends Mage_Core_Model_Abstract
 				->addFieldToFilter('is_random', 0)
 				->addFieldToFilter('store_id', $this->getArrayFilter($store))
 				->addFieldToFilter('product_id', array('nin' => 0));
-      
             $deals->getSelect()->where('(start_time <= ?)', $current_time);
-            $this->_dealsCollection = $deals;
+			$this->_dealsCollection = $deals;
 		}
         
 		return $this->_dealsCollection;
@@ -61,11 +40,12 @@ class Magegiant_Dailydeal_Model_Dailydeal extends Mage_Core_Model_Abstract
 
 	public function getLoadedProductCollection($store = null)
 	{
+
 		$deals = $this->getCollection()
 			->addFieldToFilter('status', 3)
 			->addFieldToFilter('is_random', 0)
 			->addFieldToFilter('product_id', array('nin' => 0));
-		if (!empty($store))
+		if ($store != 0)
 			$deals->addFieldToFilter('store_id', $this->getArrayFilter($store));
 		$productIds = array();
 		foreach ($deals as $deal) {
@@ -187,12 +167,10 @@ class Magegiant_Dailydeal_Model_Dailydeal extends Mage_Core_Model_Abstract
 
 	public function getDealByProduct($productId)
 	{
-        $current_time = date("Y-m-d H:i:s", strtotime(Mage::getModel('core/date')->gmtDate()));
 		$deal = $this->getDailydeals()
-                ->addFieldToFilter('product_id', $productId)
-                ->addFieldToFilter('start_time', array( 'lteq' => $current_time ))
-                ->addFieldToFilter('close_time', array( 'gteq' => $current_time ));
-        
+			->addFieldToFilter('product_id', $productId);
+        $current_time = date("Y-m-d H:i:s", Mage::getModel('core/date')->timestamp(time()));
+        $deal->getSelect()->where('(start_time <= ?)', $current_time);
 		if ($deal->getSize())
 			return $deal->getFirstItem();
 

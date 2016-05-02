@@ -1,11 +1,9 @@
 <?php
+    $store = Mage::app()->getStore();
+    $code  = $store->getCode();
     $helper = Mage::helper("porto");
     $product_id = Mage::registry("current_product")->getId();
-    $code = $this->getRequest()->getParam('store');
-    if(!isset($code))
-	$tab_style = Mage::getStoreConfig("porto_settings/product_view/product_tab_style", $code);
-    else
-    	$tab_style = Mage::getStoreConfig("porto_settings/product_view/product_tab_style");
+    $tab_style = Mage::getStoreConfig("porto_settings/product_view/product_tab_style", $code);
     if(!$tab_style)
         $tab_style = "horizontal";
 ?>

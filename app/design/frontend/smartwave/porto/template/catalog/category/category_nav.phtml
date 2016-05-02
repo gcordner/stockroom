@@ -34,7 +34,7 @@
 <?php if($_count): ?>
 <div class="block block-category-nav">
     <div class="block-title">
-	<div class="categories-block-title">CATEGORIES</div>
+        <strong><span><?php echo Mage::registry('current_category')->getName(); ?></span></strong>
     </div>
     <div class="block-content">
         <ul class="category-list">
