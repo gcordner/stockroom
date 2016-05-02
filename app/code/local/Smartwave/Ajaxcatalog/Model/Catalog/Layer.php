@@ -14,8 +14,10 @@ class Smartwave_Ajaxcatalog_Model_Catalog_Layer extends Mage_Catalog_Model_Layer
         if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         } else {
+	    $websiteId = Mage::app()->getStore()->getWebsiteId();
             $collection = $this->getCurrentCategory()->getProductCollection();
             $this->prepareProductCollection($collection);
+	    $collection->joinTable(array('cisi' => 'cataloginventory/stock_status'),'product_id=entity_id','stock_status', array('website_id'=> $websiteId), 'left');
             $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
         }
 		
@@ -31,8 +33,7 @@ class Smartwave_Ajaxcatalog_Model_Catalog_Layer extends Mage_Catalog_Model_Layer
             $where .= ' AND final_price <= "'.$max.'"';
         }
         $where ='('.$where.') OR (final_price is NULL)';
-        $collection->getSelect()->where($where);
-
+	$collection->getSelect()->where($where)->order('stock_status desc');
         return $collection;
     }
 	
