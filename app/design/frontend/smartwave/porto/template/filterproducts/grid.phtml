@@ -118,7 +118,7 @@
                         // Get the Special Price TO date
                         $specialPriceToDate = substr($product->getSpecialToDate(),0,10);
                         // Get Current date
-                        $today =  time();
+                        $today =  strtotime(Mage::getModel('core/date')->date('Y-m-d H:i:s'));
                      
                         if ($specialprice<$orgprice){
                             $save_percent = 100-round(($specialprice/$orgprice)*100);
@@ -143,7 +143,7 @@
                             {
                                 if(Mage::getStoreConfig("porto_settings/product_label/new", $code)){
                         ?> 
-                                <div class="product-label" style="right: 10px; <?php echo ($sale_label)?"top: 40px;":""; ?>"><span class="new-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/new_label_text", $code);?></span></div>
+                                <div class="product-label" style="<?php echo ($sale_label)?"top: 40px;":""; ?>"><span class="new-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/new_label_text", $code);?></span></div>
                         <?php 
                                 }
                             }

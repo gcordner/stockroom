@@ -14,6 +14,8 @@ a.tooltip-icon{border:1px solid #fff;color:#fff;border-radius:50%;display:block;
 a.tooltip-close{position:absolute;right:10px;top:10px;color:#fff}
 .footer-middle>.container{position:relative}
 
+.top-links-container{padding:5px 0px 6px;}
+
 /* tooltip for demo */
 @-webkit-keyframes tooltip-animation {
   0% {
@@ -80,4 +82,14 @@ a.tooltip-close{position:absolute;right:10px;top:10px;color:#fff}
   100% {
     color: #444;
   }
+}
+@media (max-width:990px){
+    .unimobile { margin-bottom: 10px;}
+    .header > .logo { max-width: 210px;}
+    .header-container.type4 .header .logo img{ height: auto;}
+    .header-container.type4 .header { padding: 15px 0px 5px;}
+}
+
+@media (max-width:340px){
+  .header > .logo {max-width: 195px;}
 }

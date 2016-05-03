@@ -90,7 +90,7 @@ var i = 0;
                         
                         
                         // Get the Special Price
-                        $specialprice = $product->getFinalPrice();
+                        $specialprice = $product->getSpecialPrice();
                         $orgprice = $product->getPrice();
                         // Get the Special Price FROM date
                         $now = date("Y-m-d");
@@ -98,16 +98,16 @@ var i = 0;
                         // Get the Special Price TO date
                         $specialPriceToDate = substr($product->getSpecialToDate(),0,10);
                         // Get Current date
-                        $today =  time();
+                        $today =  strtotime(Mage::getModel('core/date')->date('Y-m-d H:i:s'));
                      
-                        if ($specialprice<$orgprice){
+                        if ($specialprice<$orgprice && $specialprice != ''){
                             $save_percent = 100-round(($specialprice/$orgprice)*100);
                             if ($specialPriceToDate != '' || $specialPriceFromDate != ''){
                             if (($specialPriceToDate != '' && $specialPriceFromDate != '' && $now>=$specialPriceFromDate && $now<=$specialPriceToDate) || ($specialPriceToDate == '' && $now >=$specialPriceFromDate) || ($specialPriceFromDate == '' && $now<=$specialPriceToDate)){
                                 if(Mage::getStoreConfig("porto_settings/product_label/sale", $code)){
                                     $sale_label = true;
                     ?>
-                                <div class="product-label" style="right: 10px;"><span class="sale-product-icon"><?php if(Mage::getStoreConfig("porto_settings/product_label/sale_label_type", $code)):?><?php echo "-".$save_percent."%"; ?><?php else: ?><?php echo Mage::getStoreConfig("porto_settings/product_label/sale_label_text", $code);?><?php endif; ?></span></div>
+                                <div class="product-label"><span class="sale-product-icon"><?php if(Mage::getStoreConfig("porto_settings/product_label/sale_label_type", $code)):?><?php echo "-".$save_percent."%"; ?><?php else: ?><?php echo Mage::getStoreConfig("porto_settings/product_label/sale_label_text", $code);?><?php endif; ?></span></div>
                     <?php       
                                 }
                             }
@@ -123,7 +123,7 @@ var i = 0;
                             {
                                 if(Mage::getStoreConfig("porto_settings/product_label/new", $code)){
                         ?> 
-                                <div class="product-label" style="right: 10px; <?php echo ($sale_label)?"top: 40px;":""; ?>"><span class="new-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/new_label_text", $code);?></span></div>
+                                <div class="product-label" <?php echo ($sale_label)?"top: 40px;":""; ?>"><span class="new-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/new_label_text", $code);?></span></div>
                         <?php 
                                 }
                             }
@@ -324,7 +324,7 @@ var i = 0;
                         
                         
                         // Get the Special Price
-                        $specialprice = $product->getFinalPrice();
+                        $specialprice = $product->getSpecialPrice();
                         $orgprice = $product->getPrice();
                         // Get the Special Price FROM date
                         $now = date("Y-m-d");
@@ -332,16 +332,16 @@ var i = 0;
                         // Get the Special Price TO date
                         $specialPriceToDate = substr($product->getSpecialToDate(),0,10);
                         // Get Current date
-                        $today =  time();
+                        $today =  strtotime(Mage::getModel('core/date')->date('Y-m-d H:i:s'));
                      
-                        if ($specialprice<$orgprice){
+                        if ($specialprice<$orgprice && $specialprice != ''){
                             $save_percent = 100-round(($specialprice/$orgprice)*100);
                             if ($specialPriceToDate != '' || $specialPriceFromDate != ''){
                             if (($specialPriceToDate != '' && $specialPriceFromDate != '' && $now>=$specialPriceFromDate && $now<=$specialPriceToDate) || ($specialPriceToDate == '' && $now >=$specialPriceFromDate) || ($specialPriceFromDate == '' && $now<=$specialPriceToDate)){
                                 if(Mage::getStoreConfig("porto_settings/product_label/sale", $code)){
                                     $sale_label = true;
                     ?>
-                                <div class="product-label" style="right: 10px;"><span class="sale-product-icon"><?php if(Mage::getStoreConfig("porto_settings/product_label/sale_label_type", $code)):?><?php echo "-".$save_percent."%"; ?><?php else: ?><?php echo Mage::getStoreConfig("porto_settings/product_label/sale_label_text", $code);?><?php endif; ?></span></div>
+                                <div class="product-label"><span class="sale-product-icon"><?php if(Mage::getStoreConfig("porto_settings/product_label/sale_label_type", $code)):?><?php echo "-".$save_percent."%"; ?><?php else: ?><?php echo Mage::getStoreConfig("porto_settings/product_label/sale_label_text", $code);?><?php endif; ?></span></div>
                     <?php       
                                 }
                             }
@@ -357,7 +357,7 @@ var i = 0;
                             {
                                 if(Mage::getStoreConfig("porto_settings/product_label/new", $code)){
                         ?> 
-                                <div class="product-label" style="right: 10px; <?php echo ($sale_label)?"top: 40px;":""; ?>"><span class="new-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/new_label_text", $code);?></span></div>
+                                <div class="product-label" style="<?php echo ($sale_label)?"top: 40px;":""; ?>"><span class="new-product-icon"><?php echo Mage::getStoreConfig("porto_settings/product_label/new_label_text", $code);?></span></div>
                         <?php 
                                 }
                             }
