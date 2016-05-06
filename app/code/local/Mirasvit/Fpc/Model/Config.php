@@ -183,7 +183,6 @@ class Mirasvit_Fpc_Model_Config extends Varien_Simplexml_Config
         if ($this->_containers === null) {
             $this->_containers = array();
             foreach ($this->getNode('containers')->children() as $container) {
-                Mage::log($container, null, 'mir1.log', true);
                 $containerName = (string) $container->name;
                 $containerData = array(
                         'container' => (string) $container->container,
