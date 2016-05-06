@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.5.3
- * @build     520
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -54,10 +54,11 @@ class Mirasvit_Fpc_Model_Cache
 
     public function cleanByLimits()
     {
+        Mage::getSingleton('core/cache')->getFrontend()->clean(Zend_Cache::CLEANING_MODE_OLD);
         if (Mage::helper('fpc')->getCacheSize() > Mage::getSingleton('fpc/config')->getMaxCacheSize()
             || Mage::helper('fpc')->getCacheNumber() > Mage::getSingleton('fpc/config')->getMaxCacheNumber()) {
             if ($this->getConfig()->isDebugLogEnabled()) {
-                Mage::log('Reached max cache limits ', null, Mirasvit_Fpc_Model_Processor::DEBUG_LOG);
+                Mage::log('Reached max cache limits ', null, Mirasvit_Fpc_Model_Config::DEBUG_LOG);
             }
 
             $this->clearAll();
@@ -82,17 +83,19 @@ class Mirasvit_Fpc_Model_Cache
         }
 
         if ($this->getConfig()->isDebugLogEnabled()) {
-            Mage::log('Clearing all cache ', null, Mirasvit_Fpc_Model_Processor::DEBUG_LOG);
+            Mage::log('Clearing all cache ', null, Mirasvit_Fpc_Model_Config::DEBUG_LOG);
         }
     }
 
     public function onCleanCache($observer)
     {
-        $cacheTagslevelLevel = $this->getConfig()->getCacheTagslevelLevel();
-        if ($cacheTagslevelLevel != Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_MINIMAL
-            && $cacheTagslevelLevel != Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_EMPTY) {
-                self::getCacheInstance()->clean($observer->getTags());
-        }
+        try { //if we can't get Cache Tags Level
+            $cacheTagslevelLevel = $this->getConfig()->getCacheTagslevelLevel();
+            if ($cacheTagslevelLevel != Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_MINIMAL
+                && $cacheTagslevelLevel != Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_EMPTY) {
+                    self::getCacheInstance()->clean($observer->getTags());
+            }
+        } catch (Exception $e) { }
 
         return $this;
     }

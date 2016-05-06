@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.5.3
- * @build     520
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -18,13 +18,35 @@
 
 class Mirasvit_Fpc_Helper_Message extends Mage_Core_Helper_Abstract
 {
-    public function addMessage(&$content, $message) {
+    public function addMessage(&$content, $message = false, $messageType = false) {
+        $messageReplace = false;
         $action = Mage::helper('fpc')->getFullActionCode();
 
-        if ($action == 'catalog/category_view') {
+        if ($action == 'catalog/category_view' || $action == 'catalog/product_view') {
+            $content = preg_replace('/<ul class="messages">(.*?)<\\/ul>/ims', '', $content, 1);
+        }
+
+        if ($message && $action == 'catalog/category_view') {
             $content = preg_replace('/\\<\\/h1\\>/ims', '</h1>' . $message, $content, 1);
-        } elseif ($action == 'catalog/product_view') {
+            $messageReplace = true;
+        } elseif ($message && $action == 'catalog/product_view') {
             $content = preg_replace('/<div id="messages_product_view">/ims', '<div id="messages_product_view">' . $message, $content, 1);
+            $messageReplace = true;
+        }
+
+        if ($messageReplace) {
+            switch ($messageType) {
+                case Mirasvit_Fpc_Model_Config::CATALOG_MESSAGE:
+                    Mage::getSingleton('catalog/session')->getMessages()->clear(); //clear message after first show
+                    break;
+
+                case Mirasvit_Fpc_Model_Config::CHECKOUT_MESSAGE:
+                    Mage::getSingleton('checkout/session')->getMessages()->clear(); //clear message after first show
+                    break;
+
+                default:
+                    break;
+           }
         }
 
         return $this;
@@ -44,14 +66,12 @@ class Mirasvit_Fpc_Helper_Message extends Mage_Core_Helper_Abstract
             && ($message = Mage::getSingleton('catalog/session')->getMessages())
             && ($lastMessage = $message->getLastAddedMessage())) {
                 $messageText = $this->prepareMessage($lastMessage);
-                $message->clear(); //clear message after first show
         }
 
         if ($checkoutMessageCount
             && ($message = Mage::getSingleton('checkout/session')->getMessages())
             && ($lastMessage = $message->getLastAddedMessage())) {
                 $messageText = $this->prepareMessage($lastMessage);
-                $message->clear(); //clear message after first show
         }
 
         return $messageText;
@@ -63,6 +83,7 @@ class Mirasvit_Fpc_Helper_Message extends Mage_Core_Helper_Abstract
             return false;
         }
 
+        $messageText = '';
         if ($message->getType() == 'success') {
             $messageText = '<ul class="messages">
                                 <li class="success-msg">
@@ -79,7 +100,7 @@ class Mirasvit_Fpc_Helper_Message extends Mage_Core_Helper_Abstract
                                     </ul>
                                 </li>
                             </ul>';
-        } elseif ($message->getType() == 'note') {
+        } elseif ($message->getType() == 'error') {
             $messageText = '<ul class="messages">
                                 <li class="error-msg">
                                     <ul>

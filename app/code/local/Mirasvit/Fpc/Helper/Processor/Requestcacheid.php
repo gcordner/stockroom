@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.5.3
- * @build     520
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -57,8 +57,7 @@ class Mirasvit_Fpc_Helper_Processor_Requestcacheid extends Mage_Core_Helper_Abst
             Mage::getSingleton('core/design_package')->getPackageName(),
         );
 
-        $request = Mage::app()->getRequest();
-        $action = $request->getModuleName() . '/' . $request->getControllerName() . '_' . $request->getActionName();
+        $action = Mage::helper('fpc')->getFullActionCode();
 
         switch ($action) {
             case 'catalog/category_view':
@@ -97,7 +96,7 @@ class Mirasvit_Fpc_Helper_Processor_Requestcacheid extends Mage_Core_Helper_Abst
         $requestId = strtolower(implode('/', $dependencies));
 
         if ($this->getConfig()->isDebugLogEnabled()) {
-            Mage::log('Request ID: ' . $requestId, null, self::DEBUG_LOG);
+            Mage::log('Request ID: ' . $requestId, null, Mirasvit_Fpc_Model_Config::DEBUG_LOG);
         }
 
 

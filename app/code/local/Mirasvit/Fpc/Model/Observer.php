@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.5.3
- * @build     520
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -37,12 +37,19 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
 
     protected $_processor = null;
 
+    protected $_registerModelTagCounter = 0;
+
+    protected $_registerProductTagCounter = 0;
+
+    protected $_registerCollectionTagCounter = 0;
+
     public function __construct()
     {
         $this->_isAdminArea = $this->_isAdmin();
         $this->_config = Mage::getSingleton('fpc/config');
         $this->_isEnabled = Mage::app()->useCache('fpc');
         $this->_setCacheTagLevel();
+        $this->_debugHelper = Mage::helper('fpc/debug');
     }
 
     protected function _isAdmin()
@@ -174,9 +181,14 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
 
     public function registerModelTag($observer)
     {
+        $this->_registerModelTagCounter++;
+
+        $this->_debugHelper->startTimer(Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG . $this->_registerModelTagCounter);
+
         if (!$this->isAllowed()
             || $this->_isAdminArea
             || $this->_isCacheExist()) {
+                $this->_debugHelper->stopTimer(Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG. $this->_registerModelTagCounter);
                 return $this;
         }
 
@@ -188,10 +200,15 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
         }
 
         if ($this->_cacheTagsLevel == Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_EMPTY) {
+            $this->_debugHelper->stopTimer(Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG . $this->_registerModelTagCounter);
             return $this;
         }
 
+        $this->_debugHelper->stopTimer(Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG . $this->_registerModelTagCounter);
+
         $object = $observer->getEvent()->getObject();
+
+        $this->_debugHelper->startTimer(Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG . get_class($object));
 
         if (($this->_cacheTagsLevel == Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_FIRST
             || $this->_cacheTagsLevel == Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_MINIMAL)
@@ -214,6 +231,8 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
             $this->_getProcessor()->addRequestTag($tags);
             $this->_registerModelTagCalls++;
         }
+
+        $this->_debugHelper->stopTimer(Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG . get_class($object));
 
         return $this;
     }
@@ -265,10 +284,16 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
 
     public function registerProductTags($observer)
     {
-        if (!$this->isAllowed()
+        $this->_registerProductTagCounter++;
+
+        $this->_debugHelper->startTimer(Mirasvit_Fpc_Model_Config::REGISTER_PRODUCT_TAG . $this->_registerProductTagCounter);
+
+        if ($this->_registerProductTagCounter > Mirasvit_Fpc_Model_Config::MAX_PRODUCT_REGISTER
+            || !$this->isAllowed()
             || $this->_isAdminArea
             || $this->_isCacheExist()
             || $this->_cacheTagsLevel == Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_EMPTY) {
+                $this->_debugHelper->stopTimer(Mirasvit_Fpc_Model_Config::REGISTER_PRODUCT_TAG. $this->_registerProductTagCounter);
                 return $this;
         }
 
@@ -301,15 +326,22 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
             }
         }
 
+        $this->_debugHelper->stopTimer(Mirasvit_Fpc_Model_Config::REGISTER_PRODUCT_TAG. $this->_registerProductTagCounter);
+
         return $this;
     }
 
     public function registerCollectionTag($observer)
     {
+        $this->_registerCollectionTagCounter++;
+
+        $this->_debugHelper->startTimer(Mirasvit_Fpc_Model_Config::REGISTER_COLLECTION_TAG . $this->_registerCollectionTagCounter);
+
         if (!$this->isAllowed()
             || $this->_cacheTagsLevel != Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_SECOND
             || $this->_isAdminArea
             || $this->_isCacheExist()) {
+                $this->_debugHelper->stopTimer(Mirasvit_Fpc_Model_Config::REGISTER_COLLECTION_TAG. $this->_registerCollectionTagCounter);
                 return $this;
         }
 
@@ -322,6 +354,8 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
                 }
             }
         }
+
+        $this->_debugHelper->stopTimer(Mirasvit_Fpc_Model_Config::REGISTER_COLLECTION_TAG. $this->_registerCollectionTagCounter);
 
         return $this;
     }
@@ -481,11 +515,19 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
             $tags = array();
             $tags[] = 'CATALOG_PRODUCT_' . $productId;
             $product = Mage::getModel('catalog/product')->load($productId);
-            $stockStatus = Mage::getModel('cataloginventory/stock_item')
-                     ->loadByProduct($product)
-                     ->getIsInStock();
-            if (!$stockStatus) {
-                 $tags = $this->getCategoryTags($product, $tags);
+
+            if ($product->getVisibility() == Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE) {
+                continue;
+            }
+
+            $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($product);
+            $qty = $stockItem->getQty();
+            if ($qty <= 0
+                && $stockItem->getIsInStock()
+                && ($product->getTypeId() == "simple"
+                    || ($product->getTypeId() == "configurable"
+                        && $this->getConfigurableQty($productId) <= 0)) ) {
+                            $tags = $this->getCategoryTags($product, $tags);
             }
 
             if ($tags) {
@@ -493,5 +535,29 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
                 Mage::app()->getCache()->clean('matchingAnyTag', $tags);
             }
         }
+    }
+
+    /**
+     * Get simple products Qty for configurable product
+     * @param int
+     * @return int
+     */
+    protected function getConfigurableQty($productId)
+    {
+        $sumQty = 0;
+        $childrenIds = array();
+
+        $requiredChildrenIds = Mage::getResourceSingleton('catalog/product_type_configurable')
+                                ->getChildrenIds($productId, true);
+
+        foreach ($requiredChildrenIds as $groupedChildrenIds) {
+            $childrenIds = array_merge($childrenIds, $groupedChildrenIds);
+        }
+
+        foreach ($childrenIds as $childId) {
+            $childQty = Mage::getModel('cataloginventory/stock_item')->loadByProduct($childId)->getQty();
+            $sumQty += $childQty;
+        }
+        return $sumQty;
     }
 }

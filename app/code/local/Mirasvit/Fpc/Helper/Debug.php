@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.5.3
- * @build     520
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -111,28 +111,34 @@ class Mirasvit_Fpc_Helper_Debug extends Mage_Core_Helper_Abstract
     public function getStorageData($storage, $isHit)
     {
         $detailInfo = array(
-            'Created At'                  => date('Y-m-d H:i:s', $storage->getCreatedAt()) . ' GMT',
-            'Expires At'                  => date('Y-m-d H:i:s', $storage->getCreatedAt() + $storage->getCacheLifetime()) . ' GMT',
-            'Created By'                  => $storage->getCreatedBy(),
-            'Life time'                   => $storage->getCacheLifetime() . 's',
-            'Action'                      => Mage::helper('fpc')->getFullActionCode(),
-            'Cache ID'                    => $storage->getCacheId(),
-            'Fpc switch for crawler time' => $this->getTimer('SWITCH_FOR_CRAWLER_TIME'),
-            'Fpc can request time'        => $this->getTimer('CHECK_PROCESS_REQUEST_TIME'),
-            'Fpc self time'               => $this->getTimer('SELF_TIME'),
-            'Fpc send content time'       => ($isHit) ? '<span id="m-fpc-send-content-time">FPC_SEND_CONTENT_TIME</span>' : 'No data',
-            'Cache Tags'                  => implode('<br/>', $storage->getCacheTags()),
-            'Block update time'           => $this->getUpdateTime(),
-            'Total block update time'     => $this->getUpdateTime(true),
-            'Dependences time'            => $this->getUpdateTime(false, true),
-            'Total dependences time'      => $this->getUpdateTime(true, true),
-            'Session size'                => Mage::helper('fpc')->getSessionSize() . 'Mb',
+            'Created At'                                  => date('Y-m-d H:i:s', $storage->getCreatedAt()) . ' GMT',
+            'Expires At'                                  => date('Y-m-d H:i:s', $storage->getCreatedAt() + $storage->getCacheLifetime()) . ' GMT',
+            'Created By'                                  => $storage->getCreatedBy(),
+            'Life time'                                   => $storage->getCacheLifetime() . 's' . ' (' . $storage->getCacheLifetime()/3600 . 'h)',
+            'Action'                                      => Mage::helper('fpc')->getFullActionCode(),
+            'Cache ID'                                    => $storage->getCacheId(),
+            'Fpc switch for crawler time'                 => $this->getTimer('SWITCH_FOR_CRAWLER_TIME'),
+            'Fpc can request time'                        => $this->getTimer('CHECK_PROCESS_REQUEST_TIME'),
+            'Fpc self time'                               => $this->getTimer('SELF_TIME'),
+            'Fpc send content time'                       => ($isHit) ? '<span id="m-fpc-send-content-time">FPC_SEND_CONTENT_TIME</span>' : 'No data',
+            'Cache Tags'                                  => implode('<br/>', $storage->getCacheTags()),
+            'Block update time'                           => $this->getUpdateTime(),
+            'Total block update time'                     => $this->getUpdateTime(true),
+            'Dependences time'                            => $this->getUpdateTime(false, true),
+            'Total dependences time'                      => $this->getUpdateTime(true, true),
+            'Session size'                                => Mage::helper('fpc')->getSessionSize() . 'Mb',
+            'Register Model Tag Observer Time'            => $this->getUpdateTime(false, false, Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG),
+            'Total Register Model Tag Observer Time'      => $this->getUpdateTime(true, false, Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG),
+            'Register Product Tag Observer Time'          => $this->getUpdateTime(false, false, Mirasvit_Fpc_Model_Config::REGISTER_PRODUCT_TAG),
+            'Total Register Product Tag Observer Time'    => $this->getUpdateTime(true, false, Mirasvit_Fpc_Model_Config::REGISTER_PRODUCT_TAG),
+            'Register Collection Tag Observer Time'       => $this->getUpdateTime(false, false, Mirasvit_Fpc_Model_Config::REGISTER_COLLECTION_TAG),
+            'Total Register Collection Tag Observer Time' => $this->getUpdateTime(true, false, Mirasvit_Fpc_Model_Config::REGISTER_COLLECTION_TAG),
         );
 
         return $detailInfo;
     }
 
-    protected function getUpdateTime($total = false, $dependences = false)
+    protected function getUpdateTime($total = false, $dependences = false, $registerTag = false)
     {
         $prefix = 'FPC_BLOCK_';
         $data = 'No data';
@@ -140,6 +146,25 @@ class Mirasvit_Fpc_Helper_Debug extends Mage_Core_Helper_Abstract
 
         if ($dependences) {
             $prefix = 'FPC_DEPENDENCES_';
+        }
+
+        if ($registerTag) {
+            switch ($registerTag) {
+                case Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG:
+                    $prefix = 'FPC_' . Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG;
+                    break;
+
+                case Mirasvit_Fpc_Model_Config::REGISTER_PRODUCT_TAG:
+                    $prefix = 'FPC_' . Mirasvit_Fpc_Model_Config::REGISTER_PRODUCT_TAG;
+                    break;
+
+                case Mirasvit_Fpc_Model_Config::REGISTER_COLLECTION_TAG:
+                   $prefix = 'FPC_' . Mirasvit_Fpc_Model_Config::REGISTER_COLLECTION_TAG;
+                    break;
+
+                default:
+                    break;
+           }
         }
 
         foreach ($_SERVER as $key => $value) {
@@ -155,10 +180,10 @@ class Mirasvit_Fpc_Helper_Debug extends Mage_Core_Helper_Abstract
                 $time += $updateValue;
             }
 
-            $data = $time . 's';
+            $data = $this->getConvertedTime($time) . 'ms';
         } elseif ($update && !$total) {
             foreach ($update as $updateKey => $updateValue) {
-                $update[$updateKey] = $updateKey . ' - ' . $updateValue . 's';
+                $update[$updateKey] = $updateKey . ' - ' . $this->getConvertedTime($updateValue) . 'ms';
             }
 
             $data = implode('<br/>', $update);
@@ -294,7 +319,7 @@ class Mirasvit_Fpc_Helper_Debug extends Mage_Core_Helper_Abstract
     public function getTimer($timer)
     {
         if (isset($_SERVER['FPC_' . $timer . '_RESULT'])) {
-            return round($_SERVER['FPC_' . $timer . '_RESULT'] * 1000, 1) . 'ms';
+            return $this->getConvertedTime($_SERVER['FPC_' . $timer . '_RESULT']) . 'ms';
         }
 
         return 'No data';
@@ -306,5 +331,15 @@ class Mirasvit_Fpc_Helper_Debug extends Mage_Core_Helper_Abstract
     public function getConfig()
     {
         return Mage::getSingleton('fpc/config');
+    }
+
+    /**
+     * Convert seconds to milliseconds
+     * @param float $time
+     * @return float
+     */
+    public function getConvertedTime($time)
+    {
+        return round($time * 1000, 1);
     }
 }

@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.5.3
- * @build     520
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -108,16 +108,10 @@ class Mirasvit_FpcCrawler_Model_Crawler_Url extends Mage_Core_Model_Abstract
             $content = implode(PHP_EOL, get_headers($url));
         }
 
-        if (strpos($content, '404 Not Found') !== false) {
-            $this->delete();
-        }
-
-        if (strpos($content, '301 Moved Permanently') !== false) {
-            $this->delete();
-        }
-
-        if (strpos($content, 'HTTP/1.1 302 Found') !== false) {
-            $this->delete();
+        if (strpos($content, '404 Not Found') !== false
+            || strpos($content, '301 Moved Permanently') !== false
+            || strpos($content, 'HTTP/1.1 302 Found') !== false) {
+                $this->delete();
         }
 
         preg_match('/Fpc-Cache-Id: ('.Mirasvit_Fpc_Model_Config::REQUEST_ID_PREFIX.'[a-z0-9]{32})/', $content, $matches);
@@ -127,6 +121,8 @@ class Mirasvit_FpcCrawler_Model_Crawler_Url extends Mage_Core_Model_Abstract
                 $this->setCacheId($cacheId)
                     ->save();
             }
+        } else {
+            $this->delete();
         }
 
         return $this;

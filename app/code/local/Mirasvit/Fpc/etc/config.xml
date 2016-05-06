@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mirasvit_Fpc>
-            <version>1.0.0.2</version>
+            <version>1.0.0.6</version>
         </Mirasvit_Fpc>
     </modules>
     <global>
@@ -25,6 +25,9 @@
                     <log_aggregated_daily>
                         <table>m_fpc_log_aggregated_daily</table>
                     </log_aggregated_daily>
+                    <log_aggregated>
+                        <table>m_fpc_log_aggregated</table>
+                    </log_aggregated>
                 </entities>
             </fpc_resource>
         </models>
@@ -293,7 +296,8 @@
                 <max_cache_size>128</max_cache_size>
                 <max_cache_number>20000</max_cache_number>
                 <debug>0</debug>
-                <flush_cache_schedule>0 1 * * *</flush_cache_schedule>
+                <flush_cache_schedule></flush_cache_schedule>
+                <cache_tags_level>3</cache_tags_level>
             </general>
             <cache_rules>
                 <max_depth>10</max_depth>
@@ -338,6 +342,14 @@
                     <model>fpc/log::importFileLog</model>
                 </run>
             </fpc_log_import_logged>
+            <fpc_log_aggregate>
+                <schedule>
+                    <cron_expr>0 */1 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>fpc/log::logAggregate</model>
+                </run>
+            </fpc_log_aggregate>
         </jobs>
     </crontab>
 </config>

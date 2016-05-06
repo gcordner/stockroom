@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.5.3
- * @build     520
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -205,7 +205,10 @@ class Mirasvit_FpcCrawler_Model_Crawlerlogged_Crawl extends Varien_Object
     {
         $collection = Mage::getModel('fpccrawler/crawlerlogged_url')->getCollection()
             ->addFieldToFilter('url_id', array('neq' => $urlModel->getId()))
-            ->addFieldToFilter('cache_id', $urlModel->getCacheId());
+            ->addFieldToFilter('cache_id', $urlModel->getCacheId())
+            ->addFieldToFilter('customer_group_id', array('neq' => $urlModel->getCustomerGroupId()))
+            ->addFieldToFilter('store_id', array('neq' => $urlModel->getStoreId()))
+            ->addFieldToFilter('currency', array('neq' => $urlModel->getCurrency()));
 
         foreach ($collection as $url) {
             $url->delete();

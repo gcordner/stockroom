@@ -8,7 +8,7 @@ ba568cf40e0b1f7efb353860198ce8a0  app/code/local/Mirasvit/MstCore/sql/mstcore_se
 d694bd08d6970129e460cbf8321989e6  app/code/local/Mirasvit/MstCore/sql/mstcore_setup/mysql4-upgrade-1.0.7-1.0.8.php
 d46dce7a0007f0f648798bb946c8e744  app/code/local/Mirasvit/MstCore/Block/Config.php
 b39862f886905a098a37d2be4b4420af  app/code/local/Mirasvit/MstCore/Block/Adminhtml/Validator.php
-6be6023c6e6471a045cc2ef1f921c1df  app/code/local/Mirasvit/MstCore/Block/Adminhtml/Toolbar.php
+2d13577c99c27bcb267153cbd4e4e391  app/code/local/Mirasvit/MstCore/Block/Adminhtml/Toolbar.php
 d00716badd2782a32ba6810d5a2f2434  app/code/local/Mirasvit/MstCore/Block/Adminhtml/Logger.php
 4b63e4695cc8edcb1c77a0cad6440096  app/code/local/Mirasvit/MstCore/Block/Adminhtml/Logger/Renderer/Content.php
 63eac2a2a1ae6b25964bc40244f5676d  app/code/local/Mirasvit/MstCore/Block/Adminhtml/Logger/Grid.php
@@ -52,7 +52,7 @@ b8a5406ef3303bc36416ff8f4ef3367d  app/code/local/Mirasvit/MstCore/controllers/In
 8e2fcba6e25571e159618b9d43f667a0  app/code/local/Mirasvit/MstCore/Test/Helper/UrlrewriteTest.php
 b8b849826fa08b212d2b7f7560979940  app/code/local/Mirasvit/MstCore/Test/Helper/UrlrewriteTest/fixtures/data.yaml
 6846b8b82a690bb740eeabcd0efe4aed  app/code/local/Mirasvit/MstCore/Helper/String.php
-cf9b6eba51d331a79ae23890f8c8da4c  app/code/local/Mirasvit/MstCore/Helper/Urlrewrite.php
+08479ee6fd377122aa34f688057449a0  app/code/local/Mirasvit/MstCore/Helper/Urlrewrite.php
 4c9c7c4e272cbaa27ac971b4fc596165  app/code/local/Mirasvit/MstCore/Helper/Date.php
 135a7f08ac356444966ab2819b80d8bd  app/code/local/Mirasvit/MstCore/Helper/Debug.php
 a4d387d522dd526d7a3b415257fb0275  app/code/local/Mirasvit/MstCore/Helper/Config.php
@@ -60,7 +60,7 @@ a4d387d522dd526d7a3b415257fb0275  app/code/local/Mirasvit/MstCore/Helper/Config.
 0bcb74c0d35c0b335d894cda8628a247  app/code/local/Mirasvit/MstCore/Helper/Validator.php
 faa50b66aaebefba0bef38d633b2a1f1  app/code/local/Mirasvit/MstCore/Helper/Logger.php
 e41f31d53d8d4db1dbd743caeb78d930  app/code/local/Mirasvit/MstCore/Helper/Attachment.php
-ae4551645b150e1520a0c56dd2b7c3d9  app/code/local/Mirasvit/MstCore/Helper/Data.php
+a32bf9664f24a91366b9400247768447  app/code/local/Mirasvit/MstCore/Helper/Data.php
 bbd5f82bedbfd12450ad7c98bec932df  app/code/local/Mirasvit/MstCore/Helper/Validator/Crc.php
 26785419738179083675f7659875e7ae  app/code/local/Mirasvit/MstCore/Helper/Validator/Conflict.php
 bc15b8def589e68a2542d9c482215ade  app/code/local/Mirasvit/MstCore/Helper/Validator/Abstract.php

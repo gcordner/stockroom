@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.5.3
- * @build     520
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -19,6 +19,7 @@
 class Mirasvit_Fpc_Model_Config extends Varien_Simplexml_Config
 {
     const REQUEST_ID_PREFIX = 'FPC_REQUEST_';
+    const DEBUG_LOG = 'fpc_debug.log';
 
     const CACHE_TAGS_LEVEL_FIRST   = 1;
     const CACHE_TAGS_LEVEL_SECOND  = 2;
@@ -30,7 +31,16 @@ class Mirasvit_Fpc_Model_Config extends Varien_Simplexml_Config
     const ALLOWED_PEERFORMANCE_SAVE_TIME = 0.1; // local save cache time - 0.0016s
     const ALLOWED_PEERFORMANCE_CLEAN_TIME = 0.1; //clean cache time - 0.019s
 
-    const MAX_SESSION_SIZE = 2; //Mb
+    const MAX_SESSION_SIZE = 3; //Mb
+
+    const REGISTER_MODEL_TAG = 'REGISTER_MODEL_TAG_TIME_';
+    const REGISTER_PRODUCT_TAG = 'REGISTER_PRODUCT_TAG_TIME_';
+    const REGISTER_COLLECTION_TAG = 'REGISTER_COLLECTION_TAG_TIME_';
+
+    const MAX_PRODUCT_REGISTER = 100;
+
+    const CATALOG_MESSAGE = 1;
+    const CHECKOUT_MESSAGE = 2;
 
     protected $_containers = null;
 
@@ -237,6 +247,11 @@ class Mirasvit_Fpc_Model_Config extends Varien_Simplexml_Config
         if (Mage::app()->getRequest()->isXmlHttpRequest()) {
             return false;
         }
+
+        if (strpos(Mage::helper('core/url')->getCurrentUrl(), 'api/soap') !== false) {
+            return false;
+        }
+
         $userAgent = Mage::helper('core/http')->getHttpUserAgent();
         if (preg_match('/testmirasvit/', $userAgent)) {
             return true;
@@ -247,11 +262,13 @@ class Mirasvit_Fpc_Model_Config extends Varien_Simplexml_Config
             return true;
         }
 
+        $clientIp = false;
+
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
             $clientIp = $_SERVER['HTTP_CLIENT_IP'];
         } else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $clientIp = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else {
+        } elseif (isset($_SERVER['REMOTE_ADDR'])) {
             $clientIp = $_SERVER['REMOTE_ADDR'];
         }
 

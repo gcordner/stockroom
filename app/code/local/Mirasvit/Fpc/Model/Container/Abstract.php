@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.5.3
- * @build     520
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -471,9 +471,14 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
     {
         if (self::$_compare === null) {
             Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
-            $items = Mage::helper('catalog/product_compare')->getItemCollection();
-            foreach ($items as $item) {
-                self::$_compare .= $item->getId();
+            $count = Mage::helper('catalog/product_compare')->getItemCount();
+            if ($count > 0) {
+                $items = Mage::helper('catalog/product_compare')->getItemCollection();
+                foreach ($items as $item) {
+                    self::$_compare .= $item->getId();
+                }
+            } else {
+                self::$_compare = $count;
             }
             Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
         }
@@ -749,11 +754,31 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
             $hash[] = Mage::app()->getStore()->getCode();
             $hash[] = $this->getCurrency();
             $hash[] = $this->getLocale();
+            $hash[] = $this->getCustomDependences();
 
             self::$_globalDependences = implode(' | ', $hash);
             Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
         }
 
         return self::$_globalDependences;
+    }
+
+    /**
+     * Get data from class Mirasvit_Fpc_Helper_CustomDependence public function getCustomDependence() if class exist
+     * @return string
+     */
+    protected function getCustomDependences()
+    {
+        $customDependences = '';
+        Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+        $filePath = Mage::getModuleDir('Helper', 'Mirasvit_Fpc') . DS . 'Helper' .  DS . 'CustomDependence.php';
+
+        if (file_exists($filePath)) {
+            $customDependences = Mage::helper('fpc/customDependence')->getCustomDependence();
+        }
+
+        Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
+
+        return $customDependences;
     }
 }

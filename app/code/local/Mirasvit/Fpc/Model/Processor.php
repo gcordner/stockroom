@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.5.3
- * @build     520
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -19,7 +19,6 @@
 class Mirasvit_Fpc_Model_Processor
 {
     const CACHE_TAG = 'FPC';
-    const DEBUG_LOG = 'fpc_debug.log';
     const TAGS_THRESHOLD = 100;
 
     protected $_requestCacheId = null;
@@ -240,12 +239,12 @@ class Mirasvit_Fpc_Model_Processor
 
             Mage::helper('fpc')->prepareMwDailydealTimer($content);
 
-            $this->_addMessageText($content);
-
             //Simple_Forum extension compatibility
             // $content = Mage::helper('fpc/simpleforum')->prepareContent($content);
 
             $this->_responseHelper->updateFormKey($content);
+            $this->_responseHelper->updateWelcomeMessage($content);
+            $this->_addMessageText($content);
 
             //Ophirah_Qquoteadv compatibility - begin
             // $miniquote = Mage::helper('qquoteadv')->g    etLinkQty();
@@ -284,11 +283,13 @@ class Mirasvit_Fpc_Model_Processor
     protected function _addMessageText(&$content)
     {
         if ($this->_catalogMessage) {
-            Mage::helper('fpc/message')->addMessage($content, $this->_catalogMessage);
+            Mage::helper('fpc/message')->addMessage($content, $this->_catalogMessage, Mirasvit_Fpc_Model_Config::CATALOG_MESSAGE);
             $this->_catalogMessage = false;
         } elseif ($this->_checkoutMessage) {
-            Mage::helper('fpc/message')->addMessage($content, $this->_checkoutMessage);
+            Mage::helper('fpc/message')->addMessage($content, $this->_checkoutMessage, Mirasvit_Fpc_Model_Config::CHECKOUT_MESSAGE);
             $this->_checkoutMessage = false;
+        } else {
+            Mage::helper('fpc/message')->addMessage($content);
         }
 
         return true;
@@ -386,7 +387,7 @@ class Mirasvit_Fpc_Model_Processor
         $response->setBody($content);
 
         if ($this->getConfig()->isDebugLogEnabled()) {
-            Mage::log('Cache URL: ' . Mage::helper('fpc')->getNormalizedUrl(), null, self::DEBUG_LOG);
+            Mage::log('Cache URL: ' . Mage::helper('fpc')->getNormalizedUrl(), null, Mirasvit_Fpc_Model_Config::DEBUG_LOG);
         }
 
         Mage::getSingleton('fpc/log')->log($cacheId, 0);

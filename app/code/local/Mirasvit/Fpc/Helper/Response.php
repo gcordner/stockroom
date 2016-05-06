@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.5.3
- * @build     520
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -44,6 +44,7 @@ class Mirasvit_Fpc_Helper_Response extends Mage_Core_Helper_Abstract
                 '<input type="hidden" name="form_key" value="' . $formKey . '" />',
                 $content
             );
+
             $content = preg_replace(
                 '/name="form_key" type="hidden" value="(.*?)" \\/>/i',
                 'name="form_key" type="hidden" value="' . $formKey . '" />',
@@ -60,6 +61,35 @@ class Mirasvit_Fpc_Helper_Response extends Mage_Core_Helper_Abstract
                 '/\\/form_key' . '\\\\' . '\\/(.*?)' . '\\\\' . '\\//i',
                 '/form_key\/' . $formKey . '\/',
                 $content
+            );
+        }
+    }
+
+    /**
+     * @param string $content
+     * @return void
+     */
+    public function updateWelcomeMessage(&$content)
+    {
+        $welcome = false;
+
+        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            $welcome = Mage::helper('fpc')->__('Welcome, %s!', Mage::helper('core')->escapeHtml(Mage::getSingleton('customer/session')->getCustomer()->getName()));
+        }
+
+        if ($welcome) {
+            $content = preg_replace(
+                '/\\<p class="welcome-msg"\\>(.*?)\\<\\/p\\>/i',
+                '<p class="welcome-msg">' . $welcome .'</p>',
+                $content,
+                1
+            );
+
+            $content = preg_replace(
+                '/\\<div class="welcome-msg"\\>(.*?)\\<\\/div\\>/i',
+                '<div class="welcome-msg">' . $welcome .'</div>',
+                $content,
+                1
             );
         }
     }

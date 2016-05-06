@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.5.3
- * @build     520
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -277,7 +277,7 @@ class Mirasvit_Fpc_Model_Log extends Mage_Core_Model_Abstract
                     'created_at' => date('Y-m-d H:i:s'),
                 );
 
-                if (count($rows) > 100) {
+                if (count($rows) > 100 && !$this->isLogged) {
                     $totalRowsNumber += count($rows);
                     $connection->insertArray($tableName, array('response_time', 'from_cache', 'created_at'), $rows);
                     $rows = array();
@@ -296,10 +296,16 @@ class Mirasvit_Fpc_Model_Log extends Mage_Core_Model_Abstract
             unlink($filePath);
         }
 
+        return true;
+    }
+
+    public function logAggregate()
+    {
         $this->getResource()->aggregate();
 
         return true;
     }
+
 
     protected function isMobile() {
         foreach ($this->getConfig()->getUserAgentSegmentation() as $segment) {

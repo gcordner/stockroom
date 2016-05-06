@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.5.3
- * @build     520
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -22,7 +22,13 @@ class Mirasvit_Fpc_Block_Adminhtml_Log extends Mage_Adminhtml_Block_Template
     {
         $adapter = Mage::getSingleton('core/resource');
         $conn = $adapter->getConnection('core_read');
-        $data = $conn->fetchAll('SELECT * FROM '.$adapter->getTableName('fpc/log_aggregated_daily').' ORDER BY period ASC');
+
+        if (($tableName = $adapter->getTableName('fpc/log_aggregated')) //check if table m_fpc_log_aggregated exist
+            && Mage::getSingleton('core/resource')->getConnection('core_write')->showTableStatus($tableName) !== false) {
+                $data = $conn->fetchAll('SELECT * FROM '.$adapter->getTableName('fpc/log_aggregated').' ORDER BY period ASC');
+        } else {
+            $data = $conn->fetchAll('SELECT * FROM '.$adapter->getTableName('fpc/log_aggregated_daily').' ORDER BY period ASC');
+        }
 
         $result = array();
 

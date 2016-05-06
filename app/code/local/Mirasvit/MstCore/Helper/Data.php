@@ -8,9 +8,9 @@
  * Please refer to http://www.magentocommerce.com for more information.
  *
  * @category  Mirasvit
- * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @package   Full Page Cache
+ * @version   1.0.9
+ * @build     558
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -52,13 +52,7 @@ class Mirasvit_MstCore_Helper_Data extends Mage_Core_Helper_Data
 
     public function pr($arr, $ip = false, $die = false)
     {
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-            $clientIp = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $clientIp = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else {
-            $clientIp = $_SERVER['REMOTE_ADDR'];
-        }
+        $clientIp = $this->getRemoteIP();
 
         if (!$ip) {
             pr($arr);
@@ -68,6 +62,21 @@ class Mirasvit_MstCore_Helper_Data extends Mage_Core_Helper_Data
                 die();
             }
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemoteIP()
+    {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $clientIp = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $clientIp = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $clientIp = $_SERVER['REMOTE_ADDR'];
+        }
+        return $clientIp;
     }
 
     public function copyConfigData($oldPath, $newPath, $callbackFunction = false)
