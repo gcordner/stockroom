@@ -16,6 +16,7 @@ class Orange35_SalesruleTime_Model_Observer{
             }
         }
         $model = Mage::registry('current_promo_quote_rule');
+	$model->setUseAutoGeneration(1);
         $form->setValues($model->getData());
     }
 
