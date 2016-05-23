@@ -192,7 +192,7 @@
 			</block>
 		</reference>
 		<reference name="left">
-			<block type="wordpress/post_associated_products" name="wp.associated.products.left" template="wordpress/post/associated/products.phtml" before="-">
+			<block type="wordpress/post_associated_products" name="wp.associated.products.left" template="wordpress/post/associated/products.phtml" after="wordpress_sidebar_left">
 				<action method="setTitle" translate="title" module="wordpress"><title><![CDATA[Related Products]]></title></action>
 			</block>
 		</reference>
