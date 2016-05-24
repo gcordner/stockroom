@@ -36,6 +36,7 @@
 				<a_params>class="top-link-blog"</a_params>
 			</action>
 		</reference>
+		<remove name="wp.post.view.comments" />
 		<!--  End of add top 'Blog' link -->
 	</default>
 	<!--
