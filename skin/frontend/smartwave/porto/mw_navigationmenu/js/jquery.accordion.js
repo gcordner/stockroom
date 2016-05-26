@@ -81,10 +81,13 @@ jQuery(document).ready(function () {
 	jQuery("ul.accordion li.parent").each(function(){
         jQuery(this).append('<em class="open-close">&nbsp;</em>');
       });
-	
-	jQuery('ul.accordion').accordion();
-	
-	jQuery("ul.accordion li.active").each(function(){
-		jQuery(this).children().next("ul").css('display', 'block');
-	});
+
+       try {	
+		jQuery('ul.accordion').accordion();
+		jQuery("ul.accordion li.active").each(function(){
+			jQuery(this).children().next("ul").css('display', 'block');
+		});
+	} catch(err){
+		jQuery('.unimobile').css('display','none');
+	}
 });
