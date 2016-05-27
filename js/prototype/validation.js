@@ -535,15 +535,16 @@ Validation.addAllThese([
                 var pass=v.strip(); /*strip leading and trailing spaces*/
                 return !(pass.length>0 && pass.length < 6);
             }],
-    ['validate-admin-password', 'Please enter 7 or more characters. Password should contain both numeric and alphabetic characters.', function(v) {
+    ['validate-admin-password', 'Password should contain minimum 8 characters, at least 1 uppercase alphabet, 1 lowercase alphabet, 1 number and 1 special character amongst these @ $ ! % * ? & # ^ ', function(v) {
                 var pass=v.strip();
                 if (0 == pass.length) {
                     return true;
                 }
-                if (!(/[a-z]/i.test(v)) || !(/[0-9]/.test(v))) {
-                    return false;
-                }
-                return !(pass.length < 7);
+		if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#^])([A-Za-z\d$@$!%*?&#^]{8,})$/.test(pass))) {
+		     return false;
+		} else {
+		     return true;
+		}
             }],
     ['validate-cpassword', 'Please make sure your passwords match.', function(v) {
                 var conf = $('confirmation') ? $('confirmation') : $$('.validate-cpassword')[0];
