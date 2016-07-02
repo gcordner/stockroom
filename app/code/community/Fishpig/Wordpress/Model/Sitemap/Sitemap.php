@@ -11,7 +11,7 @@
  * the 2 variables below to this model (and every model!!)
  */
 
-class Fishpig_Wordpress_Model_Sitemap_Sitemap extends Mage_Sitemap_Model_Sitemap
+class Fishpig_Wordpress_Model_Sitemap_Sitemap extends Fishpig_Wordpress_Model_Sitemap_Sitemap_Amasty_Pure
 {
 	/**
 	 * Event data
