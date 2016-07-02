@@ -2,7 +2,7 @@
 <config>
     <modules>
         <RocketWeb_All>
-            <active>true</active>
+            <active>false</active>
             <codePool>community</codePool>
         </RocketWeb_All>
     </modules>

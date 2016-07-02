@@ -20,7 +20,7 @@
 <config>
     <modules>
         <RocketWeb_GoogleBaseFeedGenerator>
-            <active>true</active>
+            <active>false</active>
             <codePool>community</codePool>
         </RocketWeb_GoogleBaseFeedGenerator>
     </modules>
