@@ -202,7 +202,7 @@ function controllerAction()
                 $sql .= "account_id = $accountId,";
                 $sql .= "account_email = (SELECT email FROM `$accountTbl` WHERE account_id = $accountId),";
                 $sql .= "banner_id = $bannerId,";
-                $sql .= "banner_title = '".mysqli_real_escape_string($banner['title'], $link)."',";
+                $sql .= "banner_title = '".mysqli_real_escape_string($link, $banner['title'])."',";
                 $sql .= "type = 1,totals = 1,";
                 $sql .= "ip_address = '$ipAddress',";
                 if (isset($_SERVER['HTTP_REFERER'])) {
