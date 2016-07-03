@@ -264,7 +264,7 @@ function isRobots()
     if (!$_SERVER['HTTP_USER_AGENT']) {
         return true;
     }
-    if ($_SERVER['HTTP_X_REQUESTED_WITH']) {
+    if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
         return true;
     }
     define("UNKNOWN", 0);
