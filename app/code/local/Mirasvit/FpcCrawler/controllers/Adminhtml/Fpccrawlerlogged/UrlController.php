@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -37,7 +37,8 @@ class Mirasvit_FpcCrawler_Adminhtml_Fpccrawlerlogged_UrlController extends Mage_
         Mage::helper('fpc')->showFreeHddSpace(false, false);
         Mage::helper('fpc')->showExtensionDisabledInfo();
         Mage::helper('fpc')->showCronStatusError();
-        Mage::getSingleton('adminhtml/session')->addNotice($this->_getCronInfo());
+        Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('fpccrawler/info')->getCronInfo(true));
+        Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('fpccrawler/info')->getCrawlUrlLimitInfo(true));
 
         $this->_title($this->__('Crawler URLs'));
 
@@ -121,35 +122,4 @@ class Mirasvit_FpcCrawler_Adminhtml_Fpccrawlerlogged_UrlController extends Mage_
         $this->_redirect('*/*/index');
     }
 
-    protected function _getCronInfo()
-    {
-        $html = array();
-
-        $html[] = $this->__('Last cron run time: <b>%s</b>', $this->_getLastCronTime(null));
-        $html[] = $this->__('Last crawler job run time: <b>%s</b>', $this->_getLastCronTime('fpc_crawlerlogged'));
-        $html[] = $this->__('Last URLs import run time: <b>%s</b>', $this->_getLastCronTime('fpc_log_import'));
-        $html[] = $this->__('Last cache clear time (expired cache): <b>%s</b>', $this->_getLastCronTime('fpc_cache_clean_old'));
-
-        return implode('<br>', $html);
-    }
-
-    protected function _getLastCronTime($jobCode)
-    {
-        $time = '-';
-
-        $collection = Mage::getModel('cron/schedule')->getCollection()
-            ->setOrder('executed_at', 'desc');
-        if ($jobCode) {
-            $collection->addFieldToFilter('job_code', $jobCode);
-        }
-
-        $collection->getSelect()->limit('1');
-        $cron = $collection->getFirstItem();
-
-        if ($cron->getExecutedAt()) {
-            $time = Mage::getSingleton('core/date')->date('d.m.Y H:i', strtotime($cron->getExecutedAt()));
-        }
-
-        return $time;
-    }
 }

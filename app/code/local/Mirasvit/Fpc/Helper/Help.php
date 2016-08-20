@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -26,7 +26,7 @@ class Mirasvit_Fpc_Helper_Help extends Mirasvit_MstCore_Helper_Help
             'general_max_cache_size' => 'Maximum full page cache size in megabytes. If the limit is reached, extension will clear cache. If REDIS installed FPC will not use the limit (REDIS will flush cache automatically if not enough RAM).',
             'general_max_cache_number' => 'Maximum number of cache files. If the limit is reached, extension will clear cache. If REDIS installed FPC will not use the limit (REDIS will flush cache automatically if not enough RAM).',
             'general_gzcompress_level'     => 'Compress the cache. Use only for filecache. Flush Fpc cache after changing.',
-            'general_cache_tags_level'     => 'Default - refresh cache if visible product changed. Extended set of tags - refresh cache also for associated products. Minimal set of tags - create minimal set of tags and use observer to flush cache. Don\'t use tags - don\'t create product and category tags. Flush Fpc cache after changing.',
+            'general_cache_tags_level'     => 'In most situation recommended to use Minimal set of tags. Default - refresh cache if visible product changed. Minimal set of tags - create minimal set of tags and use observer to flush cache. Don\'t use tags - don\'t create product and category tags. Flush Fpc cache after changing.',
 
             'cache_rules_max_depth' => 'Determines the number of layered navigation filters, or parameters, that can be applied in order for a page to be cached.',
             'cache_rules_cacheable_actions' => 'List of cacheable actions.',

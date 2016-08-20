@@ -33,6 +33,9 @@
   text-transform:none;
   padding-top:15px;
 }
+.m-fpc-debug-info .m-fpc-ignored {
+  padding-top: 0px !important;
+}
 .m-fpc-debug-info .m-fpc-hit-info {
   font-family:sans-serif,Arial;
   padding:0px;
@@ -68,7 +71,7 @@
   text-transform:none;
 }
 .m-fpc-debug-info.m-fpc-debug-info-not-cacheable {
-  height: 200px;
+  height: 220px;
   box-shadow: 0 0 0 5px #E0E0E0;
 }
 .m-fpc-debug-info.m-fpc-debug-info-hit {

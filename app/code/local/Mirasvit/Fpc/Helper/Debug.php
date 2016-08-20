@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -67,11 +67,30 @@ class Mirasvit_Fpc_Helper_Debug extends Mage_Core_Helper_Abstract
             $info .= '<div id="m-fpc-detail-info-hide-show-button" class="m-fpc-detail-info-hide-show-button-style" onclick="fpcDetailInfoHide(this, false)">hide details</div>';
         }
 
-        if ($isHit == 2 && !Mage::app()->useCache('fpc')) {
+        $isUseCache = Mage::app()->useCache('fpc');
+        $isCacheEnabled = $this->getConfig()->getCacheEnabled(Mage::app()->getStore()->getStoreId());
+        $isIgnoredPage = Mage::helper('fpc/request')->isIgnoredPage();
+
+        if ($isHit == 2 && $isIgnoredPage && $isUseCache && $isCacheEnabled) {
+            $class = "m-fpc-action";
+        } elseif ($isHit == 2 && $isIgnoredPage) {
+            $class = "m-fpc-action m-fpc-ignored";
+        }
+
+        if (isset($class)) {
+            $info .= '<h2 class="' . $class . '">Ignored in "Ignored Pages"</h2>';
+        }
+
+        if ($isHit == 2 && $isUseCache && $isCacheEnabled
+            && Mage::helper('fpc/processor_canprocessrequest')->isTbDevelopAllowed()) {
+                $info .= '<h2 class="m-fpc-disabled-info">FPC disabled for your IP because TB_Develop is enabled</h2>';
+        }
+
+        if ($isHit == 2 && !$isUseCache) {
             $info .= '<h2 class="m-fpc-disabled-info">FPC disabled in Cache Storage Management</h2>';
         }
 
-        if ($isHit == 2 && !$this->getConfig()->getCacheEnabled(Mage::app()->getStore()->getStoreId())) {
+        if ($isHit == 2 && !$isCacheEnabled) {
             $info .= '<h2 class="m-fpc-disabled-info">FPC disabled in Full Page Cache Settings</h2>';
         }
 
@@ -102,7 +121,19 @@ class Mirasvit_Fpc_Helper_Debug extends Mage_Core_Helper_Abstract
         $hit .= ' ' . round(microtime(true) - $startTime, 3) . ' s.';
 
         $definition = $container->getDefinition();
-        $infoText = $definition['block'] . ' (' . $hit . ')' . '<br>' . hash('crc32', $container->getCacheId());
+
+        $infoText = $definition['block'];
+
+        if (isset($definition['template']) && $definition['template']) {
+            $infoText .= ' ' . $definition['template'];
+        } elseif ($definition['block'] == 'cms/block' && $definition['block_id']) {
+            $infoText .= ' ' . $definition['block_id'];
+        } elseif ($definition['block'] != 'cms/block' && $definition['block_name']) {
+            $infoText .= ' ' . $definition['block_name'];
+        }
+
+        $cacheId = ($fromCache) ?  hash('crc32', $container->getCacheId()) : '';
+        $infoText .= ' (' . $hit . ')' . '<br>' . $cacheId;
         $info = '<div style="position:absolute; left:0; top:0; padding:2px 5px; background:#faa; color:#333; font:normal 9px Arial;
         text-align:left !important; z-index:998;text-transform:none;">' . $infoText . '</div>';
         $content = '<div style="position:relative; border:1px dotted red; margin:6px 2px; padding:18px 2px 2px 2px; zoom:1;">' . $info . $content . '</div>';
@@ -125,7 +156,7 @@ class Mirasvit_Fpc_Helper_Debug extends Mage_Core_Helper_Abstract
             'Block update time'                           => $this->getUpdateTime(),
             'Total block update time'                     => $this->getUpdateTime(true),
             'Dependences time'                            => $this->getUpdateTime(false, true),
-            'Total dependences time'                      => $this->getUpdateTime(true, true),
+            'Total dependencies time'                     => $this->getUpdateTime(true, true),
             'Session size'                                => Mage::helper('fpc')->getSessionSize() . 'Mb',
             'Register Model Tag Observer Time'            => $this->getUpdateTime(false, false, Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG),
             'Total Register Model Tag Observer Time'      => $this->getUpdateTime(true, false, Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG),

@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -48,6 +48,16 @@ class Mirasvit_Fpc_Model_Processor
      */
     protected $_responseHelper;
 
+    /**
+     * @var Mirasvit_Fpc_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @var bool|array
+     */
+    protected $_custom;
+
     public function __construct()
     {
         $_SERVER['FPC_TIME'] = microtime(true);
@@ -56,6 +66,11 @@ class Mirasvit_Fpc_Model_Processor
         $this->_responseHelper = Mage::helper('fpc/response');
         $this->_debugHelper = Mage::helper('fpc/debug');
         $this->_requestcacheidHelper = Mage::helper('fpc/processor_requestcacheid');
+        $this->_cartexcludeHelper = Mage::helper('fpc/processor_cartexclude');
+        $this->_canprocessrequestHelper = Mage::helper('fpc/processor_canprocessrequest');
+        $this->_messageHelper = Mage::helper('fpc/message');
+        $this->_config = Mage::getSingleton('fpc/config');
+        $this->_custom = Mage::helper('fpc/custom')->getCustomSettings();
 
         $this->addRequestTag(self::CACHE_TAG);
     }
@@ -141,6 +156,10 @@ class Mirasvit_Fpc_Model_Processor
      */
     public function serveResponse()
     {
+        if ($this->_custom && in_array('beforeServeResponse', $this->_custom)) {
+            Mage::helper('fpc/customDependence')->beforeServeResponse();
+        }
+
         $this->_debugHelper->startTimer('SELF_TIME');
 
         $this->_debugHelper->startTimer('SWITCH_FOR_CRAWLER_TIME');
@@ -191,6 +210,11 @@ class Mirasvit_Fpc_Model_Processor
                 }
             }
 
+            if (($emThemeObject = $this->_storage->getCurrentEmTheme())
+                && !Mage::registry('em_current_theme')) {
+                    Mage::register('em_current_theme', $emThemeObject);
+            }
+
             // restore design settings
             Mage::getSingleton('core/design_package')->setTheme('layout', $this->_storage->getThemeLayout())
                 ->setTheme('template', $this->_storage->getThemeTemplate())
@@ -203,7 +227,10 @@ class Mirasvit_Fpc_Model_Processor
                 $content, $containers, PREG_PATTERN_ORDER
             );
             $containers = array_unique($containers[1]);
-            for ($i = 0; $i <= count($containers); $i++) {
+            if ($key = array_search('page/html_header_header', $containers)) { // header have to be first because inside can be one more block
+                list($containers[0], $containers[$key]) = array($containers[$key], $containers[0]);
+            }
+            for ($i = 0; $i <= max(array_keys($containers)); $i++) {
                 if (isset($containers[$i])) {
                     $definition = $containers[$i];
                     if (isset($storageContainers[$definition])) {
@@ -231,10 +258,13 @@ class Mirasvit_Fpc_Model_Processor
 
             $this->_responseHelper->cleanExtraMarkup($content);
 
-            if (!$content) {
-                $this->_unregister();
+            if (!$content
+                || ($this->_custom
+                    && in_array('cancelServeResponse', $this->_custom)
+                    && Mage::helper('fpc/customDependence')->cancelServeResponse($content))) {
+                        $this->_unregister();
 
-                return true;
+                        return true;
             }
 
             Mage::helper('fpc')->prepareMwDailydealTimer($content);
@@ -242,12 +272,24 @@ class Mirasvit_Fpc_Model_Processor
             //Simple_Forum extension compatibility
             // $content = Mage::helper('fpc/simpleforum')->prepareContent($content);
 
-            $this->_responseHelper->updateFormKey($content);
-            $this->_responseHelper->updateWelcomeMessage($content);
+            if ($this->_custom && in_array('updateFormKey', $this->_custom)) {
+                Mage::helper('fpc/customDependence')->updateFormKey($content);
+            } else {
+                $this->_responseHelper->updateFormKey($content);
+            }
+            if ($this->_custom && in_array('updateWelcomeMessage', $this->_custom)) {
+                Mage::helper('fpc/customDependence')->updateWelcomeMessage($content);
+            } else {
+                $this->_responseHelper->updateWelcomeMessage($content);
+            }
+            $this->_responseHelper->updateZopimInfo($content);
             $this->_addMessageText($content);
+            if ($this->_custom && in_array('afterServeResponse', $this->_custom)) {
+                Mage::helper('fpc/customDependence')->afterServeResponse($content);
+            }
 
             //Ophirah_Qquoteadv compatibility - begin
-            // $miniquote = Mage::helper('qquoteadv')->g    etLinkQty();
+            // $miniquote = Mage::helper('qquoteadv')->getLinkQty();
             // $content = preg_replace('/\\<span class="label"\\>Quote\\<\\/span\\>\s+\\<span class="count"\\>(.*?)\\<\\/span\\>/ims', '<span class="label">Quote</span><span class="count">' . $miniquote . '</span>', $content);
             // if (Mage::getSingleton('customer/session')->isLoggedIn()) {
             //     $welcome = Mage::helper('fpc')->__('Welcome, %s!', Mage::helper('core')->escapeHtml(Mage::getSingleton('customer/session')->getCustomer()->getFirstname()));
@@ -262,7 +304,9 @@ class Mirasvit_Fpc_Model_Processor
 
             foreach ($this->_storage->getResponse()->getHeaders() as $header) {
                 if ($header['name'] != 'Location') {
-                    $response->setHeader($header['name'], $header['value'], $header['replace']);
+                    try {
+                        $response->setHeader($header['name'], $header['value'], $header['replace']);
+                    } catch (Exception $e) { }
                 }
             }
 
@@ -283,13 +327,13 @@ class Mirasvit_Fpc_Model_Processor
     protected function _addMessageText(&$content)
     {
         if ($this->_catalogMessage) {
-            Mage::helper('fpc/message')->addMessage($content, $this->_catalogMessage, Mirasvit_Fpc_Model_Config::CATALOG_MESSAGE);
+            $this->_messageHelper->addMessage($content, $this->_catalogMessage, Mirasvit_Fpc_Model_Config::CATALOG_MESSAGE);
             $this->_catalogMessage = false;
         } elseif ($this->_checkoutMessage) {
-            Mage::helper('fpc/message')->addMessage($content, $this->_checkoutMessage, Mirasvit_Fpc_Model_Config::CHECKOUT_MESSAGE);
+            $this->_messageHelper->addMessage($content, $this->_checkoutMessage, Mirasvit_Fpc_Model_Config::CHECKOUT_MESSAGE);
             $this->_checkoutMessage = false;
         } else {
-            Mage::helper('fpc/message')->addMessage($content);
+            $this->_messageHelper->addMessage($content);
         }
 
         return true;
@@ -332,7 +376,7 @@ class Mirasvit_Fpc_Model_Processor
         $this->_storage
             ->setCacheId($cacheId)
             ->setCacheTags($this->getRequestTags())
-            ->setCacheLifetime($this->getConfig()->getLifetime())
+            ->setCacheLifetime($this->_config->getLifetime())
             ->setContainers($this->_containers)
             ->setResponse($response)
             ->setCreatedAt(time())
@@ -346,6 +390,9 @@ class Mirasvit_Fpc_Model_Processor
         }
         if (Mage::getSingleton('cms/page')->getId()) {
             $this->_storage->setCurrentCmsPage(Mage::getSingleton('cms/page')->getId());
+        }
+        if (Mage::registry('em_current_theme')) {
+            $this->_storage->setCurrentEmTheme(Mage::registry('em_current_theme'));
         }
 
         // save design settings
@@ -370,7 +417,7 @@ class Mirasvit_Fpc_Model_Processor
             $content, $containers, PREG_PATTERN_ORDER
         );
         $containers = array_unique($containers[1]);
-        for ($i = 0; $i <= count($containers); $i++) {
+        for ($i = 0; $i <= max(array_keys($containers)); $i++) {
             if (isset($containers[$i])) {
                 $definition = $containers[$i];
                 if (isset($this->_containers[$definition])) {
@@ -386,7 +433,7 @@ class Mirasvit_Fpc_Model_Processor
 
         $response->setBody($content);
 
-        if ($this->getConfig()->isDebugLogEnabled()) {
+        if ($this->_config->isDebugLogEnabled()) {
             Mage::log('Cache URL: ' . Mage::helper('fpc')->getNormalizedUrl(), null, Mirasvit_Fpc_Model_Config::DEBUG_LOG);
         }
 
@@ -409,14 +456,27 @@ class Mirasvit_Fpc_Model_Processor
 
         $block = $observer->getEvent()->getBlock();
         $transport = $observer->getEvent()->getTransport();
-        $containers = $this->getConfig()->getContainers();
+        $containers = $this->_config->getContainers();
         $blockType = $block->getType();
         $blockName = $block->getNameInLayout();
+        $blockTemplate = $block->getTemplate();
         $applyBlock = false;
 
-        $containers = $this->_addCartContainerToExclude($containers, $blockType, $blockName);
+        if ($this->_custom && in_array('addCartContainerToExclude', $this->_custom)) {
+            $containers = Mage::helper('fpc/customDependence')->addCartContainerToExclude($containers, $blockType, $blockName);
+        } else {
+            $containers = $this->_cartexcludeHelper->addCartContainerToExclude($containers, $blockType, $blockName);
+        }
 
-        if (isset($containers[$blockType][$blockName])) {
+        if (isset($containers[$blockType][$blockTemplate])) {
+            $definition = $containers[$blockType][$blockTemplate];
+            $applyBlock = true;
+        } elseif ($blockType == 'cms/block'
+            && ($blockId = $block->getBlockId())
+            && isset($containers[$blockType][$blockId])) {
+                $definition = $containers[$blockType][$blockId];
+                $applyBlock = true;
+        } elseif (isset($containers[$blockType][$blockName])) {
             if (!empty($containers[$blockType][$blockName]['name'])
                 && $containers[$blockType][$blockName]['name'] != $block->getNameInLayout()
             ) {
@@ -445,36 +505,6 @@ class Mirasvit_Fpc_Model_Processor
 
             $this->_containers[$container->getDefinitionHash()] = $container;
         }
-    }
-
-    //exclude cart block from cache
-    protected function _addCartContainerToExclude($containers, $blockType, $blockName)
-    {
-        $ignoredBlock = array(
-            'ajaxcart/hidden_inject_template',   //Ophirah_Qquoteadv
-            'amcart/config',                     //Ophirah_Qquoteadv
-            'ajaxcart/hidden_inject_product',    //Ophirah_Qquoteadv
-            'ajaxcart/hidden_inject_top',        //Ophirah_Qquoteadv
-            'qquoteadv/checkout_cart_miniquote', //Ophirah_Qquoteadv
-        );
-        if ((strpos($blockType, 'checkout') !== false
-                || strpos($blockType, 'cart') !== false)
-            && !in_array($blockType, $ignoredBlock)
-        ) {
-            $newContainerRow[$blockType][$blockName] = array(
-                'container'      => 'Mirasvit_Fpc_Model_Container_Base',
-                'block'          => $blockType,
-                'cache_lifetime' => 0,
-                'name'           => $blockName,
-                'in_register'    => false,
-                'depends'        => 'store,cart,customer,customer_group',
-                'in_session'     => true,
-                'in_app'         => 0
-            );
-            $containers = array_merge($containers, $newContainerRow);
-        }
-
-        return $containers;
     }
 
     /**
@@ -509,14 +539,6 @@ class Mirasvit_Fpc_Model_Processor
     }
 
     /**
-     * @return Mirasvit_Fpc_Model_Config
-     */
-    public function getConfig()
-    {
-        return Mage::getSingleton('fpc/config');
-    }
-
-    /**
      * Check if this request is allowed for process
      *
      * @param Mage_Core_Controller_Request_Http $request
@@ -530,128 +552,33 @@ class Mirasvit_Fpc_Model_Processor
             return $this->_canProcessRequest;
         }
 
-        $response = Mage::app()->getResponse();
-        if ($response->getHttpResponseCode() != 200) {
-            $this->_canProcessRequest = false;
+        $result = $this->_canprocessrequestHelper->canProcessRequest($request);
 
-            return $this->_canProcessRequest;
-        }
+        if ($result) {
+            $messageTotal = Mage::getSingleton('core/session')->getMessages()->count()
+                + Mage::getSingleton('customer/session')->getMessages()->count();
 
-        if ($this->_requestHelper->isRedirect()) {
-            $this->_canProcessRequest = false;
-
-            return $this->_canProcessRequest;
-        }
-
-        if ($request && $request->getActionName() == 'noRoute') {
-            $this->_canProcessRequest = false;
-
-            return $this->_canProcessRequest;
-        }
-
-        if ($request && Mage::helper('mstcore')->isModuleInstalled('Fishpig_NoBots')) {
-            if (($bot = Mage::helper('nobots')->getBot(false)) !== false) {
-                if ($bot->isBanned()) {
-                    $this->_canProcessRequest = false;
-
-                    return $this->_canProcessRequest;
-                }
+            $catalogMessageCount = Mage::getSingleton('catalog/session')->getMessages()->count();
+            $this->_catalogMessage = $this->_messageHelper->getMessage($catalogMessageCount, false);
+            if (!$this->_catalogMessage) {
+                $messageTotal += $catalogMessageCount;
             }
-        }
 
-        $freeHddSpace = Mage::helper('fpc')->showFreeHddSpace(false, true);
-        if ($freeHddSpace !== false
-            && $freeHddSpace <= Mirasvit_Fpc_Model_Config::ALLOW_HDD_FREE_SPACE
-        ) {
-            $this->_canProcessRequest = false;
-
-            return $this->_canProcessRequest;
-        }
-
-        $result = Mage::app()->useCache('fpc');
-
-        if ($result) {
-            $result = $this->_isIgnoredParams();
-        }
-
-        if ($result) {
-            $result = !(count($_POST) > 0);
-        }
-
-        if ($result) {
-            $result = Mage::app()->getStore()->getId() != 0;
-        }
-
-        if ($result) {
-            $result = $this->getConfig()->getCacheEnabled(Mage::app()->getStore()->getId());
-        }
-
-        if ($result) {
-            $regExps = $this->getConfig()->getIgnoredPages();
-            foreach ($regExps as $exp) {
-                if ($this->_validateRegExp($exp) && preg_match($exp, Mage::helper('fpc')->getNormalizedUrl())) {
-                    $result = false;
-                }
+            $checkoutMessageCount = Mage::getSingleton('checkout/session')->getMessages()->count();
+            $this->_checkoutMessage = $this->_messageHelper->getMessage(false, $checkoutMessageCount);
+            if (!$this->_checkoutMessage) {
+                $messageTotal += $checkoutMessageCount;
             }
-        }
 
-        if ($request) {
-            $action =  Mage::helper('fpc')->getFullActionCode();
-            if ($result && count($this->getConfig()->getCacheableActions())) {
-                $result = in_array($action, $this->getConfig()->getCacheableActions());
+            if ($messageTotal) {
+                $result = false;
             }
-        }
-
-        if ($result && isset($_GET)) {
-            $maxDepth = $this->getConfig()->getMaxDepth();
-            $result = count($_GET) <= $maxDepth;
-        }
-
-        $messageTotal = Mage::getSingleton('core/session')->getMessages()->count()
-            + Mage::getSingleton('customer/session')->getMessages()->count();
-
-        $catalogMessageCount = Mage::getSingleton('catalog/session')->getMessages()->count();
-        $this->_catalogMessage = Mage::helper('fpc/message')->getMessage($catalogMessageCount, false);
-        if (!$this->_catalogMessage) {
-            $messageTotal += $catalogMessageCount;
-        }
-
-        $checkoutMessageCount = Mage::getSingleton('checkout/session')->getMessages()->count();
-        $this->_checkoutMessage = Mage::helper('fpc/message')->getMessage(false, $checkoutMessageCount);
-        if (!$this->_checkoutMessage) {
-            $messageTotal += $checkoutMessageCount;
-        }
-
-        if ($result && $messageTotal) {
-            $result = false;
         }
 
         $this->_canProcessRequest = $result;
         $this->_debugHelper->stopTimer('CHECK_PROCESS_REQUEST_TIME');
 
         return $this->_canProcessRequest;
-    }
-
-    protected function _validateRegExp($exp)
-    {
-        if (@preg_match($exp, null) === false) {
-            return false;
-        }
-
-        return true;
-    }
-
-    protected function _isIgnoredParams()
-    {
-        $result = true;
-        for ($i = 1; $i < 10; $i++) {
-            if (isset($_GET) && (isset($_GET['no_cache']) || isset($_GET['no_cache' . $i]))) {
-                $result = false;
-                break;
-            }
-        }
-
-        return $result;
     }
 
     /**
@@ -672,7 +599,7 @@ class Mirasvit_Fpc_Model_Processor
 
     protected function _processActions()
     {
-        $config = $this->getConfig();
+        $config = $this->_config;
         $request = Mage::app()->getRequest();
         $key = $request->getModuleName()
             . '_' . $request->getControllerName()

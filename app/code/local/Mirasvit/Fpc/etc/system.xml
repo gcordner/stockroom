@@ -36,10 +36,18 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </lifetime>
+                        <flush_cache_schedule translate="label">
+                            <label>Flush Cache Expr</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </flush_cache_schedule>
                         <max_cache_size translate="label">
                             <label>Max. Cache Size (Mb)</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>40</sort_order>
+                            <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -47,19 +55,11 @@
                         <max_cache_number translate="label">
                             <label>Max. Number of Cache Files</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>45</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </max_cache_number>
-                        <flush_cache_schedule translate="label">
-                            <label>Flush Cache Expr</label>
-                            <frontend_type>text</frontend_type>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </flush_cache_schedule>
+                        </max_cache_number>
                         <gzcompress_level translate="label">
                             <label>Gzcompress Level</label>
                             <frontend_type>select</frontend_type>

@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -21,12 +21,23 @@ class Mirasvit_MstCore_Helper_Config extends Mage_Core_Helper_Data
     const EXTENSIONS_FEED_URL = 'http://mirasvit.com/pc/feed/';
     const STORE_URL           = 'http://mirasvit.com/estore/';
     const DEVELOPER_IP        = 'mstcore/logger/developer_ip';
+    const NOTIFICATION_STATUS = 'mstcore/notification/status';
 
     public function getDeveloperIp()
     {
         $ips = explode(',', Mage::getStoreConfig(self::DEVELOPER_IP));
 
         return $ips;
+    }
+
+    /**
+     * Is Mirasvit notifications enabled
+     *
+     * @return int
+     */
+    public function isNotificationsEnabled()
+    {
+        return (int)Mage::getStoreConfig(self::NOTIFICATION_STATUS);
     }
 }
 

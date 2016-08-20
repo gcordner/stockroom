@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -46,5 +46,57 @@ class Mirasvit_Fpc_Helper_Request extends Mage_Core_Helper_Abstract
     public function isCrawler()
     {
         return preg_match('/FpcCrawler/', $this->getUserAgent());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIgnoredPage()
+    {
+        $regExps = $this->getConfig()->getIgnoredPages();
+        foreach ($regExps as $exp) {
+            if ($this->_validateRegExp($exp) && preg_match($exp, Mage::helper('fpc')->getNormalizedUrl())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function _validateRegExp($exp)
+    {
+        if (@preg_match($exp, null) === false) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public  function isIgnoredParams()
+    {
+        $result = true;
+        for ($i = 1; $i < 10; $i++) {
+            if (isset($_GET) && (isset($_GET['no_cache']) || isset($_GET['no_cache' . $i]))) {
+                $result = false;
+                break;
+            }
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * @return Mirasvit_Fpc_Model_Config
+     */
+    public function getConfig()
+    {
+        return Mage::getSingleton('fpc/config');
     }
 }

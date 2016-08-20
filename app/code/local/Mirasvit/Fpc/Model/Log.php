@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -309,8 +309,9 @@ class Mirasvit_Fpc_Model_Log extends Mage_Core_Model_Abstract
 
     protected function isMobile() {
         foreach ($this->getConfig()->getUserAgentSegmentation() as $segment) {
-            if (preg_match($segment['useragent_regexp'], Mage::helper('core/http')->getHttpUserAgent())) {
-                return true;
+            if ($segment['useragent_regexp']
+                && preg_match($segment['useragent_regexp'], Mage::helper('core/http')->getHttpUserAgent())) {
+                    return true;
             }
         }
 

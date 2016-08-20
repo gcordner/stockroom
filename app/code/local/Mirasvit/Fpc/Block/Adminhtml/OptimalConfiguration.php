@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -259,11 +259,14 @@ class Mirasvit_Fpc_Block_Adminhtml_OptimalConfiguration extends Mage_Adminhtml_B
 
     protected function getAdditionalPerformanceInfo()
     {
+        $fpcVersion = Mage::helper('fpc/version')->getCurrentFpcVersion();
         $info = '';
         if ($this->getProductsCount() < 2000 && !$this->isRedisInstalled()) {
-            $info = '. To improve this valuse switch store cache to database or install REDIS.';
+            $info = '. To improve this valuse try switch store cache to  <a target="_blank" href="https://mirasvit.com/doc/fpc/' . $fpcVersion
+            . '/cachesupport">database</a> or install <a target="_blank" href="https://mirasvit.com/doc/fpc/'
+            . $fpcVersion . '/cachesupport">REDIS</a>.';
         } elseif ($this->getProductsCount() >= 2000 && !$this->isRedisInstalled()) {
-            $info = '. To improve this value install REDIS.';
+            $info = '. To improve this value try install <a target="_blank" href="https://mirasvit.com/doc/fpc/' . $fpcVersion . '/cachesupport">REDIS</a>.';
         }
 
         return $info;
@@ -300,17 +303,17 @@ class Mirasvit_Fpc_Block_Adminhtml_OptimalConfiguration extends Mage_Adminhtml_B
         if ($save) {
             $result = $this->getCacheStoragePerformanceSaveTime();
             if ($result > Mirasvit_Fpc_Model_Config::ALLOWED_PEERFORMANCE_SAVE_TIME) {
-                $class = 'error-msg';
+                $class = 'notice-msg';
             }
         } else {
             $result = $this->getCacheStoragePerformanceCleanTime();
             if ($result > Mirasvit_Fpc_Model_Config::ALLOWED_PEERFORMANCE_CLEAN_TIME) {
-                $class = 'error-msg';
+                $class = 'notice-msg';
             }
         }
 
         if (!isset($class)) {
-            $class = 'notice-msg';
+            $class = 'success-msg';
         }
 
         return $class;

@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -138,7 +138,7 @@ class Mirasvit_Fpc_Helper_Validator extends Mirasvit_MstCore_Helper_Validator_Ab
         $title = 'FPC: Current version errors';
         $description = array();
 
-        if (($version = $this->checkExtensionVersion())
+        if (($version = Mage::helper('fpc/version')->getExtensionVersion(true))
             && ($description = $this->getErrorDescription($version))) {
             $result = self::INFO;
         }
@@ -165,36 +165,5 @@ class Mirasvit_Fpc_Helper_Validator extends Mirasvit_MstCore_Helper_Validator_Ab
 
     private function prepareVersion($version) {
         return str_replace('.', '', $version);
-    }
-
-    private function checkExtensionVersion() {
-        if ($helper = $this->_getCodeHelper('Fpc')) {
-
-            if (method_exists($helper, '_sku')
-                && method_exists($helper, '_version')
-                && method_exists($helper, '_build')
-                && method_exists($helper, '_key')) {
-                $extension = array(
-                    'v' => $helper->_version(),
-                    'r' => $helper->_build(),
-                );
-
-                return implode('.',$extension);
-            }
-        }
-
-        return false;
-    }
-
-    private function _getCodeHelper($moduleName)
-    {
-        $file = Mage::getBaseDir().'/app/code/local/Mirasvit/'.$moduleName.'/Helper/Code.php';
-
-        if (file_exists($file)) {
-            $helper = Mage::helper(strtolower($moduleName).'/code');
-            return $helper;
-        }
-
-        return false;
     }
 }

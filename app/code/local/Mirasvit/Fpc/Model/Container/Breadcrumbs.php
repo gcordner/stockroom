@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -69,6 +69,7 @@ class Mirasvit_Fpc_Model_Container_Breadcrumbs extends Mirasvit_Fpc_Model_Contai
 
     public function applyToContent(&$content)
     {
+        $startTime = microtime(true);
         $pattern = '/'.preg_quote($this->_getStartReplacerTag(), '/').'(.*?)'.preg_quote($this->_getEndReplacerTag(), '/').'/ims';
         $html = $this->_renderBlock();
 
@@ -76,6 +77,7 @@ class Mirasvit_Fpc_Model_Container_Breadcrumbs extends Mirasvit_Fpc_Model_Contai
             return true;
         } elseif ($html !== false) {
             ini_set('pcre.backtrack_limit', 100000000);
+            Mage::helper('fpc/debug')->appendDebugInformationToBlock($html, $this, 0, $startTime);
             $content = preg_replace($pattern, str_replace('$', '\\$', $html), $content, 1);
 
             return true;

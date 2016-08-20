@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -49,15 +49,22 @@ class Mirasvit_FpcCrawler_Model_Crawlerlogged_Crawl extends Varien_Object
     public function doRun($verbose = false)
     {
         $this->lock();
-        $this->addStatusMessage('start', sprintf(__('Started at: %s'), Mage::getSingleton('core/date')->date()));
+        $this->addStatusMessage('start', sprintf(__('Started at: %s', Mage::getSingleton('core/date')->date())));
         $config = Mage::getSingleton('fpccrawler/config');
         $collection = $this->getUrlCollection();
         $urls = array();
+        $crawlUrlLimit = $config->getCrawlUrlLimit(true);
 
         $totalCount = 0;
+        $totalUrls = 0;
         if ($this->getThreads() == 1) {
             while ($row = $collection->fetch()) {
                 $urlModel = Mage::getModel('fpccrawler/crawlerlogged_url')->load($row['url_id']);
+                $totalUrls++;
+
+                if ($totalUrls > $crawlUrlLimit) {
+                    break;
+                }
 
                 if (!$urlModel->isCacheExist()) {
                     $urlModel->warmCache();
@@ -97,7 +104,7 @@ class Mirasvit_FpcCrawler_Model_Crawlerlogged_Crawl extends Varien_Object
         }
 
         $this->addStatusMessage('process', sprintf(__('Crawled %d urls', $totalCount)))
-            ->addStatusMessage('finish', sprintf(__('Finished at: %s'), Mage::getSingleton('core/date')->date()));
+            ->addStatusMessage('finish', sprintf(__('Finished at: %s', Mage::getSingleton('core/date')->date())));
         $this->unlock();
     }
 

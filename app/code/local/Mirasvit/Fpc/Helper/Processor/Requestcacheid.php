@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -18,6 +18,16 @@
 
 class Mirasvit_Fpc_Helper_Processor_Requestcacheid extends Mage_Core_Helper_Abstract
 {
+    /**
+     * @var bool|array
+     */
+    protected $_custom;
+
+    public function __construct()
+    {
+        $this->_custom = Mage::helper('fpc/custom')->getCustomSettings();
+    }
+
     /**
      * Cache id for current request (md5)
      *
@@ -35,11 +45,13 @@ class Mirasvit_Fpc_Helper_Processor_Requestcacheid extends Mage_Core_Helper_Abst
      */
     protected function _getRequestId()
     {
-        if ($customerId = Mage::getSingleton('customer/session')->getId()) {
+        if ($customerId = $this->_getLoggedCustomerId()) {
             $customerGroupId =  $this->_getCustomerGroupId($customerId); //for logged in user
         } else {
             $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
         }
+
+        $currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode(); // Mage::getStoreConfig('currency/options/default', Mage::app()->getStore()->getId());
 
         $url = Mage::helper('fpc')->getNormalizedUrl();
 
@@ -49,7 +61,7 @@ class Mirasvit_Fpc_Helper_Processor_Requestcacheid extends Mage_Core_Helper_Abst
             Mage::getDesign()->getTheme('layout'),
             Mage::app()->getStore()->getCode(),
             Mage::app()->getLocale()->getLocaleCode(),
-            Mage::app()->getStore()->getCurrentCurrencyCode(),
+            $currentCurrencyCode,
             $customerGroupId,
             intval(Mage::app()->getRequest()->isXmlHttpRequest()),
             Mage::app()->getStore()->isCurrentlySecure(),
@@ -78,8 +90,9 @@ class Mirasvit_Fpc_Helper_Processor_Requestcacheid extends Mage_Core_Helper_Abst
         }
 
         foreach ($this->getConfig()->getUserAgentSegmentation() as $segment) {
-            if (preg_match($segment['useragent_regexp'], Mage::helper('core/http')->getHttpUserAgent())) {
-                $dependencies[] = $segment['cache_group'];
+            if ($segment['useragent_regexp']
+                && preg_match($segment['useragent_regexp'], Mage::helper('core/http')->getHttpUserAgent())) {
+                    $dependencies[] = $segment['cache_group'];
             }
         }
 
@@ -89,8 +102,18 @@ class Mirasvit_Fpc_Helper_Processor_Requestcacheid extends Mage_Core_Helper_Abst
             $dependencies[] = 'awMobileGroup';
         }
 
+        if (Mage::helper('mstcore')->isModuleInstalled('Mediarocks_RetinaImages')
+            && Mage::getStoreConfig('retinaimages/module/enabled')) {
+                $retinaValue  = Mage::getModel('core/cookie')->get('device_pixel_ratio');
+                $dependencies[] = (!$retinaValue) ? false : $retinaValue;
+        }
+
         if ($deviceType = Mage::helper('fpc/mobile')->getMobileDeviceType()) {
             $dependencies[] = $deviceType;
+        }
+
+        if ($this->_custom && in_array('getRequestIdDependencies', $this->_custom)) {
+            $dependencies[] = Mage::helper('fpc/customDependence')->getRequestIdDependencies();
         }
 
         $requestId = strtolower(implode('/', $dependencies));
@@ -134,5 +157,22 @@ class Mirasvit_Fpc_Helper_Processor_Requestcacheid extends Mage_Core_Helper_Abst
         }
 
         return false;
+    }
+
+    /**
+     * Get legged in customer id
+     *
+     * @return bool, int
+     */
+    protected function _getLoggedCustomerId()
+    {
+        if (Mage::helper('mstcore/version')->getEdition() == 'ee'       //ee 1.14.2.2
+            && isset($_SESSION['customer']['id'])) {
+                $customerId = $_SESSION['customer']['id'];
+        } else {
+                $customerId = Mage::getSingleton('customer/session')->getId();
+        }
+
+        return $customerId;
     }
 }

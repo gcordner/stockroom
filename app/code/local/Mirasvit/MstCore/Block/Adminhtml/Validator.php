@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -39,6 +39,10 @@ class Mirasvit_MstCore_Block_Adminhtml_Validator extends Mage_Adminhtml_Block_Te
             $modules = Mage::helper('mstcore')->getModules();
 
             foreach ($modules as $module) {
+                if (!Mage::helper('mstcore')->isModuleInstalled("Mirasvit_$module")) {
+                    continue;
+                }
+
                 $helper = $this->getValidatorHelper($module);
                 if ($helper) {
                     $results += $helper->runTests($testType);

@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -18,15 +18,17 @@
 
 class Mirasvit_FpcCrawler_Model_Config
 {
-    const USER_AGENT_BEGIN_LABEL    = 'mir_cg_id_begin>';
-    const USER_AGENT_END_LABEL      = '<mir_cg_id_end';
-    const STORE_ID_BEGIN_LABEL      = 'mir_store_id_begin>';
-    const STORE_ID_END_LABEL        = '<mir_store_id_end';
-    const CURRENCY_BEGIN_LABEL      = 'mir_currency_begin>';
-    const CURRENCY_END_LABEL        = '<mir_currency_end';
+    const USER_AGENT_BEGIN_LABEL    = 'mir_cg_id_begin+';
+    const USER_AGENT_END_LABEL      = '+mir_cg_id_end';
+    const STORE_ID_BEGIN_LABEL      = 'mir_store_id_begin+';
+    const STORE_ID_END_LABEL        = '+mir_store_id_end';
+    const CURRENCY_BEGIN_LABEL      = 'mir_currency_begin+';
+    const CURRENCY_END_LABEL        = '+mir_currency_end';
 
     const MOBILE_GROUP              = 'mobileDetectGroup';
     const COMPUTER_GROUP            = 'computerGroup';
+
+    const CRAWL_URL_DEFAULT_LIMIT   = 1000000000000000;
 
     public function isEnabled($logged = null, $storeId = null)
     {
@@ -47,25 +49,13 @@ class Mirasvit_FpcCrawler_Model_Config
         return $threads;
     }
 
-    public function getCrawlerThreadDelay($logged = null, $storeId = null)
-    {
-        $path = $logged ? 'fpccrawler/crawler_logged/thread_delay' : 'fpccrawler/crawler/thread_delay';
-        $delay = Mage::getStoreConfig($path, $storeId);
-
-        if (!$delay) {
-            $delay = 0;
-        }
-
-        return $delay * 1000;
-    }
-
     public function getCrawlerMaxUrlsPerRun($logged = null, $storeId = null)
     {
         $path = $logged ? 'fpccrawler/crawler_logged/max_urls_per_run' : 'fpccrawler/crawler/max_urls_per_run';
         $urls = Mage::getStoreConfig($path, $storeId);
 
         if (!$urls) {
-            $urls = 1000000;
+            $urls = 10;
         }
 
         return $urls;
@@ -116,6 +106,18 @@ class Mirasvit_FpcCrawler_Model_Config
         return $result;
     }
 
+    public function getCrawlUrlLimit($logged = null, $storeId = null)
+    {
+        $path = $logged ? 'fpccrawler/crawler_logged/crawl_url_limit' : 'fpccrawler/crawler/crawl_url_limit';
+        $limit = (int) Mage::getStoreConfig($path, $storeId);
+
+        if (!$limit) {
+            $limit = self::CRAWL_URL_DEFAULT_LIMIT;
+        }
+
+        return $limit;
+    }
+
     public function getCrawlCustomerGroupIds()
     {
         if ($crawlCustomerGroupIds = Mage::getStoreConfig('fpccrawler/crawler_logged/crawl_customer_group')) {
@@ -148,5 +150,15 @@ class Mirasvit_FpcCrawler_Model_Config
     public function isImportDirectlyDatabase()
     {
         return Mage::getStoreConfig('fpccrawler/extended_crawler_settings/directly_database_import');
+    }
+
+    /**
+     * Retrieve whether SSL certificates are validated for requests sent over a HTTPS connection.
+     *
+     * @return integer
+     */
+    public function getVerifyPeer()
+    {
+        return Mage::getStoreConfig('fpccrawler/extended_crawler_settings/verify_peer');
     }
 }

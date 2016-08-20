@@ -187,6 +187,14 @@
                     </mirasvit_fpc>
                 </observers>
             </catalog_product_save_after>
+            <catalog_product_attribute_update_after>
+                <observers>
+                    <mirasvit_fpc>
+                        <class>fpc/observer_MassSaveCacheClear</class>
+                        <method>updateCache</method>
+                    </mirasvit_fpc>
+                </observers>
+            </catalog_product_attribute_update_after>
             <clean_media_cache_after>
                 <observers>
                     <mirasvit_fpc>
@@ -265,25 +273,25 @@
                 <observers>
                     <mirasvit_fpc>
                         <type>singleton</type>
-                        <class>fpc/observer</class>
-                        <method>checkCronStatus</method>
+                        <class>fpc/observer_system_status</class>
+                        <method>checkStatus</method>
                     </mirasvit_fpc>
                 </observers>
             </adminhtml_init_system_config>
             <controller_action_predispatch_adminhtml_system_config_save>
                 <observers>
-                    <m_seo>
+                    <mirasvit_fpc>
                         <class>fpc/observer</class>
                         <method>gzcompressFlushCacheInfo</method>
-                    </m_seo>
+                    </mirasvit_fpc>
                 </observers>
             </controller_action_predispatch_adminhtml_system_config_save>
             <review_save_after>
                 <observers>
-                    <m_seo>
+                    <mirasvit_fpc>
                         <class>fpc/observer</class>
                         <method>reviewCacheUpdate</method>
-                    </m_seo>
+                    </mirasvit_fpc>
                 </observers>
             </review_save_after>
         </events>

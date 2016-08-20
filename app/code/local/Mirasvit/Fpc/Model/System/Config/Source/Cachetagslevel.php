@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -24,7 +24,7 @@ class Mirasvit_Fpc_Model_System_Config_Source_Cachetagslevel
     {
         return array(
             array('value' => Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_FIRST, 'label'=>Mage::helper('fpc')->__('Default')),
-            array('value' => Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_SECOND, 'label'=>Mage::helper('fpc')->__('Extended set of tags')),
+            // array('value' => Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_SECOND, 'label'=>Mage::helper('fpc')->__('Extended set of tags')),
             array('value' => Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_MINIMAL, 'label'=>Mage::helper('fpc')->__('Minimal set of tags')),
             array('value' => Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_EMPTY, 'label'=>Mage::helper('fpc')->__('Don\'t use tags')),
         );

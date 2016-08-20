@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -129,18 +129,20 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
     public function getBlockHtml()
     {
         $startTime = microtime(true);
+        $fromCache = 1;
         $html = $this->loadCache();
 
         if (!$this->inApp() && !trim($this->_definition['depends'])) {
             try {
                 $html = Mage::helper('fpc/layout')->renderBlock($this->_definition);
+                $fromCache = 0;
             } catch (Exception $e) {
                 $html = $this->loadCache();
             }
         }
 
         if ($html) {
-            Mage::helper('fpc/debug')->appendDebugInformationToBlock($html, $this, 1, $startTime);
+            Mage::helper('fpc/debug')->appendDebugInformationToBlock($html, $this, $fromCache, $startTime);
         } else {
             if ($this->inApp()) {
                 return false;
@@ -733,8 +735,9 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
             Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
             $hash = array();
             foreach ($this->getConfig()->getUserAgentSegmentation() as $segment) {
-                if (preg_match($segment['useragent_regexp'], Mage::helper('core/http')->getHttpUserAgent())) {
-                    $hash[] = $segment['cache_group'];
+                if ($segment['useragent_regexp']
+                    && preg_match($segment['useragent_regexp'], Mage::helper('core/http')->getHttpUserAgent())) {
+                        $hash[] = $segment['cache_group'];
                 }
             }
 
@@ -755,6 +758,7 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
             $hash[] = $this->getCurrency();
             $hash[] = $this->getLocale();
             $hash[] = $this->getCustomDependences();
+            $hash[] = Mage::getSingleton('core/design_package')->getTheme('frontend');
 
             self::$_globalDependences = implode(' | ', $hash);
             Mage::helper('fpc/debug')->stopTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
@@ -771,9 +775,9 @@ abstract class Mirasvit_Fpc_Model_Container_Abstract
     {
         $customDependences = '';
         Mage::helper('fpc/debug')->startTimer('FPC_DEPENDENCES_' . $this->_prepareDependenceName(__FUNCTION__));
-        $filePath = Mage::getModuleDir('Helper', 'Mirasvit_Fpc') . DS . 'Helper' .  DS . 'CustomDependence.php';
 
-        if (file_exists($filePath)) {
+        $custom = Mage::helper('fpc/custom')->getCustomSettings();
+        if ($custom && in_array('getCustomDependence', $custom)) {
             $customDependences = Mage::helper('fpc/customDependence')->getCustomDependence();
         }
 

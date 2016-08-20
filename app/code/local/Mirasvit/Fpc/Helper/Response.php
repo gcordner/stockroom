@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -52,7 +52,7 @@ class Mirasvit_Fpc_Helper_Response extends Mage_Core_Helper_Abstract
             );
 
             $content = preg_replace(
-                '/\\/form_key\\/(.*?)\\//i',
+                '/\\/form_key\\/([^\"\'\/\s])+(\/|\"|\')/i',
                 '/form_key/' . $formKey . '/',
                 $content
             );
@@ -91,6 +91,35 @@ class Mirasvit_Fpc_Helper_Response extends Mage_Core_Helper_Abstract
                 $content,
                 1
             );
+        }
+    }
+
+    /**
+     * @param string $content
+     * @return void
+     */
+    public function updateZopimInfo(&$content)
+    {
+        if (Mage::getSingleton('customer/session')->isLoggedIn()
+            && Mage::helper('mstcore')->isModuleInstalled('Diglin_Chat')) {
+                    $customer = Mage::getSingleton('customer/session')->getCustomer();
+                    $customerName = $customer->getName();
+                    $customerEmail = $customer->getEmail();
+
+                    $content = preg_replace(
+                        '/\\$zopim\\.livechat\\.setName\\(\'(.*?)\'\\)\;/i',
+                        '$zopim.livechat.setName(\'' . $customerName . '\');',
+                        $content,
+                        1
+                    );
+
+                    $content = preg_replace(
+                        '/\\$zopim\\.livechat\\.setEmail\\(\'(.*?)\'\\)\;/i',
+                        '$zopim.livechat.setEmail(\'' . $customerEmail . '\');',
+                        $content,
+                        1
+                    );
+
         }
     }
 }

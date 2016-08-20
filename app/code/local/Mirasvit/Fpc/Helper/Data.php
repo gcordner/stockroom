@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -141,12 +141,10 @@ class Mirasvit_Fpc_Helper_Data extends Mage_Core_Helper_Abstract
             $cronStatus = Mage::helper('mstcore/cron')->checkCronStatus(false, false, 'Cron job is required for correct work of Full Page Cache.');
             if ($cronStatus !== true && !$errorHtml) {
                 Mage::getSingleton('adminhtml/session')->addError($cronStatus);
-            } elseif ($cronStatus !== true && $errorHtml) {
-                return $cronStatus;
             }
         }
 
-        return true;
+        return $cronStatus;
     }
 
     public function showExtensionDisabledInfo($errorHtml = false)
@@ -216,7 +214,6 @@ class Mirasvit_Fpc_Helper_Data extends Mage_Core_Helper_Abstract
 
         if (!$errorHtml && $infoText) {
             Mage::getSingleton('adminhtml/session')->addError($infoText);
-            return true;
         }
 
         return $infoText;

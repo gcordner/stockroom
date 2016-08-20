@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -31,3 +31,10 @@ CREATE TABLE `{$installer->getTable('fpc/log_aggregated')}` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='FPC Log Aggregated';
 ");
 $installer->endSetup();
+
+Mage::getModel('core/variable')
+    ->loadByCode(Mirasvit_Fpc_Model_Config::OPTIMAL_CONFIG_MESSAGE)
+    ->setCode(Mirasvit_Fpc_Model_Config::OPTIMAL_CONFIG_MESSAGE)
+    ->setName('Show FPC Optimal Config Message')
+    ->setPlainValue(1)
+    ->save();

@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -18,9 +18,15 @@
 
 class Mirasvit_FpcCrawler_Model_Crawler_Url extends Mage_Core_Model_Abstract
 {
-     protected function _construct()
+    /**
+     * @var Mirasvit_FpcCrawler_Model_Config
+     */
+    protected $_config;
+
+    protected function _construct()
     {
         $this->_init('fpccrawler/crawler_url');
+        $this->_config = Mage::getSingleton('fpccrawler/config');
     }
 
     public function saveUrl($line, $rate = 1)
@@ -99,6 +105,7 @@ class Mirasvit_FpcCrawler_Model_Crawler_Url extends Mage_Core_Model_Abstract
             $options = array(
                 CURLOPT_USERAGENT => $userAgent,
                 CURLOPT_HEADER => true,
+                CURLOPT_SSL_VERIFYPEER => (integer) $this->_config->getVerifyPeer(),
             );
 
             $content = $adapter->multiRequest(array($url), $options);

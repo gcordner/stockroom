@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -29,7 +29,7 @@ class Mirasvit_Fpc_Model_Config extends Varien_Simplexml_Config
     const ALLOW_HDD_FREE_SPACE = 150; // Mb
 
     const ALLOWED_PEERFORMANCE_SAVE_TIME = 0.1; // local save cache time - 0.0016s
-    const ALLOWED_PEERFORMANCE_CLEAN_TIME = 0.1; //clean cache time - 0.019s
+    const ALLOWED_PEERFORMANCE_CLEAN_TIME = 0.25; //clean cache time - 0.019s
 
     const MAX_SESSION_SIZE = 3; //Mb
 
@@ -41,6 +41,8 @@ class Mirasvit_Fpc_Model_Config extends Varien_Simplexml_Config
 
     const CATALOG_MESSAGE = 1;
     const CHECKOUT_MESSAGE = 2;
+
+    const OPTIMAL_CONFIG_MESSAGE = 'fpc_optimal_config_message_enabled';
 
     protected $_containers = null;
 
@@ -194,20 +196,33 @@ class Mirasvit_Fpc_Model_Config extends Varien_Simplexml_Config
             $this->_containers = array();
             foreach ($this->getNode('containers')->children() as $container) {
                 $containerName = (string) $container->name;
+                $containerBlock = (string) $container->block;
+                $containerBlockId = isset($container->block_id) ? (string) $container->block_id : false;
+                $containerTemplate = isset($container->template) ? (string) $container->template : false;
+
                 $containerData = array(
                         'container' => (string) $container->container,
-                        'block' => (string) $container->block,
+                        'block' => $containerBlock,
                         'cache_lifetime' => (int) $container->cache_lifetime,
                         'name' => (string) $container->name,
                         'depends' => (string) $container->depends,
                         'in_register' =>  isset($container->in_register) ? (string) $container->in_register : false,
                         'in_session' =>  isset($container->in_session) ? ((trim($container->in_session) !== 'true') ? intval($container->in_session) : true) : false,
                         'in_app' => isset($container->in_app) ? intval($container->in_app) : intval($container->in_app) + 1,
+                        'block_id' => $containerBlockId,
+                        'replacer_tag_begin' => isset($container->replacer_tag_begin) ? (string) $container->replacer_tag_begin : false,
+                        'replacer_tag_end' => isset($container->replacer_tag_end) ? (string) $container->replacer_tag_end : false,
+                        'template' => $containerTemplate,
                     );
-                if (!empty($containerName)) {
-                    $this->_containers[(string) $container->block][$containerName] = $containerData;
+
+                if ($containerTemplate) {
+                    $this->_containers[$containerBlock][$containerTemplate] = $containerData;
+                } elseif ($containerBlock == 'cms/block' && $containerBlockId) {
+                    $this->_containers[$containerBlock][$containerBlockId] = $containerData;
+                } elseif (!empty($containerName)) {
+                    $this->_containers[$containerBlock][$containerName] = $containerData;
                 } else {
-                    $this->_containers[(string) $container->block] = $containerData;
+                    $this->_containers[$containerBlock] = $containerData;
                 }
             }
         }
@@ -244,12 +259,12 @@ class Mirasvit_Fpc_Model_Config extends Varien_Simplexml_Config
 
     public function isDebugAllowed($storeId = null)
     {
-        if (Mage::app()->getRequest()->isXmlHttpRequest()) {
-            return false;
-        }
-
-        if (strpos(Mage::helper('core/url')->getCurrentUrl(), 'api/soap') !== false) {
-            return false;
+        if (Mage::app()->getRequest()->isXmlHttpRequest()
+            || (strpos(Mage::helper('core/url')->getCurrentUrl(), 'api/') !== false
+                && strpos(Mage::helper('core/url')->getCurrentUrl(), 'soap') !== false)
+            || (Mage::helper('mstcore')->isModuleInstalled('Nexcessnet_Turpentine')
+                && !Mage::helper('turpentine/varnish ')->isBypassEnabled()) ) {
+                    return false;
         }
 
         $userAgent = Mage::helper('core/http')->getHttpUserAgent();

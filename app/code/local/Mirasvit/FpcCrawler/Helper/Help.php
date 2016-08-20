@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -28,6 +28,7 @@ class Mirasvit_FpcCrawler_Helper_Help extends Mirasvit_MstCore_Helper_Help
             'crawler_sort_crawler_urls' => 'Specifies the crawl order.',
             'crawler_sort_by_page_type' => 'Specifies the order in which the crawler should add pages in a cache.',
             'crawler_sort_by_product_attribute' => 'Specifies the order in which the crawler should add pages in a cache. If you use "Sort by page type", will be applied after the first sorting. To apply the changes, please, flush all cache.',
+            'crawler_crawl_url_limit' => 'Leave empty or set 0 to don\'t use. If enabled will crawl only a predetermined number of links.',
             'crawler_status' => '',
 
             'crawler_logged_enabled' => 'Enable this feature. I.e. extension will automatically visit all not cached pages defined at "Crawler URLs for logged in users". If feature disabled, extension will work as before, but without automatically caching not cached pages.',
@@ -38,11 +39,13 @@ class Mirasvit_FpcCrawler_Helper_Help extends Mirasvit_MstCore_Helper_Help
             'crawler_logged_sort_crawler_urls' => 'Specifies the crawl order.',
             'crawler_logged_sort_by_page_type' => 'Specifies the order in which the crawler should add pages in a cache.',
             'crawler_logged_sort_by_product_attribute' => 'Specifies the order in which the crawler should add pages in a cache. If you use "Sort by page type", will be applied after the first sorting. To apply the changes, please, flush all cache.',
+            'crawler_logged_crawl_url_limit' => 'Leave empty or set 0 to don\'t use. If enabled will crawl only a predetermined number of links.',
 
             'extended_crawler_settings_run_as_apache_user' => 'Crawler will run using apache user. Preferably use No.<xmp></xmp><b>Enable only if crawler don\'t work with current configuration.</b>',
             'extended_crawler_settings_is_url_filter_disabled' => 'For most part of stores recommended to disable. If enabled will add in Crawler Urls also urls which contains \'/catalog/product/view/\', \'/catalog/category/view/\', \'index.php\', \'//\'.',
-            'extended_crawler_settings_generate_crawler_urls' => 'Will generate category and product urls for crawler. Urls will be added in "System->Full Page Cache->Crawler URLs" and "System->Full Page Cache->Crawler URLs for logged in users". <b>This action is not necessary and we suggest you to do it only one time after FPC installation.</b>',
-            'extended_crawler_settings_directly_database_import' => 'If enabled add urls directly in database. Will not use fpc.log file.'
+            'extended_crawler_settings_directly_database_import' => 'If enabled add urls directly in database. Will not use fpc.log file.',
+            'extended_crawler_settings_verify_peer' => 'Determines whether SSL certificates are validated for requests sent over a HTTPS connection.',
+            'extended_crawler_settings_generate_crawler_urls' => 'Generate category and product urls for crawler. Urls will be added in "System->Full Page Cache->Crawler URLs" and "System->Full Page Cache->Crawler URLs for logged in users". <b>This action is not necessary and we suggest you to do it only one time after FPC installation.</b>'
         ),
     );
 }

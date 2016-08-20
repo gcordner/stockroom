@@ -132,6 +132,9 @@
                 <status>-</status>
                 <run_as_apache_user>0</run_as_apache_user>
             </crawler_logged>
+            <extended_crawler_settings>
+                <verify_peer>0</verify_peer>
+            </extended_crawler_settings>
     </fpccrawler>
     </default>
     <crontab>

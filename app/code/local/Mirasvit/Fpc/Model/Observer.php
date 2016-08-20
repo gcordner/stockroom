@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.9
- * @build     558
+ * @version   1.0.15
+ * @build     608
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -35,6 +35,8 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
 
     protected static $_actionCode = null;
 
+    protected static $_cacheId = null;
+
     protected $_processor = null;
 
     protected $_registerModelTagCounter = 0;
@@ -42,6 +44,10 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
     protected $_registerProductTagCounter = 0;
 
     protected $_registerCollectionTagCounter = 0;
+
+    protected $_disableCacheExistCheck =  false; // true - disable check if cache exist
+
+    protected static $_addedTags =  array();
 
     public function __construct()
     {
@@ -74,7 +80,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
         return self::$_actionCode;
     }
 
-    protected function _getCacheableActions()
+    protected function _isCacheableActions()
     {
         if (($action = $this->_getFullActionCode())
             && ($cacheableActions = $this->getConfig()->getCacheableActions())) {
@@ -90,19 +96,23 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
             return self::$_isCacheExist;
         }
 
-        if ($this->_isAdminArea) {
+        if ($this->_isAdminArea || $this->_disableCacheExistCheck) {
             self::$_isCacheExist = false;
+
+            return self::$_isCacheExist;
         }
 
-        $cacheId = Mage::helper('fpc/processor_requestcacheid')->getRequestCacheId();
+        self::$_cacheId = (self::$_cacheId !== null) ? self::$_cacheId : Mage::helper('fpc/processor_requestcacheid')->getRequestCacheId();
         $storage = Mage::getModel('fpc/storage');
-        $storage->setCacheId($cacheId);
+        $storage->setCacheId(self::$_cacheId);
 
         if ($storage->load()) {
             self::$_isCacheExist = true;
+        } else {
+            self::$_isCacheExist = false;
         }
 
-       return self::$_isCacheExist;
+        return self::$_isCacheExist;
     }
 
     protected function _setCacheTagLevel()
@@ -187,6 +197,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
 
         if (!$this->isAllowed()
             || $this->_isAdminArea
+            || !$this->_isCacheableActions()
             || $this->_isCacheExist()) {
                 $this->_debugHelper->stopTimer(Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG. $this->_registerModelTagCounter);
                 return $this;
@@ -216,8 +227,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
             && $object && $object->getId()
             && ($tags = $object->getCacheIdTags())
         ) {
-            $tags = $this->_prepareTags($tags);
-            $this->_getProcessor()->addRequestTag($tags);
+            $this->_addRequestTag($tags);
             $this->_registerModelTagCalls++;
         }
 
@@ -227,8 +237,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
             && $object->getId()
             && ($tags = $object->getCacheIdTags())
         ) {
-            $tags = $this->_prepareTags($tags);
-            $this->_getProcessor()->addRequestTag($tags);
+            $this->_addRequestTag($tags);
             $this->_registerModelTagCalls++;
         }
 
@@ -237,10 +246,44 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
         return $this;
     }
 
+    /**
+     * Add request tags
+     *
+     * @param array $tags
+     * @return void
+     */
+    protected function _addRequestTag($tags)
+    {
+        $tags = $this->_prepareTags($tags);
+        $this->_getProcessor()->addRequestTag($tags);
+        $this->_rememberAddedTags($tags);
+    }
+
+    /**
+     * Remember added tag to don't add it again
+     *
+     * @param array $tags
+     * @return void
+     */
+    protected function _rememberAddedTags($tags)
+    {
+        self::$_addedTags = array_merge(self::$_addedTags, $tags);
+    }
+
+    /**
+     * Delete tags duplicate and ignored tags
+     *
+     * @param array $tags
+     * @return array
+     */
     protected function _prepareTags($tags)
     {
         foreach ($tags as $tagKey => $tagValue) {
             if ($this->_checkIgnoredTags($tagValue)) {
+                unset($tags[$tagKey]);
+            }
+
+            if (in_array($tagValue, self::$_addedTags)) {
                 unset($tags[$tagKey]);
             }
         }
@@ -257,7 +300,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
             switch ($this->_getFullActionCode()) {
                 case 'cms/index_index':
                 case 'cms/page_view':
-                    $ignoredTags = array_merge($ignoredTags, array('catalog_product', 'catalog_category'));
+                    $ignoredTags = array_merge($ignoredTags, array('catalog_category'));
                     break;
 
                 case 'catalog/category_view':
@@ -291,6 +334,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
         if ($this->_registerProductTagCounter > Mirasvit_Fpc_Model_Config::MAX_PRODUCT_REGISTER
             || !$this->isAllowed()
             || $this->_isAdminArea
+            || !$this->_isCacheableActions()
             || $this->_isCacheExist()
             || $this->_cacheTagsLevel == Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_EMPTY) {
                 $this->_debugHelper->stopTimer(Mirasvit_Fpc_Model_Config::REGISTER_PRODUCT_TAG. $this->_registerProductTagCounter);
@@ -311,8 +355,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
                 }
             }
             if ($tags) {
-                $tags = $this->_prepareTags($tags);
-                $this->_getProcessor()->addRequestTag($tags);
+                $this->_addRequestTag($tags);
             }
         }
 
@@ -322,6 +365,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
                 $tags = $object->getCacheIdTags();
                 if ($tags) {
                     $this->_getProcessor()->addRequestTag($tags);
+                    $this->_rememberAddedTags($tags);
                 }
             }
         }
@@ -340,6 +384,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
         if (!$this->isAllowed()
             || $this->_cacheTagsLevel != Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_SECOND
             || $this->_isAdminArea
+            || !$this->_isCacheableActions()
             || $this->_isCacheExist()) {
                 $this->_debugHelper->stopTimer(Mirasvit_Fpc_Model_Config::REGISTER_COLLECTION_TAG. $this->_registerCollectionTagCounter);
                 return $this;
@@ -351,6 +396,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
                 $tags = $object->getCacheIdTags();
                 if ($tags) {
                     $this->_getProcessor()->addRequestTag($tags);
+                    $this->_rememberAddedTags($tags);
                 }
             }
         }
@@ -377,17 +423,6 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
         if ($observer->getDataObject() && $observer->getDataObject()->getProductId()) {
             $productId = $observer->getDataObject()->getProductId();
             Mirasvit_Fpc_Model_Cache::getCacheInstance()->clean('CATALOG_PRODUCT_' . $productId);
-        }
-    }
-
-    public function checkCronStatus() //check for fpc section in admin panel
-    {
-        if (($request = Mage::app()->getRequest())
-            && (Mage::app()->getRequest()->getParam('section') == 'fpc'
-                || Mage::app()->getRequest()->getParam('section') == 'fpccrawler')
-        ) {
-            Mage::helper('fpc')->showCronStatusError();
-            Mage::helper('fpc')->showFreeHddSpace(false, false);
         }
     }
 

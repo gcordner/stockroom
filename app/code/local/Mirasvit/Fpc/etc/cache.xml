@@ -107,3 +107,13 @@
 
 
  <!-- can be used <in_register>current_category,current_product,product</in_register> -->
+
+<!-- cms block example (replacer_tag_begin and replacer_tag_end have to be added in tamplete) -->
+<!-- <cms_block_example>
+    <block>cms/block</block>
+    <container>Mirasvit_Fpc_Model_Container_Cmsblock</container>
+    <block_id>cms-block-id</block_id>
+    <replacer_tag_begin><![CDATA[<div id="custom_id_begin"></div>]]></replacer_tag_begin>
+    <replacer_tag_end><![CDATA[<div id="custom_id_end"></div>]]></replacer_tag_end>
+    <depends></depends>
+</cms_block_example> -->
