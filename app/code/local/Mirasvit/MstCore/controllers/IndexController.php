@@ -8,9 +8,9 @@
  * Please refer to http://www.magentocommerce.com for more information.
  *
  * @category  Mirasvit
- * @package   Full Page Cache
- * @version   1.0.15
- * @build     608
+ * @package   Advanced Reports
+ * @version   1.0.16
+ * @build     682
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
