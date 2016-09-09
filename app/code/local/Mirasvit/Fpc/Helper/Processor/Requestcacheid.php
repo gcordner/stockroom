@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.15
- * @build     608
+ * @version   1.0.18
+ * @build     619
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -166,9 +166,15 @@ class Mirasvit_Fpc_Helper_Processor_Requestcacheid extends Mage_Core_Helper_Abst
      */
     protected function _getLoggedCustomerId()
     {
-        if (Mage::helper('mstcore/version')->getEdition() == 'ee'       //ee 1.14.2.2
+        $edition = Mage::helper('mstcore/version')->getEdition();
+
+        if ($edition == 'ee'
             && isset($_SESSION['customer']['id'])) {
                 $customerId = $_SESSION['customer']['id'];
+        } elseif ($edition == 'ee'
+            && ($storeCode = Mage::app()->getStore()->getWebsite()->getCode())
+            && isset($_SESSION['customer_' . $storeCode]['id'])) {
+                $customerId = $_SESSION['customer_' . $storeCode]['id'];
         } else {
                 $customerId = Mage::getSingleton('customer/session')->getId();
         }

@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.15
- * @build     608
+ * @version   1.0.18
+ * @build     619
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -18,12 +18,12 @@
 
 class Mirasvit_FpcCrawler_Model_Config
 {
-    const USER_AGENT_BEGIN_LABEL    = 'mir_cg_id_begin+';
-    const USER_AGENT_END_LABEL      = '+mir_cg_id_end';
-    const STORE_ID_BEGIN_LABEL      = 'mir_store_id_begin+';
-    const STORE_ID_END_LABEL        = '+mir_store_id_end';
-    const CURRENCY_BEGIN_LABEL      = 'mir_currency_begin+';
-    const CURRENCY_END_LABEL        = '+mir_currency_end';
+    const USER_AGENT_BEGIN_LABEL    = 'mir_cg_id_begin_';
+    const USER_AGENT_END_LABEL      = '_mir_cg_id_end';
+    const STORE_ID_BEGIN_LABEL      = 'mir_store_id_begin_';
+    const STORE_ID_END_LABEL        = '_mir_store_id_end';
+    const CURRENCY_BEGIN_LABEL      = 'mir_currency_begin_';
+    const CURRENCY_END_LABEL        = '_mir_currency_end';
 
     const MOBILE_GROUP              = 'mobileDetectGroup';
     const COMPUTER_GROUP            = 'computerGroup';
@@ -33,6 +33,18 @@ class Mirasvit_FpcCrawler_Model_Config
     public function isEnabled($logged = null, $storeId = null)
     {
         $path = $logged ? 'fpccrawler/crawler_logged/enabled' : 'fpccrawler/crawler/enabled';
+
+        return Mage::getStoreConfig($path, $storeId);
+    }
+
+    /**
+     * @param bool $logged
+     * @param int $storeId
+     * @return int
+     */
+    public function isDeleteCrawlerUrls($logged = null, $storeId = null)
+    {
+        $path = $logged ? 'fpccrawler/crawler_logged/delete_crawler_urls' : 'fpccrawler/crawler/delete_crawler_urls';
 
         return Mage::getStoreConfig($path, $storeId);
     }

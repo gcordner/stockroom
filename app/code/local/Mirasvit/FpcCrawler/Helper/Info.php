@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.15
- * @build     608
+ * @version   1.0.18
+ * @build     619
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -62,5 +62,41 @@ class Mirasvit_FpcCrawler_Helper_Info extends Mage_Core_Helper_Abstract
         }
 
         return $time;
+    }
+
+    /**
+     * Show info if crawler disabled
+     * @param bool $logged
+     * @return bool
+     */
+    public function showExtensionDisabledInfo($logged = null)
+    {
+        $info = array();
+        $storeInfo = array();
+        $activeStoreCount = 0;
+        $config = Mage::getSingleton('fpccrawler/config');
+
+        foreach (Mage::app()->getStores() as $store) {
+            if ($store->getIsActive()){
+                $activeStoreCount += 1;
+                    if (!$config->isEnabled($logged, $store->getId())) {
+                        $storeInfo[] = 'Full Page Cache Crawler disabled for "' . $store->getName() . '" store — ' . $store->getBaseUrl() . '&nbsp;&nbsp;&nbsp;( ID: ' . $store->getId() . ')
+                        in <a href="' . Mage::helper("adminhtml")->getUrl('*/system_config/edit/section/fpccrawler/website/' . $store->getWebsite()->getCode() . '/store/' . $store->getCode())
+                            . '" target="_blank">System->Configuration->Full Page Cache Crawler</a>';
+                }
+            }
+        }
+
+        if ($activeStoreCount == count($storeInfo) && !$config->isEnabled($logged)) {
+            $info[] = 'Full Page Cache Crawler disabled in <a href="' . Mage::helper("adminhtml")->getUrl('*/system_config/edit/section/fpccrawler') . '" target="_blank">System->Configuration->Full Page Cache Crawler</a>';
+        } else {
+            $info = array_merge($info, $storeInfo);
+        }
+
+        if ($infoText = implode('<br/>', $info)) {
+            Mage::getSingleton('adminhtml/session')->addNotice($infoText);
+        }
+
+        return true;
     }
 }

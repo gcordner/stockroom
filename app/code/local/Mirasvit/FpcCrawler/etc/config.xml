@@ -114,6 +114,7 @@
         <fpccrawler>
             <crawler>
                 <enabled>1</enabled>
+                <delete_crawler_urls>0</delete_crawler_urls>
                 <max_threads>2</max_threads>
                 <!-- <thread_delay>0</thread_delay> -->
                 <max_urls_per_run>10</max_urls_per_run>
@@ -124,6 +125,7 @@
             </crawler>
             <crawler_logged>
                 <enabled>0</enabled>
+                <delete_crawler_urls>0</delete_crawler_urls>
                 <crawl_customer_group>1</crawl_customer_group>
                 <max_threads>2</max_threads>
                 <!-- <thread_delay>0</thread_delay> -->

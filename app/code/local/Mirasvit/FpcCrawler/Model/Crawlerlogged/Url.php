@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.15
- * @build     608
+ * @version   1.0.18
+ * @build     619
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -22,6 +22,11 @@ class Mirasvit_FpcCrawler_Model_Crawlerlogged_Url extends Mage_Core_Model_Abstra
      * @var Mirasvit_FpcCrawler_Model_Config
      */
     protected $_config;
+
+    /**
+     * @var array
+     */
+    protected static $crawlerDeleteUrlStoreIds = array();
 
     protected function _construct()
     {
@@ -99,6 +104,13 @@ class Mirasvit_FpcCrawler_Model_Crawlerlogged_Url extends Mage_Core_Model_Abstra
 
     public function warmCache()
     {
+        $storeCrawlerConfig = $this->_getStoreCrawlerConfig($this->getStoreId());
+        if ($storeCrawlerConfig && $storeCrawlerConfig->getIsDeleteCrawlerUrls()) {
+            $this->delete();
+            return false;
+        } elseif($storeCrawlerConfig && !$storeCrawlerConfig->getIsCrawlerEnabled()) {
+            return false;
+        }
         $url = $this->getUrl();
         $customerGroupId = $this->getCustomerGroupId();
         if (!Mage::getSingleton('fpccrawler/config')->isAllowedGroup($customerGroupId)) {
@@ -140,5 +152,30 @@ class Mirasvit_FpcCrawler_Model_Crawlerlogged_Url extends Mage_Core_Model_Abstra
         }
 
         return $this;
+    }
+
+    /**
+     * Check if "Delete urls from crawler table if crawler disabled" enabled and if crawler enabled
+     * @param int $storeId
+     * @return object
+     */
+    protected function _getStoreCrawlerConfig($storeId) {
+        if (self::$crawlerDeleteUrlStoreIds && array_key_exists($storeId, self::$crawlerDeleteUrlStoreIds)) {
+            return self::$crawlerDeleteUrlStoreIds[$storeId];
+        }
+
+        $config = Mage::getSingleton('fpccrawler/config');
+        $isCrawlerEnabled = $config->isEnabled(true, $storeId);
+        self::$crawlerDeleteUrlStoreIds[$storeId] = new Varien_Object(array(
+            'is_crawler_enabled' => $isCrawlerEnabled,
+            'is_delete_crawler_urls'   => false,
+        ));
+
+        if (!$isCrawlerEnabled
+            && $config->isDeleteCrawlerUrls(true, $storeId)) {
+                self::$crawlerDeleteUrlStoreIds[$storeId]->setIsDeleteCrawlerUrls(true);
+        }
+
+        return  self::$crawlerDeleteUrlStoreIds[$storeId];
     }
 }

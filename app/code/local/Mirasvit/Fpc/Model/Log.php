@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.15
- * @build     608
+ * @version   1.0.18
+ * @build     619
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -29,6 +29,7 @@ class Mirasvit_Fpc_Model_Log extends Mage_Core_Model_Abstract
     protected $logFile = self::LOG_FILE;
     protected $useLogFile = true; // false - use database
     protected $isFpcCrawlerInstalled = null;
+    protected $isFpcCrawlerEnabled = null;
 
     protected function _construct()
     {
@@ -36,6 +37,7 @@ class Mirasvit_Fpc_Model_Log extends Mage_Core_Model_Abstract
         $this->_initLogVariables();
         $this->isFpcCrawlerInstalled = Mage::helper('mstcore')->isModuleInstalled('Mirasvit_FpcCrawler');
         $this->useLogFile = $this->_isLogFileUsed();
+        $this->isFpcCrawlerEnabled = $this->_isFpcCrawlerEnabled();
     }
 
     protected function _isLogFileUsed()
@@ -45,6 +47,20 @@ class Mirasvit_Fpc_Model_Log extends Mage_Core_Model_Abstract
         }
 
         return true;
+    }
+
+    /**
+     * Check if crawler enabled for current store
+     *
+     * @return bool
+     */
+    protected function _isFpcCrawlerEnabled()
+    {
+        if ($this->isFpcCrawlerInstalled && $this->getCrawlerConfig()->isEnabled($this->isLogged, Mage::app()->getStore()->getStoreId())) {
+            return true;
+        }
+
+        return false;
     }
 
     protected function _initLogVariables($logged = null)
@@ -125,7 +141,7 @@ class Mirasvit_Fpc_Model_Log extends Mage_Core_Model_Abstract
 
     public function log($cacheId, $isHit = 1)
     {
-        if (!$this->isFpcCrawlerInstalled || $this->isMobile()) {
+        if (!$this->isFpcCrawlerInstalled || !$this->isFpcCrawlerEnabled || $this->isMobile()) {
             return true;
         }
 

@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.15
- * @build     608
+ * @version   1.0.18
+ * @build     619
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -21,6 +21,7 @@ class Mirasvit_FpcCrawler_Helper_Help extends Mirasvit_MstCore_Helper_Help
     protected $_help = array(
         'system' => array(
             'crawler_enabled' => 'Enable this feature. I.e. extension will automatically visit all not cached pages defined at "Crawler URLs". If feature disabled, extension will work as before, but without automatically caching not cached pages.',
+            'crawler_delete_crawler_urls' => 'If enabled crawler will delete all urls for current store from crawler table',
             'crawler_max_threads' => 'Determines the number of parallel requests during this process.',
             'crawler_thread_delay' => 'Delay between crawler requests.',
             'crawler_max_urls_per_run' => 'Maximum number of crawled URLs per one cron (or shell) run.',
@@ -32,6 +33,7 @@ class Mirasvit_FpcCrawler_Helper_Help extends Mirasvit_MstCore_Helper_Help
             'crawler_status' => '',
 
             'crawler_logged_enabled' => 'Enable this feature. I.e. extension will automatically visit all not cached pages defined at "Crawler URLs for logged in users". If feature disabled, extension will work as before, but without automatically caching not cached pages.',
+            'crawler_logged_delete_crawler_urls' => 'If enabled crawler will delete all urls for current store from crawler for logged in users table',
             'crawler_logged_crawl_customer_group' => 'Customer groups which will be crawled by "Crawler for logged user"',
             'crawler_logged_max_threads' => 'Determines the number of parallel requests during this process.',
             'crawler_logged_max_urls_per_run' => 'Maximum number of crawled URLs per one cron (or shell) run.',

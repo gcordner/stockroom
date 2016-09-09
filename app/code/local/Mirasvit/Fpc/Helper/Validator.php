@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.15
- * @build     608
+ * @version   1.0.18
+ * @build     619
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -75,6 +75,18 @@ class Mirasvit_Fpc_Helper_Validator extends Mirasvit_MstCore_Helper_Validator_Ab
             $result = self::FAILED;
             $description[] = "Extension Aitoc_Aitsys installed. If FPC don't cache pages without visible reason the reason can be in Aitoc_Aitsys extension.";
             $description[] = 'To fix the issue in file /app/code/community/Aitoc/Aitsys/Abstract/Service.php comment line $this->getCache()->flush();';
+        }
+
+        if (Mage::helper('mstcore')->isModuleInstalled('Softag_Powerdash')) {
+            $result = self::FAILED;
+            $description[] = "Extension Softag_Powerdash installed. If FPC flush cache very often without visible reason the reason can be in Softag_Powerdash extension.";
+            $description[] = 'To fix the issue in file /app/code/community/Softag/Powerdash/Helper/Data.php comment line Mage::app()->getCache()->clean(\'all\', array(self::CACHE_TAG));';
+        }
+
+        if (Mage::helper('mstcore')->isModuleInstalled('Mci_Core')) {
+            $result = self::FAILED;
+            $description[] = "Extension Mci_Core installed. If FPC don't cache pages without visible reason the reason can be in Mci_Core extension.";
+            $description[] = 'To fix the issue in file //app/code/community/Mci/Core/Model/Observer.php comment line _967976c690de23ce4d148bc33b3fb384(true);';
         }
 
         return array($result, $title, $description);

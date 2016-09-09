@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.15
- * @build     608
+ * @version   1.0.18
+ * @build     619
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -67,11 +67,11 @@ class Mirasvit_FpcCrawler_Model_Crawlerlogged_Crawl extends Varien_Object
                 }
 
                 if (!$urlModel->isCacheExist()) {
-                    $urlModel->warmCache();
+                     $warm = $urlModel->warmCache();
 
                     $this->_removeDublicates($urlModel);
 
-                    $totalCount++;
+                    if ($warm) $totalCount++;
                     $this->addStatusMessage('process', sprintf(__('Crawled %d urls', $totalCount)));
                     if ($totalCount >= $config->getCrawlerMaxUrlsPerRun(true)) {
                         break;

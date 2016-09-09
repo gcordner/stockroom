@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.15
- * @build     608
+ * @version   1.0.18
+ * @build     619
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -32,6 +32,8 @@ class Mirasvit_Fpc_Model_Processor
     protected $_checkoutMessage = false;
 
     protected $_storage = null;
+
+    static protected $_isPageFound = null;
 
     /**
      * @var Mirasvit_Fpc_Helper_Request
@@ -230,7 +232,8 @@ class Mirasvit_Fpc_Model_Processor
             if ($key = array_search('page/html_header_header', $containers)) { // header have to be first because inside can be one more block
                 list($containers[0], $containers[$key]) = array($containers[$key], $containers[0]);
             }
-            for ($i = 0; $i <= max(array_keys($containers)); $i++) {
+            $max = ($containers) ? max(array_keys($containers)) : 0;
+            for ($i = 0; $i <= $max; $i++) {
                 if (isset($containers[$i])) {
                     $definition = $containers[$i];
                     if (isset($storageContainers[$definition])) {
@@ -365,6 +368,10 @@ class Mirasvit_Fpc_Model_Processor
             return;
         }
 
+        if (!$this->isPageFound()) {
+            return false;
+        }
+
         $this->_storage = Mage::getModel('fpc/storage');
 
         $this->_processActions();
@@ -417,7 +424,8 @@ class Mirasvit_Fpc_Model_Processor
             $content, $containers, PREG_PATTERN_ORDER
         );
         $containers = array_unique($containers[1]);
-        for ($i = 0; $i <= max(array_keys($containers)); $i++) {
+        $max = ($containers) ? max(array_keys($containers)) : 0;
+        for ($i = 0; $i <= $max; $i++) {
             if (isset($containers[$i])) {
                 $definition = $containers[$i];
                 if (isset($this->_containers[$definition])) {
@@ -438,8 +446,10 @@ class Mirasvit_Fpc_Model_Processor
         }
 
         Mage::getSingleton('fpc/log')->log($cacheId, 0);
-        if ($this->_requestHelper->isCrawler()) { //need for delete crawler session files
-            session_destroy();
+        if ($this->_requestHelper->isCrawler()
+            && isset($_SESSION)
+            && session_id() != '') { //need for delete crawler session files
+                session_destroy();
         }
     }
 
@@ -451,6 +461,10 @@ class Mirasvit_Fpc_Model_Processor
     public function markContainer($observer)
     {
         if (!$this->canProcessRequest(Mage::app()->getRequest())) {
+            return false;
+        }
+
+        if (!$this->isPageFound()) {
             return false;
         }
 
@@ -678,5 +692,28 @@ class Mirasvit_Fpc_Model_Processor
         }
 
         return $this->_currentProduct;
+    }
+
+    /**
+     * Check if noroute page (some nginx servers return incorrect actions)
+     *
+     * @return bool
+     */
+    public function isPageFound()
+    {
+        if(self::$_isPageFound !== null) {
+            return self::$_isPageFound;
+        }
+
+        self::$_isPageFound = true;
+        foreach (Mage::app()->getResponse()->getHeaders() as $header) {
+            if ($header['value'] == '404 Not Found') {
+                self::$_isPageFound = false;
+                $this->_canProcessRequest = false;
+                break;
+            }
+        }
+
+        return self::$_isPageFound;
     }
 }

@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.15
- * @build     608
+ * @version   1.0.18
+ * @build     619
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -148,7 +148,7 @@ class Mirasvit_Fpc_Block_Adminhtml_OptimalConfiguration extends Mage_Adminhtml_B
 
     public function getIgnoredPages() {
         $ignoredPages = '';
-        if ($this->getProductsCount() > 10000) {
+        if ($this->getProductsCount() > 1000) {
             $ignoredPages = '/\?[^p][^=]*/';
         }
 

@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Full Page Cache
- * @version   1.0.15
- * @build     608
+ * @version   1.0.18
+ * @build     619
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -37,6 +37,7 @@ class Mirasvit_FpcCrawler_Adminhtml_Fpccrawlerlogged_UrlController extends Mage_
         Mage::helper('fpc')->showFreeHddSpace(false, false);
         Mage::helper('fpc')->showExtensionDisabledInfo();
         Mage::helper('fpc')->showCronStatusError();
+        Mage::helper('fpccrawler/info')->showExtensionDisabledInfo(true);
         Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('fpccrawler/info')->getCronInfo(true));
         Mage::getSingleton('adminhtml/session')->addNotice(Mage::helper('fpccrawler/info')->getCrawlUrlLimitInfo(true));
 
