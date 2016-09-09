@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -134,6 +134,7 @@ class Mirasvit_SearchIndex_Adminhtml_Searchindex_IndexController extends Mage_Ad
         $model = $this->_getModel();
 
         try {
+            $model->validate();
             $model->reindexAll();
 
             Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('searchindex')->__('Index "%s" has been successfully rebuilt', $model->getTitle()));
@@ -148,7 +149,9 @@ class Mirasvit_SearchIndex_Adminhtml_Searchindex_IndexController extends Mage_Ad
     {
         foreach ($this->getRequest()->getParam('index_id') as $indexId) {
             $model = Mage::getModel('searchindex/index')->load($indexId);
+            Mage::register('current_model', $model, true);
             try {
+                $model->validate();
                 $model->reindexAll();
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('searchindex')->__('Index "%s" has been successfully rebuilt', $model->getTitle()));

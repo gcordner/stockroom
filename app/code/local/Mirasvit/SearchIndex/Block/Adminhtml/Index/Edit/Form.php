@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -53,6 +53,7 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Index_Edit_Form extends Mage_Adminhtm
             'values' => Mage::getSingleton('searchindex/system_config_source_index')->toOptionArray(),
             'disabled' => $model->getIndexCode() ? true : false,
             'note' => Mage::helper('searchindex/help')->field('index_code'),
+            'after_element_html' => '<span style="margin-left:25px">[GLOBAL]</span>',
         ));
 
         $general->addField('title', 'text', array(
@@ -69,6 +70,7 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Index_Edit_Form extends Mage_Adminhtm
             'required' => true,
             'value' => $model->getPosition(),
             'note' => Mage::helper('searchindex/help')->field('position'),
+            'after_element_html' => '<span style="margin-left:25px">[GLOBAL]</span>',
         ));
 
         if (!$model->getId()
@@ -80,6 +82,7 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Index_Edit_Form extends Mage_Adminhtm
                 'value' => $model->getIsActive(),
                 'values' => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray(),
                 'note' => Mage::helper('searchindex/help')->field('is_active'),
+                'after_element_html' => '[GLOBAL]',
             ));
         } elseif ($model->getIndexInstance()->isLocked()) {
             $general->addField('is_active', 'hidden', array(

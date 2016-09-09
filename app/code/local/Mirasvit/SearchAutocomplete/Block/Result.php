@@ -9,15 +9,16 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
 
 /**
- * Блок вывода результатов поиска. Основная задача - дочерние блоки всех включенных индексов, ограничить кол-во выводимых елементов.
+ * Class for rendering search results.
+ * Main task - render child blocks of all included indexes, restrict number of rendered elements.
  *
  * @category Mirasvit
  */
@@ -38,6 +39,9 @@ class Mirasvit_SearchAutocomplete_Block_Result extends Mage_Catalog_Block_Produc
         $this->_prepareIndexes();
     }
 
+    /**
+     * Prepare collection for each index, calculate and set size of each collection
+     */
     protected function _prepareIndexes()
     {
         // Mage::dispatchEvent('searchautocomplete_prepare_collection');
@@ -50,6 +54,7 @@ class Mirasvit_SearchAutocomplete_Block_Result extends Mage_Catalog_Block_Produc
 
         $maxCount = Mage::getStoreConfig('searchautocomplete/general/max_results');
         $perIndex = ceil($maxCount / count($this->_indexes));
+        $tmpIndexes = $this->_indexes;
         $sizes = array();
         $additional = 0;
         foreach ($this->_indexes as $index => $label) {
@@ -59,8 +64,9 @@ class Mirasvit_SearchAutocomplete_Block_Result extends Mage_Catalog_Block_Produc
             if ($size >= $perIndex) {
                 $sizes[$index] = $perIndex;
             } else {
-                $additional = $perIndex - $size;
+                $additional += ($perIndex - $size);
                 $sizes[$index] = $size;
+                unset($tmpIndexes[$index]);
             }
 
             if ($size == 0) {
@@ -72,8 +78,9 @@ class Mirasvit_SearchAutocomplete_Block_Result extends Mage_Catalog_Block_Produc
             }
         }
 
-        $additional = $this->_indexes ? ceil($additional / count($this->_indexes)) : 0;
-        foreach ($this->_indexes as $index => $label) {
+        // Add additional size only to those indexes, whose size is greater than the size allocated for each index ($perIndex)
+        $additional = $tmpIndexes ? ceil($additional / count($tmpIndexes)) : 0;
+        foreach (array_intersect($this->_indexes, $tmpIndexes) as $index => $label) {
             $sizes[$index] += $additional;
         }
 
@@ -135,5 +142,40 @@ class Mirasvit_SearchAutocomplete_Block_Result extends Mage_Catalog_Block_Produc
         }
 
         return $shortDescription;
+    }
+
+    /**
+     * Build full category path.
+     *
+     * @param int $categoryId - ID of found category
+     *
+     * @return false|array
+     */
+    public function getFullPath($categoryId)
+    {
+        $result = array();
+        $id = $categoryId;
+        $rootId = Mage::app()->getStore()->getRootCategoryId();
+
+        do {
+            $parent = Mage::getModel('catalog/category')->load($id)->getParentCategory();
+            $id = $parent->getId();
+
+            if (!$parent->getId()) {
+                break;
+            }
+
+            if (!$parent->getIsActive() && $parent->getId() != $rootId) {
+                return false;
+            }
+
+            if ($parent->getId() != $rootId) {
+                $result[] = $parent;
+            }
+        } while ($parent->getId() != $rootId);
+
+        $result = array_reverse($result);
+
+        return $result;
     }
 }

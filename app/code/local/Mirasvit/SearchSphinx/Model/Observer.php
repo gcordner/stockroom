@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -22,8 +22,8 @@
 class Mirasvit_SearchSphinx_Model_Observer
 {
     /**
-     * Если Search Engine = Sphinx
-     * запускает реиндекс.
+     * If Search Engine = Sphinx
+     * run reindex.
      */
     public function reindex()
     {
@@ -33,8 +33,8 @@ class Mirasvit_SearchSphinx_Model_Observer
     }
 
     /**
-     * Если Search Engine = Sphinx
-     * запускает делта-реиндекс.
+     * If Search Engine = Sphinx
+     * run delta-reindex.
      */
     public function reindexDelta()
     {
@@ -44,8 +44,8 @@ class Mirasvit_SearchSphinx_Model_Observer
     }
 
     /**
-     * Если Search Engine = Sphinx
-     * проверяет если сфинкс не запущен - делает рестарт.
+     * If Search Engine = Sphinx
+     * check Sphinx daemon. If it`s missing - restarting Sphinx.
      */
     public function checkDaemon()
     {
@@ -58,7 +58,7 @@ class Mirasvit_SearchSphinx_Model_Observer
     }
 
     /**
-     * При индексации Misspell (Spell Correction) добавляем синонимы заданые пользователь к правильным словам (индексу misspell'a).
+     * While Misspell reindex process (Spell Correction) add synonyms set by user to correct words (misspell index).
      *
      * @param object $observer
      */

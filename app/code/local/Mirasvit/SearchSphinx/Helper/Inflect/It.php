@@ -9,55 +9,56 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
+
 class Mirasvit_SearchSphinx_Helper_Inflect_It extends Mage_Core_Helper_Abstract
 {
-    static $plural = array(
+    public static $plural = array(
     );
-    static $singular = array(
-        '/ci$/i'     => "",
-        '/gli$/i'     => "",
-        '/la$/i'     => "",
-        '/le$/i'     => "",
-        '/li$/i'     => "",
-        '/lo$/i'     => "",
-        '/mi$/i'     => "",
-        '/ne$/i'     => "",
-        '/si$/i'     => "",
-        '/ti$/i'     => "",
-        '/vi$/i'     => "",
-        '/sene$/i'     => "",
-        '/gliela$/i'     => "",
-        '/gliele$/i'     => "",
-        '/glieli$/i'     => "",
-        '/glielo$/i'     => "",
-        '/gliene$/i'     => "",
-        '/mela$/i'     => "",
-        '/mele$/i'     => "",
-        '/melo$/i'     => "",
-        '/mene$/i'     => "",
-        '/tela$/i'     => "",
-        '/tele$/i'     => "",
-        '/teli$/i'     => "",
-        '/telo$/i'     => "",
-        '/tene$/i'     => "",
-    );
-
-    static $irregular = array(
+    public static $singular = array(
+        '/ci$/i' => '',
+        '/gli$/i' => '',
+        '/la$/i' => '',
+        '/le$/i' => '',
+        '/li$/i' => '',
+        '/lo$/i' => '',
+        '/mi$/i' => '',
+        '/ne$/i' => '',
+        '/si$/i' => '',
+        '/ti$/i' => '',
+        '/vi$/i' => '',
+        '/sene$/i' => '',
+        '/gliela$/i' => '',
+        '/gliele$/i' => '',
+        '/glieli$/i' => '',
+        '/glielo$/i' => '',
+        '/gliene$/i' => '',
+        '/mela$/i' => '',
+        '/mele$/i' => '',
+        '/melo$/i' => '',
+        '/mene$/i' => '',
+        '/tela$/i' => '',
+        '/tele$/i' => '',
+        '/teli$/i' => '',
+        '/telo$/i' => '',
+        '/tene$/i' => '',
     );
 
-    static $uncountable = array(
+    public static $irregular = array(
+    );
+
+    public static $uncountable = array(
     );
 
     /**
-     * Возврашает слово во множественном числе (shoe -> shoes)
+     * Return word in plural (shoe -> shoes).
      *
-     * @param  string $string
+     * @param string $string
      *
      * @return string
      */
@@ -70,7 +71,7 @@ class Mirasvit_SearchSphinx_Helper_Inflect_It extends Mage_Core_Helper_Abstract
 
         // check for irregular singular forms
         foreach (self::$irregular as $pattern => $result) {
-            $pattern = '/' . $pattern . '$/i';
+            $pattern = '/'.$pattern.'$/i';
 
             if (preg_match($pattern, $string)) {
                 return preg_replace($pattern, $result, $string);
@@ -78,7 +79,7 @@ class Mirasvit_SearchSphinx_Helper_Inflect_It extends Mage_Core_Helper_Abstract
         }
 
         // check for matches using regular expressions
-        foreach (self::$plural as $pattern => $result ) {
+        foreach (self::$plural as $pattern => $result) {
             if (preg_match($pattern, $string)) {
                 return preg_replace($pattern, $result, $string);
             }
@@ -88,9 +89,9 @@ class Mirasvit_SearchSphinx_Helper_Inflect_It extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Возврашает слово в одиночном числе (shoes -> shoe)
+     * Return word in singular (shoes -> shoe).
      *
-     * @param  string $string
+     * @param string $string
      *
      * @return string
      */

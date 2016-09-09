@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -33,6 +33,7 @@ class Mirasvit_SearchSphinx_Model_Config
 
     const XML_PATH_MATH_MODE = 'searchsphinx/advanced/match_mode';
     const XML_PATH_RESULT_LIMIT = 'searchsphinx/advanced/result_limit';
+    const XML_PATH_MIN_RELEVANCE = 'searchsphinx/advanced/min_relevance';
 
     const XML_PATH_WILDCARD = 'searchsphinx/advanced/wildcard';
     const WILDCARD_INFIX = 'infix';
@@ -71,6 +72,16 @@ class Mirasvit_SearchSphinx_Model_Config
         }
 
         return $limit;
+    }
+
+    public function getMinRelevance()
+    {
+        $minRelevance = intval(Mage::getStoreConfig(self::XML_PATH_MIN_RELEVANCE));
+        if (empty($minRelevance)) {
+            $minRelevance = 0;
+        }
+
+        return $minRelevance;
     }
 
     public function getWildcardMode()

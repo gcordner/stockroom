@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -31,7 +31,7 @@ class Mirasvit_SearchSphinx_Helper_Debug extends Mage_Core_Helper_Abstract
     public function searchDebug($result, $weight, $select)
     {
         echo '<h3 style="text-align:center;">Query:</h3>';
-        echo '<p style="border:3px solid gray;padding:10px;">'.$select->__toString().'</p>';
+        echo '<p style="border:3px solid gray;padding:10px;">'.(is_object($select) ? $select->__toString() : $select).'</p>';
         echo '<table border="2" cellpadding="2" cellspacing="0" align="center"><caption style="text-align:center;font-size:1.17em;font-weight:bold">Result:</caption><tr><th>Product Id</th><th>Relevance</th><th>Search Weight</th></tr>';
 
         foreach ($result as $entity_id => $entity) {

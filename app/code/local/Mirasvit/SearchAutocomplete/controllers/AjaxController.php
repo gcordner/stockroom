@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -61,7 +61,7 @@ class Mirasvit_Searchautocomplete_AjaxController extends Mage_Core_Controller_Fr
             $result['items'] = str_replace('?___SID=U', '', $result['items']);
 
             $result['success'] = true;
-            $result['query'] = $query->getQueryText();
+            $result['query'] = $this->getRequest()->getParam('q');
 
             Mage::helper('catalogsearch')->getQuery()->save();
         } else {

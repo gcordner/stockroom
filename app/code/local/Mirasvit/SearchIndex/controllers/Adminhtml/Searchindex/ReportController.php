@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -23,7 +23,7 @@ class Mirasvit_SearchIndex_Adminhtml_Searchindex_ReportController extends Mage_A
         Mage::register(Mirasvit_SearchIndex_Block_Adminhtml_Report::SEARCHINDEX_REPORT, true);
         $this->loadLayout()
             ->_setActiveMenu('search')
-            ->_addBreadcrumb(Mage::helper('searchindex')->__('Search Index'), Mage::helper('searchindex')->__('Search Index'));
+            ->_addBreadcrumb(Mage::helper('searchindex')->__('Search Terms'), Mage::helper('searchindex')->__('Search Terms'));
 
         return $this;
     }
@@ -35,6 +35,32 @@ class Mirasvit_SearchIndex_Adminhtml_Searchindex_ReportController extends Mage_A
             ->_setActiveMenu('search');
 
         $this->renderLayout();
+    }
+
+    public function viewAction()
+    {
+        $model = $this->_getModel();
+
+        if ($model->getId()) {
+            $this->_title(Mage::helper('searchindex')->__('View search results for "%s"', $model->getData('query_text')));
+            $this->_initAction()->renderLayout();
+        } else {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('searchindex')->__('The search query does not exist.'));
+            $this->_redirect('*/*/');
+        }
+    }
+
+    protected function _getModel()
+    {
+        $model = Mage::getModel('catalogsearch/query');
+
+        if ($id = $this->getRequest()->getParam('id')) {
+            $model->load($id);
+        }
+
+        Mage::register('current_model', $model);
+
+        return $model;
     }
 
     protected function _isAllowed()

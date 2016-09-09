@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -108,11 +108,11 @@ class Mirasvit_SearchSphinx_Test_Model_Engine_Fulltext extends EcomDev_PHPUnit_T
      */
     public function synonymsTableTest()
     {
-        /* мы ищем word01, оно имеет синоним word04, поэтому находим товар word01 и word04 */
+        /* we`re looking for "word01", it has a synonym "word04". So we get "word01" and "word04" products */
         $result = $this->engine->query('word01', 2, $this->index);
         $this->assertEquals(2, count($result));
 
-        /* мы ищем word04, оно имеет синоним word01, поэтому находим товар word01 и word04 */
+        /* we`re looking for "word04", it has a synonym "word01". So we get "word04" and "word01" products */
         $result = $this->engine->query('word04', 2, $this->index);
         $this->assertEquals(2, count($result));
     }

@@ -9,15 +9,15 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
 
 /**
- * Хелпер для преобразования слова в/из множественного числа.
+ * Helper class to convert words to plural/singular form.
  *
  * @category Mirasvit
  */
@@ -100,7 +100,7 @@ class Mirasvit_SearchSphinx_Helper_Inflect_En extends Mage_Core_Helper_Abstract
     );
 
     /**
-     * Возврашает слово во множественном числе (shoe -> shoes).
+     * Return word in plural (shoe -> shoes).
      *
      * @param string $string
      *
@@ -133,7 +133,7 @@ class Mirasvit_SearchSphinx_Helper_Inflect_En extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Возврашает слово в одиночном числе (shoes -> shoe).
+     * Return word in singular (shoes -> shoe).
      *
      * @param string $string
      *

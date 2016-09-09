@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -25,6 +25,7 @@ class Mirasvit_SearchSphinx_Helper_Help extends Mirasvit_MstCore_Helper_Help
         'system' => array(
             'advanced_snippets' => 'If enabled, extension add Google Sitelinks Search box snippet to store pages.',
             'advanced_result_limit' => 'Enter "0" to disable limitation',
+            'advanced_min_relevance' => 'Enter "0" to disable limitation',
             'advanced_match_mode' => 'The type of search logic.
                 <b>"AND"</b> - matches all query words.
                 <b>"OR"</b> - matches any of the query words.',

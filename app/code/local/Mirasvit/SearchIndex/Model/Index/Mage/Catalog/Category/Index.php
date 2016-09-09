@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -35,13 +35,31 @@ class Mirasvit_SearchIndex_Model_Index_Mage_Catalog_Category_Index extends Miras
 
     public function getAvailableAttributes()
     {
+        $result = array();
+
+
         $result = array(
-            'name' => Mage::helper('searchindex')->__('Name'),
-            'meta_title' => Mage::helper('searchindex')->__('Meta Title'),
-            'meta_keywords' => Mage::helper('searchindex')->__('Meta Keywords'),
+            'name'             => Mage::helper('searchindex')->__('Name'),
+            'meta_title'       => Mage::helper('searchindex')->__('Meta Title'),
+            'meta_keywords'    => Mage::helper('searchindex')->__('Meta Keywords'),
             'meta_description' => Mage::helper('searchindex')->__('Meta Description'),
-            'description' => Mage::helper('searchindex')->__('Description'),
+            'description'      => Mage::helper('searchindex')->__('Description'),
         );
+
+
+        $entityTypeId = Mage::getModel('eav/entity')
+            ->setType('catalog_category')
+            ->getTypeId();
+
+        $attributes = Mage::getResourceModel('eav/entity_attribute_collection')
+            ->addFieldToFilter('entity_type_id', $entityTypeId);
+
+
+        foreach ($attributes as $attribute) {
+            if (!isset($result[$attribute->getAttributeCode()]) && $attribute->getFrontendLabel()) {
+                $result[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
+            }
+        }
 
         return $result;
     }
@@ -59,7 +77,7 @@ class Mirasvit_SearchIndex_Model_Index_Mage_Catalog_Category_Index extends Miras
             $mainTable = 'main_table';
         }
 
-        $this->joinMatched($collection, $mainTable.'.entity_id');
+        $this->joinMatched($collection, $mainTable . '.entity_id');
 
         return $collection;
     }

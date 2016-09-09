@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -19,14 +19,19 @@
 class Mirasvit_SearchIndex_Model_Observer
 {
     /**
-     * После завершения реиндекса индекса catalogsearc_fulltext (System/Index Management)
-     * переводим все наши индексы в статус Ready.
+     * Set all our indexes to status "Ready"
+     * after completing indexation of catalogsearch_fulltext (System/Index Management).
      *
      * @return object
      */
     public function onIndexProcessComplete()
     {
         $collection = Mage::getModel('searchindex/index')->getCollection();
+        // If reindex performed only for specific search indexes, filter collection by "index_code"
+        if (($model = Mage::registry('current_model')) && $model instanceof Mirasvit_SearchIndex_Model_Index) {
+            $collection->addFieldToFilter('index_code', $model->getIndexCode());
+        }
+
         foreach ($collection as $index) {
             $index->setStatus(1)
                 ->save();

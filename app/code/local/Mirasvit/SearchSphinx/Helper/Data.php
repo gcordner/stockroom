@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -22,7 +22,7 @@
 class Mirasvit_SearchSphinx_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * Воврашает объект поискового движка (Sphinx (External), Sphinx Native или Fulltext).
+     * Return Search engine object (Sphinx (External), Sphinx Native or Fulltext).
      *
      * @return object
      */
@@ -50,7 +50,7 @@ class Mirasvit_SearchSphinx_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Проверяет, являеться ли слово исключением из wildcard.
+     * Check if word is wildcard exception.
      *
      * @param string $word
      *

@@ -9,15 +9,15 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
 
 /**
- * Модель для работы с синонимами.
+ * Synonym model.
  *
  * @category Mirasvit
  */
@@ -29,12 +29,12 @@ class Mirasvit_SearchSphinx_Model_Synonym extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Импорт синонимов.
+     * Synonym import.
      *
-     * @param string $filePath полный путь к файлу (csv)
+     * @param string $filePath Full path to file (csv)
      * @param array  $stores
      *
-     * @return int кол-во импортированых синонимов
+     * @return int qty of imported synonyms
      */
     public function import($filePath, $stores)
     {

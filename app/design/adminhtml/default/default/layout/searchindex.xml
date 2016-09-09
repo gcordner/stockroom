@@ -21,4 +21,10 @@
         </reference>
     </adminhtml_searchindex_report_index>
 
+    <adminhtml_searchindex_report_view>
+        <reference name="content">
+            <block type="searchindex/adminhtml_report_view" name="viewSearchResult" />
+            <block type="searchindex/adminhtml_report_view_grid" name="searchindex.report.view.grid" />
+        </reference>
+    </adminhtml_searchindex_report_view>
 </layout>

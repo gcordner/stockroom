@@ -113,6 +113,14 @@
                     <block type="page/html_pager" name="pager" />
                 </block>
 
+                <block type="searchindex/index_template" name="searchindex_result_mirasvit_giftr_registry" template="searchindex/index/mirasvit/giftr/registry.phtml">
+                    <action method="setIndexCode"><value>mirasvit_giftr_registry</value></action>
+                    <action method="setBlockType"><block_type>giftr/search_result</block_type></action>
+                    <action method="setBlockName"><block_name>giftr.search.result</block_name></action>
+                    <action method="setBlockTemplate"><block_template>mst_giftr/search/form/result.phtml</block_template></action>
+                    <block type="page/html_pager" name="pager"/>
+                </block>
+
                 <action method="setListOrders"/>
                 <action method="setListModes"/>
                 <action method="setListCollection"/>

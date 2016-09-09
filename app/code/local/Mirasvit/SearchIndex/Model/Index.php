@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -210,7 +210,7 @@ class Mirasvit_SearchIndex_Model_Index extends Mage_Core_Model_Abstract
     public function getQuery()
     {
         if (!$this->query) {
-            $queryHelper = new Mage_CatalogSearch_Helper_Data();
+            $queryHelper = Mage::helper('catalogsearch');
             $this->query = $queryHelper->getQuery();
 
             $this->query
@@ -381,7 +381,7 @@ class Mirasvit_SearchIndex_Model_Index extends Mage_Core_Model_Abstract
     public function validate()
     {
         if ($this->getId() && count($this->getAttributes()) == 0) {
-            Mage::throwException(Mage::helper('searchindex')->__("Search index should contains at least one configured attribute. Go to Search / Manage Search Indexes, open index {$this->getTitle()} and add least one attribute with weight at left bottom corner of page."));
+            Mage::throwException(Mage::helper('searchindex')->__("Search index should contains at least one configured attribute. Go to Search / Manage Search Indexes, open index \"{$this->getTitle()}\" and add least one attribute with weight at left bottom corner of page."));
         }
 
         return true;

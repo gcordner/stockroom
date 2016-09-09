@@ -9,15 +9,15 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
 
 /**
- * Блок вывода кнопки для управления демонов (стоп\старт...).
+ * Daemon management button output block (start/stop).
  *
  * @category Mirasvit
  */

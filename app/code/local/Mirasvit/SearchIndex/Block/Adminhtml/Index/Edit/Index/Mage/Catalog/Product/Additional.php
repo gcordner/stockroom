@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -31,6 +31,7 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Index_Edit_Index_Mage_Catalog_Product
             'value' => $model->getProperty('include_category'),
             'values' => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray(),
             'note' => Mage::helper('searchindex/help')->field('include_category'),
+            'after_element_html' => '<span style="margin-left:25px">[GLOBAL]</span>',
         ));
 
         $this->addField('include_bundled', 'select', array(
@@ -40,6 +41,7 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Index_Edit_Index_Mage_Catalog_Product
             'value' => $model->getProperty('include_bundled'),
             'values' => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray(),
             'note' => Mage::helper('searchindex/help')->field('include_bundled'),
+            'after_element_html' => '<span style="margin-left:25px">[GLOBAL]</span>',
         ));
 
         $this->addField('include_tag', 'select', array(
@@ -49,6 +51,7 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Index_Edit_Index_Mage_Catalog_Product
             'value' => $model->getProperty('include_tag'),
             'values' => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray(),
             'note' => Mage::helper('searchindex/help')->field('include_tag'),
+            'after_element_html' => '<span style="margin-left:25px">[GLOBAL]</span>',
         ));
 
         $this->addField('include_id', 'select', array(
@@ -58,6 +61,7 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Index_Edit_Index_Mage_Catalog_Product
             'value' => $model->getProperty('include_id'),
             'values' => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray(),
             'note' => Mage::helper('searchindex/help')->field('include_id'),
+            'after_element_html' => '<span style="margin-left:25px">[GLOBAL]</span>',
         ));
 
         $this->addField('include_custom_options', 'select', array(
@@ -67,6 +71,7 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Index_Edit_Index_Mage_Catalog_Product
             'value' => $model->getProperty('include_custom_options'),
             'values' => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray(),
             'note' => Mage::helper('searchindex/help')->field('include_custom_options'),
+            'after_element_html' => '<span style="margin-left:25px">[GLOBAL]</span>',
         ));
 
         $this->addField('out_of_stock_to_end', 'select', array(
@@ -76,6 +81,7 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Index_Edit_Index_Mage_Catalog_Product
             'value' => $model->getProperty('out_of_stock_to_end'),
             'values' => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray(),
             'note' => Mage::helper('searchindex/help')->field('out_of_stock_to_end'),
+            'after_element_html' => '<span style="margin-left:25px">[GLOBAL]</span>',
         ));
 
         return parent::toHtml();

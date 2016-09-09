@@ -9,42 +9,50 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
 
 /**
- * Хелпер для преобразования пользовательского запроса в готовый запрос (для системы - масив).
+ * Helper for converting user search query to ready for use query (for system - array).
  *
  * @category Mirasvit
  */
 class Mirasvit_SearchSphinx_Helper_Query extends Mage_Core_Helper_Abstract
 {
+    protected $cache = array();
+
     /**
-     * Ключевая функция. Преобразует пользовательский запрос в масив с
-     * синонимами, без стопcлов, исключениями wildcard, И/ИЛИ условиями.
+     * Key function. Converts user search query into array with
+     * synonyms, without stop-words, wildcard exceptions, OR/AND conditions.
      *
-     * @param string $query      пользовательский запрос
-     * @param int    $store      ИД магазина
-     * @param bool   $inverseNot изменияем И на ИЛИ
+     * @param string $query      - user search query
+     * @param int    $store      - store ID
+     * @param bool   $inverseNot - change AND to OR
      *
      * @return array
      */
-    public function buildQuery($query, $store, $inverseNot = false)
+    public function buildQuery($originalQuery, $store, $inverseNot = false)
     {
         if (Mage::helper('catalogsearch')->isMinQueryLength()) {
             return false;
         }
 
+        $cacheKey = $originalQuery.$store;
+
+        if (isset($this->cache[$cacheKey])) {
+            return $this->cache[$cacheKey];
+        }
+
         $result = array();
         $config = Mage::getSingleton('searchsphinx/config');
 
-        $query = strtolower($query);
+        $query = strtolower($originalQuery);
 
-        // необходимо если синоним состоит из 2х и более слов
+        // required if a synonym consists of 2 or more words
         $query = ' '.$query.' ';
 
         $replaceWords = Mage::getSingleton('searchsphinx/config')->getReplaceWords();
@@ -75,6 +83,7 @@ class Mirasvit_SearchSphinx_Helper_Query extends Mage_Core_Helper_Abstract
 
             if ($logic == 'like') {
                 $longTail = $this->longtail($word);
+
                 $this->_addWord($wordArr, $longTail);
 
                 $singular = Mage::helper('searchsphinx/inflect_en')->singularize($word);
@@ -96,11 +105,13 @@ class Mirasvit_SearchSphinx_Helper_Query extends Mage_Core_Helper_Abstract
             }
         }
 
+        $this->cache[$cacheKey] = $result;
+
         return $result;
     }
 
     /**
-     * Это стоп-слово?
+     * Is this a stop-word?
      *
      * @param string $word
      * @param int    $store
@@ -117,7 +128,7 @@ class Mirasvit_SearchSphinx_Helper_Query extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Для слова выполняет регулярные выражения заданые в настройках SearchIndex.
+     * Handle string by the regex according to long tail settings (In Search Sphinx settigns).
      *
      * @param string $word
      *
@@ -141,10 +152,11 @@ class Mirasvit_SearchSphinx_Helper_Query extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Добавляет слова в масив, при этом учитывает wildcard и исключения из wildcard.
+     * Adds words to the array (considers wildcard and wildcard exceptions).
      *
-     * @param array $to    масив куда надо добавить слова
-     * @param array $words слова, которые надо добавить
+     * @param array  $to       - array to which add words
+     * @param array  $words    - words which should be added to array
+     * @param string $wildcard - wildcard mode
      */
     protected function _addWord(&$to, $words, $wildcard = null)
     {
@@ -159,7 +171,7 @@ class Mirasvit_SearchSphinx_Helper_Query extends Mage_Core_Helper_Abstract
 
         foreach ($words as $word) {
             $match = false;
-            foreach ($exceptions as $exp){
+            foreach ($exceptions as $exp) {
                 if (preg_match('/^[\/].+[\/]$/', $exp)) {
                     if (preg_match($exp, $word)) {
                         $match = true;

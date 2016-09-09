@@ -235,6 +235,7 @@ jQuery(function ($) {
 
             query = query.replace(/<\/?[^>]+>/gi, '');
 
+            var separator = (self.url.indexOf('?') > 0) ? '&' : '?';
             var cat = '';
 
             if (self.$category.val() !== undefined) {
@@ -242,7 +243,7 @@ jQuery(function ($) {
             }
 
             $.ajax({
-                url: self.url + '?q=' + encodeURIComponent(query) + cat,
+                url: self.url + separator + 'q=' + encodeURIComponent(query) + cat,
                 dataType: 'json',
                 type: 'GET',
                 beforeSend: function () {

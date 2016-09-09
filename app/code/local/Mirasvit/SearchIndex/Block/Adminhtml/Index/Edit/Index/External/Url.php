@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -30,6 +30,7 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Index_Edit_Index_External_Url extends
             'required' => true,
             'value' => $model->getProperty('url_template'),
             'note' => Mage::helper('searchindex/help')->field('url_template'),
+            'after_element_html' => '<span style="margin-left:25px">[GLOBAL]</span>',
         ));
 
         return parent::toHtml();

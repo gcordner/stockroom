@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -39,5 +39,27 @@ abstract class Mirasvit_SearchIndex_Model_Engine
     protected function _getReadAdapter()
     {
         return Mage::getSingleton('core/resource')->getConnection('core_read');
+    }
+
+    /**
+     * Method get $result array ([product_id]=>[relevance]) after data normalization
+     * Returns filtered array of results ([product_id]=>[relevance]).
+     *
+     * @param $result
+     *
+     * @return array
+     */
+    protected function _filterByMinRelevance($result)
+    {
+        $minRelevance = Mage::getSingleton('searchsphinx/config')->getMinRelevance();
+        if (!empty($minRelevance) && $minRelevance > 0) {
+            foreach ($result as $id => $relevance) {
+                if ($relevance < $minRelevance) {
+                    unset($result[$id]);
+                }
+            }
+        }
+
+        return $result;
     }
 }

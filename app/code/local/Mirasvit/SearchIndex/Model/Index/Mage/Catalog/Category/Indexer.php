@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -55,7 +55,7 @@ class Mirasvit_SearchIndex_Model_Index_Mage_Catalog_Category_Indexer extends Mir
 
             $category->setDescription($processor->filter($category->getDescription()));
 
-            // добавляем контент стачиного блока, связанго с категорией
+            // add static block content, that related to category
             if ($category->getLandingPage()) {
                 $cmsBlock = Mage::getModel('cms/block')->load($category->getLandingPage());
                 $text = $cmsBlock->getContent();

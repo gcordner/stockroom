@@ -9,15 +9,15 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
 
 /**
- * Контроллер для получения запросов на управление сфинксом (что бы все действия производились под apache пользьзователем).
+ * Sphinx engine management / actoin controller (to perform all actions via apache user).
  *
  * @category Mirasvit
  */

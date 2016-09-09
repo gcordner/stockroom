@@ -209,6 +209,15 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </result_limit>
+                        <min_relevance translate="label">
+                            <label>Min relevance value to display</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </min_relevance>
+
                         <!-- <stopword translate="label">
                             <label>Stopwords</label>
                             <frontend_model>searchsphinx/adminhtml_system_stopword</frontend_model>

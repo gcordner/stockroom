@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -44,5 +44,12 @@ class Mirasvit_SearchAutocomplete_Helper_Validator extends Mirasvit_MstCore_Help
         }
 
         return array($result, $title, $description);
+    }
+
+    public function testMirasvitMstCoreCrc()
+    {
+        $modules = array('SearchAutocomplete');
+
+        return Mage::helper('mstcore/validator_crc')->testMirasvitCrc($modules);
     }
 }

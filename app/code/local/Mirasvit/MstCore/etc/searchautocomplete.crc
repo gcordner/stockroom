@@ -1,3 +1,4 @@
+55ec7e86db5ddaea8fb4741849de4da2  app/locale/nl_NL/Mirasvit_SearchAutocomplete.csv
 5d819736155e7059040d92aaaee74418  app/locale/en_US/Mirasvit_SearchAutocomplete.csv
 52c6620c867bfe2e7ecbf64fd2f13014  app/locale/it_IT/Mirasvit_SearchAutocomplete.csv
 35c48c2778ae84627d1b543a4b664431  app/etc/modules/Mirasvit_SearchAutocomplete.xml
@@ -9,10 +10,11 @@ f70e96ebe9403d18fd8a6968ae9ec208  app/design/frontend/base/default/template/mst_
 7f927d7f12ca2ec5229eb867b2310792  app/design/frontend/base/default/template/mst_searchautocomplete/autocomplete/index/magentothem/blog/post.phtml
 a0697b5a1188238220bfcd79b9aec286  app/design/frontend/base/default/template/mst_searchautocomplete/autocomplete/index/mirasvit/action/action.phtml
 a0697b5a1188238220bfcd79b9aec286  app/design/frontend/base/default/template/mst_searchautocomplete/autocomplete/index/mirasvit/kb/article.phtml
+14e65c7c9ae70f64a4115cdbf7ec940c  app/design/frontend/base/default/template/mst_searchautocomplete/autocomplete/index/mirasvit/giftr/registry.phtml
 4f0bd5b0b8c2a5f3367410b5467b7ca9  app/design/frontend/base/default/template/mst_searchautocomplete/autocomplete/index/mage/catalogsearch/query.phtml
 533f875c32a46bd7b299f8b6d48f63d5  app/design/frontend/base/default/template/mst_searchautocomplete/autocomplete/index/mage/cms/page.phtml
 a813fd49b9f9fb35d54e855bd99a6caa  app/design/frontend/base/default/template/mst_searchautocomplete/autocomplete/index/mage/cms/block.phtml
-12628dadeb1e23aed6f594e918110a9c  app/design/frontend/base/default/template/mst_searchautocomplete/autocomplete/index/mage/catalog/category.phtml
+8c0204d40ae10c851553d3b635ef4f3e  app/design/frontend/base/default/template/mst_searchautocomplete/autocomplete/index/mage/catalog/category.phtml
 36946c9b092e48389150c8e6ad595602  app/design/frontend/base/default/template/mst_searchautocomplete/autocomplete/index/mage/catalog/attribute.phtml
 117f00fc1ec1fea8a875f4532e2cc7b9  app/design/frontend/base/default/template/mst_searchautocomplete/autocomplete/index/mage/catalog/product.phtml
 062fccdf2a4c502110d743b34b35ce0a  app/design/frontend/base/default/template/mst_searchautocomplete/autocomplete/index/aw/blog/post.phtml
@@ -21,7 +23,7 @@ a813fd49b9f9fb35d54e855bd99a6caa  app/design/frontend/base/default/template/mst_
 fc50eddb55a0749e167b9a24636c8915  app/design/frontend/base/default/template/mst_searchautocomplete/widget/form.phtml
 caddd26a123bdfbde2f832c3ce593bb6  app/design/frontend/base/default/template/mst_searchautocomplete/amazon.phtml
 d5447fbae88402332199f5d20a75721f  app/code/local/Mirasvit/SearchAutocomplete/Block/Form.php
-1019259f8d68b32074c0e5ba0f8da448  app/code/local/Mirasvit/SearchAutocomplete/Block/Result.php
+4eea2fdbbe60768dc481b35acc26849b  app/code/local/Mirasvit/SearchAutocomplete/Block/Result.php
 66458187cfa92fa7cf18abf4138b4e71  app/code/local/Mirasvit/SearchAutocomplete/Block/Widget/Form.php
 91bb3caaeb424c3fe2617ea670b20e8e  app/code/local/Mirasvit/SearchAutocomplete/Block/Layout.php
 d6c7901a88b1818b3adf8b786cb57ae7  app/code/local/Mirasvit/SearchAutocomplete/Model/Config.php
@@ -36,13 +38,13 @@ d4bed288249b7285ca6c551b58e8ef8e  app/code/local/Mirasvit/SearchAutocomplete/Mod
 d0ba7212466086344e9be764583ffe20  app/code/local/Mirasvit/SearchAutocomplete/etc/config.xml
 91db944910f4469bce0e5c1ace31f7c1  app/code/local/Mirasvit/SearchAutocomplete/etc/widget.xml
 07e23f30c9ef2b0c7610c2ed27245703  app/code/local/Mirasvit/SearchAutocomplete/etc/system.xml
-e19b9e05334b3e96036b8742d717d00f  app/code/local/Mirasvit/SearchAutocomplete/controllers/AjaxController.php
+93b83609cec9c320f750dc3dc2fc3027  app/code/local/Mirasvit/SearchAutocomplete/controllers/AjaxController.php
 49455759673eb89aaf9d9205a3931ac8  app/code/local/Mirasvit/SearchAutocomplete/Helper/Config.php
-dcdcf2c6d360bad0fbd5e6fa3779bea9  app/code/local/Mirasvit/SearchAutocomplete/Helper/Validator.php
+558b065207f5f8f3c9169ae0a1741eb3  app/code/local/Mirasvit/SearchAutocomplete/Helper/Validator.php
 f56292e6b6c7b6691c7a20a3a4b15285  app/code/local/Mirasvit/SearchAutocomplete/Helper/Data.php
 07f0d0e0a37e290671e46d062ca991d4  app/code/local/Mirasvit/SearchAutocomplete/Helper/Help.php
 55c7e7cac650c641212495a633496e5f  js/mirasvit/code/searchautocomplete/form.js
-adb8b070f3c67bf0c23adc8e1fd4ee71  js/mirasvit/code/searchautocomplete/autocomplete.js
+a0f10d82645ba010dc76e7a04a11b705  js/mirasvit/code/searchautocomplete/autocomplete.js
 348281b8575f488bd33ede33f2d55d07  shell/searchautocomplete.php
 619494c2607879d79118f7b088d02bd2  skin/frontend/base/default/images/mirasvit/sprite.png
 c32570b1b7fedc711c15a75f1a392ee9  skin/frontend/base/default/css/mirasvit/searchautocomplete/rwd.less

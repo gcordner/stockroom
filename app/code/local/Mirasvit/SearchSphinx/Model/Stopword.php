@@ -9,15 +9,15 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
 
 /**
- * Модель для работы со стоп-словами.
+ * Stop-words  model.
  *
  * @category Mirasvit
  */
@@ -29,12 +29,12 @@ class Mirasvit_SearchSphinx_Model_Stopword extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Импорт стоп-слов.
+     * Stop-words import.
      *
-     * @param string $filePath полный путь к файлу (csv)
+     * @param string $filePath Full path to file (csv)
      * @param array  $stores
      *
-     * @return int кол-во импортированых стоп-слов
+     * @return int Qty of imported stop-words
      */
     public function import($filePath, $stores)
     {

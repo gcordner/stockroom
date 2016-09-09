@@ -9,17 +9,16 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
 
 /**
- * Класс реализует методы для работы со сфинксом на томже сервере что и magento
- * Дополняет базовый класс Mirasvit_SearchSphinx_Model_Engine_Sphinx методами управления индексом и демоном
- * reindex/delta reindex/stop/start.
+ * Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native implement methods to work with Sphinx engine on the same server as Magento
+ * Extends the base cless Mirasvit_SearchSphinx_Model_Engine_Sphinx with methods to manage index and Sphinx daemon e.g. reindex/delta reindex/stop/start.
  *
  * @category Mirasvit
  */
@@ -33,14 +32,14 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
     protected $_searchdCommand = null;
 
     /**
-     * Устанавливаем переменный свойственные для локально сфинкса.
+     * set variables for local Spinx engine.
      */
     public function __construct()
     {
         parent::__construct();
 
         $binPath = Mage::getStoreConfig('searchsphinx/general/bin_path');
-        // если в пути есть searchd, убераем его
+        // if path contains "searchd" - remove it
         if (substr($binPath, strlen($binPath) - strlen(self::SEARCHD)) == self::SEARCHD) {
             $binPath = substr($binPath, 0, strlen($binPath) - strlen(self::SEARCHD));
         }
@@ -60,9 +59,9 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
     }
 
     /**
-     * Переиндексация - отправка http запроса.
+     * Reindex - http request.
      *
-     * @param bool $delta выполнить делта-реиндекс
+     * @param bool $delta perform delta-reindex
      *
      * @return string
      */
@@ -72,7 +71,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
     }
 
     /**
-     * Запуск демона - отправка http запроса.
+     * Sphinx daemon start - http request.
      */
     public function start()
     {
@@ -86,7 +85,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
     }
 
     /**
-     * Остановка демона - отправка http запроса.
+     * Sphinx daemon stop - http request.
      */
     public function stop()
     {
@@ -100,7 +99,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
     }
 
     /**
-     * Рестарт демона - отправка 2х http запросов (стоп, старт).
+     * Sphinx daemon restart - sending 2 http requests (stop, start).
      */
     public function restart()
     {
@@ -111,9 +110,9 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
     }
 
     /**
-     * Выполняет реиндекс всех активных индексов.
+     * Perform reindex of all active indexes.
      *
-     * @param bool $delta выполнить делта-реиндекс
+     * @param bool $delta perform delta-reindex
      *
      * @return string
      */
@@ -155,7 +154,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
     }
 
     /**
-     * Выполняет запуск демона.
+     * Run Sphinx daemon.
      */
     public function doStart()
     {
@@ -179,23 +178,26 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
     }
 
     /**
-     * Выполняет остановку демона.
+     * Stop Sphinx daemon.
      */
     public function doStop()
     {
-        $find = 'ps aux | grep searchd | grep '.$this->_configFilepath.'  | awk \'{print $2}\'';
+        $find = 'ps aux | grep searchd | grep '.$this->_configFilepath.' | grep -v \'grep\' | awk \'{print $2}\'';
         $exec = $this->_exec($find);
 
-        foreach (explode(PHP_EOL, $exec['data']) as $id) {
-            $command = 'kill -9 '.$id;
-            $this->_exec($command);
+        if ($exec['data']) {
+            $command = $this->_searchdCommand.' --config '.$this->_configFilepath.' --stop';
+            $exec = $this->_exec($command);
+            if ($exec['status'] !== 0) {
+                Mage::throwException('Error when stopping searchd '.$exec['data']);
+            }
         }
 
         return $this;
     }
 
     /**
-     * Проверяет запущен-ли реиндекс.
+     * Check if reindex is running.
      *
      * @return bool
      */
@@ -218,7 +220,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
     }
 
     /**
-     * Проверяет запущен-ли демон.
+     * Check if Spinx daemon is running.
      *
      * @return bool
      */
@@ -239,7 +241,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
     }
 
     /**
-     * Проверят найден-ли на сервер сфинкс (searchd).
+     * Check if Sphinx engine exists (searchd).
      *
      * @return bool
      */
@@ -255,8 +257,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
     }
 
     /**
-     * Запускает объеденение основного индекса с делта-индексом
-     * для всех активных индексов.
+     * Run merge of regular index with delta-index for all active indexes.
      */
     public function mergeDeltaWithMain()
     {
@@ -269,10 +270,10 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
     }
 
     /**
-     * Выполнение php комманды exec() с проверкой на существование функции
-     * На некоторых серверах функция находиться в игнор-листе. В этом случае ее надо включить через php.ini.
+     * Run php command exec() with check if function exist
+     * Some servers ignore this function. To enable you have to uncomment it in php.ini.
      *
-     * @param string $command коммандра
+     * @param string $command command e.g. (start/stop/reindex)
      *
      * @return array
      */
@@ -294,10 +295,10 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
     }
 
     /**
-     * Отправляет http запрос на контролеер расширения
-     * Таким образом все действия со сфинксом выполняються от apache пользователя.
+     * Send http request to extension`s controller.
+     * So all actions with Sphinx engine performs via apache user.
      *
-     * @param string $command комманда (старт\стоп\реиндекс)
+     * @param string $command command e.g. (start/stop/reindex)
      *
      * @return string
      */
@@ -308,7 +309,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx_Native extends Mirasvit_SearchSp
 
         Mage::register('custom_entry_point', true, true);
 
-        $store = Mage::app()->getStore(0);
+        $store = Mage::app()->getWebsite(true)->getDefaultGroup()->getDefaultStore();
         $url = $store->getUrl('searchsphinx/action/'.$command, array('_query' => array('rand' => microtime(true))));
         $result = $httpClient->setUri($url)->request()->getBody();
 

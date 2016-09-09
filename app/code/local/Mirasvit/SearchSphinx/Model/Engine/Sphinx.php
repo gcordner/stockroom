@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -21,10 +21,10 @@ if (!@class_exists('SphinxClient')) {
 }
 
 /**
- * Класс реализует методы для:
- *     отправка запросов на поиск
- *     сборка файла конфигурации
- * Базавый класс для работы в режиме Search Sphinx (on another server).
+ * This class implmenets methods for:
+ *     sends requests for searching
+ *     configuration files assembly
+ * Base class for searching in mode Search Sphinx (on another server).
  *
  * @category Mirasvit
  */
@@ -57,34 +57,28 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx extends Mirasvit_SearchIndex_Mod
     }
 
     /**
-     * Обвертка для функции _query.
+     * Wrap for method $this->_query.
      *
-     * @param string $queryText поисковый запрос (в оригинальном виде)
-     * @param int    $store     ИД текущего магазина
-     * @param object $index     индекс по которому нужно провести поиск
+     * @param string $queryText search query (in its original form)
+     * @param int    $store     curent store ID
+     * @param object $index     current search index
      *
-     * @return array масив ИД елементов, где ИД - ключ, релевантность значение
+     * @return array - array of found products IDs: array(product_id => product_relevance)
      */
     public function query($queryText, $store, $index)
     {
-        if ($store) {
-            $store = array($store);
-        }
-
         return $this->_query($queryText, $store, $index);
     }
 
     /**
-     * Отправляет подготовленный запрос на сфинкс, и преобразует ответ в нужный вид.
+     * Sends prepared request to Sphinx and forms the response.
      *
-     * @param string $query      поисковый запрос (в оригинальном виде)
-     * @param int    $storeId    ИД текущего магазина
-     * @param string $indexCode  Код индекса  по которому нужно провести поиск (mage_catalog_product ...)
-     * @param string $primaryKey Primary Key индекса (entity_id, category_id, post_id ...)
-     * @param array  $attributes Масив атрибутов с весами
-     * @param int    $offset     Страница
+     * @param string $query   search query (in its original form)
+     * @param int    $storeId curent store ID
+     * @param object $index   current search index
+     * @param int    $offset  page
      *
-     * @return array масив ИД елементов, где ИД - ключ, релевантность значение
+     * @return array - array of found products IDs: array(product_id => product_relevance)
      */
     protected function _query($query, $storeId, $index, $offset = 1)
     {
@@ -103,7 +97,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx extends Mirasvit_SearchIndex_Mod
         $client->SetFieldWeights($attributes);
 
         if ($storeId) {
-            $client->SetFilter('store_id', $storeId);
+            $client->SetFilter('store_id', array($storeId));
         }
 
         $sphinxQuery = $this->_buildQuery($query, $storeId);
@@ -150,16 +144,22 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx extends Mirasvit_SearchIndex_Mod
             }
         }
 
+        if (isset($_GET['debug'])) {
+            Mage::helper('searchsphinx/debug')->searchDebug($entityIds, $entityIdsWeights, $sphinxQuery);
+        }
+
         Mage::helper('mstcore/debug')->end($uid, $entityIds);
+
+        $entityIds = $this->_filterByMinRelevance($entityIds);
 
         return $entityIds;
     }
 
     /**
-     * Строит запрос к сфинксу
-     * Запрос состоит из секций (..) & (..) & ..
+     * Builds query to Sphinx
+     * Request consists of sections (..) & (..) & ..
      *
-     * @param string $query   пользовательский запрос
+     * @param string $query   user query
      * @param int    $storeId
      *
      * @return string
@@ -198,21 +198,24 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx extends Mirasvit_SearchIndex_Mod
     }
 
     /**
-     * Строит секции запроса.
+     * Builds request sections.
      *
-     * @param string $type  тип секции AND/OR
-     * @param array  $array слова для секции
+     * @param string $type  section type AND/OR
+     * @param array  $array words for section
      *
      * @return string
      */
     protected function _buildWhere($type, $array)
     {
         if (!is_array($array)) {
-            if (substr($array, 0, 1) == ' ') {
-                return '('.$this->escapeSphinxQL($array).')';
-            } else {
-                return '("*'.$this->escapeSphinxQL($array).'*")';
+            $query = '("*'.$this->escapeSphinxQL($array).'*")';
+            // When wildcard search is enabled, Sphinx does not use the "morphology search".
+            // Thus we also add a search keyword without wildcard character.
+            if (Mage::getSingleton('searchsphinx/config')->getWildcardMode() !== Mirasvit_SearchSphinx_Model_Config::WILDCARD_DISABLED) {
+                $query .= ' | ('.trim($this->escapeSphinxQL($array)).')';
             }
+
+            return $query;
         }
 
         foreach ($array as $key => $subarray) {
@@ -243,11 +246,11 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx extends Mirasvit_SearchIndex_Mod
     }
 
     /**
-     * Собирает и сохраняет конфиг файл для работы сфинкса (sphinx.conf)
-     * Файл сохраняеться в ../var/sphinx/sphinx.conf
-     * Шаблон конфига находиться в расширении etc/config/sphinx.conf.
+     * Assembles and saves the config file for interacting with Sphinx (sphinx.conf)
+     * Path to config file magento_root/var/sphinx/sphinx.conf
+     * Config template located in the extension etc/config/sphinx.conf.
      *
-     * @return string полный путь к файлу
+     * @return string - full path to config file
      */
     public function makeConfigFile()
     {
@@ -290,15 +293,15 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx extends Mirasvit_SearchIndex_Mod
     }
 
     /**
-     * Собирает секцию для конфиг файла
-     * Каждый индекс имеет свою секцию
-     * Секция состоит source (откуда-что брать) и index (куда это писать и как его индексировать)
-     * Шаблон секции находиться в расширении etc/config/section.conf.
+     * Assembles a section to config file
+     * Each index has its own section
+     * Section consists of source (source of info) and index (where it is to write and how to index)
+     * Section template located in the extension etc/config/section.conf.
      *
-     * @param string $name    название (код индекса)
-     * @param object $indexer Индексатор! индекса
+     * @param string $name    index code
+     * @param object $indexer index indexer
      *
-     * @return string готовая секция
+     * @return string - prepared section
      */
     protected function _getSectionConfig($name, $indexer)
     {
@@ -339,7 +342,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx extends Mirasvit_SearchIndex_Mod
     }
 
     /**
-     * Возвращает начальный sql запрос (установить статус в updated = 0).
+     * Returns base sql query (set status to updated = 0).
      *
      * @param object $indexer
      *
@@ -355,7 +358,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx extends Mirasvit_SearchIndex_Mod
     }
 
     /**
-     * Возвращает sql запрос, выполняя который сфинкс получает все! индексируемые данные.
+     * Returns sql query, which is used by Sphinx to retrieve all the indexed data.
      *
      * @param object $indexer
      *
@@ -371,7 +374,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Sphinx extends Mirasvit_SearchIndex_Mod
     }
 
     /**
-     * Возвращает sql запрос, на выборку всех елементов для делта-реиндекса (обновленных элементов).
+     * Returns sql query for retrieving all the elements for delta-reindex (for updated elements).
      *
      * @param object $indexer
      *

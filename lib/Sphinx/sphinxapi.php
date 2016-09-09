@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -212,7 +212,7 @@ class SphinxClient
     /////////////////////////////////////////////////////////////////////////////
 
     /// create a new client object and fill defaults
-    public function SphinxClient()
+    public function __construct()
     {
         // per-client-object settings
         $this->_host = 'localhost';
@@ -787,7 +787,7 @@ class SphinxClient
         $max = strlen($response); // max position for checks, to protect against broken responses
 
         $results = array();
-        for ($ires = 0; $ires < $nreqs && $p < $max; $ires++) {
+        for ($ires = 0; $ires < $nreqs && $p < $max; ++$ires) {
             $results[] = array();
             $result = &$results[$ires];
 
@@ -849,7 +849,7 @@ class SphinxClient
             $idx = -1;
             while ($count-- > 0 && $p < $max) {
                 // index into result array
-                $idx++;
+                ++$idx;
 
                 // parse document id and weight
                 if ($id64) {
@@ -1051,7 +1051,7 @@ class SphinxClient
         $pos = 0;
         $res = array();
         $rlen = strlen($response);
-        for ($i = 0; $i < count($docs); $i++) {
+        for ($i = 0; $i < count($docs); ++$i) {
             list(, $len) = unpack('N*', substr($response, $pos, 4));
             $pos += 4;
 
@@ -1122,7 +1122,7 @@ class SphinxClient
         $rlen = strlen($response);
         list(, $nwords) = unpack('N*', substr($response, $pos, 4));
         $pos += 4;
-        for ($i = 0; $i < $nwords; $i++) {
+        for ($i = 0; $i < $nwords; ++$i) {
             list(, $len) = unpack('N*', substr($response, $pos, 4));
             $pos += 4;
             $tokenized = $len ? substr($response, $pos, $len) : '';

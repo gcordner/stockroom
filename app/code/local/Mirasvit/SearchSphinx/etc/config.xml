@@ -137,6 +137,7 @@
             <advanced>
                 <match_mode>and</match_mode>
                 <result_limit>0</result_limit>
+                <min_relevance>0</min_relevance>
                 <wildcard>1</wildcard>
                 <quorum>90</quorum>
             </advanced>

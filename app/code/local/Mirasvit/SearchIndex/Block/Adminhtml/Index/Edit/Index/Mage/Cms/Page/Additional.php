@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -31,6 +31,7 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Index_Edit_Index_Mage_Cms_Page_Additi
             'value' => $model->getProperty('ignore'),
             'values' => Mage::getSingleton('adminhtml/system_config_source_cms_page')->toOptionArray(),
             'note' => Mage::helper('searchindex/help')->field('ignore'),
+            'after_element_html' => '[GLOBAL]',
         ));
 
         return parent::toHtml();

@@ -9,8 +9,8 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
@@ -45,16 +45,16 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Bl
         $this->addColumn('query_text', array(
             'header' => Mage::helper('searchindex')->__('Search Query'),
             'index' => 'query_text',
-            'width' => '100px',
-            'renderer' => 'Mirasvit_SearchIndex_Block_Adminhtml_Report_Renderer',
+            'width' => '200',
+            'frame_callback' => array($this, 'formQueryText'),
             'sortable' => true,
-            'column_css_class' => 'a-center',
         ));
 
         $this->addColumn('popularity', array(
             'header' => Mage::helper('searchindex')->__('Popularity'),
             'index' => 'popularity',
-            'width' => '30px',
+            'width' => '50',
+            'sortable' => true,
             'type' => 'range',
             'column_css_class' => 'a-center',
         ));
@@ -62,35 +62,61 @@ class Mirasvit_SearchIndex_Block_Adminhtml_Report_Grid extends Mage_Adminhtml_Bl
         $this->addColumn('num_results', array(
             'header' => Mage::helper('searchindex')->__('Number of results'),
             'index' => 'num_results',
-            'width' => '30px',
+            'width' => '50',
             'type' => 'range',
             'column_css_class' => 'a-center',
-            'frame_callback' => array(new Mirasvit_SearchIndex_Block_Adminhtml_Report_Renderer(), 'getResultsCount'),
         ));
 
         $this->addColumn('action', array(
-            'header' => Mage::helper('searchindex')->__('View search results'),
-            'width' => '15px',
+            'header' => Mage::helper('searchindex')->__('View search results (frontend)'),
+            'width' => '50',
             'sortable' => false,
             'filter' => false,
             'type' => 'action',
             'align' => 'center',
             'header_css_class' => 'a-center',
-            'frame_callback' => array(new Mirasvit_SearchIndex_Block_Adminhtml_Report_Renderer(), 'getSearchResultsUrl'),
+            'frame_callback' => array($this, 'getSearchResultsUrl'),
         ));
 
-        $this->addColumn('product_name', array(
-            'header' => Mage::helper('searchindex')->__('First '.$this->getProductCollectionLimit().' products'),
-            'filter' => false,
+        $this->addColumn('view', array(
+            'header' => Mage::helper('searchindex')->__('Details'),
+            'width' => '50',
             'sortable' => false,
-            'frame_callback' => array(new Mirasvit_SearchIndex_Block_Adminhtml_Report_Renderer(), 'getSearchResultsGrid'),
+            'filter' => false,
+            'type' => 'action',
+            'getter' => 'getId',
+            'align' => 'center',
+            'header_css_class' => 'a-center',
+            'actions' => array(
+                array(
+                    'url' => array('base' => 'adminhtml/searchindex_report/view/'),
+                    'caption' => $this->helper('searchindex')->__('View'),
+                    'field' => 'id',
+                ),
+            ),
         ));
 
         return parent::_prepareColumns();
     }
 
-    private function getProductCollectionLimit()
+    public function formQueryText($value, $row, $column, $isExport)
     {
-        return Mage::getStoreConfig('catalog/frontend/grid_per_page');
+        return '<b>'.strip_tags($value).'</b>';
+    }
+
+    public function getSearchResultsUrl($value, $row, $column, $isExport)
+    {
+        $url = Mage::app()->getStore($row->getStoreId())->getUrl('catalogsearch/result', array(
+                '_query' => array('q' => $row->getQueryText()),
+            )
+        );
+        $value = '<a href="'.$url.'" target="_blank">View</a>';
+
+        return $value;
+    }
+
+    public function getRowUrl($row)
+    {
+        return $this->getUrl('*/*/view', array('id' => $row->getId()));
     }
 }

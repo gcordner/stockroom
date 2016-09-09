@@ -9,28 +9,28 @@
  *
  * @category  Mirasvit
  * @package   Sphinx Search Ultimate
- * @version   2.3.3.1
- * @build     1299
+ * @version   2.3.4
+ * @build     1356
  * @copyright Copyright (C) 2016 Mirasvit (http://mirasvit.com/)
  */
 
 
 
 /**
- * Класс реализует методы для поиска по готовым mysql таблицам поисковых индексов.
+ * Class realize methods to search in prepared search_index MySQL tables.
  *
  * @category Mirasvit
  */
 class Mirasvit_SearchSphinx_Model_Engine_Fulltext extends Mirasvit_SearchIndex_Model_Engine
 {
     /**
-     * Подготавливает запрос, выполняте запрос, возращает подготовлынные результаты.
+     * Prepare and excute query, return prepared results.
      *
-     * @param string $queryText поисковый запрос (в оригинальном виде)
-     * @param int    $store     ИД текущего магазина
-     * @param object $index     индекс по которому нужно провести поиск
+     * @param string $queryText search term (original)
+     * @param int    $store     current store ID
+     * @param object $index     search index
      *
-     * @return array масив ИД елементов, где ИД - ключ, релевантность значение
+     * @return array results array [id]=>[relevance]
      */
     public function query($query, $store, $index)
     {
@@ -61,7 +61,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Fulltext extends Mirasvit_SearchIndex_M
             $select->where($whereCondition);
         }
 
-        $select->columns(array('relevance' => $caseCondition));
+        $select->columns(array('relevance' => new Zend_Db_Expr($caseCondition)));
         $select->columns('searchindex_weight');
 
         $select->limit(Mage::getSingleton('searchsphinx/config')->getResultLimit());
@@ -87,16 +87,18 @@ class Mirasvit_SearchSphinx_Model_Engine_Fulltext extends Mirasvit_SearchIndex_M
             Mage::helper('searchsphinx/debug')->searchDebug($result, $weight, $select);
         }
 
+        $result = $this->_filterByMinRelevance($result);
+
         return $result;
     }
 
     /**
-     * Строит sql CASE WHEN .. THEN .. ELSE .. END для секции SELECT
-     * т.е. на основаниие весов атрибутов строит части запроса для вычесления релевантности.
+     * Build sql CASE WHEN .. THEN .. ELSE .. END for SELECT section
+     * (Build all query parts to calculate relevance according to attribute`s weights).
      *
-     * @param string $query      оригинальный запрос
-     * @param array  $arQuery    подготовленный запрос
-     * @param array  $attributes атрибуты с весом
+     * @param string $query      search term (original)
+     * @param array  $arQuery    prepared query
+     * @param array  $attributes array [attributes]=>[weights]
      *
      * @return string
      */
@@ -161,11 +163,11 @@ class Mirasvit_SearchSphinx_Model_Engine_Fulltext extends Mirasvit_SearchIndex_M
     }
 
     /**
-     * Возвращает sql WHERE условие - это и есть поиск
-     * WHERE состоит из секций - 1 слово - 1 секция.
+     * Return sql WHERE condition
+     * WHERE consists of sections: 1 word - 1 section.
      *
-     * @param array $arWords    подготовленный запрос
-     * @param array $attributes атрибуты с весами
+     * @param array $arWords    prepared query
+     * @param array $attributes array [attributes]=>[weights]
      *
      * @return string
      */
@@ -186,10 +188,10 @@ class Mirasvit_SearchSphinx_Model_Engine_Fulltext extends Mirasvit_SearchIndex_M
     }
 
     /**
-     * Строит секцию для слова/слов.
+     * Build section for word/words.
      *
-     * @param string $type  логика И/ИЛИ
-     * @param array  $array слова
+     * @param string $type  section type (AND/OR)
+     * @param array  $array words
      *
      * @return array
      */
@@ -224,9 +226,9 @@ class Mirasvit_SearchSphinx_Model_Engine_Fulltext extends Mirasvit_SearchIndex_M
     }
 
     /**
-     * Возвращает объедененый масив атрибутов и колонок в таблице текущего индекса.
+     * Return merged array of attributes and current index table fields.
      *
-     * @param object $index объект индекса
+     * @param object $index index object
      *
      * @return array
      */
@@ -256,7 +258,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Fulltext extends Mirasvit_SearchIndex_M
     }
 
     /**
-     * Функция есть только в magento 1.6+, дублируем.
+     * Method exists only in Magento 1.6+, duplicate.
      */
     public function getCILike($field, $value, $options = array(), $type = 'LIKE')
     {
@@ -266,7 +268,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Fulltext extends Mirasvit_SearchIndex_M
     }
 
     /**
-     * Функция есть только в magento 1.6+, дублируем.
+     * Method exists only in Magento 1.6+, duplicate.
      */
     public function escapeLikeValue($value, $options = array())
     {
@@ -300,7 +302,7 @@ class Mirasvit_SearchSphinx_Model_Engine_Fulltext extends Mirasvit_SearchIndex_M
     }
 
     /**
-     * Возращает масив колонок для таблицы БД.
+     * Return columns array for DB table (tmp table *.e).
      *
      * @param string $tableName
      *
