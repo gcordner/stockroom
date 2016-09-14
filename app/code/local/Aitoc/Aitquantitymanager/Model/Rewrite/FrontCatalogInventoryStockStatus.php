@@ -141,7 +141,7 @@ class Aitoc_Aitquantitymanager_Model_Rewrite_FrontCatalogInventoryStockStatus ex
             }
             $childrenWebsites = Mage::getSingleton('catalog/product_website')
                 ->getWebsites($childrenIds);
-                
+                Mage::log($requiredChildrenIds, null, "1.log");
 // start ait
 
 if ($childrenWebsites)
@@ -153,15 +153,13 @@ if ($childrenWebsites)
 }
 // fin ait
                 
-                
             foreach ($websites as $websiteId => $storeId) {
+             
                 $childrenStatus = $this->getProductStatusModel()
                     ->getProductStatus($childrenIds, $storeId);
                 $childrenStock  = $this->getProductStatus($childrenIds, $websiteId, $stockId);
-
                 $websiteStatus = $statuses[$websiteId];
                 foreach ($requiredChildrenIds as $groupedChildrenIds) {
-                    $optionStatus = false;
                     foreach ($groupedChildrenIds as $childId) {
                         if (isset($childrenStatus[$childId])
                             and isset($childrenWebsites[$childId])
@@ -176,12 +174,11 @@ if ($childrenWebsites)
                     
                     $websiteStatus = $websiteStatus && $optionStatus;
                 }
-                $statuses[$websiteId] = (int)$websiteStatus;
+              //  $statuses[$websiteId] = (int)$websiteStatus;
+                $statuses[$websiteId] = 1;
             }
         }
-        
         foreach ($statuses as $websiteId => $websiteStatus) {
-            
             $this->saveProductStatus($productId, $websiteStatus, $qty, $stockId, $websiteId);
         }
         

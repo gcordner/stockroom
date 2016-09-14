@@ -89,7 +89,6 @@ if (version_compare( Mage::getVersion(), '1.4.0.0', 'ge') && version_compare( Ma
     
             $stockStatusExpr = new Zend_Db_Expr("LEAST(MAX(IF({$psCond} AND le.required_options = 0, i.stock_status, 0))"
                 . ", {$statusExpr})");
-    
             $select->columns(array(
                 'status' => $stockStatusExpr
             ));
@@ -97,7 +96,6 @@ if (version_compare( Mage::getVersion(), '1.4.0.0', 'ge') && version_compare( Ma
             if (!is_null($entityIds)) {
                 $select->where('e.entity_id IN(?)', $entityIds);
             }
-    
             return $select;
         }
     }
@@ -133,7 +131,8 @@ elseif (version_compare(Mage::getVersion(), '1.4.1.0', 'ge'))
     //                array('cisi' => $this->getTable('cataloginventory/stock_item')),
                     array('cisi' => $this->getTable('aitquantitymanager/stock_item')),
     //                'cisi.stock_id = cis.stock_id AND cisi.product_id = e.entity_id',
-                    'cisi.stock_id = cis.stock_id AND cisi.product_id = e.entity_id AND cisi.product_id = e.entity_id AND cisi.website_id = pw.website_id', // aitoc code
+    //                'cisi.stock_id = cis.stock_id AND cisi.product_id = e.entity_id AND cisi.product_id = e.entity_id AND cisi.website_id = pw.website_id', // aitoc code
+                    'cisi.stock_id = cis.stock_id AND cisi.product_id = e.entity_id AND cisi.product_id = e.entity_id', // aitoc code
                     array())
                 ->joinLeft(
                     array('l' => $this->getTable('catalog/product_super_link')),
@@ -163,18 +162,17 @@ elseif (version_compare(Mage::getVersion(), '1.4.1.0', 'ge'))
                 $statusExpr = new Zend_Db_Expr('IF(cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 1,'
                     . 'cisi.is_in_stock, 1)');
             }
-
+/*
             $stockStatusExpr = new Zend_Db_Expr("LEAST(MAX(IF({$psCond} AND le.required_options = 0, i.stock_status, 0))"
                 . ", {$statusExpr})");
-
+            */
+            $stockStatusExpr = $statusExpr;
             $select->columns(array(
                 'status' => $stockStatusExpr
             ));
-
             if (!is_null($entityIds)) {
                 $select->where('e.entity_id IN(?)', $entityIds);
             }
-
             return $select;
         }
     }

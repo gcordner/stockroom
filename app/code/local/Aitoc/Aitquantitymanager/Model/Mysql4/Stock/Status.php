@@ -155,7 +155,6 @@ if (version_compare( Mage::getVersion(), '1.4.0.0', 'ge') && version_compare( Ma
         public function saveProductStatus(Mage_CatalogInventory_Model_Stock_Status $object, $productId, $status, $qty = 0, $stockId = 1, $websiteId = null)
         {
             $websites = array_keys($object->getWebsites($websiteId));
-
             foreach ($websites as $websiteId) {
                 $select = $this->_getWriteAdapter()->select()
                     ->from($this->getMainTable())
