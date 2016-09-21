@@ -71,8 +71,8 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
                         <?php for ($_i = 2, $_n = $this->helper('customer/address')->getStreetLines(); $_i <= $_n; $_i++): ?>
                         
                             <div class="<?php echo $class_name_col; ?>">
-                                <label for="account:street1" class="required"><?php echo $this->__('Street Address') ?><em>*</em></label>
-                                <input type="text" title="<?php echo $this->__('Street Address %s', $_i) ?>" name="account[street][]" id="account:street<?php echo $_i ?>" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet($_i)) ?>" class="input-text required-entry form-control" />
+                                <label for="account:street1" class="required"><?php echo $this->__('Address 2') ?></label>
+                                <input type="text" title="<?php echo $this->__('Street Address %s', $_i) ?>" name="account[street][]" id="account:street<?php echo $_i ?>" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet($_i)) ?>" class="input-text form-control" />
                             </div>
                             
                         </div>

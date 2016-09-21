@@ -85,11 +85,14 @@ class Magestore_Affiliatepluspayment_Model_Observer extends Varien_Object {
             $customerId = Mage::getModel('affiliateplus/account')->load($data['account_id'])->getCustomerId();
             $addresses = Mage::getModel('customer/customer')->load($customerId)->getAddresses();
             $options = array();
-            foreach ($addresses as $address)
-                $options[] = array(
-                    'value' => $address->getId(),
-                    'label' => $address->format('oneline')
-                );
+            $defaulAddress = Mage::getModel('customer/customer')->load($customerId)->getDefaultBilling();
+            foreach ($addresses as $address){
+                if($address->getId() == $defaulAddress)
+                    $options[] = array(
+                        'value' => $address->getId(),
+                        'label' => $address->format('oneline')
+                    );
+            } 
             $fieldset->addField('offline_address_id', 'select', array(
                 'label' => Mage::helper('affiliatepluspayment')->__('Address'),
                 'name' => 'offline_address_id',

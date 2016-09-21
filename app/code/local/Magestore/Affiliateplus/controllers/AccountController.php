@@ -78,6 +78,7 @@ class Magestore_Affiliateplus_AccountController extends Mage_Core_Controller_Fro
         $errors = array();
         if (isset($data['account_address_id']) && $data['account_address_id']) {
             $address = Mage::getModel('customer/address')->load($data['account_address_id']);
+            $customer->setDefaultBilling($data['account_address_id'])->save();
         } else {
             $address_data = $this->getRequest()->getPost('account');
             $address = Mage::getModel('customer/address')
@@ -123,6 +124,7 @@ class Magestore_Affiliateplus_AccountController extends Mage_Core_Controller_Fro
                 $customer->save();
                 if (!$address->getId())
                     $address->save();
+                $customer->setDefaultBilling($address->getId())->save();
             }else {
                 foreach ($errors as $error)
                     $coreSession->addError($error);
