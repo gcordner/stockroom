@@ -533,7 +533,7 @@ class Magestore_Affiliateplus_AccountController extends Mage_Core_Controller_Fro
                 $error = false;
             }
             if (!$error) {
-                $html = "<div class='success-msg'>".$this->__('You are referring by %s', $affiliate->getName())."</div>";
+                $html = "<div class='success-msg'>".$this->__('You are referred by %s', $email_address)."</div>";
                 $html .= '<input type="hidden" id="is_valid_referredemail" value="1"/>';
                 
                 
