@@ -130,7 +130,7 @@ class Magestore_Affiliateplus_Model_Payment extends Mage_Core_Model_Abstract {
         }
         // send email for completed payment
         if ($this->getOrigData('status') < 3 && $this->getStatus() == 3 && !$this->getData('is_created_by_recurring')) {
-            $this->sendMailProcessPaymentToAccount();
+            //$this->sendMailProcessPaymentToAccount();
         }
         return parent::_beforeSave();
     }
