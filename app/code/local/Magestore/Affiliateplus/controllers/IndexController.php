@@ -437,7 +437,7 @@ class Magestore_Affiliateplus_IndexController extends Mage_Core_Controller_Front
         if ($this->_getAccountHelper()->accountNotLogin())
             return $this->_redirect('affiliateplus/account/login');
         $this->loadLayout();
-        $this->getLayout()->getBlock('head')->setTitle($this->__('Traffics'));
+        $this->getLayout()->getBlock('head')->setTitle($this->__('Traffic'));
         $this->renderLayout();
     }
 
