@@ -69,7 +69,7 @@ class Magestore_Affiliateplus_Block_Sales_Standard extends Mage_Core_Block_Templ
         ));
 
         $grid->addColumn('total_amount', array(
-            'header' => $this->__('Total Amount'),
+            'header' => $this->__('Total Amount *'),
             'align' => 'left',
             'type' => 'baseprice',
             'index' => 'total_amount',
