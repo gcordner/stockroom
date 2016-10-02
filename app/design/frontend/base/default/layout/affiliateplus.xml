@@ -103,6 +103,13 @@
                     <order>120</order>
                 </action>
                 <action method="addLink" translate="label" module="affiliateplus">
+                    <name>referrers</name>
+                    <path>affiliateplus/index/referrers</path>
+                    <label>Traffics</label>
+                    <disabled helper="affiliateplus/account/accountNotLogin" />
+                    <order>180</order>
+                </action>
+                <action method="addLink" translate="label" module="affiliateplus">
                     <name>edit</name>
                     <path>affiliateplus/account/edit</path>
                     <label>Settings</label>
@@ -183,15 +190,13 @@
                     <disabled helper="affiliateplus/account/hideWithdrawalMenu" />
                     <order>120</order>
                 </action>
-                <!--
-		<action method="addLink" translate="label" module="affiliateplus">
+                <action method="addLink" translate="label" module="affiliateplus">
                     <name>referrers</name>
                     <path>affiliateplus/index/referrers</path>
-                    <label>Traffic</label>
+                    <label>Traffics</label>
                     <disabled helper="affiliateplus/account/accountNotLogin" />
                     <order>180</order>
                 </action>
-		-->
                 <action method="addLink" translate="label" module="affiliateplus">
                     <name>edit</name>
                     <path>affiliateplus/account/edit</path>
