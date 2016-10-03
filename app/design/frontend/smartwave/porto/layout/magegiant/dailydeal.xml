@@ -41,6 +41,10 @@
                 <template>page/1column.phtml</template>
             </action>
         </reference>
+    	<reference name="head">     
+            <action method="setMetaTitle"><title>Stockroom Deal of the Day</title></action>
+            <action method="setDescription"><title>Welcome to the Stockroom Daily Special! Save at least 25% on great BDSM Gear and sex toys - but act fast, these deals are in limited quantity change every day!</title></action>
+    	</reference>	
         <reference name="content">
             <block type="dailydeal/dailydeal" name="dailydeal" template="magegiant/dailydeal/dailydeal.phtml" ifconfig="dailydeal/general/enable">
                 <block type="catalog/product_list_toolbar" name="product_list_toolbar"
