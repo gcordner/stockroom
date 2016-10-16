@@ -45,7 +45,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
 
     protected $_registerCollectionTagCounter = 0;
 
-    protected $_disableCacheExistCheck =  false; // true - disable check if cache exist
+    protected $_disableCacheExistCheck =  true; // true - disable check if cache exist
 
     protected static $_addedTags =  array();
 
@@ -199,7 +199,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
             || $this->_isAdminArea
             || !$this->_isCacheableActions()
             || $this->_isCacheExist()) {
-                $this->_debugHelper->stopTimer(Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG. $this->_registerModelTagCounter);
+                $this->_debugHelper->stopTimer(Mirasvit_Fpc_Model_Config::REGISTER_MODEL_TAG. $this->_registerModelTagCounter);//
                 return $this;
         }
 
@@ -223,7 +223,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
 
         if (($this->_cacheTagsLevel == Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_FIRST
             || $this->_cacheTagsLevel == Mirasvit_Fpc_Model_Config::CACHE_TAGS_LEVEL_MINIMAL)
-            && $this->_registerModelTagCalls < 2
+            && $this->_registerModelTagCalls < 4
             && $object && $object->getId()
             && ($tags = $object->getCacheIdTags())
         ) {
@@ -308,7 +308,7 @@ class Mirasvit_Fpc_Model_Observer extends Varien_Debug
                     break;
 
                 case 'catalog/product_view':
-                    $ignoredTags = array_merge($ignoredTags, array('catalog_category'));
+//                    $ignoredTags = array_merge($ignoredTags, array('catalog_category'));
                     break;
 
                 default:
