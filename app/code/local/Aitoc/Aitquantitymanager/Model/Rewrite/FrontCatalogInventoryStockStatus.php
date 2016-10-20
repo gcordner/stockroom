@@ -141,7 +141,6 @@ class Aitoc_Aitquantitymanager_Model_Rewrite_FrontCatalogInventoryStockStatus ex
             }
             $childrenWebsites = Mage::getSingleton('catalog/product_website')
                 ->getWebsites($childrenIds);
-                Mage::log($requiredChildrenIds, null, "1.log");
 // start ait
 
 if ($childrenWebsites)
