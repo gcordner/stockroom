@@ -178,6 +178,11 @@
             <aitquantitymanager>
                 <class>Aitoc_Aitquantitymanager_Block</class>
             </aitquantitymanager>
+            <customimport>
+                <rewrite>
+                    <adminhtml_customimport>Aitoc_Aitquantitymanager_Block_Rewrite_GecCustomImport</adminhtml_customimport>
+                </rewrite>
+            </customimport>
             <adminhtml>
                 <rewrite>
                         <catalog_product_edit_tab_inventory>Aitoc_Aitquantitymanager_Block_Rewrite_AdminCatalogProductEditTabInventory</catalog_product_edit_tab_inventory>
