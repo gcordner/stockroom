@@ -120,13 +120,35 @@ class Aitoc_Aitquantitymanager_Block_Rewrite_GecCustomImport extends Gec_Customi
             Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
             $productId = $product->save()->getId();
             $this->_updated_num++;
-
+            $stockItem   = Mage::getModel('cataloginventory/stock_item')->loadByProduct($productId);
+            $inventory   = $item->inventory;
+            $manageItem  = (string) $inventory->manageStock;
+            $manageItem  = strtoupper($manageItem);
+            if ($manageItem == 'Y') { // if product item exist
+                $stockItem->setData('manage_stock', 1);
+                $stockItem->setData('is_in_stock', 1);
+                $stockItem->setData('qty', $inventory->atp);
+                if (strtoupper($inventory->allowBackorders) == 'Y') { // if back order allowed
+                        $stockItem->setData('use_config_backorders', 0);
+                            $stockItem->setData('backorders', 1);
+                }
+                if (strtoupper($inventory->allowBackorders) == 'N') { // if back order allowed
+                        $stockItem->setData('use_config_backorders', 0);
+                            $stockItem->setData('backorders', 0);
+                }
+            } else {
+                $stockItem->setData('use_config_manage_stock', 0);
+                $stockItem->setData('manage_stock', 0); // manage stock to no
+            }
+            Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+            $stockItem->save();
             foreach($product->getWebsiteIds() as $websiteId) {
-            	$stockItem   = Mage::getModel('cataloginventory/stock_item')->loadByProductWebsite($productId, $websiteId);
-            	$inventory   = $item->inventory;
-            	$manageItem  = (string) $inventory->manageStock;
-            	$manageItem  = strtoupper($manageItem);
-            	if ($manageItem == 'Y') { // if product item exist
+	    	if(in_array($websiteId, $this->website_ids)) {
+     		    $stockItem   = Mage::getModel('cataloginventory/stock_item')->loadByProductWebsite($productId, $websiteId);
+                    $inventory   = $item->inventory;
+                    $manageItem  = (string) $inventory->manageStock;
+            	    $manageItem  = strtoupper($manageItem);
+            	    if ($manageItem == 'Y') { // if product item exist
                         $stockItem->setSaveWebsiteId($websiteId);
 			$stockItem->setData('manage_stock', 1);
                 	$stockItem->setData('is_in_stock', 1);
@@ -139,14 +161,15 @@ class Aitoc_Aitquantitymanager_Block_Rewrite_GecCustomImport extends Gec_Customi
                     		$stockItem->setData('use_config_backorders', 0);
     		               	$stockItem->setData('backorders', 0);
                 	}
-            	} else {
+            	    } else {
+			$stockItem->setSaveWebsiteId($websiteId);
                 	$stockItem->setData('use_config_manage_stock', 0);
                 	$stockItem->setData('manage_stock', 0); // manage stock to no
-            	}
-            	Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
-            	$stockItem->save();
-            }
-
+                    }
+            	    Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+            	    $stockItem->save();
+	        }
+	    }
             unset($product);
         } else {
             $this->customHelper->reportError($this->customHelper->__('Skipped product due to some error while save : %s', $item->id));
