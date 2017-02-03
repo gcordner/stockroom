@@ -1669,8 +1669,6 @@ class Gec_Customimport_Block_Adminhtml_Customimport extends Gec_Customimport_Blo
             $manageItem  = strtoupper($manageItem);
             if ($manageItem == 'Y') { // if product item exist
                 $stockItem->setData('manage_stock', 1);
-                $stockItem->setData('is_in_stock', 1);
-                $stockItem->setData('qty', $inventory->atp);
                 if (strtoupper($inventory->allowBackorders) == 'Y') { // if back order allowed
                     $stockItem->setData('use_config_backorders', 0);
                     $stockItem->setData('backorders', 1);
