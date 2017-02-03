@@ -130,7 +130,7 @@ class Magestore_Affiliatepluslevel_Block_Tiers extends Mage_Core_Block_Template 
         if ($row->getLevel() - $this->getCurrentAcountLevel() > 1) {
             return $row->getName();
         }
-        return sprintf("%s (<a href='mailto:%s'>%s</a>)", $row->getName(), $row->getEmail(), $row->getEmail());
+        return sprintf("(<a href='mailto:%s'>%s</a>)", $row->getEmail(), $row->getEmail());
     }
 
     public function getCurrentAcountLevel() {

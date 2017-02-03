@@ -145,7 +145,7 @@ class Magestore_Affiliatepluslevel_Block_Tiertransactions extends Mage_Core_Bloc
         if ($row->getRealLevel() > 2) {
             return $row->getAccountName();
         }
-        return sprintf("%s <a href='mailto:%s'>%s</a>", $row->getAccountName(), $row->getAccountEmail(), $row->getAccountEmail());
+        return sprintf("<a href='mailto:%s'>%s</a>", $row->getAccountEmail(), $row->getAccountEmail());
     }
 
     public function getFrontendProductHtmls($row) {
