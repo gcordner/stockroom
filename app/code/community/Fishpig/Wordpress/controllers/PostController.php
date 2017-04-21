@@ -7,6 +7,8 @@
  */
 class Fishpig_Wordpress_PostController extends Fishpig_Wordpress_Controller_Abstract
 {
+	protected $_isPreview = null;
+	
 	/**
 	 * Used to do things en-masse
 	 * eg. include canonical URL
@@ -18,6 +20,17 @@ class Fishpig_Wordpress_PostController extends Fishpig_Wordpress_Controller_Abst
 		return $this->_initPost();
 	}
 
+	protected function _isPreview()
+	{
+		if ($this->_isPreview === null) {
+			$this->_isPreview = (int)$this->getRequest()->getParam('preview_id') > 0
+				|| $this->getRequest()->getParam('preview', false) !== false
+				|| $this->getRequest()->getActionName() === 'preview';
+		}
+		
+		return $this->_isPreview;
+	}
+	
 	/**
 	 * Display appropriate message for posted comment
 	 *
@@ -35,7 +48,18 @@ class Fishpig_Wordpress_PostController extends Fishpig_Wordpress_Controller_Abst
 			return $this->_forward('index', 'index', 'wordpress');
 		}
 
+		if ($post->getTypeInstance()->getCustomRoute()) {
+			list($module, $controller, $action) = explode('/', $post->getTypeInstance()->getCustomRoute());
+			
+			return $this->_forward($action, $controller, $module);
+		}
+
 		return $this;
+	}
+
+	public function previewAction()
+	{
+		return $this->_forward('view');
 	}
 
 	/**
@@ -50,7 +74,11 @@ class Fishpig_Wordpress_PostController extends Fishpig_Wordpress_Controller_Abst
 			'wordpress_post_view',
 			'wordpress_' . $post->getPostType() . '_view',
 		);
-		
+
+		if ($post->getPostType() == 'revision' && $post->getParentPost()) {
+			$layoutHandles[] = 'wordpress_' . $post->getParentPost()->getPostType() . '_view';
+		}
+                
 		$isHomepage = (bool)$this->getRequest()->getParam('is_homepage');
 		
 		if ($post->isHomepagePage() && !$isHomepage) {
@@ -84,7 +112,7 @@ class Fishpig_Wordpress_PostController extends Fishpig_Wordpress_Controller_Abst
 		$this->_addCustomLayoutHandles($layoutHandles);
 		$this->_initLayout();
 		$this->_title(strip_tags($post->getPostTitle()));
-		
+
 		if (($headBlock = $this->getLayout()->getBlock('head')) !== false) {
 			$headBlock->addItem(
 				'link_rel', 
@@ -152,10 +180,22 @@ class Fishpig_Wordpress_PostController extends Fishpig_Wordpress_Controller_Abst
 			$this->addCrumb('post', array('label' => $post->getPostTitle()));
 		}
 		
-		if (strpos($post->getMetaValue('_wp_page_template'), 'full-width') !== false) {
+		// Revisions don't have the template meta, grab it from parent
+		if ($post->getPostType() === 'revision' && ($parent = $post->getParentPost())) {
+			$template = $parent->getMetaValue('_wp_page_template');
+		}
+		else {
+			$template = $post->getMetaValue('_wp_page_template');
+		}
+
+		if (strpos($template, 'full-width') !== false) {
 			if ($root = $this->getLayout()->getBlock('root')) {
 				$root->setTemplate('page/1column.phtml');
 			}
+		}
+		
+		if ($rootBlock = $this->getLayout()->getBlock('root')) {
+			$rootBlock->addBodyClass('wordpress-' . $post->getPostType() . '-' . $post->getId());
 		}
 
 		$this->renderLayout();
@@ -219,7 +259,7 @@ class Fishpig_Wordpress_PostController extends Fishpig_Wordpress_Controller_Abst
 			return $post;
 		}
 
-		$isPreview = $this->getRequest()->getParam('preview', false);
+		$isPreview = $this->_isPreview();
 
 		if ($postId = $this->getRequest()->getParam('p')) {
 			$post = Mage::getModel('wordpress/post')->load($postId);
@@ -236,6 +276,17 @@ class Fishpig_Wordpress_PostController extends Fishpig_Wordpress_Controller_Abst
 					$this->getResponse()->sendHeaders();
 					exit;
 				}
+			}
+		}
+		else if (($pageId = $this->getRequest()->getParam('page_id')) && $isPreview) {
+			$post = Mage::getModel('wordpress/post')
+				->setPostType('page')
+				->load($pageId);
+
+			if ($post->getId()) {
+				Mage::register('wordpress_post', $post);
+
+				return $post;
 			}
 		}
 		else if ($postId = $this->getRequest()->getParam('id')) {

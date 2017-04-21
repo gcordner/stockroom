@@ -49,6 +49,7 @@ class Fishpig_Wordpress_Helper_System extends Fishpig_Wordpress_Helper_Abstract
 				$this->applyTest('_validatePlugins', array());
 				$this->applyTest('_validatePermalinks');
 				$this->applyTest('_validateHtaccess');
+				$this->applyTest('_validateL10nPermissions');
 
 				Mage::dispatchEvent('wordpress_integration_tests_after', array('helper' => $this));
 			}
@@ -66,6 +67,20 @@ class Fishpig_Wordpress_Helper_System extends Fishpig_Wordpress_Helper_Abstract
 	protected function _validateDatabaseConnection()
 	{
 		if (Mage::helper('wordpress/app')->getDbConnection() === false) {
+			if (Mage::helper('wordpress/app')->isTablePrefixWrong()) {
+				if ($prefix = Mage::helper('wordpress/app')->getTablePrefix()) {
+					throw Fishpig_Wordpress_Exception::error(
+						'Database Error',
+						sprintf('The database connection was successful but no tables were found using the table prefix \'%s\'. You can confirm your database table prefix by opening the file wp-config.php, which is in your WordPress root directory.', $prefix)
+					);
+				}
+				
+				throw Fishpig_Wordpress_Exception::error(
+					'Database Error',
+					'The database connection was successful but no tables were found. Either WordPress is not installed in the database or you need to set your table prefix. You can confirm your database table prefix by opening the file wp-config.php, which is in your WordPress root directory.'
+				);
+			}
+
 			throw Fishpig_Wordpress_Exception::error(
 				'Database Error',
 				$this->__('Error establishing a database connection')
@@ -95,14 +110,14 @@ class Fishpig_Wordpress_Helper_System extends Fishpig_Wordpress_Helper_Abstract
 			);
 		}
 		else if ($mage !== $home) {
-			throw Fishpig_Wordpress_Exception::warning('Home URL', 
+			throw Fishpig_Wordpress_Exception::error('Home URL', 
 				stripslashes(Mage::helper('wordpress')->__('Your WordPress home URL %s is invalid.  Please fix the <a href=\"%s\">home option</a>.', $home,  'http://codex.wordpress.org/Changing_The_Site_URL" target="_blank'))
 				. $this->__(' Change to %s', $mage)
 			);
 		}
 
 		if ($helper->getBlogRoute() && is_dir(Mage::getBaseDir() . DS . $helper->getBlogRoute())) {
-			throw Fishpig_Wordpress_Exception::warning('Home URL', 
+			throw Fishpig_Wordpress_Exception::error('Home URL', 
 				stripslashes(Mage::helper('wordpress')->__("A '%s' directory exists in your Magento root that will stop your integrated WordPress from displaying. You must delete this before your blog will display.", $helper->getBlogRoute()))
 			);
 		}
@@ -225,6 +240,10 @@ class Fishpig_Wordpress_Helper_System extends Fishpig_Wordpress_Helper_Abstract
 	 */
 	protected function _validateHtaccess()
 	{
+		if (isset($_SERVER['SERVER_SOFTWARE']) && strpos(strtolower($_SERVER["SERVER_SOFTWARE"]), 'nginx') !== false) {
+			return $this;
+		}
+
 		if (($path = Mage::helper('wordpress')->getWordPressPath()) !== false) {
 			$file = rtrim($path, DS) . DS . '.htaccess';
 			
@@ -247,6 +266,29 @@ class Fishpig_Wordpress_Helper_System extends Fishpig_Wordpress_Helper_Abstract
 			}
 		}
 
+		return $this;
+	}
+	
+	/**
+	 * Ensure the L10n file is writable if using add-on extensions that use Core
+	 *
+	 * @return $this
+	 **/
+	protected function _validateL10nPermissions()
+	{
+		if (($path = Mage::helper('wordpress')->getWordPressPath()) !== false) {
+			$file = $path . 'wp-includes' . DS . 'l10n.php';
+
+			if (Mage::getConfig()->getNode('wordpress/core/modules')) {
+				if (is_file($file) && !is_writable($file)) {
+					throw Fishpig_Wordpress_Exception::error(
+						'Permissions',
+						'The following file must be writable: ' . $file
+					);
+				}
+			}
+		}
+		
 		return $this;
 	}
 	
@@ -324,7 +366,7 @@ class Fishpig_Wordpress_Helper_System extends Fishpig_Wordpress_Helper_Abstract
 	 * @param string $destination
 	 * @return bool
 	 */
-	public function loginToWordPress($username, $password, $destination = null)
+	public function loginToWordPress($username, $password, $destination = null, $redirect = true)
 	{
 		if (is_null($destination)) {
 			$destination = Mage::helper('wordpress')->getAdminUrl('index.php');
@@ -346,10 +388,14 @@ class Fishpig_Wordpress_Helper_System extends Fishpig_Wordpress_Helper_Abstract
 			}
 	
 			foreach(explode("\n", $result) as $line) {
-				if (substr(ltrim($line), 0, 1) === '<') {
+				if (substr(ltrim($line), 0, 1) === '<' && strpos($line, ':') !== false) {
 					break;
 				}
 	
+				if ($redirect === false && strpos(ltrim($line), 'Location') === 0) {
+					continue;
+				}
+
 				header($line, false);
 			}
 	
