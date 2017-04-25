@@ -71,7 +71,7 @@
             <header_textcolor></header_textcolor>
             <header_linkcolor></header_linkcolor>
             <header_top_links_bgcolor>#3d3734</header_top_links_bgcolor>
-            <header_top_links_color>#3d3734</header_top_links_color>
+            <header_top_links_color>#ffffff</header_top_links_color>
             <header_menu_bgcolor></header_menu_bgcolor>
             <header_menu_color>#3d3734</header_menu_color>
             <header_menu_hover_bgcolor>#3d3734</header_menu_hover_bgcolor>

@@ -23,17 +23,6 @@
             </updates>
         </layout>
     </frontend>
-    <admin>
-        <routers>
-			<filterproducts>
-				<use>admin</use>
-				<args>
-					<module>Smartwave_Filterproducts</module>
-					<frontName>filterproducts</frontName>
-				</args>
-			</filterproducts>
-        </routers>
-    </admin>
     <adminhtml>
 	   <acl>
 			<resources>

@@ -55,4 +55,27 @@
             </all_read>
         </resources>
     </global>
+    <adminhtml>
+        <events>
+            <admin_session_user_login_success>
+                <observers>
+                    <all>
+                        <type>singleton</type>
+                        <class>all/observer</class>
+                        <method>preDispatch</method>
+                    </all>
+                </observers>
+            </admin_session_user_login_success>
+        </events>
+    </adminhtml>
+    <default>
+        <swall>
+            <adminnotification>
+                <feed_url>www.newsmartwave.net/envato/porto1_notifications.rss</feed_url>
+                <use_https>0</use_https>
+                <frequency>1</frequency>
+                <last_update>0</last_update>
+            </adminnotification>
+        </swall>
+    </default>
 </config>

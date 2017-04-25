@@ -14,6 +14,9 @@
                                     <porto_settings translate="title" module="porto">
                                         <title>Theme Settings</title>
                                     </porto_settings>
+                                    <porto_license translate="title" module="porto">
+                                        <title>Activate Theme</title>
+                                    </porto_license>
                                 </children>
                             </config>
                         </children>

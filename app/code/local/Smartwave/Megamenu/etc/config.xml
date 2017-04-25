@@ -10,7 +10,7 @@
 <config>
     <modules>
         <Smartwave_Megamenu>
-            <version>1.1.2</version>
+            <version>1.1.4</version>
         </Smartwave_Megamenu>
     </modules>
     <frontend>
@@ -18,7 +18,7 @@
             <megamenu>
                 <use>standard</use>
                 <args>
-                    <frontName>megamenu</frontName>
+                    <frontName>swmegamenu</frontName>
                     <module>Smartwave_Megamenu</module>
                 </args>
             </megamenu>
@@ -94,6 +94,9 @@
                 <home_icon>icon_home.png</home_icon>
                 <non_breaking_space>0</non_breaking_space>
             </general>
+            <popup>
+                <popup_delay>0</popup_delay>
+            </popup>
             <custom>
                 <custom_links>porto_custom_menu</custom_links>
                 <custom_mobile_links>porto_custom_menu_mobile</custom_mobile_links>

@@ -3,9 +3,18 @@
     $code  = $store->getCode();
     $_productCollection=$this->getLoadedProductCollection();
     $_helper = $this->helper('catalog/output');
-    $aspect_ratio = Mage::getStoreConfig("porto_settings/category/aspect_ratio",$code);
-    $ratio_width = Mage::getStoreConfig("porto_settings/category/ratio_width",$code);
-    $ratio_height = Mage::getStoreConfig("porto_settings/category/ratio_height",$code);
+    $aspect_ratio = $this->getData("aspect_ratio");
+    if($aspect_ratio == null) {
+        $aspect_ratio = Mage::getStoreConfig("porto_settings/category/aspect_ratio",$code);
+    }
+    $ratio_width = $this->getData("image_width");
+    if(!$ratio_width) {
+        $ratio_width = Mage::getStoreConfig("porto_settings/category/ratio_width",$code);
+    }
+    $ratio_height = $this->getData("image_height");
+    if(!$ratio_height) {
+        $ratio_height = Mage::getStoreConfig("porto_settings/category/ratio_height",$code);
+    }
     
     if(!$ratio_width)
         $ratio_width = 300;
@@ -19,7 +28,7 @@
     <?php $_collectionSize = $_productCollection->count() ?>
     <div class="products small-list sidebar-list owl-carousel owl-theme">
     <?php $i=0; foreach ($_productCollection as $_product): ?>
-    <?php $product = $_product; //Mage::getModel('catalog/product')->load($_product->getId()); ?>
+    <?php $product = $_product;//Mage::getModel('catalog/product')->load($_product->getId()); ?>
     <?php
         if(($i%3) == 0){
     ?>
@@ -31,7 +40,7 @@
                 <div class="item-area">
                 <div class="product-image-area">
                     <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
-                        <img src="<?php if($aspect_ratio):?><?php echo $this->helper('catalog/image')->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                        <img src="<?php if($aspect_ratio):?><?php echo $this->helper('catalog/image')->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" width="<?php echo $ratio_width; ?>" <?php if(!$aspect_ratio):?>height="<?php echo $ratio_height; ?>"<?php endif; ?> alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
                     </a>
                 </div>
                 <div class="details-area">

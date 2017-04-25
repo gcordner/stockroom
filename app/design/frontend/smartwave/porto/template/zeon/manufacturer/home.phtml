@@ -24,6 +24,11 @@
  * @copyright  @copyright Copyright (c) 2013 zeonsolutions.Inc. (http://www.zeonsolutions.com)
  * @license    http://www.zeonsolutions.com/shop/license-enterprise.txt
  */ ?>
+<?php
+    $lazy_owl = $this->getData("lazy_owl");
+    if(!$lazy_owl)
+        $lazy_owl = 0;
+?>
 <?php $_manufacturersCollection = $this->getManufacturersCollection(); ?>
 <div class="shop-by-manufacturer">
     <h2 class="filter-title">
@@ -34,7 +39,7 @@
         <?php $_iterator = 0; ?>
         <?php foreach ($_manufacturersCollection as $_manufacturer): ?>
             <div class="item">
-                <a href="<?php echo $this->getUrl('manufacturers' . '/' . $_manufacturer->getIdentifier()) ?>" title="<?php echo $_manufacturer->getManufacturer() ?>"><img alt="<?php echo $_manufacturer->getManufacturerLogo() ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'manufacturer' . '/' . $_manufacturer->getManufacturerLogo() ?>"/></a>
+                <a href="<?php echo $this->getUrl('manufacturers' . '/' . $_manufacturer->getIdentifier()) ?>" title="<?php echo $_manufacturer->getManufacturer() ?>"><img alt="<?php echo $_manufacturer->getManufacturerLogo() ?>" <?php if($lazy_owl): ?>class="lazyOwl" data-<?php endif; ?>src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'manufacturer' . '/' . $_manufacturer->getManufacturerLogo() ?>"/></a>
             </div>
         <?php endforeach; ?>
     </div>

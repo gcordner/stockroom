@@ -36,6 +36,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
         $html = array();
         $id = $category->getId();
         // --- Block Options ---
+        $ajax_load_popups = $_menuHelper->getConfig('popup/ajax_load_popups');
         $catModel = Mage::getModel('catalog/category')->load($id);
         $blockType = $this->_getBlocks($catModel, 'sw_cat_block_type');
         if (!$blockType || $blockType == 'default')
@@ -109,9 +110,14 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
                 $parentClass = 'menu-static-width';
             } else {
                 $parentClass = 'menu-item menu-item-has-children menu-parent-item';
-            }            
-            $html[] = '<li class="'.$parentClass.' '.$active.' '.$float.'">';
+            }
+            $data_id = '';
+            if($ajax_load_popups) {
+                $data_id = 'data-id = "'.$id.'"';
+            }
+            $html[] = '<li class="'.$parentClass.' '.$active.' '.$float.'" '.$data_id.'>';
             $html[] = '<a href="'.$this->getCategoryUrl($category).'">'.$cat_icon.$name.$catLabel.'</a>';
+            
             if ($mode != 'mb') {
                 if($blockType == 'staticwidth'){
                     $html[] = '<div class="nav-sublist-dropdown" style="display: none; width:'.$staticWidth.';">';
@@ -121,46 +127,50 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
                     $html[] = '<div class="container">';
                 }
             }
-            if ($level == 0 && ($blockType == 'wide' || $blockType == 'staticwidth') ) {
-                if ($block_top)
-                    $html[] = '<div class="top-mega-block">' . $block_top . '</div>';
-                $html[] = '<div class="mega-columns row">';
-                if ($block_left)
-                    $html[] = '<div class="left-mega-block col-sm-'.$block_left_width.'">' . $block_left . '</div>';
-                if (count($activeChildren)) {
-                    //columns for category
-                    $columns = (int)$catModel->getData('sw_cat_block_columns');
-                    if (!$columns)
-                        $columns = 6;
-                    
-                    //columns item width    
-                    $columnsWidth = 12;
+            if(!$ajax_load_popups || $mode == 'mb') {
+                if ($level == 0 && ($blockType == 'wide' || $blockType == 'staticwidth') ) {
+                    if ($block_top)
+                        $html[] = '<div class="top-mega-block">' . $block_top . '</div>';
+                    $html[] = '<div class="mega-columns row">';
                     if ($block_left)
-                        $columnsWidth = $columnsWidth - $block_left_width;
-                    if ($block_right)
-                        $columnsWidth = $columnsWidth - $block_right_width;
+                        $html[] = '<div class="left-mega-block col-sm-'.$block_left_width.'">' . $block_left . '</div>';
+                    if (count($activeChildren)) {
+                        //columns for category
+                        $columns = (int)$catModel->getData('sw_cat_block_columns');
+                        if (!$columns)
+                            $columns = 6;
                         
-                    //draw category menu items
-                    $html[] = '<div class="block1 col-sm-'.$columnsWidth.'">';
-                    $html[] = '<div class="row">';                    
+                        //columns item width
+                        $columnsWidth = 12;
+                        if ($block_left)
+                            $columnsWidth = $columnsWidth - $block_left_width;
+                        if ($block_right)
+                            $columnsWidth = $columnsWidth - $block_right_width;
+                            
+                        //draw category menu items
+                        $html[] = '<div class="block1 col-sm-'.$columnsWidth.'">';
+                        $html[] = '<div class="row">';                    
+                        $html[] = '<ul>';
+                        $html[] = $this->drawColumns($activeChildren, $columns, count($activeChildren),'', 'wide');
+                        $html[] = '</ul>';
+                        $html[] = '</div>';
+                        $html[] = '</div>';
+                    }
+                    if ($block_right)
+                        $html[] = '<div class="right-mega-block col-sm-'.$block_right_width.'">' . $block_right . '</div>';
+                    $html[] = '</div>';
+				    /* Fixed from version 1.0.1 */
+				    //verion 1.0.1 start
+                    if ($block_bottom)
+                        $html[] = '<div class="bottom-mega-block">' . $block_bottom . '</div>';
+				    //version 1.0.1 end
+                } else if ($level == 0 && $blockType == 'narrow') {                
                     $html[] = '<ul>';
-                    $html[] = $this->drawColumns($activeChildren, $columns, count($activeChildren),'', 'wide');
+                    $html[] = $this->drawColumns($activeChildren, '', count($activeChildren),'','narrow', $mode);
                     $html[] = '</ul>';
-                    $html[] = '</div>';
-                    $html[] = '</div>';
                 }
-                if ($block_right)
-                    $html[] = '<div class="right-mega-block col-sm-'.$block_right_width.'">' . $block_right . '</div>';
-                $html[] = '</div>';
-				/* Fixed from version 1.0.1 */
-				//verion 1.0.1 start
-                if ($block_bottom)
-                    $html[] = '<div class="bottom-mega-block">' . $block_bottom . '</div>';
-				//version 1.0.1 end
-            } else if ($level == 0 && $blockType == 'narrow') {                
-                $html[] = '<ul>';
-                $html[] = $this->drawColumns($activeChildren, '', count($activeChildren),'','narrow', $mode);
-                $html[] = '</ul>';
+            } else {
+                $html[] = '<div style="padding: 30px 0; text-align: center;"><i class="ajax-loader small animate-spin"></i></div>';
             }
             if ($mode != 'mb') {
                 $html[] = '</div>';
@@ -316,10 +326,10 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
 						$html .= '</div>';
 					}
 					//version 1.0.2 end
-                    $html.= '<a class="level' . $level . '" href="' . $this->getCategoryUrl($child) . '"><span>' . $name .$label. '</span></a>';    
+                    $html.= '<a class="level' . $level . '" data-id="'.$child->getId().'" href="' . $this->getCategoryUrl($child) . '"><span>' . $name .$label. '</span></a>';    
                 } else {
                     $html .= '<li class="'.$class.' '.$active.'">';
-                    $html .= '<a class="level' . $level . '" href="' . $this->getCategoryUrl($child) . '"><span>' . $name .$label. '</span></a>';
+                    $html .= '<a class="level' . $level . '" data-id="'.$child->getId().'" href="' . $this->getCategoryUrl($child) . '"><span>' . $name .$label. '</span></a>';
                 }
                 if (count($activeChildren) > 0)
                 {
@@ -377,7 +387,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
         return $html;
     }
 
-    protected function _getActiveChildren($parent, $level)
+    public function _getActiveChildren($parent, $level)
     {
         $activeChildren = array();
         // --- check level ---
@@ -395,7 +405,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
         else
         {
             $children = Mage::getModel('catalog/category')->getCategories($parent->getId());
-            $childrenCount = $children->count();
+            $childrenCount = count($children);
         }
         $hasChildren = $children && $childrenCount;
         if ($hasChildren)
@@ -532,7 +542,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
     }
     
     //get static blocks in menu
-    private function _getBlocks($model, $block_signal)
+    public function _getBlocks($model, $block_signal)
     {
         if (!$this->_tplProcessor)
         { 

@@ -1,5 +1,5 @@
 <?php
-class Smartwave_Porto_Block_Html_Head extends Smartwave_Porto_Block_Html_Head_Amasty_Pure
+class Smartwave_Porto_Block_Html_Head extends Mage_Page_Block_Html_Head
 {
     /**
      * Initialize template
@@ -26,7 +26,7 @@ class Smartwave_Porto_Block_Html_Head extends Smartwave_Porto_Block_Html_Head_Am
      * @param string $params
      * @param string $if
      * @param string $cond
-     * @return Smartwave_Porto_Block_Html_Head_Amasty_Pure
+     * @return Mage_Page_Block_Html_Head
      */
     public function addExternalItem($type, $name, $params=null, $if=null, $cond=null)
     {
@@ -38,7 +38,7 @@ class Smartwave_Porto_Block_Html_Head extends Smartwave_Porto_Block_Html_Head_Am
      *
      * @param string $type
      * @param string $name
-     * @return Smartwave_Porto_Block_Html_Head_Amasty_Pure
+     * @return Mage_Page_Block_Html_Head
      */
     public function removeExternalItem($type, $name)
     {

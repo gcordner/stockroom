@@ -4,12 +4,92 @@ class Smartwave_Porto_Helper_Data extends Mage_Core_Helper_Abstract
 {
     
     protected $_texturePath;
+    private $_checkedPurchaseCode;
     
     public function __construct()
     {
         $this->_texturePath = 'wysiwyg/porto/texture/default/';
     }
+    public function checkPurchaseCode($save = false) {
+        if($this->isLocalhost()){
+            return "localhost";
+        }
+        if(!$this->_checkedPurchaseCode){
+            
+            $code = Mage::getStoreConfig('porto_license/general/purchase_code');
+            $code_confirm = Mage::getStoreConfig('porto_license/general/purchase_code_confirm');
+            if($save) {
+                $site_url = Mage::getStoreConfig('web/unsecure/base_url');
+                $domain = trim(preg_replace('/^.*?\\/\\/(.*)?\\//', '$1', $site_url));
+                if(strpos($domain, "/"))
+                    $domain = substr($domain, 0, strpos($domain, "/"));
+                if(!$code || base64_encode($code) != $code_confirm) {
+                    $this->curlPurchaseCode(base64_decode($code_confirm), "", "remove");
+                }
+                if($code) {
+                    $result = $this->curlPurchaseCode($code, $domain, "add");
+                    if(!$result || $result['result'] == 0) {
+                        $this->_checkedPurchaseCode = "";
+                        $code_confirm = "";
+                        Mage::getSingleton('core/session')->getMessages(true);
+                        Mage::getSingleton('core/session')->addWarning($this->__('Purchase code is not valid!'));
+                    } else if($result['result'] == 1) {
+                        $this->_checkedPurchaseCode = "verified";
+                        $code_confirm = base64_encode($code);
+                    } else {
+                        $this->_checkedPurchaseCode = "";
+                        $code_confirm = "";
+                        Mage::getSingleton('core/session')->getMessages(true);
+                        Mage::getSingleton('core/session')->addWarning($this->__($result['message']));
+                    }                    
+                } else {
+                    $code_confirm = "";
+                    $this->_checkedPurchaseCode = "";
+                }
+                $config = Mage::getConfig();
+                $config->saveConfig("porto_license/general/purchase_code_confirm",$code_confirm,"default",0);
+                $config->cleanCache();
+            } else {
+                if($code && $code_confirm && base64_encode($code) == $code_confirm)
+                    $this->_checkedPurchaseCode = "verified";
+            }
+        }
+        return $this->_checkedPurchaseCode;
+    }
+    public function curlPurchaseCode($code, $domain, $act) {
+        $ch = curl_init();
 
+        // Set cURL options
+        curl_setopt($ch, CURLOPT_URL, "http://www.newsmartwave.net/envato/verify_purchase_new.php?item=9725864&version=m1&code=$code&domain=$domain&act=$act");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'PORTO-PURCHASE-VERIFY');
+
+        // Decode returned JSON
+        $result = json_decode( curl_exec($ch) , true );
+        return $result;
+    }
+    public function isLocalhost() {
+        $whitelist = array(
+            '127.0.0.1',
+            '::1'
+        );
+        
+        return in_array($_SERVER['REMOTE_ADDR'], $whitelist);
+    }
+    public function isAdmin()
+    {
+        if(Mage::app()->getStore()->isAdmin())
+        {
+            return true;
+        }
+
+        if(Mage::getDesign()->getArea() == 'adminhtml')
+        {
+            return true;
+        }
+
+        return false;
+    }
     public function getCfgGroup($group, $storeId = NULL)
     {
         if ($storeId)
@@ -43,7 +123,8 @@ class Smartwave_Porto_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('porto_settings/' . $optionString);
     }
-     public function getImage($product, $imgWidth, $imgHeight, $imgVersion='small_image', $file=NULL) 
+    
+    public function getImage($product, $imgWidth, $imgHeight, $imgVersion='small_image', $file=NULL) 
     {
         $url = '';
         if ($imgHeight <= 0)
@@ -220,6 +301,8 @@ class Smartwave_Porto_Helper_Data extends Mage_Core_Helper_Abstract
         if(!$category->getData($attribute)){
             if($category->getId() == Mage::app()->getStore()->getRootCategoryId() || $category->getId() == 1){
                 return true;
+            } else {
+                return false;
             }
             return $this->isEnabledonParentCategory($attribute, $category->getParentCategory());
         }

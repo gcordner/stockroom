@@ -4,12 +4,24 @@ jQuery(document).ready(function($){
     // **********************************************************************//
 
     $.fn.et_menu = function ( options ) {
+        var settings = $.extend({
+            type: "default", // can be columns, default, mega, combined
+            animTime: 250,
+            openByClick: true,
+            delayTime: 0
+        }, options );
+        
         var methods = {
             showChildren: function(el) {
-                el.fadeIn(100).css({
+                if(!$(el).hasClass("loading")) {
+                    el.addClass("loading").delay(settings.delayTime).fadeIn(100,function(){
+                        el.css({
                     display: 'list-item',
                     listStyle: 'none'
                 }).find('li').css({listStyle: 'none'});
+                        el.removeClass("loading");
+                    });
+                }
             },
             calculateColumns: function(el) {
                 // calculate columns count
@@ -72,12 +84,6 @@ jQuery(document).ready(function($){
             }
         };
 
-        var settings = $.extend({
-            type: "default", // can be columns, default, mega, combined
-            animTime: 250,
-            openByClick: true
-        }, options );
-
         this.find('>li').hover(function (){
             if(!$(this).hasClass('open-by-click') || (!settings.openByClick && $(this).hasClass('open-by-click'))) {
                 var dropdown = $(this).find('> .nav-sublist-dropdown');
@@ -92,23 +98,13 @@ jQuery(document).ready(function($){
             }
         }, function () {
             if(!$(this).hasClass('open-by-click') || (!settings.openByClick && $(this).hasClass('open-by-click'))) {
-                $(this).find('> .nav-sublist-dropdown').fadeOut(100);
+                var el = $(this).find('> .nav-sublist-dropdown');
+                $(el).addClass("loading").delay(settings.delayTime).fadeOut(100,function(){$(el).removeClass("loading")});
             }
         });
 
         return this;
     }
-
-    // First Type of column Menu
-    $('.main-nav .menu').et_menu({
-        type: "default"
-    });
-
-    $('.fixed-header .menu').et_menu({
-        openByClick: false
-    });
-    
-
 
     function et_equalize_height(elements, removeHeight) {
         var heights = [];
@@ -152,7 +148,7 @@ jQuery(document).ready(function($){
         }
     });    
     $('.menu-icon, .close-mobile-nav, .header-container.type10 .dropdown-menu > .menu-container > a').click(function(event) {
-		if(!$('body').hasClass('md-mobile-menu') && $(".header-container").hasClass('type11'))
+		if(!$('body').hasClass('md-mobile-menu') && ($(".header-container").hasClass('type11') || $(".header-container").hasClass('type13') || $(".header-container").hasClass('type7')))
 			$('body').addClass('md-mobile-menu');
         if(!$('body').hasClass('mobile-nav-shown')) {
             $('body').addClass('mobile-nav-shown', function() {

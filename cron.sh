@@ -20,7 +20,7 @@
 #
 # @category    Mage
 # @package     Mage
-# @copyright  Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
+# @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
 # @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 #
 
@@ -36,8 +36,7 @@ if [ ! "$2" = "" ] ; then
 	MODE=" $2"
 fi
 
-#PHP_BIN=`which php`
-PHP_BIN=/opt/bitnami/php/bin/php
+PHP_BIN=`which php`
 
 # absolute path to magento installation
 INSTALLDIR=`echo $0 | sed 's/cron\.sh//g'`

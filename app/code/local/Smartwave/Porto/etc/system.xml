@@ -2,7 +2,7 @@
 <config>
     <tabs>
         <portotheme translate="label" module="porto">
-            <label>Porto(2.2.0)</label>
+            <label>Porto(2.4.7)</label>
             <sort_order>101</sort_order>
         </portotheme>
     </tabs>
@@ -1645,6 +1645,27 @@
                                 <show_notice>1</show_notice>
                             </depends>
                         </notice_static_block>
+                        <category_list_on_left>
+                            <label>Show Category List on Left</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>235</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <layout>full_width</layout>
+                            </depends>
+                        </category_list_on_left>
+                        <breadcrumbs_below_header>
+                            <label>Show Breadcrumbs above top container and banners</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>240</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </breadcrumbs_below_header>
                     </fields>
                 </general>
                 <header translate="label comment" module="porto">
@@ -2421,6 +2442,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </columns>
+                        <one_column_mobile>
+                            <label>One Column on Phone Devices</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </one_column_mobile>
                         <flex_grid>
                             <label>Flex Grid</label>
                             <frontend_type>select</frontend_type>
@@ -2448,6 +2478,16 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </show_addtolinks>
+                        <move_title translate="label">
+                            <label>Move Product Title</label>
+                            <comment>If yes, the position of the product’s title will display below the rating stars.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </move_title>
                         <move_actions translate="label">
                             <label>Move Actions</label>
                             <comment>If yes, all of the action links that "Add to Cart" button, "Add to Compare" link and "Add to Wishlist" link will be moved into the product image area.</comment>
@@ -2631,6 +2671,23 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </hide_single_smallthumb>
+                        <custom_block_id>
+                            <label>Custom Block ID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>240</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </custom_block_id>
+                        <move_custom_block>
+                            <label>Move Custom Block Below The Product Short Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>241</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </move_custom_block>
                         <enable_addtocart_sticky>
                             <label>Enable Addtocart Sticky</label>
                             <frontend_type>select</frontend_type>
@@ -2658,6 +2715,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </move_product_tab>
+                        <custom_block_tab>
+                            <label>Show custom block to next to the tab</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>311</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </custom_block_tab>
                         <show_brand>
                             <label>Show Brands in the right sidebar</label>
                             <frontend_type>select</frontend_type>
@@ -2676,6 +2741,33 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </page_layout>
+                        <upsell_columns>
+                            <label>Upsell Products Grid Columns</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>porto/system_config_source_setting_category_columns</source_model>
+                            <sort_order>400</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </upsell_columns>
+                        <move_upsell>
+                            <label>Move Upsell Products below the product image</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>410</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </move_upsell>
+                        <add_upsell_background>
+                            <label>Add Upsell Products Background</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>420</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </add_upsell_background>
                     </fields>
                 </product_view>
                 <product_view_custom_tab translate="label comment" module="porto">
@@ -3227,6 +3319,18 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </enable>
+                        <api_key translate="label">
+                            <label>Google Map API key</label>
+                            <comment><![CDATA[You can get an API key from <a href="https://developers.google.com/maps/documentation/javascript/get-api-key">https://developers.google.com/maps/documentation/javascript/get-api-key</a><br/>
+                            eg: AIzaSyCkw3Q5Y7y2prqgTXSvF50Nr09-j7_carc</br>
+                            This is an example key for localhost.
+                            ]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </api_key>
                         <address translate="label">
                             <label>Address</label>
                             <frontend_type>text</frontend_type>
@@ -3329,6 +3433,18 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
+                        <demo_version>
+                            <label>Demo Version</label>
+                            <comment>
+                                <![CDATA[Select the demo version, then import static blocks and cms pages.]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>porto/system_config_source_setting_installation_demoversion</source_model>
+                            <sort_order>95</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </demo_version>
                         <heading_import_blocks>
                             <label>Import Static Blocks</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
@@ -3416,7 +3532,6 @@
                             <frontend_model>porto/adminhtml_button_import_demo</frontend_model>
                             <process>import</process>
                             <demo>demo02</demo>
-							<comment>This demo version updated with new layout, if you want to use old version, please do not import this new version.</comment>
                             <sort_order>320</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -3428,7 +3543,6 @@
                             <frontend_model>porto/adminhtml_button_import_demo</frontend_model>
                             <process>import</process>
                             <demo>demo03</demo>
-							<comment>This demo version updated with new layout, if you want to use old version, please do not import this new version.</comment>
                             <sort_order>330</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -3589,7 +3703,7 @@
                             <show_in_store>1</show_in_store>
                         </import_demo17>
                         <import_demo18>
-                            <label>Demo 18 (New)</label>
+                            <label>Demo 18</label>
                             <frontend_type>button</frontend_type>
                             <frontend_model>porto/adminhtml_button_import_demo</frontend_model>
                             <process>import</process>
@@ -3599,9 +3713,67 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </import_demo18>
+                        <import_demo19>
+                            <label>Demo 19</label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>porto/adminhtml_button_import_demo</frontend_model>
+                            <process>import</process>
+                            <demo>demo19</demo>
+                            <sort_order>490</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </import_demo19>
+                        <import_demo20>
+                            <label>Demo 20</label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>porto/adminhtml_button_import_demo</frontend_model>
+                            <process>import</process>
+                            <demo>demo20</demo>
+                            <sort_order>500</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </import_demo20>
                     </fields>
                 </install>
             </groups>
         </porto_settings>
+        <porto_license translate="label comment" module="porto">
+            <tab>portotheme</tab>
+            <label>Activate Theme</label>
+            <frontend_type>text</frontend_type>
+            <sort_order>304</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>0</show_in_website>
+            <show_in_store>0</show_in_store>
+            <groups>
+                <general translate="label comment" module="porto">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <purchase_code>
+                            <label>Purchase Code</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </purchase_code>
+                        <purchase_code_confirm>
+                            <frontend_type>hidden</frontend_type>
+                            <sort_order>240</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </purchase_code_confirm>
+                    </fields>
+                </general>
+            </groups>
+        </porto_license>
     </sections>
 </config>

@@ -1,5 +1,5 @@
 [class^="icon-"], [class*=" icon-"] {
-  font-family: 'porto';
+  font-family: 'fontello';
   font-style: normal;
   font-weight: normal;
  
@@ -114,3 +114,49 @@
 .icon-attention-alt { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe865;&nbsp;'); }
 .icon-info { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe866;&nbsp;'); }
 .icon-compare-link { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe867;&nbsp;'); }
+.icon-cat-default { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe868;&nbsp;'); }
+.icon-cat-computer { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe869;&nbsp;'); }
+.icon-cat-couch { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe86a;&nbsp;'); }
+.icon-cat-garden { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe86b;&nbsp;'); }
+.icon-cat-gift { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe86c;&nbsp;'); }
+.icon-cat-shirt { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe86d;&nbsp;'); }
+.icon-cat-sport { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe86e;&nbsp;'); }
+.icon-cat-toys { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe86f;&nbsp;'); }
+.icon-tag-line { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe870;&nbsp;'); }
+.icon-bag { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe871;&nbsp;'); }
+.icon-search-1 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe872;&nbsp;'); }
+.icon-plus { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe873;&nbsp;'); }
+.icon-minus { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe874;&nbsp;'); }
+.icon-search-2 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe875;&nbsp;'); }
+.icon-bag-1 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe876;&nbsp;'); }
+.icon-online-support { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe877;&nbsp;'); }
+.icon-shopping-bag { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe878;&nbsp;'); }
+.icon-us-dollar { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe879;&nbsp;'); }
+.icon-shipped { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe87a;&nbsp;'); }
+.icon-list { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe87b;&nbsp;'); }
+.icon-money { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe87c;&nbsp;'); }
+.icon-shipping { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe87d;&nbsp;'); }
+.icon-support { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe87e;&nbsp;'); }
+.icon-bag-2 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe87f;&nbsp;'); }
+.icon-grid { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe880;&nbsp;'); }
+.icon-bag-3 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe881;&nbsp;'); }
+.icon-direction { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe882;&nbsp;'); }
+.icon-home { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe883;&nbsp;'); }
+.icon-magnifier { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe884;&nbsp;'); }
+.icon-magnifier-add { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe885;&nbsp;'); }
+.icon-magnifier-remove { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe886;&nbsp;'); }
+.icon-phone-1 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe887;&nbsp;'); }
+.icon-clock-1 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe888;&nbsp;'); }
+.icon-heart { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe889;&nbsp;'); }
+.icon-heart-1 { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88a;&nbsp;'); }
+.icon-earphones-alt { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88b;&nbsp;'); }
+.icon-credit-card { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88c;&nbsp;'); }
+.icon-action-undo { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88d;&nbsp;'); }
+.icon-envolope { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88e;&nbsp;'); }
+.icon-chart { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe88f;&nbsp;'); }
+.icon-twitter { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf099;&nbsp;'); }
+.icon-facebook { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf09a;&nbsp;'); }
+.icon-spinner { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf110;&nbsp;'); }
+.icon-instagram { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf16d;&nbsp;'); }
+.icon-check-empty { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf87a;&nbsp;'); }
+.icon-check { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xf87b;&nbsp;'); }

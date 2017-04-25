@@ -18,6 +18,14 @@ class Smartwave_Porto_Model_Observer
 			
 			Mage::getSingleton('porto/cssconfig_generator')->generateCss('design', $websiteCode, $storeCode);
 		}
+        elseif ($section == 'porto_license')
+        {
+            $check = Mage::helper('porto')->checkPurchaseCode(true);
+            if($check && $check != "localhost") {
+                Mage::getSingleton('core/session')->getMessages(true);
+                Mage::getSingleton('core/session')->addSuccess('Smartwave Porto Theme is activated!');
+            }
+        }
 	}
 	
 	/**

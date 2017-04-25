@@ -82,8 +82,11 @@ class Smartwave_Socialfeeds_Helper_Data extends Mage_Core_Helper_Abstract
             $peopleList[$i] = preg_replace("/<\/li>/i", "", $li);
             $i++;
         }
-        
+        $fb = $this->getFacebookConfig();
+        $persons = 0;
         foreach ($peopleList as $key => $code) {
+            if($fb['show_counts'] && $persons >= $fb['show_counts'])
+                continue;
             $name = $this->getAttribute('title', $code);
             $nm = substr($name, 0, 7);
             //print_r(strlen($nm));echo "\n";
@@ -104,6 +107,7 @@ class Smartwave_Socialfeeds_Helper_Data extends Mage_Core_Helper_Abstract
                 $html .= "<span title=\"".$name."\"><img src=\"".$img_in_base64."\" alt=\"\" /></span>";
             }
             $html .= $name.'</div>';
+            $persons ++;
         }
 		$result['fans'] = $html;
         return $result;

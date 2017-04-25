@@ -27,6 +27,7 @@ if($aspect_ratio && Mage::getStoreConfig("porto_settings/category/ratio_width",$
         </p>
         <?php if ($_options = $this->getOptionList()):?>
         <div class="option-detail">
+            <a href="#" onclick="return false;" class="details"><?php echo $this->__('Details') ?></a>
             <dl class="item-options">
                 <?php foreach ($_options as $_option) : ?>
                 <dt><?php echo $this->htmlEscape($_option['label']) ?></dt>
@@ -39,7 +40,6 @@ if($aspect_ratio && Mage::getStoreConfig("porto_settings/category/ratio_width",$
                 </dd>
                 <?php endforeach; ?>
             </dl>
-            <a href="#" onclick="return false;" class="details"><?php echo $this->__('Details') ?></a>
         </div>
         <?php endif; ?>
 

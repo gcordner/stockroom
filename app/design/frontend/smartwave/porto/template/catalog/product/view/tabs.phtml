@@ -3,11 +3,7 @@
     $code  = $store->getCode();
     $helper = Mage::helper("porto");
     $product_id = Mage::registry("current_product")->getId();
-    $code = $this->getRequest()->getParam('store');
-    if(!isset($code))
-	$tab_style = Mage::getStoreConfig("porto_settings/product_view/product_tab_style", $code);
-    else
-    	$tab_style = Mage::getStoreConfig("porto_settings/product_view/product_tab_style");
+    $tab_style = Mage::getStoreConfig("porto_settings/product_view/product_tab_style", $code);
     if(!$tab_style)
         $tab_style = "horizontal";
 ?>
@@ -76,17 +72,50 @@
     <?php if($tab_style=="vertical"): ?>
     </div>
     <?php endif; ?>
-
     <script type="text/javascript">
     //<![CDATA[
+    <?php if($tab_style!="sticky"): ?>
     new Varien.Tabs('.product-tabs > ul');
+    <?php else: ?>
+    jQuery(function($){
+        var sticky_tabs;
+        var is_sticky = false;
+        $(".product-tabs > ul > li > a").attr("href","javascript:void(0)");
+        $(".product-tabs > ul > li > a").off("click").on("click", function(){
+            $("#"+$(this).parent().attr("id")+"_contents").scrollToMe();
+        });
+        $(window).scroll(function(){
+            if($(window).scrollTop() >= $(".product-tabs").offset().top){
+                if(!is_sticky){
+                    sticky_tabs = $(".product-tabs.sticky > ul").clone().detach();
+                    $(sticky_tabs).addClass("sticky-tab");
+                    $(".product-tabs.sticky").before('<div class="product-tabs-container"><div class="container"></div></div>');
+                    $(".product-tabs-container > .container").append(sticky_tabs);
+                    $(".sticky-tab > li > a").off("click").on("click", function(){
+                        $("#"+$(this).parent().attr("id")+"_contents").scrollToMe();
+                    });
+                    <?php if(Mage::getStoreConfig('porto_settings/header/sticky_header', $code)):?>
+                       $(".product-tabs-container").addClass("has-sticky-header");
+                    <?php endif; ?>
+                    <?php if(Mage::getStoreConfig('porto_settings/header/sticky_header_mobile', $code)):?>
+                       $(".product-tabs-container").addClass("has-mobile-sticky-header");
+                    <?php endif; ?>
+                    is_sticky = true;
+                }
+            } else {
+                $(".product-tabs-container").remove();
+                is_sticky = false;
+            }
+        });
+    });
+    <?php endif; ?>
     //]]>
     </script>
     <div class="clearer"></div>
 </div>
 <?php endif; ?>
 <?php if($tab_style=="accordion"): ?>
-<div class="panel-group product-tab-accordion" id="product_tab_accordion">
+<div class="product-tabs panel-group product-tab-accordion" id="product_tab_accordion">
 <?php $i = 0; ?>
 <?php foreach ($this->getTabs() as $_index => $_tab): ?>
     <?php if($this->getChildHtml($_tab['alias'])): ?>

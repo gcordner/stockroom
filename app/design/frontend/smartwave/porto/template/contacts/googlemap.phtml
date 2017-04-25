@@ -3,12 +3,13 @@ $store = Mage::app()->getStore();
 $code  = $store->getCode();
     $_enable = Mage::getStoreConfig('porto_settings/contacts/enable', $code);
     if($_enable){
+        $_apikey = Mage::getStoreConfig('porto_settings/contacts/api_key', $code);
         $_address = Mage::getStoreConfig('porto_settings/contacts/address', $code);
         $_zoom = Mage::getStoreConfig('porto_settings/contacts/zoom', $code);
         $_center_lat = Mage::getStoreConfig('porto_settings/contacts/latitude', $code);
         $_center_lng = Mage::getStoreConfig('porto_settings/contacts/longitude', $code);
 ?>
-<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.17"></script>
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?<?php if($_apikey): ?>key=<?php echo $_apikey; ?><?php else: ?>v=3.17<?php endif; ?>"></script>
 <script type="text/javascript">
     function initialize() {
         var pos = new google.maps.LatLng(<?php echo $_center_lat; ?>, <?php echo $_center_lng; ?>);

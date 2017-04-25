@@ -10,11 +10,15 @@
                     if(!$('.header-container .menu-wrapper .mini-cart').length && !$('.header-container .menu-wrapper .sticky-logo').length){
 				    $('.header-container').addClass("sticky-header");
 				    var minicart = $('.header-container .mini-cart').html();
-                    $('.header-container .mw-nav-container .mw_top_menu').append('<div class="mini-cart">'+minicart+'</div>');                <?php if(Mage::getStoreConfig('porto_settings/header/sticky_header_logo', $code)): ?>
+				    $('.header-container .menu-wrapper').append('<div class="mini-cart">'+minicart+'</div>');
+                <?php if(Mage::getStoreConfig('porto_settings/header/sticky_header_logo', $code)): ?>
                     var logo_image = $('<div>').append($('.header-container .header > .logo').clone()).html();
                     $('.header-container .menu-wrapper').prepend('<div class="sticky-logo">'+logo_image+'</div>');
                     <?php if(Mage::getStoreConfig('porto_settings/header/sticky_header_logo_img', $code)):?>
                     $(".sticky-logo img").attr("src","<?php echo $this->getSkinUrl(Mage::getStoreConfig('porto_settings/header/sticky_header_logo_img', $code)); ?>");
+                    $('.header-container.type15.sticky-header .header > .logo img').addClass("hide");
+                    $('.header-container.type15.sticky-header .header > .logo img.sticky-logo-image').remove();
+                    $('.header-container.type15.sticky-header .header > .logo').append('<img src="<?php echo $this->getSkinUrl(Mage::getStoreConfig('porto_settings/header/sticky_header_logo_img', $code)); ?>" class="sticky-logo-image" alt="Sticky Logo"/>');
                     <?php endif; ?>
                 <?php endif; ?>
 				    $('.header-container .header-wrapper > div').each(function(){
@@ -29,9 +33,11 @@
 			    }
 			    if(140>=$(window).scrollTop() && scrolled){
 				    $('.header-container').removeClass("sticky-header");
-                    $('.header-container .mw-nav-container .mw_top_menu .mini-cart').remove();
+				    $('.header-container .menu-wrapper .mini-cart').remove();
                 <?php if(Mage::getStoreConfig('porto_settings/header/sticky_header_logo', $code)): ?>
                     $('.header-container .menu-wrapper > .sticky-logo').remove();
+                    $('.header-container.type15 .header > .logo img.sticky-logo-image').remove();
+                    $('.header-container.type15 .header > .logo img').removeClass("hide");
                 <?php endif; ?>
 				    scrolled = false;
 				    $('.header-container .header-wrapper > div').each(function(){

@@ -13,7 +13,7 @@
                         
             <action method="addCss"><stylesheet>fancybox/css/jquery.fancybox.css</stylesheet></action>
             <action method="addItem"><type>js_css</type><name>smartwave/ajaxcart/ajaxaddto.css</name></action>
-        </reference>
+            </reference>
         <reference name="content">
             <block type="core/template" name="ajaxcart_mask" before="-" template="ajaxcart/loading_mask.phtml"/>
         </reference>

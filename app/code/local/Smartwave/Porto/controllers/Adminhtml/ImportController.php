@@ -5,13 +5,15 @@
         }
         public function blocksAction() {
             $isoverwrite = Mage::helper('porto')->getCfg('install/overwrite_blocks');
-            Mage::getSingleton('porto/import_cms')->importCms('cms/block', 'blocks', $isoverwrite);
+            $demo_version = $this->getRequest()->getParam("demo_version");
+            Mage::getSingleton('porto/import_cms')->importCms('cms/block', 'blocks', $demo_version, $isoverwrite);
             $this->getResponse()->setRedirect($this->getUrl("adminhtml/system_config/edit/section/porto_settings/"));
         }
         public function pagesAction() {
             $isoverwrite = Mage::helper('porto')->getCfg('install/overwrite_pages');
-            Mage::getSingleton('porto/import_cms')->importCms('cms/page', 'pages', $isoverwrite);
-            $this->getResponse()->setRedirect($this->getUrl("adminhtml/system_config/edit/section/porto_settings/")); 
+            $demo_version = $this->getRequest()->getParam("demo_version");
+            Mage::getSingleton('porto/import_cms')->importCms('cms/page', 'pages', $demo_version, $isoverwrite);
+            $this->getResponse()->setRedirect($this->getUrl("adminhtml/system_config/edit/section/porto_settings/"));
         }
     }
 ?>

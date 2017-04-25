@@ -124,6 +124,23 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
+                        <popup_delay translate="label comment">
+                            <label>Hide Menu Popup Delay Time(miliseconds)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </popup_delay>
+                        <ajax_load_popups translate="label comment">
+                            <label>Load Menu Popup by Ajax</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ajax_load_popups>
                         <width translate="label comment">
                             <label>Width</label>
                             <comment>in pixels, (0 - no fixed width)</comment>
@@ -132,7 +149,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </width>                        
+                        </width>
                     </fields>
                 </popup>
                 <custom translate="label">
