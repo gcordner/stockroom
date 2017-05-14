@@ -83,7 +83,7 @@ var ConfigurableMediaImages = {
 
     getSwatchImage: function(productId, optionLabel, selectedLabels) {
         var fallback = ConfigurableMediaImages.productImages[productId];
-        if(!fallback) {
+        if(!fallback || fallback.length < 1) {
             return null;
         }
 

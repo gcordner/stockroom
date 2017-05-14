@@ -25,7 +25,9 @@ class Smartwave_Porto_Model_System_Config_Source_Setting_Header_Type
             array('value' => '17', 'label' => Mage::helper('porto')->__('Type 18')),
             array('value' => '18', 'label' => Mage::helper('porto')->__('Type 19')),
             array('value' => '19', 'label' => Mage::helper('porto')->__('Type 20')),
-            array('value' => '20', 'label' => Mage::helper('porto')->__('Type 21'))
+            array('value' => '20', 'label' => Mage::helper('porto')->__('Type 21')),
+            array('value' => '21', 'label' => Mage::helper('porto')->__('Type 22')),
+            array('value' => '22', 'label' => Mage::helper('porto')->__('Type 23'))
         );
     }
 }

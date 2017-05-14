@@ -148,7 +148,7 @@ jQuery(document).ready(function($){
         }
     });    
     $('.menu-icon, .close-mobile-nav, .header-container.type10 .dropdown-menu > .menu-container > a').click(function(event) {
-		if(!$('body').hasClass('md-mobile-menu') && ($(".header-container").hasClass('type11') || $(".header-container").hasClass('type13') || $(".header-container").hasClass('type7')))
+		if(!$('body').hasClass('md-mobile-menu') && ($(".header-container").hasClass('type11') || $(".header-container").hasClass('type13') || $(".header-container").hasClass('type7') || $(".header-container").hasClass('type23')))
 			$('body').addClass('md-mobile-menu');
         if(!$('body').hasClass('mobile-nav-shown')) {
             $('body').addClass('mobile-nav-shown', function() {

@@ -18,7 +18,7 @@ class Smartwave_Porto_Block_Adminhtml_Button_Import_Demo extends Mage_Adminhtml_
 		if (isset($data['label']))
 			$buttonSuffix = ' ' . $data['label'];
 
-        $url = $this->getUrl('porto/adminhtml_demo/' . $process).'demoversion/'.$demo;
+        $url = $this->getUrl('adminhtml/porto_demo/' . $process).'demoversion/'.$demo;
 
         if (strlen($code = Mage::getSingleton('adminhtml/config_data')->getWebsite())) // website level
         {

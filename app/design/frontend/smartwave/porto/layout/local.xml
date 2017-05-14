@@ -16,9 +16,9 @@
             <action method="addJs"><script>smartwave/jquery/jquery-noconflict.js</script></action>
             <action method="addJs"><script>smartwave/jquery/jquery-ui.min.js</script></action>
             <action method="addItem"><type>js_css</type><name>smartwave/jquery/jquery-ui.min.css</name></action>
-            <action method="addJs"><script>smartwave/jquery/plugins/fancybox/js/jquery.fancybox.js</script></action>
+			<action method="addJs"><script>smartwave/jquery/plugins/fancybox/js/jquery.fancybox.js</script></action>
             <action method="addJs"><script>smartwave/jquery/plugins/fancybox/js/jquery.mousewheel-3.0.6.pack.js</script></action>
-            <action method="addCss"><stylesheet>fancybox/css/jquery.fancybox.css</stylesheet></action>
+			<action method="addCss"><stylesheet>fancybox/css/jquery.fancybox.css</stylesheet></action>
             <action method="addItem"><type>skin_js</type><name>js/wow.min.js</name></action>
             <action method="addItem"><type>js</type><name>smartwave/jquery/plugins/selectbox/jquery.selectbox.js</name><params/></action>
             <action method="addItem"><type>js</type><name>smartwave/jquery/plugins/parallax/jquery.stellar.min.js</name><params/></action>
@@ -41,8 +41,8 @@
             <action method="addItem"><type>skin_js</type><name>js/porto.js</name></action>
             <action method="addJs"><script>smartwave/bootstrap/js/bootstrap.min.js</script></action>
             <action method="addItem"><type>skin_js</type><name>js/lib/imagesloaded.js</name></action>
-
-            <action method="removeItem"><type>skin_css</type><name>css/styles.css</name></action>
+            
+            <action method="removeItem"><type>skin_css</type><name>css/styles.css</name></action> 
             <action method="addCss"><stylesheet>icons/css/porto.css</stylesheet></action>
             <action method="addCss"><stylesheet>icons/css/animation.css</stylesheet></action>
             <action method="addCss" ifconfig="porto_settings/general/rtl" condition="0"><stylesheet>css/local.css</stylesheet></action>
@@ -51,11 +51,11 @@
             <action method="addCss" ifconfig="porto_settings/general/rtl" condition="1"><stylesheet>css/rtl-responsive.css</stylesheet></action>
             <action method="addCss" ifconfig="porto_settings/general/layout" condition="1024"><stylesheet>css/layout_1024.css</stylesheet></action>
             <action method="addCss" ifconfig="porto_settings/general/layout" condition="1280"><stylesheet>css/layout_1280.css</stylesheet></action>
-            <action method="removeItem" ifconfig="porto_settings/general/disable_responsive" condition="1"><type>skin_css</type><name>css/responsive.css</name></action>
-            <action method="addItem" ifconfig="porto_settings/general/disable_responsive" condition="1"><type>skin_js</type><name>js/non_responsive.js</name></action>
+			<action method="removeItem" ifconfig="porto_settings/general/disable_responsive" condition="1"><type>skin_css</type><name>css/responsive.css</name></action>
+			<action method="addItem" ifconfig="porto_settings/general/disable_responsive" condition="1"><type>skin_js</type><name>js/non_responsive.js</name></action>
             <action method="addCss" ifconfig="porto_design/basic/dark_light" condition="dark"><stylesheet>css/dark.css</stylesheet></action>
             <action method="addCss" ifconfig="porto_settings/general/border_radius"><stylesheet>css/disable_border_radius.css</stylesheet></action>
-            <action method="addCss"><stylesheet helper="porto/cssconfig/getDesignFile"/></action>
+			<action method="addCss"><stylesheet helper="porto/cssconfig/getDesignFile"/></action>
             <action method="addCss"><stylesheet helper="porto/cssconfig/getSettingsFile"/></action>
             <action method="addCss" ifconfig="porto_settings/general/rtl" condition="0"><stylesheet>css/custom.css</stylesheet></action>
             <action method="addCss" ifconfig="porto_settings/general/rtl" condition="1"><stylesheet>css/rtl-custom.css</stylesheet></action>
@@ -82,10 +82,12 @@
             <action method="setTemplate" ifconfig="porto_settings/header/type" condition="18"><template>page/html/header_type19.phtml</template></action>
             <action method="setTemplate" ifconfig="porto_settings/header/type" condition="19"><template>page/html/header_type20.phtml</template></action>
             <action method="setTemplate" ifconfig="porto_settings/header/type" condition="20"><template>page/html/header_type21.phtml</template></action>
+            <action method="setTemplate" ifconfig="porto_settings/header/type" condition="21"><template>page/html/header_type22.phtml</template></action>
+            <action method="setTemplate" ifconfig="porto_settings/header/type" condition="22"><template>page/html/header_type23.phtml</template></action>
             <block type="directory/currency" name="store_currency" template="page/switch/currency.phtml"/>
-            <block type="catalog/product_compare_sidebar" name="compare_link">
-                <action method="setTemplate" ifconfig="porto_settings/product_compare/show_link"><template>catalog/product/compare/compare_link.phtml</template></action>
-            </block>
+			<block type="catalog/product_compare_sidebar" name="compare_link">
+				<action method="setTemplate" ifconfig="porto_settings/product_compare/show_link"><template>catalog/product/compare/compare_link.phtml</template></action>
+			</block>
             <block type="checkout/cart_sidebar" name="minicart">
                 <action method="setTemplate"><template>checkout/cart/minicart.phtml</template></action>
                 <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/cart/minicart/default.phtml</template></action>
@@ -121,6 +123,7 @@
         <reference name="page.header">
             <action method="setTemplate" ifconfig="porto_settings/header/type" condition="10"><template>page/html/page_header_bg.phtml</template></action>
             <action method="setTemplate" ifconfig="porto_settings/header/type" condition="17"><template>page/html/page_header_bg.phtml</template></action>
+            <action method="setTemplate" ifconfig="porto_settings/header/type" condition="22"><template>page/html/page_header_bg.phtml</template></action>
         </reference>
         <reference name="left">
             <remove name="currency"/>
@@ -172,7 +175,7 @@
             <block type="cms/block" name="custom_side_block" after="-"><action method="setBlockId"><block_id>porto_left_side_category</block_id></action></block>
         </reference>
     </catalog_category_default>
-
+    
     <catalog_category_layered>
         <reference name="root">
             <action method="setTemplate" ifconfig="porto_settings/category/page_layout" condition="one_column"><template>page/1column.phtml</template></action>
@@ -236,14 +239,14 @@
             </block>
         </reference>
         <reference name="product.info.upsell">
-            <action method="setColumnCount"><columns>5</columns></action>
-            <action method="setItemLimit"><type>upsell</type><limit>20</limit></action>
+            <action method="setColumnCount"><columns>4</columns></action>
+            <action method="setItemLimit"><type>upsell</type><limit>4</limit></action>
             <action method="setTemplate" ifconfig="porto_settings/product_view/add_upsell_background" condition="0"><template>catalog/product/list/upsell.phtml</template></action>
         </reference>
         <reference name="bottom_container">
             <block type="catalog/product_list_upsell" name="product.bottom.upsell">
-                <action method="setColumnCount"><columns>5</columns></action>
-                <action method="setItemLimit"><type>upsell</type><limit>20</limit></action>
+                <action method="setColumnCount"><columns>4</columns></action>
+                <action method="setItemLimit"><type>upsell</type><limit>4</limit></action>
                 <action method="setTemplate" ifconfig="porto_settings/product_view/add_upsell_background" condition="1"><template>catalog/product/list/upsell.phtml</template></action>
             </block>
         </reference>
@@ -254,7 +257,7 @@
         </reference>
         <reference name="left">
             <block type="cms/block" name="custom_side_block" after="-"><action method="setBlockId"><block_id>porto_left_side_category</block_id></action></block>
-            <remove name="tags_popular"/>
+        <remove name="tags_popular"/>
         </reference>
     </catalogsearch_result_index>
     <catalogsearch_advanced_index>
@@ -271,7 +274,7 @@
         </reference>
         <reference name="left">
             <block type="cms/block" name="custom_side_block" after="-"><action method="setBlockId"><block_id>porto_left_side_category</block_id></action></block>
-            <remove name="tags_popular"/>
+        <remove name="tags_popular"/>
         </reference>
     </catalogsearch_advanced_result>
     <contacts_index_index>

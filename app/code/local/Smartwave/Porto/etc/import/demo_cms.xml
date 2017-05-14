@@ -8,10 +8,17 @@
         </pages>
         <blocks>
             <item>porto_homeslider_1_new</item>
+            <item>porto_homeslider_1_old</item>
+            <item>porto_custom_block_for_header</item>
             <item>porto_footer_middle_1_for_1</item>
             <item>porto_footer_middle_2_for_1</item>
             <item>porto_footer_middle_3_for_1</item>
             <item>porto_footer_middle_4_for_1</item>
+            <item>porto_footer_bottom_custom_block</item>
+            <item>porto_footer_links</item>
+            <item>porto_footer_contact_information</item>
+            <item>porto_footer_features</item>
+            <item>porto_footer_bottom_custom_block_2</item>
             <item>porto_footer_bottom_custom_block</item>
             <item>porto_custom_menu</item>
             <item>porto_custom_menu_mobile</item>
@@ -28,12 +35,19 @@
             <item>about-porto</item>
             <item>no-route-2</item>
             <item>porto_home_2_new</item>
+            <item>porto_home_2_old</item>
         </pages>
         <blocks>
             <item>porto_homeslider_2_new</item>
+            <item>porto_homeslider_2_old</item>
             <item>porto_custom_block_for_header</item>
             <item>porto_footer_middle_1_for_2_new</item>
             <item>porto_footer_middle_2_for_2_new</item>
+            <item>porto_footer_links</item>
+            <item>porto_footer_contact_information</item>
+            <item>porto_footer_features</item>
+            <item>porto_footer_bottom_custom_block_2</item>
+            <item>porto_footer_bottom_custom_block</item>
             <item>porto_custom_menu</item>
             <item>porto_custom_menu_mobile</item>
             <item>porto_left_side_category</item>
@@ -50,13 +64,20 @@
             <item>about-porto</item>
             <item>no-route-2</item>
             <item>porto_home_3_new</item>
+            <item>porto_home_3_old</item>
         </pages>
         <blocks>
             <item>porto_homeslider_3_new</item>
+            <item>porto_homeslider_3_old</item>
             <item>porto_custom_block_for_header_home3</item>
             <item>porto_footer_top_1_for_5</item>
             <item>porto_footer_middle_1_for_5</item>
             <item>porto_footer_middle_2_for_5</item>
+            <item>porto_footer_middle_column1_home3</item>
+            <item>porto_footer_links</item>
+            <item>porto_footer_features</item>
+            <item>porto_footer_contact_information</item>
+            <item>porto_footer_bottom_custom_block</item>
             <item>porto_custom_menu</item>
             <item>porto_custom_menu_mobile</item>
             <item>porto_left_side_category</item>
@@ -64,6 +85,7 @@
             <item>porto_product_right_side_2</item>
             <item>porto_custom_tab</item>
             <item>porto_fashion_category_banner_demo3</item>
+            <item>porto_fashion_category_banner</item>
         </blocks>
     </demo03>
     <demo04>
@@ -71,12 +93,19 @@
             <item>about-porto</item>
             <item>no-route-2</item>
             <item>porto_home_4</item>
+            <item>porto_home_4_old</item>
         </pages>
         <blocks>
             <item>porto_homeslider_4</item>
+            <item>porto_homeslider_4_old</item>
+            <item>porto_custom_block_for_header</item>
             <item>porto_custom_block_for_header_home4</item>
             <item>porto_footer_middle_1_for_4</item>
             <item>porto_footer_middle_2_for_4</item>
+            <item>porto_footer_links</item>
+            <item>porto_footer_contact_information</item>
+            <item>porto_footer_features</item>
+            <item>porto_footer_bottom_custom_block</item>
             <item>porto_custom_menu</item>
             <item>porto_custom_menu_mobile</item>
             <item>porto_left_side_category</item>
@@ -84,6 +113,7 @@
             <item>porto_product_right_side_2</item>
             <item>porto_custom_tab</item>
             <item>porto_fashion_category_banner_demo4</item>
+            <item>porto_fashion_category_banner</item>
         </blocks>
     </demo04>
     <demo05>
@@ -91,13 +121,19 @@
             <item>about-porto</item>
             <item>no-route-2</item>
             <item>porto_home_5</item>
+            <item>porto_home_5_old</item>
         </pages>
         <blocks>
             <item>porto_homeslider_5</item>
+            <item>porto_custom_block_for_header</item>
             <item>porto_custom_block_for_header_home5</item>
             <item>porto_footer_top_1_for_5</item>
             <item>porto_footer_middle_1_for_5</item>
             <item>porto_footer_middle_2_for_5</item>
+            <item>porto_footer_links</item>
+            <item>porto_footer_contact_information</item>
+            <item>porto_footer_features</item>
+            <item>porto_footer_bottom_custom_block</item>
             <item>porto_custom_menu</item>
             <item>porto_custom_menu_mobile</item>
             <item>porto_left_side_category</item>
@@ -105,6 +141,7 @@
             <item>porto_product_right_side_2</item>
             <item>porto_custom_tab</item>
             <item>porto_fashion_category_banner_demo4</item>
+            <item>porto_fashion_category_banner</item>
         </blocks>
     </demo05>
     <demo06>
@@ -112,18 +149,25 @@
             <item>about-porto</item>
             <item>no-route-2</item>
             <item>porto_home_6</item>
+            <item>porto_home_6_old</item>
         </pages>
         <blocks>
+            <item>porto_custom_block_for_header</item>
             <item>porto_custom_block_for_header_home5</item>
             <item>porto_footer_middle_1_for_4</item>
             <item>porto_footer_middle_2_for_4</item>
             <item>porto_footer_bottom_custom_block_demo4</item>
+            <item>porto_footer_links</item>
+            <item>porto_footer_contact_information</item>
+            <item>porto_footer_features</item>
+            <item>porto_footer_bottom_custom_block</item>
             <item>porto_custom_menu</item>
             <item>porto_custom_menu_mobile</item>
             <item>porto_left_side_category</item>
             <item>porto_product_right_side_1</item>
             <item>porto_product_right_side_2</item>
             <item>porto_custom_tab</item>
+            <item>porto_fashion_category_banner</item>
             <item>porto_fashion_category_banner_demo4</item>
         </blocks>
     </demo06>
@@ -132,14 +176,19 @@
             <item>about-porto</item>
             <item>no-route-2</item>
             <item>porto_home_7</item>
+            <item>porto_home_7_old</item>
         </pages>
         <blocks>
             <item>porto_homeslider_7</item>
+            <item>porto_homeslider_7_old</item>
             <item>porto_custom_block_for_header</item>
+            <item>porto_custom_block_for_header_home5</item>
             <item>porto_footer_links</item>
             <item>porto_footer_contact_information</item>
             <item>porto_footer_features</item>
+            <item>porto_footer_newsletter</item>
             <item>porto_footer_bottom_custom_block</item>
+            <item>porto_footer_bottom_block</item>
             <item>porto_custom_menu</item>
             <item>porto_custom_menu_mobile</item>
             <item>porto_left_side_category</item>
@@ -154,15 +203,22 @@
             <item>about-porto</item>
             <item>no-route-2</item>
             <item>porto_home_8</item>
+            <item>porto_home_8_old</item>
         </pages>
         <blocks>
             <item>porto_homeslider_8</item>
+            <item>porto_homeslider_8_old</item>
+            <item>porto_custom_block_for_header_home8</item>
             <item>porto_custom_block_for_header_home5</item>
             <item>porto_footer_links</item>
             <item>porto_footer_features</item>
             <item>porto_footer_newsletter</item>
             <item>porto_footer_contact_information_home8</item>
             <item>porto_footer_bottom_block</item>
+            <item>porto_footer_links</item>
+            <item>porto_footer_contact_information</item>
+            <item>porto_footer_features</item>
+            <item>porto_footer_bottom_custom_block</item>
             <item>porto_custom_menu</item>
             <item>porto_custom_menu_mobile</item>
             <item>porto_left_side_category</item>
@@ -170,6 +226,7 @@
             <item>porto_product_right_side_2</item>
             <item>porto_custom_tab</item>
             <item>porto_fashion_category_banner_demo8</item>
+            <item>porto_fashion_category_banner</item>
         </blocks>
     </demo08>
     <demo09>
@@ -177,15 +234,22 @@
             <item>about-porto</item>
             <item>no-route-2</item>
             <item>porto_home_9</item>
+            <item>porto_home_9_old</item>
         </pages>
         <blocks>
             <item>porto_homeslider_9</item>
+            <item>porto_homeslider_9_old</item>
+            <item>porto_custom_block_for_header</item>
             <item>porto_custom_block_for_header_home5</item>
             <item>porto_footer_contact_information</item>
             <item>porto_footer_links</item>
             <item>porto_footer_features</item>
             <item>porto_footer_newsletter</item>
             <item>porto_footer_bottom_block</item>
+            <item>porto_footer_links</item>
+            <item>porto_footer_contact_information</item>
+            <item>porto_footer_features</item>
+            <item>porto_footer_bottom_custom_block</item>
             <item>porto_custom_menu</item>
             <item>porto_custom_menu_mobile</item>
             <item>porto_left_side_category</item>
@@ -193,6 +257,7 @@
             <item>porto_product_right_side_2</item>
             <item>porto_custom_tab</item>
             <item>porto_fashion_category_banner_demo9</item>
+            <item>porto_fashion_category_banner</item>
         </blocks>
     </demo09>
     <demo10>
@@ -200,15 +265,22 @@
             <item>about-porto</item>
             <item>no-route-2</item>
             <item>porto_home_10</item>
+            <item>porto_home_10_old</item>
         </pages>
         <blocks>
             <item>porto_homeslider_10</item>
+            <item>porto_homeslider_10_old</item>
+            <item>porto_custom_block_for_header</item>
             <item>porto_custom_block_for_header_home5</item>
             <item>porto_footer_top_1_for_10</item>
             <item>porto_footer_middle_1_for_10</item>
             <item>porto_footer_middle_2_for_10</item>
             <item>porto_footer_bottom_social_icon_demo10</item>
             <item>porto_footer_bottom_custom_block_demo4</item>
+            <item>porto_footer_links</item>
+            <item>porto_footer_contact_information</item>
+            <item>porto_footer_features</item>
+            <item>porto_footer_bottom_custom_block</item>
             <item>porto_custom_menu</item>
             <item>porto_custom_menu_mobile</item>
             <item>porto_left_side_category</item>
@@ -216,6 +288,7 @@
             <item>porto_product_right_side_2</item>
             <item>porto_custom_tab</item>
             <item>porto_fashion_category_banner_demo4</item>
+            <item>porto_fashion_category_banner</item>
         </blocks>
     </demo10>
     <demo11>
@@ -223,14 +296,19 @@
             <item>about-porto</item>
             <item>no-route-2</item>
             <item>porto_home_11</item>
+            <item>porto_home_11_old</item>
         </pages>
         <blocks>
             <item>porto_homeslider_11</item>
+            <item>porto_homeslider_11_old</item>
             <item>porto_custom_block_for_header</item>
+            <item>porto_custom_block_for_header_home5</item>
             <item>porto_footer_links</item>
             <item>porto_footer_contact_information</item>
             <item>porto_footer_features</item>
+            <item>porto_footer_newsletter</item>
             <item>porto_footer_bottom_custom_block</item>
+            <item>porto_footer_bottom_block</item>
             <item>porto_custom_menu</item>
             <item>porto_custom_menu_mobile</item>
             <item>porto_left_side_category</item>
@@ -270,15 +348,21 @@
             <item>about-porto</item>
             <item>no-route-2</item>
             <item>porto_home_13</item>
+            <item>porto_home_13_old</item>
         </pages>
         <blocks>
             <item>porto_homeslider_13</item>
+            <item>porto_homeslider_13_old</item>
             <item>porto_custom_block_for_header</item>
+            <item>porto_custom_block_for_header_home13</item>
             <item>porto_footer_top_custom_block_home13</item>
+            <item>porto_footer_top_custom_block_home13_new</item>
             <item>porto_footer_links</item>
             <item>porto_footer_contact_information</item>
             <item>porto_footer_features</item>
             <item>porto_footer_bottom_custom_block</item>
+            <item>porto_footer_middle_1_for_5</item>
+            <item>porto_footer_middle_2_for_13</item>
             <item>porto_custom_menu</item>
             <item>porto_custom_menu_mobile</item>
             <item>porto_left_side_category</item>

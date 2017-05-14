@@ -1566,6 +1566,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
         padding: 5px 10px;
         font-size: 12px;
     }
+    .owl-side-narrow .owl-controls {display:none !important;}
 }]]></custom_style>
         </custom_settings>
     </porto_settings>

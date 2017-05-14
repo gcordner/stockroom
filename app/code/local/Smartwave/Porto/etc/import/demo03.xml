@@ -1402,6 +1402,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
         float: left;
         padding: 1.5px;
     }
+    .owl-middle-narrow .owl-controls {display:none !important;}
 }
 @media(max-width: 767px){
     #banner-slider-demo-3-new .content {

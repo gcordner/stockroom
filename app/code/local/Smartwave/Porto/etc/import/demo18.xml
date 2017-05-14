@@ -283,6 +283,9 @@
 }
 .footer-middle {
     border-bottom: 1px solid #dddbdd;
+}
+@media(max-width:767px){
+    .owl-middle-outer-narrow .owl-controls {display:none !important;}
 }]]></custom_style>
         </custom_settings>
     </porto_settings>

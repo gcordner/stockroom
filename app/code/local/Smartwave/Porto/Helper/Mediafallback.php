@@ -137,15 +137,14 @@ class Smartwave_Porto_Helper_Mediafallback extends Mage_ConfigurableSwatches_Hel
         if ($hasTypeData || $placeholder || $image) {
             $helper = Mage::helper('catalog/image')
                 ->init($product, $type, $image)
-                ->keepFrame(($hasTypeData || $image) ? $keepFrame : false)  // don't keep frame if placeholder
             ;
 
 			if ($keepFrame) {
 				$helper->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($imgWidth);
 			} else if($imgHeight != null){
-				$helper->constrainOnly(true)->resize($imgWidth, $imgHeight);
+				$helper->resize($imgWidth, $imgHeight);
 			} else {
-				$helper->constrainOnly(true)->resize($imgWidth);
+				$helper->resize($imgWidth);
 			}
             return (string)$helper;
         }

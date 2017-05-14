@@ -2,18 +2,18 @@
 <config>
     <modules>
         <Smartwave_Porto>
-            <version>2.4.7</version>
+            <version>2.5.0</version>
         </Smartwave_Porto>
-    </modules>
+    </modules>                   
     <admin>
         <routers>
-            <porto>
-                <use>admin</use>
+            <adminhtml>
                 <args>
-                    <module>Smartwave_Porto</module>
-                    <frontName>porto</frontName>
+                    <modules>
+                        <porto after="Mage_Adminhtml">Smartwave_Porto_Adminhtml</porto>
+                    </modules>
                 </args>
-            </porto>
+            </adminhtml>
         </routers>
     </admin>
     <frontend>

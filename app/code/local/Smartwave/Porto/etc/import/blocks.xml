@@ -142,6 +142,88 @@ body {
             <stores><item>0</item></stores>
         </cms_block>
         <cms_block>
+            <title>Porto - Homepage Slider 1 Old Skin</title>
+            <identifier>porto_homeslider_1_old</identifier>
+            <content><![CDATA[<div class="full-screen-slider">
+    <div id="banner-slider-demo-1" class="owl-carousel owl-theme owl-middle-narrow owl-banner-carousel">
+        <div class="item" style="background:#f0f0f0;background-image:linear-gradient(#e8e8e8,#f0f0f0);position:relative;">
+            <div style="width:100%;height:100%;background:url({{media url="wysiwyg/porto/homepage/slider/01/slide1_old.jpg"}}) 80% center no-repeat; background-size:cover;"></div>
+            <div class="slide1-content content animated bounceInDown" data-animation="animated bounceInDown" style="width:100%;height:100%;position:absolute;left:0;top:0;">
+                <div class="container" style="height:100%;position:relative;">
+                    <div class="content-area" style="position:absolute;top:37%;left:7%;text-align:center;">
+                        <div style="margin:0;line-height:1;">
+                            <img src="{{media url="wysiwyg/porto/homepage/slider/01/quote.png"}}" alt="" class="quote" style="display:inline-block;vertical-align:middle;"/>
+                            <em style="display:inline-block;vertical-align:middle;line-height:1;color:#fff;font-weight:300;font-style:normal;">DO YOU NEED A NEW</em>
+                            <img src="{{media url="wysiwyg/porto/homepage/slider/01/quote.png"}}" alt="" class="quote" style="display:inline-block;vertical-align:middle;"/>
+                        </div>
+                        <h2 style="font-weight:800;color:#fff;line-height:1;">eCOMMERCE?</h2>
+                        <p style="font-weight:300;color:#fff;line-height:1;">Check our options and features.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="background:#f0f0f0;background-image:linear-gradient(#e8e8e8,#f0f0f0);position:relative;">
+            <div style="width:100%;height:100%;background:url({{media url="wysiwyg/porto/homepage/slider/01/slide2_old.jpg"}}) 20% center no-repeat; background-size:cover;"></div>
+            <div class="slide2-content content" data-animation="animated bounceInLeft" style="width:100%;height:100%;position:absolute;left:0;top:0;">
+                <div class="container" style="height:100%;position:relative;">
+                    <div class="content-area" style="position:absolute;top:40%;right:20%;text-align:left;">
+                        <em style="display:block;line-height:1;color:#fff;font-weight:300;font-style:normal;">up to <b>70%</b> off!</em>
+                        <h2 style="font-weight:600;color:#fff;line-height:1;">HUGE <b style="font-weight:800;">SALE</b></h2>
+                        <p style="font-weight:600;color:#fff;line-height:1;">Fashion<span class="split">-</span>Electronics<span class="split">-</span>Gifts<span class="split">-</span>Music<span class="split">-</span>Sports</p>
+                        <div style="text-align:right;"><a href="#" class="btn btn-default" style="border:0;background-color:#fefefe;color:#777;font-weight:600;">SHOP NOW</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="background:#f0f0f0;background-image:linear-gradient(#e8e8e8,#f0f0f0);position:relative;">
+            <div style="width:100%;height:100%;background:url({{media url="wysiwyg/porto/homepage/slider/01/slide3_old.jpg"}}) center center no-repeat; background-size:cover;"></div>
+            <div class="slide3-content content" data-animation="animated bounceInRight" style="width:100%;height:100%;position:absolute;left:0;top:0;">
+                <div class="container" style="height:100%;position:relative;">
+                    <div class="content-area" style="position:absolute;left:0;top:40%;text-align:center;width:100%;">
+                        <div style="display:inline-block;">
+                            <em style="display:block;line-height:1;margin:0;color:#fff;font-weight:300;font-style:normal;text-align:right;">It’s time to feel</em>
+                            <h2 style="font-weight:600;color:#fff;line-height:1;text-align:center;">THE <b style="font-weight:800;">POWER</b></h2>
+                            <div style="text-align:right;"><a href="#" class="btn btn-default" style="border:0;background-color:#fefefe;color:#777;font-weight:600;">SHOP NOW</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        jQuery(function($){
+            $("#banner-slider-demo-1").owlCarousel({
+            autoPlay:true,
+            lazyLoad:true,
+            stopOnHover:true,
+            pagination:false,
+            autoPlay:true,
+            navigation:true,
+            navigationText:["<i class='icon-chevron-left'></i>","<i class='icon-chevron-right'></i>"],
+            slideSpeed:500,
+            paginationSpeed:500,
+            singleItem:true,
+            addClassActive:true,
+            transitionStyle:"fade",
+            afterMove:function(){
+                $("#banner-slider-demo-1 .owl-item.active .content").each(function(){
+                    $(this).addClass($(this).attr("data-animation"));
+                });
+            },
+            beforeMove:function(){
+                $("#banner-slider-demo-1 .owl-item .content").each(function(){
+                    $(this).removeClass($(this).attr("data-animation"));
+                });
+            }
+        });
+            $(".main-container").remove();
+        });
+    </script>
+</div>]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
             <title>Porto - Homepage Slider 2 New</title>
             <identifier>porto_homeslider_2_new</identifier>
             <content><![CDATA[<div id="banner-slider-demo-2-new">
@@ -602,6 +684,140 @@ body {
             <stores><item>0</item></stores>
         </cms_block>
         <cms_block>
+            <title>Porto - Homepage Slider 2 Old Skin</title>
+            <identifier>porto_homeslider_2_old</identifier>
+            <content><![CDATA[<div class="full-screen-slider">
+    <div id="banner-slider-demo-2-new" class="owl-carousel owl-theme owl-middle-narrow owl-banner-carousel">
+        <div class="item" style="background:url({{media url="wysiwyg/porto/homepage/slider/02/01_new.jpg"}}) 71% top no-repeat; background-size:cover; position: relative;">
+            <div class="slide-1 content animated lightSpeedIn" data-animation="animated lightSpeedIn" style="position: absolute; top: 35%; width:100%;">
+                <div class="container" style="text-align: left;">
+            <div class="text-content" style="display: inline-block;">
+            <em style="font-style: normal; text-align: left; display: block; color: #fff;font-weight:600;">NEW ARRIVALS</em>
+            <h2 style="color: #fff; line-height: 1;font-weight:800;margin:0;">Fashion</h2>
+                <p><span style="color: #fff; vertical-align: top; font-weight: 300;">Up to <b style="font-weight:800;">70% OFF</b> in the new collection.</span></p>
+                <a href="#" class="btn btn-default" style="background-color: #fff; color: #333; vertical-align: top; font-weight: 600;">SHOP NOW</a>
+            </div>
+                </div>
+            </div>
+        </div>
+        <div class="item" style="background:url({{media url="wysiwyg/porto/homepage/slider/02/02_new.jpg"}}) 71% top no-repeat; background-size:cover; position: relative;">
+            <div class="slide-2 content" data-animation="animated rotateIn" style="position: absolute; top: 35%; width:100%;">
+                <div class="container" style="text-align: left;">
+            <div class="text-content" style="display: inline-block;">
+            <em style="font-style: normal; text-align: left; display: block; color: #fff;font-weight:600;">EXCLUSIVE</em>
+            <h2 style="color: #fff; line-height: 1;font-weight:800;margin:0;">Sunglasses</h2>
+                <p style="text-align:right;"><span style="color: #fff; vertical-align: top; font-weight: 300;">Incredible prices</span></p>
+                <a href="#" style="float:right; color: #fff; vertical-align: top; font-weight: 400;">SHOP NOW</a>
+            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        jQuery(function($){
+        $("#banner-slider-demo-2-new").owlCarousel({
+            autoPlay:true,
+            lazyLoad:true,
+            stopOnHover:true,
+            pagination:false,
+            autoPlay:true,
+            navigation:true,
+            navigationText:["<i class='icon-chevron-left'></i>","<i class='icon-chevron-right'></i>"],
+            slideSpeed:500,
+            paginationSpeed:500,
+            singleItem:true,
+            addClassActive:true,
+            transitionStyle:"fade",
+            afterMove:function(){
+                $("#banner-slider-demo-2-new .owl-item.active .content").each(function(){
+                    $(this).addClass($(this).attr("data-animation"));
+                });
+            },
+            beforeMove:function(){
+                $("#banner-slider-demo-2-new .owl-item .content").each(function(){
+                    $(this).removeClass($(this).attr("data-animation"));
+                });
+            }
+        });
+        });
+        function gohome(){ jQuery(".header-container").scrollToJustMe(); }
+    </script>
+</div>
+<div class="container">
+    <div class="single-images" style="padding-top: 30px;">
+        <div class="row">
+            <div class="col-sm-4" style="padding-bottom:15px;">
+                <a class="image-link" href="#">
+                    <img src="{{media url="wysiwyg/porto/homepage/slider/02/image_link_1_old.jpg"}}" width="370" height="254" alt="" />
+                    <span class="category-title">SUNGLASSES</span>
+                </a>
+            </div>
+            <div class="col-sm-4" style="padding-bottom:15px;">
+                <a class="image-link" href="#">
+                    <img src="{{media url="wysiwyg/porto/homepage/slider/02/image_link_2_old.jpg"}}" width="370" height="254" alt="" />
+                    <span class="category-title">WOMAN DRESSES</span>
+                </a>
+            </div>
+            <div class="col-sm-4" style="padding-bottom:15px;">
+                <a class="image-link" href="#">
+                    <img src="{{media url="wysiwyg/porto/homepage/slider/02/image_link_3_old.jpg"}}" width="370" height="254" alt="" />
+                    <span class="category-title">WOMAN BAGS</span>
+                </a>
+            </div>
+         </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 style="margin-top:30px; font-size:19px;font-weight:600;" class="theme-color">WEEKLY FEATURED PRODUCTS</h2>
+            <div id="featured_product" class="owl-top-narrow hide-addtocart hide-addtolinks">
+                {{block type="filterproducts/featured_home_list" name="new_list" product_count="10" aspect_ratio="0" image_width="300" image_height="346" lazy_owl="1" template="filterproducts/list.phtml"}}
+            </div>
+            <script type="text/javascript">
+            jQuery(function($){
+                $("#featured_product .filter-products .owl-carousel").owlCarousel({lazyLoad: true,    itemsCustom: [ [0, 1], [320, 1], [480, 2], [768, 3], [992, 4], [1200, 5] ],    responsiveRefreshRate: 50,    slideSpeed: 200,    paginationSpeed: 500,    scrollPerPage: false,    stopOnHover: true,    rewindNav: true,    rewindSpeed: 600,    pagination: false,    navigation: false,    autoPlay: true,    navigationText:["<i class='icon-left-open'></i>","<i class='icon-right-open'></i>"]});
+            });
+            </script>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(function($){
+        $('#parallax_01').parallax("80%", 0.1);
+    });
+</script>
+<div id="parallax_01" style="background:url({{media url="wysiwyg/porto/homepage/slider/02/parallax_img_old.jpg"}}) 80% 0 no-repeat fixed; color: #fff; margin: 0 auto; padding: 100px 0; position: relative;">
+        <div class="overlay overlay-color" style="background-color: #000000; opacity: 0.65; filter: alpha(opacity=65);top:0;"></div>
+    <div class="parallax-slider" style="position: relative; z-index: 3;">
+            <div class="container">
+                <div id="parallax-slider-demo-5" class="owl-carousel owl-theme">
+                    <div class="item">
+                        <h2 style="font-weight:600;">SPECIAL <b style="font-weight:800;">PROMO</b></h2>
+                        <p style="font-weight:300;">Up to <b style="font-weight:800;">70% OFF</b> in the new collection.</p>
+                        <a href="#" style="font-weight:300;">Purchase now &gt;</a>
+                    </div>
+                    <div class="item">
+                        <h2 style="font-weight:600;">SPECIAL <b style="font-weight:800;">PROMO</b></h2>
+                        <p style="font-weight:300;">Up to <b style="font-weight:800;">70% OFF</b> in the new collection.</p>
+                        <a href="#" style="font-weight:300;">Purchase now &gt;</a>
+                    </div>
+                    <div class="item">
+                        <h2 style="font-weight:600;">SPECIAL <b style="font-weight:800;">PROMO</b></h2>
+                        <p style="font-weight:300;">Up to <b style="font-weight:800;">70% OFF</b> in the new collection.</p>
+                        <a href="#" style="font-weight:300;">Purchase now &gt;</a>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                jQuery(function($){
+                    $("#parallax-slider-demo-5").owlCarousel({navigation : false,slideSpeed : 300,paginationSpeed : 400,    stopOnHover: true,autoPlay: true,singleItem:true});
+                });
+            </script>
+        </div>
+</div>]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
             <title>Porto - Homepage Slider 3 New</title>
             <identifier>porto_homeslider_3_new</identifier>
             <content><![CDATA[<div class="container">
@@ -737,6 +953,66 @@ body {
             <stores><item>0</item></stores>
         </cms_block>
         <cms_block>
+            <title>Porto - Homepage Slider 3 Old Skin</title>
+            <identifier>porto_homeslider_3_old</identifier>
+            <content><![CDATA[<div class="container" style="padding:20px 15px 0;font-family:Georgia;">
+    <div id="banner-slider-demo-3-new" class="owl-carousel owl-theme owl-middle-narrow owl-banner-carousel">
+        <div class="item">
+            <img src="{{media url="wysiwyg/porto/homepage/slider/03/slide3_1_old.jpg"}}" width="1140" height="635" alt="" />
+            <div class="slide3-1-new-content content animated fadeInLeft" data-animation="animated fadeInLeft" style="position:absolute; right:9.5%;top:40%;text-align:right;">
+                <em style="font-weight:400;color:#666666;float:left;font-style:normal;">Porto Presents...</em>
+                <div class="clearer"></div>
+                <h2 style="font-weight:400;color:#141414;margin:0;line-height:1;">The Bride's Dream</h2>
+                <hr style="width: 50%;border-color:#151515;float:right;"></hr>
+                <div class="clearer"></div>
+                <a href="#" style="color:#2b262f;font-weight:700;"><span>SHOP NOW</span></a>
+            </div>
+        </div>
+        <div class="item">
+            <img src="{{media url="wysiwyg/porto/homepage/slider/03/slide3_2_old.jpg"}}" width="1140" height="635" alt="" />
+            <div class="slide3-1-new-content content" data-animation="animated fadeInRight" style="position:absolute; right:9.5%;top:40%;text-align:right;">
+                <em style="font-weight:400;color:#666666;float:left;font-style:normal;">Porto Presents...</em>
+                <div class="clearer"></div>
+                <h2 style="font-weight:400;color:#141414;margin:0;line-height:1;">The Bride's Dream</h2>
+                <hr style="width: 50%;border-color:#151515;float:right;"></hr>
+                <div class="clearer"></div>
+                <a href="#" style="color:#2b262f;font-weight:700;"><span>SHOP NOW</span></a>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        jQuery(function($){
+        $("#banner-slider-demo-3-new").owlCarousel({
+            autoPlay:true,
+            lazyLoad:true,
+            stopOnHover:true,
+            pagination:false,
+            autoPlay:true,
+            navigation:true,
+            navigationText:["<i class='icon-chevron-left'></i>","<i class='icon-chevron-right'></i>"],
+            slideSpeed:500,
+            paginationSpeed:500,
+            singleItem:true,
+            addClassActive:true,
+            transitionStyle:"fadeUp",
+            afterMove:function(){
+                $("#banner-slider-demo-3-new .owl-item.active .content").each(function(){
+                    $(this).addClass($(this).attr("data-animation"));
+                });
+            },
+            beforeMove:function(){
+                $("#banner-slider-demo-3-new .owl-item .content").each(function(){
+                    $(this).removeClass($(this).attr("data-animation"));
+                });
+            }
+        });
+        });
+    </script>
+</div>]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
             <title>Porto - Homepage Slider 4</title>
             <identifier>porto_homeslider_4</identifier>
             <content><![CDATA[<div class="container" style="padding:26px 15px 15px;">
@@ -835,6 +1111,108 @@ body {
       </div>
     </div>
   </div>
+</div>]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
+            <title>Porto - Homepage Slider 4 Old Skin</title>
+            <identifier>porto_homeslider_4_old</identifier>
+            <content><![CDATA[<div class="container" style="padding:20px 15px;">
+    <div class="row" style="margin:0 -10px;">
+        <div class="col-md-9 md-f-right" style="padding:0 10px;">
+            <div id="banner-slider-demo-4" class="owl-carousel owl-theme owl-bottom-narrow owl-banner-carousel sm-xs-margin-bottom">
+                <div class="item" style="border-radius:7px;overflow:hidden;">
+                    <img src="{{media url="wysiwyg/porto/homepage/slider/04/slide1_old.jpg"}}" alt="" />
+                </div>
+                <div class="item" style="border-radius:7px;overflow:hidden;">
+                    <img src="{{media url="wysiwyg/porto/homepage/slider/04/slide2_old.jpg"}}" alt="" />
+                </div>
+            </div>
+            <script type="text/javascript">
+                jQuery(function($){
+                    $("#banner-slider-demo-4").owlCarousel({autoPlay:true,lazyLoad:true, stopOnHover: true,pagination: true, autoPlay: true,navigation: false,slideSpeed : 500,paginationSpeed : 500,singleItem:true});
+                });
+            </script>
+        </div>
+        <div class="col-md-3" style="padding:0 10px;">
+            <div class="row"><div class="col-md-12 col-sm-6">
+            <div class="side-custom-menu" style="margin-bottom:11px;">
+                <h2><i class="icon-menu"></i> TOP CATEGORIES</h2>
+                <ul>
+                    <li><a href="http://newsmartwave.net/magento/porto/index.php/demo4_en/fashion.html">Fashion</a></li>
+                    <li><a href="http://newsmartwave.net/magento/porto/index.php/demo4_en/electronics.html">Electronics</a></li>
+                    <li><a href="http://newsmartwave.net/magento/porto/index.php/demo4_en/gifts.html">Gifts</a></li>
+                    <li><a href="http://newsmartwave.net/magento/porto/index.php/demo4_en/home-garden.html">Home & Garden</a></li>
+                    <li><a href="http://newsmartwave.net/magento/porto/index.php/demo4_en/music.html">Music</a></li>
+                    <li><a href="http://newsmartwave.net/magento/porto/index.php/demo4_en/sports.html">Sports</a></li>
+                </ul>
+            </div>
+            </div>
+            <div class="col-md-12 col-sm-6">
+            <div class="side-custom-menu">
+                <h2><i class="icon-menu"></i> TRENDING</h2>
+                <ul>
+                    <li><a href="#">Huge Sale - 70% Off</a></li>
+                    <li><a href="#">New Arrivals</a></li>
+                </ul>
+            </div>
+            </div></div>
+        </div>
+    </div>
+</div>
+<div style="background-color:#f0f0ed;">
+    <div class="container">
+        <div class="homepage-bar" style="border:1px solid #e1e1e1;border-radius:5px;margin:20px 0;">
+            <div class="row">
+                <div class="col-md-4" style="text-align:center;">
+                    <i class="icon-truck" style="font-size:36px;"></i><div class="text-area"><h3>FREE SHIPPING & RETURN</h3><p>Free shipping on all orders over $99.</p></div>
+                </div>
+                <div class="col-md-4" style="text-align:center;">
+                    <i class="icon-dollar"></i><div class="text-area"><h3>MONEY BACK GUARANTEE</h3><p>100% money back guarantee.</p></div>
+                </div>
+                <div class="col-md-4" style="text-align:center;">
+                    <i class="icon-lifebuoy" style="font-size:32px;"></i><div class="text-area"><h3>ONLINE SUPPORT 24/7</h3><p>Lorem ipsum dolor sit amet.</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom:10px;margin:0 -10px;">
+            <div class="col-sm-3 col-xs-6" style="padding:0 10px;padding-bottom:20px;">
+                <div style="margin-bottom:15px;">
+                    <a class="image-link" href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/04/image01_old.jpg"}}" alt="" /></a>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <a class="image-link" href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/04/image02_old.jpg"}}" alt="" /></a>
+                </div>
+                <div style="margin-bottom:0px;">
+                    <a class="image-link" href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/04/image03_old.jpg"}}" alt="" /></a>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-6 sm-f-right" style="padding:0 10px;padding-bottom:20px;">
+                <div style="margin-bottom:10px;">
+                    <a class="image-link" href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/04/image11_old.jpg"}}" alt="" /></a>
+                </div>
+                <div style="margin-bottom:11px;">
+                    <a class="image-link" href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/04/image12_old.jpg"}}" alt="" /></a>
+                </div>
+                <div style="margin-bottom:0px;">
+                    <a class="image-link" href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/04/image13_old.jpg"}}" alt="" /></a>
+                </div>
+            </div>
+            <div class="sm-clearer"></div>
+            <div class="col-sm-6" style="padding:0 10px;padding-bottom:20px;">
+                <div style="margin-bottom:28px;">
+                    <a class="image-link" href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/04/image21_old.jpg"}}" alt="" /></a>
+                </div>
+                <div style="margin-bottom:28px;">
+                    <a class="image-link" href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/04/image22_old.jpg"}}" alt="" /></a>
+                </div>
+                <div style="margin-bottom:0px;">
+                    <a class="image-link" href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/04/image23_old.jpg"}}" alt="" /></a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>]]></content>
             <is_active>1</is_active>
             <stores><item>0</item></stores>
@@ -1129,6 +1507,198 @@ body {
             <stores><item>0</item></stores>
         </cms_block>
         <cms_block>
+            <title>Porto - Homepage Slider 5 Old Skin</title>
+            <identifier>porto_homeslider_5_old</identifier>
+            <content><![CDATA[<div id="banner-slider-demo-5" class="owl-carousel owl-theme owl-middle-narrow owl-banner-carousel">
+    <div class="item" style="background:url({{media url="wysiwyg/porto/homepage/slider/05/01_bg.png"}}) repeat;">
+        <div class="container" style="position:relative">
+            <img src="{{media url="wysiwyg/porto/homepage/slider/05/01.png"}}" width="1140" height="500" alt="" />
+            <div class="content type1 animated zoomIn" data-animation="animated zoomIn" style="position:absolute;top:30%;left:10%;text-align:right">
+                <h2 style="font-weight:600;line-height:1;color:#08c">HUGE <b style="font-weight:800">SALE</b></h2>
+                <p style="color:#777;font-weight:300;line-height:1;margin-bottom:15px">Now starting at <span style="color:#535353;font-weight:400">$99</span></p>
+                <a href="#" style="font-weight:300;">Shop now &gt;</a>
+            </div>
+        </div>
+    </div>
+    <div class="item" style="background:url({{media url="wysiwyg/porto/homepage/slider/05/02_bg.png"}}) center center no-repeat;background-size:cover;">
+        <div class="container" style="position:relative">
+            <img src="{{media url="wysiwyg/porto/homepage/slider/05/02.png"}}" width="1140" height="500" alt="" />
+        </div>
+    </div>
+    <div class="item" style="background:url({{media url="wysiwyg/porto/homepage/slider/05/03_bg.png"}}) center center no-repeat;background-size:cover;">
+        <div class="container" style="position:relative">
+            <img src="{{media url="wysiwyg/porto/homepage/slider/05/03.png"}}" width="1140" height="500" alt="" />
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(function($){
+        $("#banner-slider-demo-5").owlCarousel({
+            autoPlay:true,
+            lazyLoad:true,
+            stopOnHover:true,
+            pagination:false,
+            autoPlay:true,
+            navigation:true,
+            navigationText:["<i class='icon-chevron-left'></i>","<i class='icon-chevron-right'></i>"],
+            slideSpeed:500,
+            paginationSpeed:500,
+            singleItem:true,
+            addClassActive:true,
+            transitionStyle:"fade",
+            afterMove:function(){
+                $("#banner-slider-demo-5 .owl-item.active .content").each(function(){
+                    $(this).addClass($(this).attr("data-animation"));
+                });
+            },
+            beforeMove:function(){
+                $("#banner-slider-demo-5 .owl-item .content").each(function(){
+                    $(this).removeClass($(this).attr("data-animation"));
+                });
+            }
+        });
+    });
+</script>
+<div class="homepage-bar">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <i class="icon-truck" style="font-size:36px;"></i><div class="text-area"><h3>FREE SHIPPING & RETURN</h3><p>Free shipping on all orders over $99.</p></div>
+            </div>
+            <div class="col-md-4">
+                <i class="icon-dollar"></i><div class="text-area"><h3>MONEY BACK GUARANTEE</h3><p>100% money back guarantee.</p></div>
+            </div>
+            <div class="col-md-4">
+                <i class="icon-lifebuoy" style="font-size:32px;"></i><div class="text-area"><h3>ONLINE SUPPORT 24/7</h3><p>Lorem ipsum dolor sit amet.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="single-images border-radius" style="padding-top: 25px;">
+    <div class="container">
+        <div class="row" style="margin-left:-10px;margin-right:-10px;">
+            <div class="col-sm-3 col-xs-6" style="padding-left:10px;padding-right:10px;padding-top:20px;">
+                <a class="image-link" href="#">
+                    <img src="{{media url="wysiwyg/porto/homepage/slider/05/image_1.png"}}" width="270" height="200" alt="" />
+                </a>
+            </div>
+            <div class="col-sm-3 col-xs-6" style="padding-left:10px;padding-right:10px;padding-top:20px;">
+                <a class="image-link" href="#">
+                    <img src="{{media url="wysiwyg/porto/homepage/slider/05/image_2.png"}}" width="270" height="200" alt="" />
+                </a>
+            </div>
+            <div class="col-sm-3 col-xs-6" style="padding-left:10px;padding-right:10px;padding-top:20px;">
+                <a class="image-link" href="#">
+                    <img src="{{media url="wysiwyg/porto/homepage/slider/05/image_3.png"}}" width="270" height="200" alt="" />
+                </a>
+            </div>
+            <div class="col-sm-3 col-xs-6" style="padding-left:10px;padding-right:10px;padding-top:20px;">
+                <a class="image-link" href="#">
+                    <img src="{{media url="wysiwyg/porto/homepage/slider/05/image_4.png"}}" width="270" height="200" alt="" />
+                </a>
+            </div>
+         </div>
+    </div>
+</div>
+<div style="padding-top: 35px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="filter-title"><span class="content"><strong>Featured Products</strong></span></h2>
+                <div id="featured_product" class="owl-top-narrow">
+                    {{block type="filterproducts/featured_home_list" name="featured_list" product_count="10" aspect_ratio="0" image_width="300" image_height="400" lazy_owl="1" template="filterproducts/list.phtml"}}
+                </div>
+                <script type="text/javascript">
+                    jQuery(function($){
+                        $("#featured_product .filter-products .owl-carousel").owlCarousel({lazyLoad: true,    itemsCustom: [ [0, 1], [320, 1], [480, 2], [768, 3], [992, 4], [1280, 5] ],    responsiveRefreshRate: 50,    slideSpeed: 200,    paginationSpeed: 500,    scrollPerPage: false,    stopOnHover: true,    rewindNav: true,    rewindSpeed: 600,    pagination: false,    navigation: true,    autoPlay: true,    navigationText:["<i class='icon-left-open'></i>","<i class='icon-right-open'></i>"]});
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="filter-title"><span class="content"><strong>New Products</strong></span></h2>
+                <div id="new_product" class="owl-top-narrow hide-addtolinks">
+                    {{block type="filterproducts/newproduct_home_list" name="new_list" product_count="12" aspect_ratio="0" image_width="165" image_height="165" lazy_owl="1" template="filterproducts/list.phtml"}}
+                </div>
+                <script type="text/javascript">
+                    jQuery(function($){
+                        $("#new_product .filter-products .owl-carousel").owlCarousel({lazyLoad: true,    itemsCustom: [ [0, 1], [320, 1], [480, 2], [768, 3], [992, 4], [1280, 6] ],    responsiveRefreshRate: 50,    slideSpeed: 200,    paginationSpeed: 500,    scrollPerPage: false,    stopOnHover: true,    rewindNav: true,    rewindSpeed: 600,    pagination: false,    navigation: true,    autoPlay: true,    navigationText:["<i class='icon-left-open'></i>","<i class='icon-right-open'></i>"]});
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;" class="custom-support">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <i class="icon-star" style="border-radius:50%;border:2px solid #cecece;color:#333;background-color:transparent;line-height:58px;font-size:25px;"></i>
+                <div class="content">
+                    <h2>Customer Support</h2>
+                    <em>YOU WON'T BE ALONE</em>
+                    <p>We really care about you and your website as much as you do. Purchasing Porto or any other theme from us you get 100% free support.</p>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <i class="icon-reply" style="border-radius:50%;border:2px solid #cecece;color:#333;background-color:transparent;line-height:58px;font-size:25px;"></i>
+                <div class="content">
+                    <h2>Fully Customizable</h2>
+                    <em>TONS OF OPTIONS</em>
+                    <p>With Porto you can customize the layout, colors and styles within only a few minutes. Start creating an amazing website right now!</p>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <i class="icon-paper-plane" style="border-radius:50%;border:2px solid #cecece;color:#333;background-color:transparent;line-height:58px;font-size:25px;"></i>
+                <div class="content">
+                    <h2>Powerful Admin</h2>
+                    <em>MADE TO HELP YOU</em>
+                    <p>Porto has very powerful admin features to help customer to build their own shop in minutes without any special skills in web development.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="parallax-wrapper ">
+    <div class="overlay overlay-color" style="background-color: #000000; opacity: 0.75; filter: alpha(opacity=75);"></div>
+    <div class="parallax" data-stellar-background-ratio="0.5" style="background-image: url({{media url="wysiwyg/porto/homepage/content/05/2.jpg"}});">
+        <div class="parallax-slider" style="position: relative; z-index: 3;">
+            <div class="container">
+                <div id="parallax-slider-demo-5" class="owl-carousel owl-theme">
+                    <div class="item">
+                        <h2 style="font-weight:600;">EXPLORE <b style="font-weight:800;">PORTO</b></h2>
+                        <p style="font-weight:300;">Premium theme, unlimited possibilities...</p>
+                        <a href="#" style="font-weight:300;">Purchase now &gt;</a>
+                    </div>
+                    <div class="item">
+                        <h2 style="font-weight:600;">EXPLORE <b style="font-weight:800;">PORTO</b></h2>
+                        <p style="font-weight:300;">Premium theme, unlimited possibilities...</p>
+                        <a href="#" style="font-weight:300;">Purchase now &gt;</a>
+                    </div>
+                    <div class="item">
+                        <h2 style="font-weight:600;">EXPLORE <b style="font-weight:800;">PORTO</b></h2>
+                        <p style="font-weight:300;">Premium theme, unlimited possibilities...</p>
+                        <a href="#" style="font-weight:300;">Purchase now &gt;</a>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                jQuery(function($){
+                    $("#parallax-slider-demo-5").owlCarousel({navigation : false,slideSpeed : 300,paginationSpeed : 400,    stopOnHover: true,autoPlay: true,singleItem:true});
+                });
+            </script>
+        </div>
+    </div>
+</div>]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
             <title>Porto - Homepage Slider 6</title>
             <identifier>porto_homeslider_6</identifier>
             <content><![CDATA[<div style="background-color:#f4f4f4;">
@@ -1152,8 +1722,106 @@ body {
             <stores><item>0</item></stores>
         </cms_block>
         <cms_block>
+            <title>Porto - Homepage Slider 6 Old Skin</title>
+            <identifier>porto_homeslider_6_old</identifier>
+            <content><![CDATA[Blank!!!]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
             <title>Porto - Homepage Slider 7</title>
             <identifier>porto_homeslider_7</identifier>
+            <content><![CDATA[<div class="homepage-grid-banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="grid1" style="position:relative;">
+          <a href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/07/banner1.jpg"}}" width="566" height="536" alt="" /></a>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="grid3 col-sm-margin" style="position:relative;">
+          <a href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/07/banner3.jpg"}}" width="279" height="264" alt="" /> </a>
+        </div>
+        <div class="grid4" style="position:relative;">
+          <a href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/07/banner4.jpg"}}" width="279" height="264" alt="" /> </a>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="grid2" style="position:relative;">
+          <a href="#"><img src="{{media url="wysiwyg/porto/homepage/slider/07/banner2.jpg"}}" width="279" height="536" alt="" /> </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container" style="margin-top: 30px;">
+  <h2 class="filter-title"><span class="content"><strong>Featured Products</strong></span><span class="title_line"></span></h2>
+  <div id="featured_product" class="owl-top-narrow">
+    {{block type="filterproducts/featured_home_list" name="featured_list" product_count="8" aspect_ratio="1" image_width="270" image_height="360" lazy_owl="1" template="filterproducts/list.phtml"}}
+  </div>
+  <script type="text/javascript">
+    jQuery(function($){
+      $("#featured_product .filter-products .owl-carousel").owlCarousel({
+        lazyLoad: true,
+        itemsCustom: [ [0, 1], [320, 1], [480, 2], [768, 3], [992, 3], [1200, 4] ],
+        responsiveRefreshRate: 50,
+        slideSpeed: 200,
+        paginationSpeed: 500,
+        scrollPerPage: false,
+        stopOnHover: true,
+        rewindNav: true,
+        rewindSpeed: 600,
+        pagination: false,
+        navigation: true,
+        autoPlay: true,
+        navigationText:["<i class='icon-angle-left'></i>","<i class='icon-angle-right'></i>"]
+      });
+    });
+  </script>
+</div>
+<div style="background-color:#65829d;padding:30px 0 50px;">
+  <div class="container">
+    <h2 class="filter-title" style="text-align:center;"><span class="content" style="background-color:#65829d;padding:0 30px;color:#fff;"><strong>Browse Our Categories</strong></span><span class="title_line" style="background-color:#728ea9;"></span></h2>
+    <div class="owl-side-narrow" style="margin:0 -15px;padding-top:15px;">
+      <div id="category-slider-demo-7" class="owl-carousel owl-theme">
+        <div class="item" style="padding:0 15px;"><a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/07/banner-c1.jpg"}}" width="270" height="225" class="lazyOwl" alt="" /><p style="position:absolute;width:100%;top:40%;text-align:left;padding-left:30px;"><span style="font-family:'Oswald';font-size:20.28px;color:#fff;font-weight:600;line-height:37px;display:inline-block;">HOME &amp; GARDEN</span><span style="display: block;color: #a7a7a8;font-size: 11px;text-transform: uppercase;">22 products</span></p></a></div>
+        <div class="item" style="padding:0 15px;;"><a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/07/banner-c2.jpg"}}" width="270" height="225" class="lazyOwl" alt="" /><p style="position:absolute;width:100%;top:40%;text-align:left;padding-left:30px;"><span style="font-family:'Oswald';font-size:20.28px;color:#fff;font-weight:600;line-height:37px;display:inline-block;">SPORTS</span><span style="display: block;color: #a7a7a8;font-size: 11px;text-transform: uppercase;">14 products</span></p></a></div>
+        <div class="item" style="padding:0 15px;;"><a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/07/banner-c3.jpg"}}" width="270" height="225" class="lazyOwl" alt="" /><p style="position:absolute;width:100%;top:40%;text-align:left;padding-left:30px;"><span style="font-family:'Oswald';font-size:20.28px;color:#fff;font-weight:600;line-height:37px;display:inline-block;">FASHION</span><span style="display: block;color: #a7a7a8;font-size: 11px;text-transform: uppercase;">24 products</span></p></a></div>
+        <div class="item" style="padding:0 15px;;"><a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/07/banner-c4.jpg"}}" width="270" height="225" class="lazyOwl" alt="" /><p style="position:absolute;width:100%;top:40%;text-align:left;padding-left:30px;"><span style="font-family:'Oswald';font-size:20.28px;color:#fff;font-weight:600;line-height:37px;display:inline-block;">ELECTRONICS</span><span style="display: block;color: #a7a7a8;font-size: 11px;text-transform: uppercase;">34 products</span></p></a></div>
+        <div class="item" style="padding:0 15px;;"><a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/07/banner-c1.jpg"}}" width="270" height="225" class="lazyOwl" alt="" /><p style="position:absolute;width:100%;top:40%;text-align:left;padding-left:30px;"><span style="font-family:'Oswald';font-size:20.28px;color:#fff;font-weight:600;line-height:37px;display:inline-block;">HOME &amp; GARDEN</span><span style="display: block;color: #a7a7a8;font-size: 11px;text-transform: uppercase;">44 products</span></p></a></div>
+        <div class="item" style="padding:0 15px;;"><a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/07/banner-c2.jpg"}}" width="270" height="225" class="lazyOwl" alt="" /><p style="position:absolute;width:100%;top:40%;text-align:left;padding-left:30px;"><span style="font-family:'Oswald';font-size:20.28px;color:#fff;font-weight:600;line-height:37px;display:inline-block;">SPORTS</span><span style="display: block;color: #a7a7a8;font-size: 11px;text-transform: uppercase;">50 products</span></p></a></div>
+        <div class="item" style="padding:0 15px;;"><a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/07/banner-c3.jpg"}}" width="270" height="225" class="lazyOwl" alt="" /><p style="position:absolute;width:100%;top:40%;text-align:left;padding-left:30px;"><span style="font-family:'Oswald';font-size:20.28px;color:#fff;font-weight:600;line-height:37px;display:inline-block;">FASHION</span><span style="display: block;color: #a7a7a8;font-size: 11px;text-transform: uppercase;">40 products</span></p></a></div>
+        <div class="item" style="padding:0 15px;;"><a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/07/banner-c4.jpg"}}" width="270" height="225" class="lazyOwl" alt="" /><p style="position:absolute;width:100%;top:40%;text-align:left;padding-left:30px;"><span style="font-family:'Oswald';font-size:20.28px;color:#fff;font-weight:600;line-height:37px;display:inline-block;">ELECTRONICS</span><span style="display: block;color: #a7a7a8;font-size: 11px;text-transform: uppercase;">20 products</span></p></a></div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      jQuery(function($){
+        $("#category-slider-demo-7").owlCarousel({
+          lazyLoad: true,
+          itemsCustom: [ [0, 1], [320, 1], [480, 2], [768, 3], [992, 4], [1170, 4] ],
+          responsiveRefreshRate: 50,
+          slideSpeed: 200,
+          paginationSpeed: 500,
+          scrollPerPage: false,
+          stopOnHover: true,
+          rewindNav: true,
+          rewindSpeed: 600,
+          pagination: false,
+          navigation: true,
+          autoPlay: true,
+          navigationText:["<i class='icon-left-open-big'></i>","<i class='icon-right-open-big'></i>"]
+        });
+      });
+    </script>
+  </div>
+</div> ]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
+            <title>Porto - Homepage Slider 7 Old Skin</title>
+            <identifier>porto_homeslider_7_old</identifier>
             <content><![CDATA[<div class="homepage-grid-banner">
     <div class="container">
         <div class="row">
@@ -1405,6 +2073,86 @@ body {
             <stores><item>0</item></stores>
         </cms_block>
         <cms_block>
+            <title>Porto - Homepage Slider 8 Old Skin</title>
+            <identifier>porto_homeslider_8_old</identifier>
+            <content><![CDATA[<div style="padding:29px 0 36px;background-color:#f4f4f4;">
+    <div class="container">
+        <div class="slider-with-side">
+            <div class="slider-area">
+                <div id="banner-slider-demo-8" class="owl-carousel owl-theme owl-bottom-narrow owl-banner-carousel">
+                    <div class="item">
+                        <img src="{{media url="wysiwyg/porto/homepage/slider/08/slide2_old.jpg"}}" alt="" />
+                    </div>
+                    <div class="item">
+                        <img src="{{media url="wysiwyg/porto/homepage/slider/08/slide1_old.jpg"}}" alt="" />
+                        <div class="content" style="position:absolute;width:100%;height:100%;left:0;top:0;">
+                            <div class="ribbon" style="position:absolute;text-align:right;">
+                                <em style="font-weight:300;line-height:1;color:#fff;font-style:normal;">FEEL</em>
+                                <h3 style="font-weight:700;line-height:1;color:#fff;">The</h3>
+                                <h5 style="font-weight:600;line-height:1;color:#fff;">Power!</h5>
+                            </div>
+                            <div class="text-area" style="left:3%;bottom:15%;position:absolute;text-align:left;">
+                                <h2 style="font-weight:600;line-height:1;color:#fff;background-color:#202020;background-color:rgba(23,23,23,.9);">EXPLORE <b style="font-weight:800;">PORTO</b></h2><br/>
+                                <p style="line-height:1.2;color:#fff;background-color:#444;background-color:rgba(23,23,23,.75);">With <b>PORTO</b> you can customize the<br/>banners and styles whithin minutes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    jQuery(function($){
+                        $("#banner-slider-demo-8").owlCarousel({autoPlay:true,lazyLoad:true, stopOnHover: true,pagination: true, navigation: false,slideSpeed : 500,paginationSpeed : 500,singleItem:true,transitionStyle : "backSlide"});
+                    });
+                </script>
+            </div>
+            <div class="side-area">
+                <div class="item1">
+                    <img src="{{media url="wysiwyg/porto/homepage/slider/08/right-banner1_old.jpg"}}" alt="" />
+                    <div class="content">
+                        <em  style="color:#fff;font-weight:400;font-style:italic;line-height:1;">fashion</em>
+                        <h2 style="color:#fff;font-weight:700;line-height:1;">TRENDS</h2>
+                        <a href="#" style="color:#000;font-weight:300;line-height:1;">Shop now &gt;</a>
+                    </div>
+                </div>
+                <div class="item2">
+                    <img src="{{media url="wysiwyg/porto/homepage/slider/08/right-banner2_old.jpg"}}" alt="" />
+                    <div class="content">
+                        <h2 style="color:#000;font-weight:300;line-height:1;"><b style="font-weight:600;font-style:italic;">Deals</b> + PROMOS</h2>
+                        <p style="color:#777;font-weight:300;font-style:italic;vertical-align:bottom;line-height:1.2;float:left;">Limited sales in<br/>our categories.</p>
+                        <a href="#" class="btn btn-default" style="color:#fff;font-weight:400;vertical-align:bottom;line-height:1;float:left;">SHOP NOW <i class="icon-right-dir"></i></a>
+                        <div class="clearer"></div>
+                    </div>
+                </div>
+                <div class="item3">
+                    <img src="{{media url="wysiwyg/porto/homepage/slider/08/right-banner3_old.jpg"}}" alt="" />
+                    <div class="content">
+                        <h2  style="color:#fff;font-weight:600;line-height:1;">HUGE <b style="font-weight:800;">SALE</b></h2>
+                        <p style="color:#b2b2b2;font-weight:300;line-height:1;">Now starting at <b style="font-weight:600;">$99</b></p>
+                        <a href="#" style="font-weight:300;line-height:1;">Shop now &gt;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="homepage-bar" style="background-color:#171717;border:0;padding:11px 0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4" style="border-color:#353535;">
+                <i class="icon-truck" style="font-size:36px;color:#fff;"></i><div class="text-area"><h3 style="color:#fff;">FREE SHIPPING & RETURN</h3><p style="color:#fff;">Free shipping on all orders over $99.</p></div>
+            </div>
+            <div class="col-md-4" style="border-color:#353535;">
+                <i class="icon-dollar" style="color:#fff;"></i><div class="text-area"><h3 style="color:#fff;">MONEY BACK GUARANTEE</h3><p style="color:#fff;">100% money back guarantee.</p></div>
+            </div>
+            <div class="col-md-4" style="border-color:#353535;">
+                <i class="icon-lifebuoy" style="font-size:32px;color:#fff;"></i><div class="text-area"><h3 style="color:#fff;">ONLINE SUPPORT 24/7</h3><p style="color:#fff;">Lorem ipsum dolor sit amet.</p></div>
+            </div>
+        </div>
+    </div>
+</div>]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
             <title>Porto - Homepage Slider 9</title>
             <identifier>porto_homeslider_9</identifier>
             <content><![CDATA[<div id="banner-slider-demo-9" class="owl-carousel owl-theme owl-middle-narrow owl-banner-carousel">
@@ -1602,6 +2350,172 @@ body {
             <stores><item>0</item></stores>
         </cms_block>
         <cms_block>
+            <title>Porto - Homepage Slider 9 Old Skin</title>
+            <identifier>porto_homeslider_9_old</identifier>
+            <content><![CDATA[<div id="banner-slider-demo-9" class="owl-carousel owl-theme owl-middle-narrow owl-banner-carousel">
+    <div class="item" style="background:url({{media url="wysiwyg/porto/homepage/slider/09/layer1.jpg"}}) no-repeat; background-size: cover;">
+        <div class="container" style="position:relative">
+            <img src="{{media url="wysiwyg/porto/homepage/slider/09/layer2.png"}}" alt="" />
+            <div class="content-9 type1" style="position:absolute;top:30%;left:9%;text-align:right">
+                <em style="font-weight:300;font-style:normal;color:#a39a8c;float:left;">Feel the real</em>
+                <div class="clearer"></div>
+                <h2 style="font-weight:400;font-style:italic;line-height:1;color:#79a939"><b style="font-weight:800">MOBILE</b> music</h2>
+                <p style="color:#010101;font-weight:700;line-height:1;margin-bottom:15px">$999</p>
+                <a href="#" style="font-weight:600;color:#1e1e1e;"><span>SHOP NOW</span><i class="icon-angle-right theme-bg-color"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="item" style="background:url({{media url="wysiwyg/porto/homepage/slider/09/layer3.jpg"}}) no-repeat; background-size: cover;">
+        <div class="container" style="position:relative">
+            <img src="{{media url="wysiwyg/porto/homepage/slider/09/layer4.png"}}" alt="" />
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(function($){
+        $("#banner-slider-demo-9").owlCarousel({autoPlay:true,lazyLoad:true,stopOnHover: true,pagination: false, autoPlay: true,navigation: true,navigationText:["<i class='icon-chevron-left'></i>","<i class='icon-chevron-right'></i>"],slideSpeed : 500,paginationSpeed : 500,singleItem:true,transitionStyle:"fade"});
+    });
+</script>
+<div class="homepage-bar">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <i class="icon-truck" style="font-size:36px;"></i><div class="text-area"><h3>FREE SHIPPING & RETURN</h3><p>Free shipping on all orders over $99.</p></div>
+            </div>
+            <div class="col-md-4">
+                <i class="icon-dollar"></i><div class="text-area"><h3>MONEY BACK GUARANTEE</h3><p>100% money back guarantee.</p></div>
+            </div>
+            <div class="col-md-4">
+                <i class="icon-lifebuoy" style="font-size:32px;"></i><div class="text-area"><h3>ONLINE SUPPORT 24/7</h3><p>Lorem ipsum dolor sit amet.</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="filterproducts-tab" style="padding-top: 40px;">
+        <h2 class="filter-title">
+            <ul class="content">
+                <li id="tab_featured" class="active first"><a href="#"><strong>FEATURED</strong></a></li>
+                <li id="tab_latest"><a href="#"><strong>LATEST PRODUCTS</strong></a></li>
+            </ul>
+        </h2>
+        <div class="clearer"></div>
+        <div class="tab-content" id="tab_featured_contents">
+            <div id="featured_product" class="owl-top-narrow hide-addtocart hide-addtolinks">
+                {{block type="filterproducts/featured_home_list" name="featured_list" product_count="10" template="filterproducts/list.phtml"}}
+            </div>
+            <script>
+            jQuery(function($){
+                $("#featured_product .filter-products .owl-carousel").owlCarousel({
+                    lazyLoad: true,
+                    itemsCustom: [ [0, 1], [320, 1], [480, 2], [768, 3], [992, 4], [1200, 5] ],
+                    responsiveRefreshRate: 50,
+                    slideSpeed: 200,
+                    paginationSpeed: 500,
+                    scrollPerPage: false,
+                    stopOnHover: true,
+                    rewindNav: true,
+                    rewindSpeed: 600,
+                    pagination: false,
+                    navigation: true,
+                    autoPlay: true,
+                    navigationText:["<i class='icon-left-open'></i>","<i class='icon-right-open'></i>"]
+                });
+            });
+            </script>
+        </div>
+        <div class="tab-content" id="tab_latest_contents">
+            <div id="latest_product" class="owl-top-narrow hide-addtocart hide-addtolinks">
+                {{block type="filterproducts/latest_home_list" name="featured_list" product_count="10" template="filterproducts/list.phtml"}}
+            </div>
+            <script>
+            jQuery(function($){
+                $("#latest_product .filter-products .owl-carousel").owlCarousel({
+                    lazyLoad: true,
+                    itemsCustom: [ [0, 1], [320, 1], [480, 2], [768, 3], [992, 4], [1200, 5] ],
+                    responsiveRefreshRate: 50,
+                    slideSpeed: 200,
+                    paginationSpeed: 500,
+                    scrollPerPage: false,
+                    stopOnHover: true,
+                    rewindNav: true,
+                    rewindSpeed: 600,
+                    pagination: false,
+                    navigation: true,
+                    autoPlay: true,
+                    navigationText:["<i class='icon-left-open'></i>","<i class='icon-right-open'></i>"]
+                });
+            });
+            </script>
+        </div>
+        <script>new Varien.Tabs('.filterproducts-tab > h2.filter-title > ul');</script>
+    </div>
+</div>
+<div style="padding-top: 20px;" class="custom-support">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <i class="icon-star" style="border-radius:50%;border:2px solid #cecece;color:#333;background-color:transparent;line-height:58px;font-size:25px;"></i>
+                <div class="content">
+                    <h2>Customer Support</h2>
+                    <em>YOU WON'T BE ALONE</em>
+                    <p>We really care about you and your website as much as you do. Purchasing Porto or any other theme from us you get 100% free support.</p>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <i class="icon-reply" style="border-radius:50%;border:2px solid #cecece;color:#333;background-color:transparent;line-height:58px;font-size:25px;"></i>
+                <div class="content">
+                    <h2>Fully Customizable</h2>
+                    <em>TONS OF OPTIONS</em>
+                    <p>With Porto you can customize the layout, colors and styles within only a few minutes. Start creating an amazing website right now!</p>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <i class="icon-paper-plane" style="border-radius:50%;border:2px solid #cecece;color:#333;background-color:transparent;line-height:58px;font-size:25px;"></i>
+                <div class="content">
+                    <h2>Powerful Admin</h2>
+                    <em>MADE TO HELP YOU</em>
+                    <p>Porto has very powerful admin features to help customer to build their own shop in minutes without any special skills in web development.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="parallax-wrapper ">
+    <div class="overlay overlay-color" style="background-color: #000000; opacity: 0.75; filter: alpha(opacity=75);"></div>
+    <div class="parallax" data-stellar-background-ratio="0.5" style="background-image: url({{media url="wysiwyg/porto/homepage/slider/09/parallax_bg.jpg"}});margin-bottom:20px;">
+        <div class="parallax-slider" style="position: relative; z-index: 3;">
+            <div class="container">
+                <div id="parallax-slider-demo-9" class="owl-carousel owl-theme">
+                    <div class="item">
+                        <h2 style="font-weight:600;">EXPLORE <b style="font-weight:800;">PORTO</b></h2>
+                        <p style="font-weight:300;">Premium theme, unlimited possibilities...</p>
+                        <a href="#" style="font-weight:300;">Purchase now &gt;</a>
+                    </div>
+                    <div class="item">
+                        <h2 style="font-weight:600;">EXPLORE <b style="font-weight:800;">PORTO</b></h2>
+                        <p style="font-weight:300;">Premium theme, unlimited possibilities...</p>
+                        <a href="#" style="font-weight:300;">Purchase now &gt;</a>
+                    </div>
+                    <div class="item">
+                        <h2 style="font-weight:600;">EXPLORE <b style="font-weight:800;">PORTO</b></h2>
+                        <p style="font-weight:300;">Premium theme, unlimited possibilities...</p>
+                        <a href="#" style="font-weight:300;">Purchase now &gt;</a>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                jQuery(function($){
+                    $("#parallax-slider-demo-9").owlCarousel({navigation : false,slideSpeed : 300,paginationSpeed : 400,    stopOnHover: true,autoPlay: true,singleItem:true});
+                });
+            </script>
+        </div>
+    </div>
+</div>]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
             <title>Porto - Homepage Slider 10</title>
             <identifier>porto_homeslider_10</identifier>
             <content><![CDATA[<div class="container">
@@ -1630,8 +2544,206 @@ body {
             <stores><item>0</item></stores>
         </cms_block>
         <cms_block>
+            <title>Porto - Homepage Slider 10 Old Skin</title>
+            <identifier>porto_homeslider_10_old</identifier>
+            <content><![CDATA[<div class="container">
+<div id="banner-slider-demo-10" class="owl-carousel owl-theme owl-middle-narrow owl-banner-carousel">
+    <div class="item">
+        <img src="{{media url="wysiwyg/porto/homepage/slider/10/01.jpg"}}" alt="" />
+    </div>
+    <div class="item">
+        <img src="{{media url="wysiwyg/porto/homepage/slider/10/02.jpg"}}" alt="" />
+    </div>
+    <div class="item">
+        <img src="{{media url="wysiwyg/porto/homepage/slider/10/03.jpg"}}" alt="" />
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(function($){
+        $("#banner-slider-demo-10").owlCarousel({autoPlay:true,lazyLoad:true,stopOnHover: true,pagination: false, autoPlay: true,navigation: true,navigationText:["<i class='icon-chevron-left'></i>","<i class='icon-chevron-right'></i>"],slideSpeed : 500,paginationSpeed : 500,singleItem:true,transitionStyle:"fade"});
+    });
+</script>
+<style type="text/css">
+    .header-container .header-wrapper{margin-bottom:0 !important;}
+</style>
+</div>]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
             <title>Porto - Homepage Slider 11</title>
             <identifier>porto_homeslider_11</identifier>
+            <content><![CDATA[<div class="container">
+  <div id="banner-slider-demo-11" class="owl-carousel owl-theme owl-middle-narrow owl-banner-carousel">
+    <div class="item" style="position: relative;">
+      <img src="{{media url="wysiwyg/porto/homepage/slider/11/01n.jpg"}}" width="1140" height="550" alt="" />
+      <div class="content-1 content" style="background-color: #d92a2e; color: #fff;">
+        <div style="padding: 30px 26px 30px 45px;">
+          <p style="color:#fff;">Furniture & Garden</p>
+          <h3 style="color:#fff;">HUGE SALE</h3>
+        </div>
+        <div style="text-align:right;padding-right: 45px;">
+          <h4 style="color:#fff;">40</h4>
+          <h5 style="color:#fff;">%<br><b style="font-size:14px;font-weight:300;">OFF</b></h5>
+        </div>
+        <div class="action">
+          <a href="#">Shop Now</a>
+        </div>
+      </div>
+    </div>
+    <div class="item" style="position: relative;">
+      <img src="{{media url="wysiwyg/porto/homepage/slider/11/02n.jpg"}}" width="1140" height="550" alt="" />
+      <div class="content-1 content" style="background-color: #2f2727; color: #fff;left:0;right:auto;">
+        <div style="padding: 30px 26px 30px 45px;">
+          <p style="color:#fff;">Furniture & Garden</p>
+          <h3 style="color:#fff;">HUGE SALE</h3>
+        </div>
+        <div style="text-align:right;padding-right: 45px;">
+          <h4 style="color:#fff;">40</h4>
+          <h5 style="color:#fff;">%<br><b style="font-size:14px;font-weight:300;">OFF</b></h5>
+        </div>
+        <div class="action">
+          <a href="#">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    jQuery(function($){
+      $("#banner-slider-demo-11").owlCarousel({
+        autoPlay:false,
+        lazyLoad:true,
+        stopOnHover:true,
+        pagination:false,
+        navigation:true,
+        navigationText:["<i class='icon-left-open-big'></i>","<i class='icon-right-open-big'></i>"],
+        slideSpeed:500,
+        paginationSpeed:500,
+        singleItem:true,
+        addClassActive:true,
+        transitionStyle:"fade"
+      });
+    });
+  </script>
+  <div class="single-images" style="margin-top:36px;">
+    <div class="row" style="margin-left:-10px;margin-right:-10px;">
+      <div class="col-sm-4" style="padding:10px">
+        <div class="single-image-label">SHOP LIVING ROOM</div>
+        <a class="image-link" href="#">
+          <img src="{{media url="wysiwyg/porto/homepage/content/11/image01n.jpg"}}" width="367" height="269" alt="" />
+        </a>
+        <div class="caption">LIVING ROOM STARTING <span style="float:right;color:#858585;">Starting at <b style="color:#d92a2e;">$999</b></span></div>
+      </div>
+      <div class="col-sm-4" style="padding:10px">
+        <div class="single-image-label">SHOP DINING ROOM</div>
+        <a class="image-link" href="#">
+          <img src="{{media url="wysiwyg/porto/homepage/content/11/image02n.jpg"}}" width="367" height="269" alt="" />
+        </a>
+        <div class="caption">DINING ROOM STARTING <span style="float:right;color:#858585;">Starting at <b style="color:#d92a2e;">$999</b></span></div>
+      </div>
+      <div class="col-sm-4" style="padding:10px">
+        <div class="single-image-label">SHOP BEDROOM</div>
+        <a class="image-link" href="#">
+          <img src="{{media url="wysiwyg/porto/homepage/content/11/image03n.jpg"}}" width="367" height="269" alt="" />
+        </a>
+        <div class="caption">BEDROOM STARTING <span style="float:right;color:#858585;">Starting at <b style="color:#d92a2e;">$999</b></span></div>
+      </div>
+    </div>
+  </div>
+  <div style="padding-top: 20px;">
+    <div class="row">
+      <div class="col-sm-12">
+        <h2 class="filter-title"><span class="content">Top Selling Items</span></h2>
+        <div id="bestsellers_product" class="owl-no-narrow move-action hide-addtolinks">
+          {{block type="filterproducts/latest_home_list" name="new_list" product_count="8" aspect_ratio="0" image_width="270" image_height="311" lazy_owl="1" template="filterproducts/list.phtml"}}
+        </div>
+        <script type="text/javascript">
+          jQuery(function($){
+            $("#bestsellers_product .filter-products .owl-carousel").owlCarousel({lazyLoad: true,    itemsCustom: [ [0, 1], [320, 1], [480, 2], [768, 3], [992, 4], [1280, 4] ],    responsiveRefreshRate: 50,    slideSpeed: 200,    paginationSpeed: 500,    scrollPerPage: false,    stopOnHover: true,    rewindNav: true,    rewindSpeed: 600,    pagination: false,    navigation: false,    autoPlay: true,    navigationText:["<i class='icon-left-open'></i>","<i class='icon-right-open'></i>"]});
+          });
+        </script>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="our-brands" style="border-bottom: #f4f4f4 solid 1px;border-top: #f4f4f4 solid 1px;padding:15px 0 15px;margin-top:15px;">
+  <div class="container">
+    <div class="owl-side-narrow">
+      <div id="brands-slider-demo-11" class="owl-carousel owl-theme">
+        <div class="item" style="padding:10px 0;"><img class="lazyOwl" data-src="{{media url="wysiwyg/porto/homepage/content/09/brand1.jpg"}}" width="166" height="63" alt="" /></div>
+        <div class="item" style="padding:10px 0;"><img class="lazyOwl" data-src="{{media url="wysiwyg/porto/homepage/content/09/brand2.jpg"}}" width="166" height="63" alt="" /></div>
+        <div class="item" style="padding:10px 0;"><img class="lazyOwl" data-src="{{media url="wysiwyg/porto/homepage/content/09/brand3.jpg"}}" width="166" height="63" alt="" /></div>
+        <div class="item" style="padding:10px 0;"><img class="lazyOwl" data-src="{{media url="wysiwyg/porto/homepage/content/09/brand4.jpg"}}" width="166" height="63" alt="" /></div>
+        <div class="item" style="padding:10px 0;"><img class="lazyOwl" data-src="{{media url="wysiwyg/porto/homepage/content/09/brand5.jpg"}}" width="166" height="63" alt="" /></div>
+        <div class="item" style="padding:10px 0;"><img class="lazyOwl" data-src="{{media url="wysiwyg/porto/homepage/content/09/brand1.jpg"}}" width="166" height="63" alt="" /></div>
+        <div class="item" style="padding:10px 0;"><img class="lazyOwl" data-src="{{media url="wysiwyg/porto/homepage/content/09/brand2.jpg"}}" width="166" height="63" alt="" /></div>
+        <div class="item" style="padding:10px 0;"><img class="lazyOwl" data-src="{{media url="wysiwyg/porto/homepage/content/09/brand3.jpg"}}" width="166" height="63" alt="" /></div>
+        <div class="item" style="padding:10px 0;"><img class="lazyOwl" data-src="{{media url="wysiwyg/porto/homepage/content/09/brand4.jpg"}}" width="166" height="63" alt="" /></div>
+        <div class="item" style="padding:10px 0;"><img class="lazyOwl" data-src="{{media url="wysiwyg/porto/homepage/content/09/brand5.jpg"}}" width="166" height="63" alt="" /></div>
+      </div>
+      <script>
+        jQuery(function($){
+          $("#brands-slider-demo-11").owlCarousel({
+            lazyLoad: true,
+            itemsCustom: [ [0, 1], [320, 1], [480, 2], [640, 3], [768, 4], [992, 5], [1200, 5] ],
+            responsiveRefreshRate: 50,
+            slideSpeed: 200,
+            paginationSpeed: 500,
+            scrollPerPage: false,
+            stopOnHover: true,
+            rewindNav: true,
+            rewindSpeed: 600,
+            pagination: false,
+            navigation: true,
+            autoPlay: true,
+            navigationText:["<i class='icon-left-open'></i>","<i class='icon-right-open'></i>"]
+          });
+        });
+      </script>
+    </div>
+  </div>
+</div>
+<div class="our-instagram" style="margin-top: 40px;">
+  <h2 class="filter-title"><span class="content">Follow on instagram</span></h2>
+  <div class="main-instagram">
+    <div class="item">
+      <a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/11/insta1.jpg"}}" alt/><span class="content"><i class="icon-instagram"></i></span></a>
+    </div>
+    <div class="item">
+      <a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/11/insta2.jpg"}}" alt/><span class="content"><i class="icon-instagram"></i></span></a>
+    </div>
+    <div class="item">
+      <a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/11/insta3.jpg"}}" alt/><span class="content"><i class="icon-instagram"></i></span></a>
+    </div>
+    <div class="item">
+      <a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/11/insta4.jpg"}}" alt/><span class="content"><i class="icon-instagram"></i></span></a>
+    </div>
+    <div class="item">
+      <a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/11/insta5.jpg"}}" alt/><span class="content"><i class="icon-instagram"></i></span></a>
+    </div>
+    <div class="item">
+      <a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/11/insta6.jpg"}}" alt/><span class="content"><i class="icon-instagram"></i></span></a>
+    </div>
+    <div class="item">
+      <a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/11/insta7.jpg"}}" alt/><span class="content"><i class="icon-instagram"></i></span></a>
+    </div>
+    <div class="item">
+      <a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/11/insta8.jpg"}}" alt/><span class="content"><i class="icon-instagram"></i></span></a>
+    </div>
+    <div class="item">
+      <a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/11/insta9.jpg"}}" alt/><span class="content"><i class="icon-instagram"></i></span></a>
+    </div>
+    <div class="item">
+      <a href="#"><img src="{{media url="wysiwyg/porto/homepage/content/11/insta10.jpg"}}" alt/><span class="content"><i class="icon-instagram"></i></span></a>
+    </div>
+  </div>
+</div>]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
+            <title>Porto - Homepage Slider 11 Old Skin</title>
+            <identifier>porto_homeslider_11_old</identifier>
             <content><![CDATA[<div class="container">
 <div id="banner-slider-demo-11" class="owl-carousel owl-theme owl-middle-narrow owl-banner-carousel">
     <div class="item" style="position: relative;">
@@ -1748,6 +2860,319 @@ body {
         <cms_block>
             <title>Porto - Homepage Slider 13</title>
             <identifier>porto_homeslider_13</identifier>
+            <content><![CDATA[<div class="full-width-slider">
+  <div id="banner-slider-demo-13" class="owl-carousel owl-theme owl-bottom-narrow owl-banner-carousel">
+    <div class="item" style="background:url({{media url="wysiwyg/porto/homepage/slider/13/slide1.jpg"}}) 80% center no-repeat; background-size:cover;">
+      <img src="{{media url="wysiwyg/porto/homepage/slider/02/02.png"}}" alt=""/>
+      <div class="slide1-content content" style="width:100%;height:100%;position:absolute;left:0;top:0;">
+        <div class="container" style="height:100%;position:relative;">
+          <div class="content-area" style="position:absolute;top:37%;left:20px;text-align:left;">
+            <div class="text1" style="">up to<br><b class="inner1">50</b><span class="inner2">%<br><b class="inner3">Off</b></span></div>
+            <h2 class="text2">summer sale</h2>
+            <p class="text3" style="">Now starting at <b style="font-weight:700;">$99.00</b></p>
+            <a href="#" class="btn btn-default">Shop Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="item" style="background:url({{media url="wysiwyg/porto/homepage/slider/13/slide2.jpg"}}) 20% center no-repeat; background-size:cover;">
+      <img src="{{media url="wysiwyg/porto/homepage/slider/02/02.png"}}" alt=""/>
+      <div class="slide2-content content" style="width:100%;height:100%;position:absolute;left:0;top:0;">
+        <div class="container" style="height:100%;position:relative;">
+          <div class="content-area" style="position:absolute;top:37%;right:20px;text-align:left;">
+            <h2 class="text1">COOL SHOES</h2>
+            <p class="text2">$ 199</p>
+            <p class="text3">* blue of orange while it last</p>
+            <a href="#" class="btn btn-default">Shop Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    jQuery(function($){
+      $("#banner-slider-demo-13").owlCarousel({
+        autoPlay:99999999,
+        lazyLoad:true,
+        stopOnHover:true,
+        pagination:true,
+        navigation:false,
+        navigationText:["<i class='icon-chevron-left'></i>","<i class='icon-chevron-right'></i>"],
+        slideSpeed:500,
+        paginationSpeed:500,
+        singleItem:true,
+        addClassActive:true,
+        transitionStyle:"fade",
+        afterMove:function(){
+          $("#banner-slider-demo-13 .owl-item.active .content").each(function(){
+            $(this).addClass($(this).attr("data-animation"));
+          });
+        },
+        beforeMove:function(){
+          $("#banner-slider-demo-13 .owl-item .content").each(function(){
+            $(this).removeClass($(this).attr("data-animation"));
+          });
+        }
+      });
+      $(".main-container").remove();
+    });
+  </script>
+</div>
+<div class="row" style="margin:0;">
+  <div class="col-sm-3 col-xs-6" style="padding:0;">
+    <a class="image-link" href="#">
+      <img src="{{media url="wysiwyg/porto/homepage/slider/13/image01n.jpg"}}" width="416" height="300" alt="" />
+    </a>
+  </div>
+  <div class="col-sm-3 col-xs-6" style="padding:0;">
+    <a class="image-link" href="#">
+      <img src="{{media url="wysiwyg/porto/homepage/slider/13/image02n.jpg"}}" width="416" height="300" alt="" />
+    </a>
+  </div>
+  <div class="col-sm-3 col-xs-6" style="padding:0;">
+    <a class="image-link" href="#">
+      <img src="{{media url="wysiwyg/porto/homepage/slider/13/image03n.jpg"}}" width="416" height="300" alt="" />
+    </a>
+  </div>
+  <div class="col-sm-3 col-xs-6" style="padding:0;">
+    <a class="image-link" href="#">
+      <img src="{{media url="wysiwyg/porto/homepage/slider/13/image04n.jpg"}}" width="416" height="300" alt="" />
+    </a>
+  </div>
+</div>
+<div class="row" style="margin:0;">
+  <div id="half-content-1" class="col-sm-6" style="padding:4% 6% 1.5%;position:relative;text-align:left;">
+    <h3 class="fullwidth-filter-title">New Mens Collection</h3>
+    <p class="fullwidth-filter-description">Yes, this is our new collection, check it out our new arrivals.</p>
+    <div id="men_product" class="product-banner owl-top-narrow no-border">
+      {{block type="filterproducts/latest_home_list" product_count="4" aspect_ratio="0" image_width="296" image_height="395" template="filterproducts/list.phtml"}}
+    </div>
+    <script type="text/javascript">
+      jQuery(function($){
+        $("#men_product .filter-products .owl-carousel").owlCarousel({
+          lazyLoad: true,
+          itemsCustom: [ [0, 1], [320, 1], [480, 1],[640, 2], [768, 2] ],
+          responsiveRefreshRate: 50,
+          slideSpeed: 200,
+          paginationSpeed: 500,
+          scrollPerPage: false,
+          stopOnHover: true,
+          rewindNav: true,
+          rewindSpeed: 600,
+          pagination: false,
+          navigation: true,
+          navigationText:["<i class='icon-angle-left'></i>","<i class='icon-angle-right'></i>"],
+          autoPlay: true
+        });
+      });
+    </script>
+  </div>
+  <div class="col-sm-6" style="padding:0;">
+    <div id="half-image-1" style="background:url({{media url="wysiwyg/porto/homepage/slider/13/men_new.jpg"}}) center center no-repeat;background-size:cover;width:100%;">
+      <img src="{{media url="wysiwyg/porto/homepage/slider/13/men_new.jpg"}}" width="832" height="700" style="width:100%;visibility:hidden;" alt="" />
+      <div class="content" style="position:absolute;top:41%;left:15%;font-size:60px;font-family:'Oswald';letter-spacing:0.05em;text-transform:uppercase;text-align:left;color:#fff;">Men’s<br>Collection</div>
+    </div>
+  </div>
+</div>
+<div class="row" style="margin:0;">
+  <div class="col-sm-6" style="padding:0;">
+    <div id="half-image-2" style="background:url({{media url="wysiwyg/porto/homepage/slider/13/women_new.jpg"}}) center center no-repeat;background-size:cover;width:100%;">
+      <img src="{{media url="wysiwyg/porto/homepage/slider/13/women_new.jpg"}}" width="832" height="700" style="width:100%;visibility:hidden;" alt="" />
+      <div class="content" style="position:absolute;top:41%;left:15%;font-size:60px;font-family:'Oswald';letter-spacing:0.05em;text-transform:uppercase;text-align:left;color:#fff;">Woman’s<br>Collection</div>
+    </div>
+  </div>
+  <div id="half-content-2" class="col-sm-6" style="padding:4% 6% 1.5%;position:relative;text-align:left;">
+    <h3 class="fullwidth-filter-title">New ladies Collection</h3>
+    <p class="fullwidth-filter-description">Yes, this is our new collection, check it out our new arrivals.</p>
+    <div id="women_product" class="product-banner owl-top-narrow no-border">
+      {{block type="filterproducts/latest_home_list" product_count="4" aspect_ratio="0" image_width="296" image_height="341" template="filterproducts/list.phtml"}}
+    </div>
+    <script type="text/javascript">
+      jQuery(function($){
+        $("#women_product .filter-products .owl-carousel").owlCarousel({
+          lazyLoad: true,
+          itemsCustom: [ [0, 1], [320, 1], [480, 1],[640, 2], [768, 2] ],
+          responsiveRefreshRate: 50,
+          slideSpeed: 200,
+          paginationSpeed: 500,
+          scrollPerPage: false,
+          stopOnHover: true,
+          rewindNav: true,
+          rewindSpeed: 600,
+          pagination: false,
+          navigation: true,
+          navigationText:["<i class='icon-angle-left'></i>","<i class='icon-angle-right'></i>"],
+          autoPlay: true
+        });
+      });
+    </script>
+  </div>
+</div>
+<div style="text-align:left; padding:95px 15px;background-color:#e0e2e3;">
+  <h3 class="fullwidth-filter-title" style="text-align:center;margin-bottom:10px;">Featured Products</h3>
+  <span style="text-align:center;display:block;font-size:15px;color:#646a70;letter-spacing:0.025em;margin-bottom:10px;">Check it out our new arrivals.</span>
+  <div id="fashion_product" class="no-border">
+    {{block type="filterproducts/latest_home_list" product_count="8" aspect_ratio="0" image_width="300" image_height="400" lazy_owl="1" template="filterproducts/list.phtml"}}
+  </div>
+  <script type="text/javascript">
+    jQuery(function($){
+      $("#fashion_product .filter-products .owl-carousel").owlCarousel({
+        lazyLoad: true,
+        itemsCustom: [ [0, 1], [320, 1], [480, 1],[640, 2], [768, 3], [992, 4], [1200, 5]],
+        responsiveRefreshRate: 50,
+        slideSpeed: 200,
+        paginationSpeed: 500,
+        scrollPerPage: false,
+        stopOnHover: true,
+        rewindNav: true,
+        rewindSpeed: 600,
+        pagination: true,
+        navigation: false,
+        autoPlay: true
+      });
+    });
+  </script>
+</div>
+<script type="text/javascript">
+  jQuery(function($){
+    $("#half-image-1").css("min-height",$("#half-content-1").outerHeight()+"px");
+    $("#half-image-2").css("min-height",$("#half-content-2").outerHeight()+"px");
+    setTimeout(function(){
+      $("#half-image-1").css("min-height",$("#half-content-1").outerHeight()+"px");
+      $("#half-image-2").css("min-height",$("#half-content-2").outerHeight()+"px");
+    }, 5000);
+    $(window).resize(function(){
+      setTimeout(function(){
+        $("#half-image-1").css("min-height",$("#half-content-1").outerHeight()+"px");
+        $("#half-image-2").css("min-height",$("#half-content-2").outerHeight()+"px");
+      }, 500);
+    });
+  });
+</script>
+<style>
+  #banner-slider-demo-13 .slide1-content .content-area .text1 {
+  	position: relative;
+    font-family:'Oswald';
+    font-size:18px;
+    letter-spacing:-0.01em;
+    text-transform:uppercase;
+    color:#fff;
+    line-height:1;
+    font-weight:400;
+  }
+  #banner-slider-demo-13 .slide1-content .content-area .text1 .inner1{
+  	font-size:64px;color:#fff;letter-spacing:-0.01em;display:inline-block;display:inline-block;text-shadow: 5px 3px #92a9b3;font-weight:600;margin-top:5px;font-family:'Poppins';margin-left:-4px;margin-right: 5px;
+  }
+  #banner-slider-demo-13 .slide1-content .content-area .text1 .inner2{
+    position:absolute;top:23px;font-size:33px;font-weight: 400;font-family: 'Open Sans';
+  }
+  #banner-slider-demo-13 .slide1-content .content-area .text1 .inner3{
+  	font-family:'Oswald';font-size:18px;letter-spacing:0.075em;color:#fff;font-weight:400;display:block;
+  }
+  #banner-slider-demo-13 .slide1-content .content-area .text2 {
+    font-family:'Oswald';font-size:80px;font-weight:700;text-transform:uppercase;color:#fff;line-height:1;margin-top:30px;
+  }
+  #banner-slider-demo-13 .slide1-content .content-area .text3 {
+    font-weight:400;color:#fff;line-height:1;text-transform: uppercase;font-size: 20px;letter-spacing: 0.075em;margin-bottom:35px;
+  }
+  #banner-slider-demo-13 .slide1-content .content-area .btn-default {
+    text-transform:uppercase;padding:14px 20px;border-radius:2px;font-family:'Oswald';letter-spacing:0.05em;font-size:14px;line-height:1;
+  }
+  #banner-slider-demo-13 .slide2-content .content-area .text1 {
+  	font-family:'Oswald';font-size:80px;font-weight:700;text-transform:uppercase;color:#fff;line-height:1;margin-bottom:25px;
+  }
+  #banner-slider-demo-13 .slide2-content .content-area .text2 {
+    font-family:'Poppins';font-weight:600;color:#fff;line-height:1;text-transform: uppercase;font-size: 64px;letter-spacing: -0.01em;text-shadow: 5px 3px #92a9b3;margin: 0 0 25px;
+  }
+  #banner-slider-demo-13 .slide2-content .content-area .text3 {
+    font-family:'Oswald';font-size:18px;font-weight:400;letter-spacing:-0.01em;color:#fff;margin:0;text-transform:uppercase;margin: 0 0 35px;
+  }
+  #banner-slider-demo-13 .slide2-content .content-area .btn-default {
+    text-transform:uppercase;padding:14px 20px;border-radius:2px;font-family:'Oswald';letter-spacing:0.05em;font-size:14px;width:auto;height:auto;line-height:1;
+  }
+  @media(max-width:767px){
+    #banner-slider-demo-13 .slide1-content .content-area .text1 {
+      font-size:10px;
+    }
+    #banner-slider-demo-13 .slide1-content .content-area .text1 .inner1 {
+      font-size: 35px;
+    }
+    #banner-slider-demo-13 .slide1-content .content-area .text1 .inner2 {
+      top: 18px;
+      font-size: 13px;
+    }
+    #banner-slider-demo-13 .slide1-content .content-area .text1 .inner3 {
+      font-size: 10px;
+    }
+    #banner-slider-demo-13 .slide1-content .content-area .text2 {
+      font-size: 40px;
+      margin-top: 10px;
+    }
+    #banner-slider-demo-13 .slide1-content .content-area .text3 {
+      font-size: 10px;
+      margin-bottom: 15px;
+    }
+    #banner-slider-demo-13 .slide1-content .content-area .btn-default {
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+    #banner-slider-demo-13 .slide2-content .content-area .text1 {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+    #banner-slider-demo-13 .slide2-content .content-area .text2 {
+      font-size: 33px;
+      margin: 0 0 7px;
+    }
+    #banner-slider-demo-13 .slide2-content .content-area .text3 {
+      font-size: 10px;
+      margin: 0 0 13px;
+    }
+    #banner-slider-demo-13 .slide2-content .content-area .btn-default {
+      padding: 8px 10px;
+      font-size: 11px;
+    }
+    #banner-slider-demo-13 .owl-controls {
+      display:none!important;
+    }
+  }
+  @media(max-width:320px){
+    #banner-slider-demo-13 .slide1-content .content-area .text1 .inner1 {
+      font-size: 33px;
+    }
+    #banner-slider-demo-13 .slide1-content .content-area .text2 {
+      font-size: 34px;
+      margin-top: 7px;
+    }
+    #banner-slider-demo-13 .slide1-content .content-area .text3 {
+      font-size: 9px;
+      margin-bottom: 12px;
+    }
+    #banner-slider-demo-13 .slide1-content .content-area .btn-default {
+      padding: 7px 9px;
+      font-size: 10px;
+    }
+    #banner-slider-demo-13 .slide2-content .content-area .text1 {
+      font-size: 33px;
+      margin-bottom: 10px;
+    }
+    #banner-slider-demo-13 .slide2-content .content-area .text2 {
+      font-size: 30px;
+      margin: 0 0 7px;
+      text-shadow: 3px 2px #92a9b3;
+    }
+    #banner-slider-demo-13 .slide2-content .content-area .btn-default {
+      padding: 7px 9px;
+      font-size: 10px;
+    }
+  }
+</style>]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
+            <title>Porto - Homepage Slider 13 Old Skin</title>
+            <identifier>porto_homeslider_13_old</identifier>
             <content><![CDATA[<div class="full-screen-slider">
     <div id="banner-slider-demo-13" class="owl-carousel owl-theme owl-middle-narrow owl-banner-carousel">
         <div class="item" style="background:#f0f0f0;background-image:linear-gradient(#e8e8e8,#f0f0f0);position:relative;">
@@ -2759,6 +4184,13 @@ body.side-header.cms-index-index .top-container .full-screen-slider{width:100vw;
             <stores><item>0</item></stores>
         </cms_block>
         <cms_block>
+            <title>Porto - Custom Block for Header Home 13</title>
+            <identifier>porto_custom_block_for_header_home13</identifier>
+            <content><![CDATA[<span style="color:#fff;line-height:33px;">+000 1584 2578</span>]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
             <title>Porto - Custom Block For Header Type10</title>
             <identifier>porto_custom_block_for_header_type_10</identifier>
             <content><![CDATA[<a href="#">FASHION PROMO</a>
@@ -3359,6 +4791,49 @@ body.side-header.cms-index-index .top-container .full-screen-slider{width:100vw;
             <stores><item>0</item></stores>
         </cms_block>
         <cms_block>
+            <title>Porto - Footer Top - for Demo 13 New</title>
+            <identifier>porto_footer_top_custom_block_home13_new</identifier>
+            <content><![CDATA[<div class="homepage-bar">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4" style="text-align:left;">
+        <i class="icon-shipping" style="font-size:35px;"></i><div class="text-area"><h3>FREE SHIPPING & RETURN</h3><p>Free shipping on all orders over $99.</p></div>
+      </div>
+      <div class="col-md-4" style="text-align:center;">
+        <i class="icon-us-dollar" style="font-size:37px;"></i><div class="text-area"><h3>MONEY BACK GUARANTEE</h3><p>100% money back guarantee.</p></div>
+      </div>
+      <div class="col-md-4" style="text-align:center;">
+        <i class="icon-support" style="font-size:37px;"></i><div class="text-area"><h3>ONLINE SUPPORT 24/7</h3><p>Lorem ipsum dolor sit amet.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer-top-inner">
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="block" style="margin-bottom: 0;">
+        <div class="block-title"><strong><span>BE THE FIRST TO KNOW</span></strong></div>
+        <div class="block-content">
+          <p>Get all the latest information on Events, Sales and Offers.<br>Sign up for newsletter today.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-7">
+      <div class="block-content" style="width:100%;float:right;margin:48px 0px 28px;">
+        {{block type="newsletter/subscribe" template="newsletter/home_newside_subscribe.phtml"}}
+        <div class="social-icons">
+          <a href="https://www.facebook.com/" title="Facebook" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+          <a href="https://twitter.com/" title="Twitter" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+          <a href="https://linkedin.com/" title="Linkedin" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
             <title>Porto - Footer Top Custom Block for Home17</title>
             <identifier>porto_footer_top_custom_block_home17</identifier>
             <content><![CDATA[<div class="homepage-bar">
@@ -3821,6 +5296,87 @@ body.side-header.cms-index-index .top-container .full-screen-slider{width:100vw;
     </div>
   </div>
 </div> ]]></content>
+            <is_active>1</is_active>
+            <stores><item>0</item></stores>
+        </cms_block>
+        <cms_block>
+            <title>Porto - Footer Middle - 2st Column for Demo 13</title>
+            <identifier>porto_footer_middle_2_for_13</identifier>
+            <content><![CDATA[<div class="row">
+  <div class="col-sm-12">
+    <div class="block-right">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="block">
+            <div class="block-title"><strong><span>MY ACCOUNT</span></strong></div>
+            <div class="block-content">
+              <div class="row">
+                <div class="col-sm-6">
+                  <ul class="links">
+                    <li><a href="{{config path="web/unsecure/base_url"}}about-porto-3" title="About us">About us</a></li>
+                    <li><a href="{{config path="web/unsecure/base_url"}}contact" title="Contact Us">Contact us</a></li>
+                    <li><a href="{{config path="web/unsecure/base_url"}}customer/account" title="My Account">My Account</a></li>
+                  </ul>
+                </div>
+                <div class="col-sm-6">
+                  <ul class="links">
+                    <li><a href="{{config path="web/unsecure/base_url"}}customer/account" title="Order history">Order history</a></li>
+                    <li><a href="{{config path="web/unsecure/base_url"}}catalogsearch/advanced" title="Contact us">Advanced search</a></li>
+                    <li><a href="{{config path="web/unsecure/base_url"}}customer/login" title="Login">Login</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-5">
+          <div class="block">
+            <div class="block-title"><strong><span>Main Features</span></strong></div>
+            <div class="block-content">
+              <div class="row">
+                <div class="col-sm-6">
+                  <ul class="features">
+                    <li><a href="#">Super Fast Magento Theme</a></li>
+                    <li><a href="#">1st Fully working Ajax Theme</a></li>
+                    <li><a href="#">10 Unique Homepage Layouts</a></li>
+                  </ul>
+                </div>
+                <div class="col-sm-6">
+                  <ul class="features">
+                    <li><a href="#">Powerful Admin Panel</a></li>
+                    <li><a href="#">Mobile &amp; Retina Optimized</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="block">
+            <div class="block-title"><strong><span>Working Days/Hours</span></strong></div>
+            <div class="block-content">
+              Mon - Sun / 9:00AM - 8:00PM
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="block-bottom">
+      <div class="row">
+        <div class="col-sm-5">
+          <address style="float:left;font-size:13px;">© Porto eCommerce. 2016. All Rights Reserved</address>
+        </div>
+        <div class="col-sm-7">
+          <div class="custom-block" style="float:right;"><img src="{{media url="wysiwyg/smartwave/footer/payment-icon.png"}}"  style="max-width: 100%;" alt="" /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>]]></content>
             <is_active>1</is_active>
             <stores><item>0</item></stores>
         </cms_block>

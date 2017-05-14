@@ -5,7 +5,7 @@
 <?php $_gridJsObject = $this->getGridBlock()->getJsObjectName() ?>
 <script type="text/javascript">
 
-var dailydeal = new Dailydeal('<?php echo Mage::helper('adminhtml')->getUrl('dailydealadmin/adminhtml_dailydeal/changeproduct')?>')
+var dailydeal = new Dailydeal('<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/dailydealadmin_dailydeal/changeproduct')?>')
 
 function magegiantObjectRowClick(grid, event) {
 	var trElement = Event.findElement(event, 'tr');
