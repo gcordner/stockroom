@@ -77,3 +77,5 @@ app/design/adminhtml/default/default/template/alekseon/*
 app/etc/modules/Alekseon_ModulesConflictDetector.xml
 wp/.htaccess
 wp/wp-content/uploads/
+skin/frontend/smartwave/porto/css/configed/design_posview.css
+skin/frontend/smartwave/porto/css/configed/settings_posview.css
