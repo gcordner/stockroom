@@ -164,20 +164,21 @@ Checkout.prototype = {
     },
 
     setMethod: function(){
+        var formKey = $('checkout-step-login').select('[name=form_key]')[0].value;
         if ($('login:guest') && $('login:guest').checked) {
             this.method = 'guest';
-            var request = new Ajax.Request(
+            new Ajax.Request(
                 this.saveMethodUrl,
-                {method: 'post', onFailure: this.ajaxFailure.bind(this), parameters: {method:'guest'}}
+                {method: 'post', onFailure: this.ajaxFailure.bind(this), parameters: {method:'guest', form_key:formKey}}
             );
             Element.hide('register-customer-password');
             this.gotoSection('billing', true);
         }
         else if($('login:register') && ($('login:register').checked || $('login:register').type == 'hidden')) {
             this.method = 'register';
-            var request = new Ajax.Request(
+            new Ajax.Request(
                 this.saveMethodUrl,
-                {method: 'post', onFailure: this.ajaxFailure.bind(this), parameters: {method:'register'}}
+                {method: 'post', onFailure: this.ajaxFailure.bind(this), parameters: {method:'register', form_key:formKey}}
             );
             Element.show('register-customer-password');
             this.gotoSection('billing', true);
