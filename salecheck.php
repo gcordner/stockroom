@@ -14,8 +14,10 @@ $collection = Mage::getModel('catalog/product')->getCollection()
                 ->addAttributeToFilter( 'special_from_date' , array( 'gteq' => $todaystart ))
                 ->addAttributeToFilter( 'special_from_date' , array( 'lteq' => $todaynext ));
 //                echo "\n".$collection->getSelect(); // uncomment for debugging
-foreach($collection as $product){
-    Mirasvit_Fpc_Model_Cache::getCacheInstance()->clean('CATALOG_PRODUCT_'.$product->getId());
+if (!empty($collection)){
+    foreach($collection as $product){
+        Mirasvit_Fpc_Model_Cache::getCacheInstance()->clean('CATALOG_PRODUCT_'.$product->getId());
+    }
 }
 
 $collection = Mage::getModel('catalog/product')->getCollection()
@@ -23,8 +25,10 @@ $collection = Mage::getModel('catalog/product')->getCollection()
                 ->addAttributeToFilter( 'special_to_date' , array( 'gteq' => $todaystart ))
                 ->addAttributeToFilter( 'special_to_date' , array( 'lteq' => $todaynext ));
 //                echo "\n".$collection->getSelect(); // uncomment for debugging
-foreach($collection as $product){
-    Mirasvit_Fpc_Model_Cache::getCacheInstance()->clean('CATALOG_PRODUCT_'.$product->getId());
+if (!empty($collection)){
+    foreach($collection as $product){
+        Mirasvit_Fpc_Model_Cache::getCacheInstance()->clean('CATALOG_PRODUCT_'.$product->getId());
+    }
 }
 
 ?>
