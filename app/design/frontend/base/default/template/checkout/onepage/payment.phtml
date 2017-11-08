@@ -32,6 +32,19 @@
     var lastPrice;
 //]]>
 </script>
+<!--gift card section-->
+<?php if(Mage::getStoreConfig('giftcards/default/show_as_payment_method')): ?>
+    <script type="text/javascript" src="<?php echo $this->getJsUrl('webtex/giftcards/onepagegiftcard.js') ?>"></script>
+    <div id="giftcard-section"><?php echo $this->getChildHtml('onepagegiftcard'); ?></div>
+    <script type="text/javascript">
+        //&lt;![CDATA[
+        var activateGiftCard = new OnepageGiftcard('activateGiftCard',"<?php echo $this->getUrl('giftcards/cart/ajaxActivateGiftCard',array('_secure'=>true)) ?>");
+        var agreeMethod = new OnepageGiftcard('giftcardAgree', "<?php echo $this->getUrl('giftcards/cart/agreeToUse',array('_secure'=>true)) ?>");
+        var deActivateGiftCard = new OnepageGiftcard( null, "<?php echo $this->getUrl('giftcards/cart/ajaxDeActivateGiftCard',array('_secure'=>true)) ?>");
+        //]]&gt;
+    </script>
+<?php endif; ?>
+<!-- end gift card section-->
 <form action="" id="co-payment-form">
     <fieldset>
         <?php echo $this->getChildHtml('methods') ?>
