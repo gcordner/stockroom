@@ -351,10 +351,6 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             return;
         }
 
-        if ($this->isFormkeyValidationOnCheckoutEnabled() && !$this->_validateFormKey()) {
-            return;
-        }
-
         if ($this->getRequest()->isPost()) {
             $method = $this->getRequest()->getPost('method');
             $result = $this->getOnepage()->saveCheckoutMethod($method);

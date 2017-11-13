@@ -113,6 +113,7 @@
                 <?php /* Extensions placeholder */ ?>
                 <?php echo $this->getChildHtml('checkout.cart.extra') ?>
                 <?php echo $this->getChildHtml('coupon') ?>
+                <?php /* added for webtex giftcards */ echo $this->getChildHtml('giftcards') ?>
                 <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
                 <div class="totals">
                     <h2><?php echo $this->__('Cart Totals') ?></h2>

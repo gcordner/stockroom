@@ -2,15 +2,15 @@
 <config>
     <modules>
         <Fishpig_Wordpress>
-            <active>true</active>
+            <active>false</active>
             <codePool>community</codePool>
         </Fishpig_Wordpress>
 		<Fishpig_Wordpress_Addon_WordPressSEO>
-			<active>true</active>
+			<active>false</active>
 			<codePool>community</codePool>
 		</Fishpig_Wordpress_Addon_WordPressSEO>
 		<Fishpig_Wordpress_Addon_Yarpp>
-			<active>true</active>
+			<active>false</active>
 			<codePool>community</codePool>
 		</Fishpig_Wordpress_Addon_Yarpp>
     </modules>
