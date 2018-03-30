@@ -1,9 +1,15 @@
 <script type="text/javascript">
     //<![CDATA[
     function preshow() {
-        if($('mailchimp_general_list').value != '') {
+        <?php   $helper = Mage::helper('mailchimp');
+            $scopeArray = $helper->getCurrentScope();
+            $mailchimpStoreId = $helper->getMCStoreId($scopeArray['scope_id'], $scopeArray['scope']);
+        ?>
+        if($('mailchimp_general_list').value != '' && '<?php echo $mailchimpStoreId ?>' != 0) {
             $('mailchimp_general_list').setAttribute('disabled',true);
             $('changelist_button').setAttribute('style','display:yes');
+        } else {
+            $('changelist_button').setAttribute('style','display:none');
         }
     }
     function resetlist() {

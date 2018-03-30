@@ -2,40 +2,122 @@
 /**
  * mc-magento Magento Component
  *
- * @category Ebizmarts
- * @package mc-magento
- * @author Ebizmarts Team <info@ebizmarts.com>
+ * @category  Ebizmarts
+ * @package   mc-magento
+ * @author    Ebizmarts Team <info@ebizmarts.com>
  * @copyright Ebizmarts (http://ebizmarts.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @date: 5/27/16 1:50 PM
- * @file: EcommerceController.php
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @date:     5/27/16 1:50 PM
+ * @file:     EcommerceController.php
  */
-class Ebizmarts_Mailchimp_Adminhtml_EcommerceController extends Mage_Adminhtml_Controller_Action
+class Ebizmarts_MailChimp_Adminhtml_EcommerceController extends Mage_Adminhtml_Controller_Action
 {
     public function resetLocalErrorsAction()
     {
-        $result = 1;
+        $helper = $this->makeHelper();
+        $mageApp = $helper->getMageApp();
+        $request = $mageApp->getRequest();
+        $scope = $request->getParam('scope');
+        $scopeId = $request->getParam('scope_id');
+        $success = 1;
         try {
-            Mage::helper('mailchimp')->resetErrors();
+            $stores = $mageApp->getStores();
+            if ($scopeId == 0) {
+                foreach ($stores as $store) {
+                    $helper->resetErrors($store->getId());
+                }
+            }
+            $helper->resetErrors($scopeId, $scope);
         } catch(Exception $e)
         {
-            $result = 0;
+            $success = 0;
         }
-        Mage::app()->getResponse()->setBody($result);
+
+        $mageApp->getResponse()->setBody($success);
     }
+
     public function resetEcommerceDataAction()
     {
-        $result = 1;
+        $helper = $this->makeHelper();
+        $mageApp = $helper->getMageApp();
+        $request = $mageApp->getRequest();
+        $scope = $request->getParam('scope');
+        $scopeId = $request->getParam('scope_id');
+        $success = 0;
         try {
-            Mage::helper('mailchimp')->resetMCEcommerceData(true);
+            $helper->resetMCEcommerceData($scopeId, $scope, true);
+            $success = 1;
+        } catch(MailChimp_Error $e) {
+            $helper->logError($e->getFriendlyMessage());
+        } catch(Exception $e) {
+            $helper->logError($e->getMessage());
         }
-        catch(Mailchimp_Error $e) {
-            Mage::helper('mailchimp')->logError($e->getFriendlyMessage());
-            $result = 0;
+
+        $mageApp->getResponse()->setBody($success);
+    }
+
+    public function resendEcommerceDataAction()
+    {
+        $helper = $this->makeHelper();
+        $mageApp = $helper->getMageApp();
+        $request = $mageApp->getRequest();
+        $scope = $request->getParam('scope');
+        $scopeId = $request->getParam('scope_id');
+        $success = 0;
+        try {
+            $helper->resetMCEcommerceData($scopeId, $scope, false);
+            $success = 1;
+        } catch(MailChimp_Error $e) {
+            $helper->logError($e->getFriendlyMessage());
+        } catch(Exception $e) {
+            $helper->logError($e->getMessage());
         }
-        catch(Exception $e) {
-            Mage::helper('mailchimp')->logError($e->getMessage());
+
+        $mageApp->getResponse()->setBody($success);
+    }
+
+    public function createMergeFieldsAction()
+    {
+        $helper = $this->makeHelper();
+        $mageApp = $helper->getMageApp();
+        $request = $mageApp->getRequest();
+        $scope = $request->getParam('scope');
+        $scopeId = $request->getParam('scope_id');
+        $success = 0;
+        $subEnabled = $helper->isSubscriptionEnabled($scopeId, $scope);
+        if ($subEnabled) {
+            try {
+                $helper->createMergeFields($scopeId, $scope);
+                $success = 1;
+            } catch (MailChimp_Error $e) {
+                $helper->logError($e->getFriendlyMessage());
+            } catch (Exception $e) {
+                $helper->logError($e->getMessage());
+            }
         }
-        Mage::app()->getResponse()->setBody($result);
+
+        $mageApp->getResponse()->setBody($success);
+    }
+
+    protected function _isAllowed()
+    {
+        switch ($this->getRequest()->getActionName()) {
+        case 'resetLocalErrors':
+        case 'resetEcommerceData':
+        case 'resendEcommerceData':
+        case 'createMergeFields':
+            $acl = 'system/config/mailchimp';
+            break;
+        }
+
+        return Mage::getSingleton('admin/session')->isAllowed($acl);
+    }
+
+    /**
+     * @return Ebizmarts_MailChimp_Helper_Data
+     */
+    protected function makeHelper()
+    {
+        return Mage::helper('mailchimp');
     }
 }

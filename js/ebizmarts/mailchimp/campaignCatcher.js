@@ -1,29 +1,47 @@
-    function getCampaign() {
-        var urlparams = location.search.substr(1).split('&');
-        var params = new Array();
-        for (var i = 0; i < urlparams.length; i++) {
-            var param = urlparams[i].split('=');
-            var key = param[0];
-            var val = param[1];
-            if (key && val) {
-                params[key] = val;
+function getCampaign() {
+    var urlparams = location.search.substr(1).split('&');
+    var params = new Array();
+    var mc_cid = null;
+    var campaign = null;
+    var isMailchimp = false;
+    for (var i = 0; i < urlparams.length; i++) {
+        var param = urlparams[i].split('=');
+        var key = param[0];
+        var val = param[1];
+        if (key && val) {
+            params[key] = val;
+        }
+        if (key == 'utm_source') {
+            var reg = /^mailchimp$/;
+            if (reg.exec(val)) {
+                isMailchimp = true;
             }
         }
-
-        if (params['mc_cid']) {
-            createCookie('mailchimp_campaign_id' , params['mc_cid'], 3600*3);
+        if (key == 'mc_cid') {
+            mc_cid = val;
+        }
+        if (key == 'utm_campaign') {
+            var campaignArray = val.split("-");
+            var campaignValue = campaignArray[0];
+            if (campaignValue.length == 10)
+            campaign = campaignValue;
         }
     }
-
-    function createCookie(name, value, expirationInSec) {
-        var now = new Date();
-        var expire = new Date(now.getTime() + (expirationInSec * 1000));//[(1 * 365 * 24 * 60) * 60000] == 1 year  -- (Years * Days * Hours * Minutes) * 60000
-        Mage.Cookies.expires = expire;
-        Mage.Cookies.set(name,value);
-    }
-
-    if (document.loaded) {
-        getCampaign;
+    if (mc_cid) {
+        Mage.Cookies.set('mailchimp_campaign_id', mc_cid);
     } else {
-        document.observe('dom:loaded', getCampaign);
+        if (campaign) {
+            Mage.Cookies.set('mailchimp_campaign_id', campaign);
+        }
     }
+    var landingPage = Mage.Cookies.get('mailchimp_landing_page');
+    if (!landingPage) {
+        Mage.Cookies.set('mailchimp_landing_page', location);
+    }
+}
+
+if (document.loaded) {
+    getCampaign;
+} else {
+    document.observe('dom:loaded', getCampaign);
+}
