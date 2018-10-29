@@ -20,7 +20,7 @@
  *
  * @category    Tests
  * @package     Tests_Functional
- * @copyright  Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
+ * @copyright  Copyright (c) 2006-2018 Magento, Inc. (http://www.magento.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -93,9 +93,6 @@ class Curl extends Conditions implements SalesRuleInterface
             'aggregator' => 'all',
             'value' => '1',
         ],
-        'Customer Segment' => [
-            'type' => 'enterprise_customersegment/segment_condition_segment',
-        ],
         'Category' => [
             'type' => 'salesrule/rule_condition_product',
             'attribute' => 'category_ids',
@@ -133,7 +130,7 @@ class Curl extends Conditions implements SalesRuleInterface
         }
 
         $curl = new BackendDecorator(new CurlTransport(), $this->_configuration);
-        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
+        $curl->write($url, $data);
         $response = $curl->read();
         $curl->close();
         if (!strpos($response, 'class="messages"')) {

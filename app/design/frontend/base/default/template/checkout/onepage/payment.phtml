@@ -20,7 +20,7 @@
  *
  * @category    design
  * @package     base_default
- * @copyright   Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
+ * @copyright   Copyright (c) 2006-2018 Magento, Inc. (http://www.magento.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
@@ -28,23 +28,11 @@
 //<![CDATA[
     var quoteBaseGrandTotal = <?php echo (float)$this->getQuoteBaseGrandTotal(); ?>;
     var checkQuoteBaseGrandTotal = quoteBaseGrandTotal;
+    var quoteGrandTotalClean = quoteBaseGrandTotal;
     var payment = new Payment('co-payment-form', '<?php echo $this->getUrl('checkout/onepage/savePayment') ?>');
     var lastPrice;
 //]]>
 </script>
-<!--gift card section-->
-<?php if(Mage::getStoreConfig('giftcards/default/show_as_payment_method')): ?>
-    <script type="text/javascript" src="<?php echo $this->getJsUrl('webtex/giftcards/onepagegiftcard.js') ?>"></script>
-    <div id="giftcard-section"><?php echo $this->getChildHtml('onepagegiftcard'); ?></div>
-    <script type="text/javascript">
-        //&lt;![CDATA[
-        var activateGiftCard = new OnepageGiftcard('activateGiftCard',"<?php echo $this->getUrl('giftcards/cart/ajaxActivateGiftCard',array('_secure'=>true)) ?>");
-        var agreeMethod = new OnepageGiftcard('giftcardAgree', "<?php echo $this->getUrl('giftcards/cart/agreeToUse',array('_secure'=>true)) ?>");
-        var deActivateGiftCard = new OnepageGiftcard( null, "<?php echo $this->getUrl('giftcards/cart/ajaxDeActivateGiftCard',array('_secure'=>true)) ?>");
-        //]]&gt;
-    </script>
-<?php endif; ?>
-<!-- end gift card section-->
 <form action="" id="co-payment-form">
     <fieldset>
         <?php echo $this->getChildHtml('methods') ?>

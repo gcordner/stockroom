@@ -531,20 +531,19 @@ Validation.addAllThese([
     ['validate-emailSender', 'Please use only visible characters and spaces.', function (v) {
                 return Validation.get('IsEmpty').test(v) ||  /^[\S ]+$/.test(v)
                     }],
-    ['validate-password', 'Please enter 6 or more characters. Leading or trailing spaces will be ignored.', function(v) {
+    ['validate-password', 'Please enter 6 or more characters without leading or trailing spaces.', function(v) {
                 var pass=v.strip(); /*strip leading and trailing spaces*/
-                return !(pass.length>0 && pass.length < 6);
+                return (!(v.length>0 && v.length < 6) && v.length == pass.length);
             }],
-    ['validate-admin-password', 'Password should contain minimum 8 characters, at least 1 uppercase alphabet, 1 lowercase alphabet, 1 number and 1 special character amongst these @ $ ! % * ? & # ^ ', function(v) {
+    ['validate-admin-password', 'Please enter 7 or more characters. Password should contain both numeric and alphabetic characters.', function(v) {
                 var pass=v.strip();
                 if (0 == pass.length) {
                     return true;
                 }
-		if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#^])([A-Za-z\d$@$!%*?&#^]{8,})$/.test(pass))) {
-		     return false;
-		} else {
-		     return true;
-		}
+                if (!(/[a-z]/i.test(v)) || !(/[0-9]/.test(v))) {
+                    return false;
+                }
+                return !(pass.length < 7);
             }],
     ['validate-cpassword', 'Please make sure your passwords match.', function(v) {
                 var conf = $('confirmation') ? $('confirmation') : $$('.validate-cpassword')[0];
@@ -657,10 +656,29 @@ Validation.addAllThese([
             v = parseNumber(v);
             return !isNaN(v) && v > 0;
         }],
+
+    ['validate-special-price', 'The Special Price is active only when lower than the Actual Price.', function(v) {
+        var priceInput = $('price');
+        var priceType = $('price_type');
+        var priceValue = parseFloat(v);
+
+        // Passed on non-related validators conditions (to not change order of validation)
+        if(
+            !priceInput
+            || Validation.get('IsEmpty').test(v)
+            || !Validation.get('validate-number').test(v)
+        ) {
+            return true;
+        }
+        if(priceType) {
+            return (priceType && priceValue <= 99.99);
+        }
+        return priceValue < parseFloat($F(priceInput));
+    }],
     ['validate-state', 'Please select State/Province.', function(v) {
                 return (v!=0 || v == '');
             }],
-    ['validate-new-password', 'Please enter 6 or more characters. Leading or trailing spaces will be ignored.', function(v) {
+    ['validate-new-password', 'Please enter 6 or more characters without leading or trailing spaces.', function(v) {
                 if (!Validation.get('validate-password').test(v)) return false;
                 if (Validation.get('IsEmpty').test(v) && v != '') return false;
                 return true;
