@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright   Copyright (c) POWr (http://www.powr.io)
+ * @license     Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Powr_Pack>
+            <version>1.0.0</version>
+        </Powr_Pack>
+    </modules>
+
+    <global>
+        <blocks>
+            <powr_pack>
+                <class>Powr_Pack_Block</class>
+            </powr_pack>
+        </blocks>
+
+        <helpers>
+            <powr_pack>
+                <class>Powr_Pack_Helper</class>
+            </powr_pack>
+        </helpers>
+
+        <models>
+            <powr_pack>
+                <class>Powr_Pack_Model</class>
+            </powr_pack>
+        </models>
+
+        <resources>
+            <powr_pack_setup>
+                <setup>
+                    <module>Powr_Pack</module>
+                    <class>Powr_Pack_Model_Resource_Setup</class>
+                </setup>
+            </powr_pack_setup>
+        </resources>
+    </global>
+
+    <frontend>
+        <layout>
+            <updates>
+                <powr_pack>
+                    <file>powr/pack.xml</file>
+                </powr_pack>
+            </updates>
+        </layout>
+    </frontend>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <powr_pack>
+                    <file>powr/pack.xml</file>
+                </powr_pack>
+            </updates>
+        </layout>
+    </adminhtml>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <powr_pack before="Mage_Adminhtml">Powr_Pack_Adminhtml</powr_pack>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Powr_Pack>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Powr_Pack>
+    </modules>
+</config>

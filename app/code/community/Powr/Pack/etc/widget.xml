@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright   Copyright (c) POWr (http://www.powr.io)
+ * @license     Open Software License (OSL 3.0)
+ */
+-->
+<widgets>
+    <powr_pack_all_pack type="powr_pack/widget">
+        <name>Powr Pack Widget</name>
+        <description>Add a powr plugin widget</description>
+        <parameters>
+            <id translate="label">
+                <required>1</required>
+                <visible>1</visible>
+                <label>Unique Identifier</label>
+                <type>label</type>
+                <helper_block>
+                    <type>powr_pack/idGenerator</type>
+                </helper_block>
+            </id>
+            <plugin_type>
+                <required>1</required>
+                <visible>1</visible>
+                <label>Type</label>
+                <type>select</type>
+                <value>powr-survey</value>
+                <description>Once selected don't change this - create a new widget instead</description>
+                <values>
+                    <default>
+                        <value>powr-about-us</value>
+                        <label>About Us</label>
+                    </default>
+                    <button>
+                        <value>powr-button</value>
+                        <label>Button</label>
+                    </button>
+                    <comments>
+                        <value>powr-comments</value>
+                        <label>Comments</label>
+                    </comments>
+                    <countdown_timer>
+                        <value>powr-countdown-timer</value>
+                        <label>Countdown Timer</label>
+                    </countdown_timer>
+                    <ecommerce>
+                        <value>powr-ecommerce</value>
+                        <label>Ecommerce</label>
+                    </ecommerce>
+                    <faq>
+                        <value>powr-faq</value>
+                        <label>Faq</label>
+                    </faq>
+                    <file_embed>
+                        <value>powr-file-embed</value>
+                        <label>File Embed</label>
+                    </file_embed>
+                    <form_builder>
+                        <value>powr-form-builder</value>
+                        <label>Form Builder</label>
+                    </form_builder>
+                    <gallery>
+                        <value>powr-media-gallery</value>
+                        <label>Media Gallery</label>
+                    </gallery>
+                    <graph>
+                        <value>powr-graph</value>
+                        <label>Graph</label>
+                    </graph>
+                    <hit_counter>
+                        <value>powr-hit-counter</value>
+                        <label>Hit Counter</label>
+                    </hit_counter>
+                    <map>
+                        <value>powr-map</value>
+                        <label>Map</label>
+                    </map>
+                    <slider>
+                        <value>powr-multi-slider</value>
+                        <label>Multi Slider</label>
+                    </slider>
+                    <music_player>
+                        <value>powr-music-player</value>
+                        <label>Music Player</label>
+                    </music_player>
+                    <paypal_button>
+                        <value>powr-paypal-button</value>
+                        <label>PayPal Button</label>
+                    </paypal_button>
+                    <photo_editor>
+                        <value>powr-photo-editor</value>
+                        <label>Photo Editor</label>
+                    </photo_editor>
+                    <plan_comparison>
+                        <value>powr-plan-comparison</value>
+                        <label>Plan Comparison</label>
+                    </plan_comparison>
+                    <popup>
+                        <value>powr-popup</value>
+                        <label>Popup</label>
+                    </popup>
+                    <social_feed>
+                        <value>powr-social-feed</value>
+                        <label>Social Feed</label>
+                    </social_feed>
+                    <social_media_icons>
+                        <value>powr-social-media-icons</value>
+                        <label>Social Media Icons</label>
+                    </social_media_icons>
+                    <tabs>
+                        <value>powr-tabs</value>
+                        <label>Tabs</label>
+                    </tabs>
+                    <twitter_feed>
+                        <value>powr-twitter-feed</value>
+                        <label>Twitter Feed</label>
+                    </twitter_feed>
+                    <weather>
+                        <value>powr-weather</value>
+                        <label>Weather</label>
+                    </weather>
+                </values>
+            </plugin_type>
+
+            <template>
+                <required>1</required>
+                <visible>1</visible>
+                <label>Template</label>
+                <type>select</type>
+                <value>powr/pack/widget.phtml</value>
+                <values>
+                    <default translate="label">
+                        <value>powr/pack/widget.phtml</value>
+                        <label>Default Widget Template</label>
+                    </default>
+                </values>
+            </template>
+        </parameters>
+    </powr_pack_all_pack>
+</widgets>

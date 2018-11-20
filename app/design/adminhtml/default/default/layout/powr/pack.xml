@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright   Copyright (c) POWr (http://www.powr.io)
+ * @license     Open Software License (OSL 3.0)
+ */
+-->
+<layout>
+    <adminhtml_powr_index>
+        <reference name="content">
+            <block type="adminhtml/template" name="powr.iframe" template="powr/pack/iframe.phtml"/>
+        </reference>
+    </adminhtml_powr_index>
+</layout>

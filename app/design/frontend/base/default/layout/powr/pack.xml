@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+        <reference name="head">
+            <block type="core/text" name="powr.js">
+                <action method="setText">
+                    <text>
+                        <![CDATA[<script src="//www.powr.io/powr.js" external-type="magento"></script>]]>
+                    </text>
+                </action>
+            </block>
+        </reference>
+    </default>
+</layout>
