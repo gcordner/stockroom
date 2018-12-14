@@ -615,7 +615,7 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
                     $this->_getSession()->setCartCouponCode($couponCode);
                 } else {
                     $this->_getSession()->addError(
-                        $this->__('Coupon code "%s" is not valid.', Mage::helper('core')->escapeHtml($couponCode))
+                        $this->__('Cannot apply coupon "%s". Maybe the item is already discounted, or maybe the code is no longer valid.', Mage::helper('core')->escapeHtml($couponCode))
                     );
                 }
             } else {
