@@ -3,6 +3,8 @@
     $helper_richsnippets = $this->helper('porto/richsnippets');
     $store = Mage::app()->getStore();
     $code  = $store->getCode();
+    $proc_helper = Mage::helper('cms');
+    $_processor = $proc_helper->getPageTemplateProcessor();
 ?>
 <?php $_product = $this->getProduct(); ?>
 <?php
@@ -10,30 +12,40 @@
     $product_type = $_product->getTypeId();
     $enabled_richsnippets = ($helper_richsnippets->isEnabled() && $product_type !== "grouped");
     $price_properties = "";
-    
+
     if($enabled_richsnippets){
         $price_properties = $helper_richsnippets->getPriceProperties($_product);
     }
-    
+
+    $product_page_type = $_helper->productAttribute($_product, $_product->getData('product_page_type'), 'product_page_type');
+    if(!$product_page_type)
+        $product_page_type = Mage::getStoreConfig("porto_settings/product_view/type",$code);
     $enable_addtocart_sticky = Mage::getStoreConfig("porto_settings/product_view/enable_addtocart_sticky",$code);
     $move_product_tab = Mage::getStoreConfig("porto_settings/product_view/move_product_tab",$code);
     $move_custom_block = Mage::getStoreConfig("porto_settings/product_view/move_custom_block",$code);
     $custom_block_tab_id = Mage::getStoreConfig("porto_settings/product_view/custom_block_tab",$code);
-    $custom_block_id = Mage::getStoreConfig("porto_settings/product_view/custom_block_id",$code);
+    $attr_custom_block_html = $_processor->filter($_product->getData('custom_block'));
+    $attr_custom_block_html_2 = $_processor->filter($_product->getData('custom_block_2'));
     $custom_block_html = "";
-    $custom_block_tab_html = "";
-    if(Mage::app()->getFrontController()->getRequest()->getModuleName() == "quickview") {
-        $custom_block_html = "";
-    }
-    else if($custom_block_id) {
-        $custom_block = $this->getLayout()->createBlock('cms/block')->setBlockId($custom_block_id);
-        if($custom_block)
-            $custom_block_html = $custom_block->toHtml();
-    }
-    if($custom_block_tab_id){
-        $custom_block_tab = $this->getLayout()->createBlock('cms/block')->setBlockId($custom_block_tab_id);
-        if($custom_block_tab)
-            $custom_block_tab_html = $custom_block_tab->toHtml();
+    $custom_block_id = "";
+	$custom_block_tab_html = "";
+    if(!$product_page_type) {
+        if(!$custom_block_html)
+            $custom_block_id = Mage::getStoreConfig("porto_settings/product_view/custom_block_id",$code);
+        $custom_block_tab_html = "";
+        if(Mage::app()->getFrontController()->getRequest()->getModuleName() == "quickview") {
+            $custom_block_html = "";
+        }
+        else if(!$custom_block_html && $custom_block_id) {
+            $custom_block = $this->getLayout()->createBlock('cms/block')->setBlockId($custom_block_id);
+            if($custom_block)
+                $custom_block_html = $custom_block->toHtml();
+        }
+        if($custom_block_tab_id){
+            $custom_block_tab = $this->getLayout()->createBlock('cms/block')->setBlockId($custom_block_tab_id);
+            if($custom_block_tab)
+                $custom_block_tab_html = $custom_block_tab->toHtml();
+        }
     }
     $sticky_header = "";
     if(!Mage::getStoreConfig("porto_settings/header/sticky_header", $code))
@@ -43,7 +55,7 @@
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
-<div class="product-view <?php if($move_product_tab): ?>moved-tab<?php endif;?>" <?php if($enabled_richsnippets): ?><?php echo $helper_richsnippets->getProductItemscope(); ?><?php endif; ?>>
+<div class="product-view <?php echo $product_page_type; ?> <?php if($move_product_tab): ?>moved-tab<?php endif;?> <?php if($product_page_type == 'fullwidth'): ?>fullwidth-row<?php endif; ?>" <?php if($enabled_richsnippets): ?><?php echo $helper_richsnippets->getProductItemscope(); ?><?php endif; ?>>
     <div class="product-essential">
     <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
         <?php echo $this->getBlockHtml('formkey') ?>
@@ -78,10 +90,10 @@ if($enable_addtocart_sticky){
                         <h2 class="product-name"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h2>
                         <?php echo $this->getPriceHtml($_product, false, '_clone') ?>
                     </div>
-                    <?php 
+                    <?php
                     if (Mage::helper('catalog')->isModuleEnabled('Mage_Review')):
                     ?>
-                    <?php 
+                    <?php
                         $review_html = $this->getReviewsSummaryHtml($product, 'short');
                         if($review_html){
                             echo $review_html;
@@ -92,7 +104,7 @@ if($enable_addtocart_sticky){
                                 <div class="rating" style="width:0"></div>
                             </div>
                         </div>
-                    <?php                            
+                    <?php
                         }
                     ?>
                     <?php else: ?>
@@ -121,7 +133,7 @@ if($enable_addtocart_sticky){
                 <?php if($_product->isSaleable()): ?>
                 <?php $buttonTitle = $this->__('Add to Cart'); ?>
                     <div class="add-to-cart">
-                        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><i class="icon-cart"></i><?php echo $buttonTitle ?></span></span></button>
+                        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart" onclick="productAddToCartForm.submit(this)"><span><span><?php echo $buttonTitle ?></span></span></button>
                     </div>
                 <?php endif; ?>
             </div>
@@ -129,22 +141,41 @@ if($enable_addtocart_sticky){
 <?php
 }
 ?>
-        <?php if($custom_block_html && !$move_custom_block): ?>
+        <?php if($product_page_type == 'carousel'): ?>
+        <?php echo $this->getChildHtml('media') ?>
+        <?php endif; ?>
+        <?php if($custom_block_html && !$move_custom_block && $product_page_type != 'carousel' && $product_page_type != 'carousel'): ?>
         <div class="row">
-            <div class="col-sm-9">
+            <div class="col-md-9">
         <?php endif; ?>
         <div class="row">
-            <div class="product-img-box col-sm-<?php echo Mage::getStoreConfig("porto_settings/product_view/product_image_size", $code); ?> <?php echo Mage::getStoreConfig("porto_settings/product_view/thumbnail_image_type", $code); ?>">
+            <?php if($product_page_type != 'carousel'): ?>
+            <?php
+                $product_image_size = $_helper->productAttribute($_product, $_product->getData('product_image_size'), 'product_image_size');
+                if(!$product_image_size)
+                    $product_image_size = Mage::getStoreConfig("porto_settings/product_view/product_image_size", $code);
+                $product_img_box_class = "col-md-".$product_image_size;
+                $product_shop_class = "col-md-".(12-$product_image_size);
+                if($product_page_type == 'sticky_left_right' || $product_page_type == 'wide_grid') {
+                    $product_img_box_class = "col-md-6 md-order-6";
+                    $product_shop_class = "col-md-3";
+                }
+            ?>
+            <div class="product-img-box <?php echo $product_img_box_class; ?> <?php echo Mage::getStoreConfig("porto_settings/product_view/thumbnail_image_type", $code); ?>">
                 <?php echo $this->getChildHtml('media') ?>
             </div>
-            <div class="product-shop col-sm-<?php echo 12-Mage::getStoreConfig("porto_settings/product_view/product_image_size", $code); ?>">
+            <?php else: ?>
             <?php
-                if (Mage::getStoreConfig("porto_settings/product_view/prev_next",$code)){
+                $product_shop_class = "col-md-12";
             ?>
+            <?php endif; ?>
+        <?php if ($product_page_type == "sticky_left_right"): ?>
+            <div class="col-md-12">
+            <?php if (Mage::getStoreConfig("porto_settings/product_view/prev_next",$code)): ?>
                 <div class="prev-next-products">
                     <?php $_prev = Mage::helper('porto')->getPreviousProduct(); ?>
                     <?php $_next = Mage::helper('porto')->getNextProduct(); ?>
-                     
+
                     <?php if($_prev): ?>
                     <div class="product-nav product-prev">
                         <a href="<?php echo $_prev->getProductUrl();?>" title="<?php echo $this->__("Previous Product"); ?>">
@@ -172,9 +203,6 @@ if($enable_addtocart_sticky){
                     </div>
                     <?php endif; ?>
                 </div>
-            <?php
-                }
-            ?>
                 <div class="product-name">
                     <h1 <?php if($enabled_richsnippets): ?>itemprop="name"<?php endif; ?>><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
                 </div>
@@ -193,10 +221,8 @@ if($enable_addtocart_sticky){
                 <?php endif; ?>
                 <?php endif; ?>
 
-                <?php 
-                if (Mage::helper('catalog')->isModuleEnabled('Mage_Review')):
-                ?>
-                <?php 
+                <?php if (Mage::helper('catalog')->isModuleEnabled('Mage_Review')): ?>
+                <?php
                     $review_html = $this->getReviewsSummaryHtml($product);
                     if($review_html){
                         echo $review_html;
@@ -210,7 +236,7 @@ if($enable_addtocart_sticky){
                             <a href="javascript:void(0)"><?php echo $this->__('%s Review(s)', 0);?></a>
                         </p>
                     </div>
-                <?php                            
+                <?php
                     }
                 ?>
                 <?php else: ?>
@@ -223,17 +249,125 @@ if($enable_addtocart_sticky){
                         </p>
                     </div>
                 <?php endif; ?>
+            <?php endif; ?>
+            </div>
+        <?php endif; ?>
+            <div class="product-shop <?php echo $product_shop_class; ?>">
+            <?php if($product_page_type != 'sticky_left_right'): ?>
+            <?php if($product_page_type == 'carousel'): ?>
+                <?php echo $this->getChildHtml('addthis_sharetool'); ?>
+            <?php endif; ?>
+            <?php if (Mage::getStoreConfig("porto_settings/product_view/prev_next",$code)): ?>
+                <div class="prev-next-products">
+                    <?php $_prev = Mage::helper('porto')->getPreviousProduct(); ?>
+                    <?php $_next = Mage::helper('porto')->getNextProduct(); ?>
+
+                    <?php if($_prev): ?>
+                    <div class="product-nav product-prev">
+                        <a href="<?php echo $_prev->getProductUrl();?>" title="<?php echo $this->__("Previous Product"); ?>">
+                            <?php echo Mage::getStoreConfig("porto_settings/product_view/prev_text",$code); ?>
+                        </a>
+                        <div class="product-pop theme-border-color">
+                            <?php
+                            $image_src = $this->helper('catalog/image')->init($_prev, 'image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(80);
+                            ?>
+                            <img class="product-image" src="<?php echo $image_src; ?>" alt="<?php echo $this->__('Previous');?>"/>
+                            <h3 class="product-name"><?php echo $_helper->productAttribute($_prev, $_prev->getName(), 'name') ?></h3>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    <?php if($_next): ?>
+                    <div class="product-nav product-next">
+                        <a class="product-next" href="<?php echo $_next->getProductUrl();?>" title="<?php echo $this->__("Next Product"); ?>"><?php echo Mage::getStoreConfig("porto_settings/product_view/next_text",$code); ?></a>
+                        <div class="product-pop theme-border-color">
+                            <?php
+                            $image_src = $this->helper('catalog/image')->init($_next, 'image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(80);
+                            ?>
+                            <img class="product-image" src="<?php echo $image_src; ?>" alt="<?php echo $this->__('Previous');?>"/>
+                            <h3 class="product-name"><?php echo $_helper->productAttribute($_next, $_next->getName(), 'name') ?></h3>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                </div>
+                <div class="product-name">
+                    <h1 <?php if($enabled_richsnippets): ?>itemprop="name"<?php endif; ?>><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
+                </div>
+                <?php if($enabled_richsnippets): ?>
+                <?php
+                    $storeId = Mage::app()->getStore()->getId();
+                    $summaryData = Mage::getModel('review/review_summary')->setStoreId($storeId)->load($_product->getId());
+                ?>
+                <?php if ($summaryData['reviews_count']): ?>
+                    <span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating" class="no-display">
+                        <span itemprop="ratingValue"><?php echo $summaryData['rating_summary']; ?></span>
+                        <span itemprop="reviewCount"><?php echo $summaryData['reviews_count']; ?></span>
+                        <span itemprop="bestRating">100</span>
+                        <span itemprop="worstRating">0</span>
+                    </span>
+                <?php endif; ?>
+                <?php endif; ?>
+
+                <?php if (Mage::helper('catalog')->isModuleEnabled('Mage_Review')): ?>
+                <?php
+                    $review_html = $this->getReviewsSummaryHtml($product);
+                    if($review_html){
+                        echo $review_html;
+                    }else{
+                ?>
+                    <div class="ratings">
+                        <div class="rating-box">
+                            <div class="rating" style="width:0"></div>
+                        </div>
+                        <p class="rating-links">
+                            <a href="javascript:void(0)"><?php echo $this->__('%s Review(s)', 0);?></a>
+                        </p>
+                    </div>
+                <?php
+                    }
+                ?>
+                <?php else: ?>
+                    <div class="ratings">
+                        <div class="rating-box">
+                            <div class="rating" style="width:0"></div>
+                        </div>
+                        <p class="rating-links">
+                            <a href="javascript:void(0)"><?php echo $this->__('%s Review(s)', 0);?></a>
+                        </p>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+            <?php endif; ?>
                 <?php if ($_product->getShortDescription()):?>
-                    <div class="short-description <?php if($move_custom_block):?>no-border<?php endif;?>"">
+                    <div class="short-description <?php if($move_custom_block):?>no-border<?php endif;?>">
                         <h2><?php echo $this->__('Quick Overview') ?></h2>
                         <div class="std" <?php if($enabled_richsnippets): ?>itemprop="description"<?php endif; ?>><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
                     </div>
                 <?php endif;?>
-                <?php if($custom_block_html && $move_custom_block):?>
+                <?php if($attr_custom_block_html && $product_page_type == 'carousel'):?>
                     <div class="short-custom-block">
-                        <?php echo $custom_block_html; ?>
+                        <?php echo $attr_custom_block_html; ?>
                     </div>
                 <?php endif;?>
+                <?php if($product_page_type == 'sticky_left_right' || $product_page_type == 'wide_grid'): ?>
+                    <?php if ($_product->isAvailable()): ?>
+                        <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
+                    <?php else: ?>
+                        <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+                    <?php endif; ?>
+                    <?php if($sku = $_product->getSku()): ?>
+                        <p class="sku"><?php echo $this->__('SKU:') ?> <span><?php echo $sku; ?></span></p>
+                    <?php endif; ?>
+                    <?php if ($this->canEmailToFriend()): ?>
+                        <p class="email-friend"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
+                    <?php endif; ?>
+                </div>
+                <div class="product-shop <?php echo $product_shop_class; ?> md-order-12">
+                    <?php if($attr_custom_block_html && $product_page_type == 'wide_grid'):?>
+                        <div class="short-custom-block">
+                            <?php echo $attr_custom_block_html; ?>
+                        </div>
+                    <?php endif;?>
+                <?php endif; ?>
                 <div class="product-info">
                     <div <?php if($enabled_richsnippets) echo $helper_richsnippets->getOfferItemscope(); ?>>
                         <?php echo $this->getChildHtml('product_type_data'); ?>
@@ -241,8 +375,10 @@ if($enable_addtocart_sticky){
                         <?php echo $price_properties; ?>
                     </div>
                     <?php echo $this->getChildHtml('extrahint') ?>
+                    <?php if(!($product_page_type == 'sticky_left_right' || $product_page_type == 'wide_grid')): ?>
                     <?php if ($this->canEmailToFriend()): ?>
                         <p class="email-friend"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
+                    <?php endif; ?>
                     <?php endif; ?>
                     <?php if($sku = $_product->getSku()): ?>
                         <?php if($enabled_richsnippets): ?><meta itemprop="productID" content="sku:<?php echo $sku; ?>" /><?php endif; ?>
@@ -272,13 +408,14 @@ if($enable_addtocart_sticky){
                     <?php echo $this->getChildChildHtml('container1', '', true, true) ?>
                 <?php endif;?>
                 <div class="clearer"></div>
-                <?php echo $this->getChildHtml('addthis_sharetool'); ?>
+                <?php if($product_page_type != 'carousel'): ?>
+                    <?php echo $this->getChildHtml('addthis_sharetool'); ?>
+                <?php endif; ?>
             </div>
-
         </div>
-        <?php if($custom_block_html && !$move_custom_block): ?>
+        <?php if($custom_block_html && !$move_custom_block && $product_page_type != 'carousel'): ?>
             </div>
-            <div class="col-sm-3">
+            <div class="col-md-3">
                 <?php echo $custom_block_html; ?>
             </div>
         </div>
@@ -402,7 +539,7 @@ if($enable_addtocart_sticky){
                         }
                     });
                 } catch (e) {
-                }                
+                }
                 this.form.action = oldUrl;
                 if (e) {
                     throw e;
@@ -475,16 +612,26 @@ if($enable_addtocart_sticky){
         }.bind(productAddToCartForm);
     </script>
     </div>
+    <?php if($attr_custom_block_html && $product_page_type == 'sticky_right'):?>
+        <div class="fullwidth-custom-block">
+            <?php echo $attr_custom_block_html; ?>
+        </div>
+    <?php endif;?>
     <?php $upsell = $this->getChildHtml('upsell_products'); ?>
-    <?php if(Mage::getStoreConfig("porto_settings/product_view/move_upsell",$code)) echo $upsell; ?>
+    <?php if(!$product_page_type && Mage::getStoreConfig("porto_settings/product_view/move_upsell",$code)) echo $upsell; ?>
+    <?php if($product_page_type == "sticky_right"): ?>
+    <div class="product-collateral fullwidth-row">
+        <div class="container">
+    <?php else: ?>
     <div class="product-collateral">
+    <?php endif; ?>
         <div class="collateral-inner">
             <div class="row">
-                <div class="<?php if($custom_block_tab_id):?>col-sm-9<?php else:?>col-sm-12<?php endif;?>">
+                <div class="<?php if($custom_block_tab_html):?>col-md-9<?php else:?>col-md-12<?php endif;?>">
                     <?php echo $this->getChildHtml('product_additional_data'); ?>
                 </div>
-                <?php if($custom_block_tab_id):?>
-                    <div class="col-sm-3">
+                <?php if($custom_block_tab_html):?>
+                    <div class="col-md-3">
                         <div class="custom-block-tab">
                             <?php echo $custom_block_tab_html; ?>
                         </div>
@@ -492,8 +639,23 @@ if($enable_addtocart_sticky){
                 <?php endif;?>
             </div>
         </div>
+    <?php if($product_page_type == "sticky_right"): ?>
+        </div>
     </div>
-    <?php if(!Mage::getStoreConfig("porto_settings/product_view/move_upsell",$code)) echo $upsell; ?>
+    <?php else: ?>
+    </div>
+    <?php endif; ?>
+    <?php if($attr_custom_block_html && ($product_page_type == 'fullwidth' || $product_page_type == "sticky_left_right")):?>
+        <div class="fullwidth-custom-block">
+            <?php echo $attr_custom_block_html; ?>
+        </div>
+    <?php endif;?>
+    <?php if($attr_custom_block_html_2 && ($product_page_type == 'carousel' || $product_page_type == 'fullwidth' || $product_page_type == "sticky_left_right")):?>
+        <div class="fullwidth-custom-block <?php echo ($product_page_type == 'carousel')?'fullwidth-row':''; ?>">
+            <?php echo $attr_custom_block_html_2; ?>
+        </div>
+    <?php endif;?>
+    <?php if($product_page_type || !Mage::getStoreConfig("porto_settings/product_view/move_upsell",$code)) echo $upsell; ?>
 </div>
 <script type="text/javascript">
     jQuery(function($){
@@ -519,11 +681,112 @@ if($enable_addtocart_sticky){
     }
     ?>
     <?php
-    if($move_product_tab){
+    if((!$product_page_type && $move_product_tab) || $product_page_type == 'fullwidth'){
     ?>
-        $(".product-info").before($(".product-tabs"));
+        $(".product-tabs").appendTo($(".product-shop"));
     <?php
     }
     ?>
     });
+<?php if($product_page_type == 'sticky_right' || $product_page_type == 'sticky_left_right'): ?>
+    jQuery(function($){
+        var product_info_top = 0;
+        var product_image_box_pos = $(".product-view .product-img-box").offset().top;
+        if($(window).innerWidth() >= 768) {
+            $(".product-view .product-shop").each(function(){
+                if(($(window).scrollTop() > product_image_box_pos - 50) && (product_image_box_pos + $(".product-view .product-img-box").outerHeight()) > ($(window).scrollTop() + $(this).outerHeight() + 50)) {
+                    product_info_top = $(window).scrollTop() - product_image_box_pos + 50;
+                    $(this).css('top',product_info_top + 'px');
+                } else if ($(window).scrollTop() < product_image_box_pos) {
+                    product_info_top = 0;
+                    $(this).css('top',product_info_top + 'px');
+                }
+            });
+        } else {
+            product_info_top = 0;
+            $(".product-view .product-shop").css('top',product_info_top + 'px');
+        }
+        $(window).scroll(function(){
+            product_image_box_pos = $(".product-view .product-img-box").offset().top;
+            if($(window).innerWidth() >= 768) {
+                $(".product-view .product-shop").each(function(){
+                    if(($(window).scrollTop() > product_image_box_pos - 50) && (product_image_box_pos + $(".product-view .product-img-box").outerHeight()) > ($(window).scrollTop() + $(this).outerHeight() + 50)) {
+                        product_info_top = $(window).scrollTop() - product_image_box_pos + 50;
+                        $(this).css('top',product_info_top + 'px');
+                    } else if ($(window).scrollTop() < product_image_box_pos) {
+                        product_info_top = 0;
+                        $(this).css('top',product_info_top + 'px');
+                    }
+                });
+            } else {
+                product_info_top = 0;
+                $(".product-view .product-shop").css('top',product_info_top + 'px');
+            }
+        });
+        $(window).resize(function(){
+            product_image_box_pos = $(".product-view .product-img-box").offset().top;
+            if($(window).innerWidth() >= 768) {
+                $(".product-view .product-shop").each(function(){
+                    if(($(window).scrollTop() > product_image_box_pos - 50) && (product_image_box_pos + $(".product-view .product-img-box").outerHeight()) > ($(window).scrollTop() + $(this).outerHeight() + 50)) {
+                        product_info_top = $(window).scrollTop() - product_image_box_pos + 50;
+                        $(this).css('top',product_info_top + 'px');
+                    } else if ($(window).scrollTop() < product_image_box_pos) {
+                        product_info_top = 0;
+                        $(this).css('top',product_info_top + 'px');
+                    }
+                });
+            } else {
+                product_info_top = 0;
+                $(".product-view .product-shop").css('top',product_info_top + 'px');
+            }
+        });
+    });
+<?php endif; ?>
+<?php if($product_page_type == 'fullwidth'): ?>
+    jQuery(function($){
+        var product_image_box_top = 0;
+        var product_info_pos = $(".product-view .product-shop").offset().top;
+        $(window).scroll(function(){
+            product_info_pos = $(".product-view .product-shop").offset().top;
+            if($(window).innerWidth() >= 768) {
+                $(".product-view .product-img-box").each(function(){
+                    if(($(window).scrollTop() > product_info_pos - 50) && (product_info_pos + $(".product-view .product-shop").outerHeight()) > ($(window).scrollTop() + $(this).outerHeight() + 50)) {
+                        product_image_box_top = $(window).scrollTop() - product_info_pos + 50;
+                        $(this).css('top',product_image_box_top + 'px');
+                    } else if ($(window).scrollTop() < product_info_pos) {
+                        product_image_box_top = 0;
+                        $(this).css('top',product_image_box_top + 'px');
+                    }
+                });
+            } else {
+                product_image_box_top = 0;
+                $(".product-view .product-img-box").css('top',product_image_box_top + 'px');
+            }
+        });
+        $(window).resize(function(){
+            product_info_pos = $(".product-view .product-shop").offset().top;
+            if($(window).innerWidth() >= 768) {
+                $(".product-view .product-img-box").each(function(){
+                    if(($(window).scrollTop() > product_info_pos - 50) && (product_info_pos + $(".product-view .product-shop").outerHeight()) > ($(window).scrollTop() + $(this).outerHeight() + 50)) {
+                        product_image_box_top = $(window).scrollTop() - product_info_pos + 50;
+                        $(this).css('top',product_image_box_top + 'px');
+                    } else if ($(window).scrollTop() < product_info_pos) {
+                        product_image_box_top = 0;
+                        $(this).css('top',product_image_box_top + 'px');
+                    }
+                });
+            } else {
+                product_image_box_top = 0;
+                $(".product-view .product-img-box").css('top',product_image_box_top + 'px');
+            }
+        });
+    });
+<?php endif; ?>
 </script>
+<style type="text/css">
+<?php if($product_page_type == "sticky_right" || $product_page_type == "sticky_left_right" || $product_page_type == "wide_grid"): ?>
+    .bottom-container {
+        background-color: transparent;
+    }
+<?php endif; ?>
+</style>

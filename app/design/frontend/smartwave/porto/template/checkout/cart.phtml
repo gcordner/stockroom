@@ -20,7 +20,7 @@
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <div class="row">
-        <div class="col-sm-12 col-md-8 col-lg-9">
+        <div class="col-md-12 col-lg-8 col-xl-9">
             <div class="cart-table-wrap">
                 <?php echo $this->getChildHtml('form_before') ?>
                 <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post">
@@ -108,12 +108,11 @@
                 </form>
             </div>
         </div>
-        <div class="col-sm-12 col-md-4 col-lg-3">
+        <div class="col-md-12 col-lg-4 col-xl-3">
             <div class="cart-collaterals">
                 <?php /* Extensions placeholder */ ?>
                 <?php echo $this->getChildHtml('checkout.cart.extra') ?>
                 <?php echo $this->getChildHtml('coupon') ?>
-                <?php /* added for webtex giftcards */ echo $this->getChildHtml('giftcards') ?>
                 <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
                 <div class="totals">
                     <h2><?php echo $this->__('Cart Totals') ?></h2>

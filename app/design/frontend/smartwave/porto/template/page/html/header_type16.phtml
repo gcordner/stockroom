@@ -4,7 +4,7 @@
     $code  = $store->getCode();
     $custom_block = Mage::getStoreConfig('porto_settings/header/static_block', $code);
 ?>
-<div class="header-container type16">
+<div class="header-container type16 <?php if(Mage::getStoreConfig('porto_settings/header/new_skin', $code)): ?>header-newskin<?php endif; ?>">
     <div class="header container">
         <?php if ($this->getIsHomePage()):?>
         <h1 class="logo"><strong><?php echo $this->getLogoAlt(); ?></strong><a href="<?php echo $this->getUrl(''); ?>" title="<?php echo $this->getLogoAlt(); ?>" class="logo"><img src="<?php echo $this->getLogoSrc(); ?>" alt="<?php echo $this->getLogoAlt(); ?>" /></a></h1>

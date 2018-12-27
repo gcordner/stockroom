@@ -10,6 +10,7 @@ a.tooltip-icon{border:1px solid #fff;color:#fff;border-radius:50%;display:block;
 .tooltip-popup em{font-size:10px}
 a.tooltip-close{position:absolute;right:10px;top:10px;color:#fff}
 .footer-middle>.container{position:relative}
+.container:after{content: "";display: table;clear: both}
 @-webkit-keyframes tooltip-animation {
 0%{opacity:1}
 50%{opacity:0}
@@ -40,7 +41,7 @@ a.tooltip-close{position:absolute;right:10px;top:10px;color:#fff}
 50%{color:#fff}
 100%{color:#444}
 }
-.onepage-category{display:flex;flex-wrap:wrap}
+.onepage-category{display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-moz-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .onepage_category_ajax_loader{position:absolute;width:100%;height:100%;background-color:rgba(255,255,255,0.5);z-index:4}
 .onepage-category > .category-list{width:80px;text-align:left;position:relative;float:left;background:#000;padding:46px 0 146px;z-index:5}
 .onepage-category > .category-list > ul{position:relative;z-index:2;list-style:none;padding:0;transition:all .3s;padding-top:30px}
@@ -65,7 +66,7 @@ a.tooltip-close{position:absolute;right:10px;top:10px;color:#fff}
 .onepage-category .category-detail .title-menu > .menu-popup:before{content:"";border:8px solid transparent;width:16px;height:16px;display:block;border-bottom-color:#bebebe;position:absolute;top:-16px;left:90px}
 .onepage-category .category-detail .title-menu > .menu-popup:after{content:"";border:7px solid transparent;width:14px;height:14px;display:block;border-bottom-color:#fff;position:absolute;top:-13px;left:91px}
 .onepage-category .category-detail .menu-popup ul{list-style:none;padding:0;margin:0}
-.onepage-category .category-detail .menu-popup > ul{display:flex;flex-wrap:wrap}
+.onepage-category .category-detail .menu-popup > ul{display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;-webkit-flex-wrap:wrap;-moz-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;}
 .onepage-category .category-detail .menu-popup > ul > li{float:left;border-left:1px solid #bebebe;margin:10px 0;padding:30px 0}
 .onepage-category .category-detail .menu-popup > ul.columns5 > li{width:20%;padding-left:4%;padding-right:4%}
 .onepage-category .category-detail .menu-popup > ul.columns5 > li:nth-child(5n+1){border-left:0;clear:left}
@@ -90,6 +91,7 @@ a.tooltip-close{position:absolute;right:10px;top:10px;color:#fff}
 .onepage-category .category-detail .products div.item .details-area .product-name a{font-size:14px;font-weight:600;color:#000}
 .onepage-category .category-detail .products div.item .details-area .price{font-weight:300;font-size:30px}
 .onepage-category .category-detail .products div.item .details-area .old-price .price{font-size:20px}
+.onepage-category .category-detail .products div.item .details-area .actions{display:none;}
 .onepage-category .category-detail .product-image-area:before{content:"";display:block;background:#000;width:100%;height:100%;position:absolute;left:0;top:0;z-index:1;opacity:0;visibility:hidden;transition:all .3s}
 .onepage-category .category-detail .item-area:hover .product-image-area:before{opacity:.7;visibility:visible}
 .onepage-category .category-detail a.quickview-icon{position:absolute;top:50%;margin-top:-18px;text-align:center;width:100%;background:none;text-transform:uppercase}
@@ -98,10 +100,10 @@ a.tooltip-close{position:absolute;right:10px;top:10px;color:#fff}
 .onepage-category .category-detail .product-image-area .actions a{background-color:transparent;border-color:#fff;color:#fff;width:50px;height:50px;line-height:48px;font-size:18px;margin:0 1px}
 .onepage-category .category-detail .product-image-area .actions a.addtocart i.icon-cart{font-size:21px}
 .onepage-cat.category-list{margin:-20px 0 -50px}
-.onepage-cat.category-list + .main.container{float:left;width:calc(100% - 80px);padding:0 100px}
+.onepage-cat.category-list + .main.container{float:left;max-width:calc(100% - 80px);padding:0 100px}
+.onepage-category > .category-list > ul.absolute-bottom{position:absolute;top:auto;bottom:0}
 .onepage-category > .category-list > ul.fixed-top{position:fixed;left:0;top:70px}
 .onepage-category > .category-list > ul.fixed-bottom{position:fixed;left:0;bottom:0}
-.onepage-category > .category-list > ul.absolute-bottom{position:absolute;top:auto;bottom:0}
 .onepage-category .additional-content img{max-width:100%}
 .onepage-category .menu-popup a > span{position:relative}
 .onepage-category .menu-popup a > span > span.cat-label{top:3px;right:-35px;font:inherit;font-size:9px;padding:2px;z-index:1;border-radius:2px;line-height:1;border:1px solid #777;position:absolute}
@@ -218,5 +220,181 @@ ul.scene > li.layer{width:100%;height:100%}
     -webkit-transform: rotateZ(360deg) translate3d(0,10%,0) rotateZ(-360deg);
     -moz-transform: rotateZ(360deg) translate3d(0,10%,0) rotateZ(-360deg);
     transform: rotateZ(360deg) translate3d(0,10%,0) rotateZ(-360deg);
+  }
+}
+
+.hide {
+  display: none !important;
+}
+.show {
+  display: block !important;
+}
+.invisible {
+  visibility: hidden;
+}
+.pull-right {
+  float: right !important;
+}
+.pull-left {
+  float: left !important;
+}
+.visible-xs,
+.visible-sm,
+.visible-md,
+.visible-lg {
+  display: none !important;
+}
+.visible-xs-block,
+.visible-xs-inline,
+.visible-xs-inline-block,
+.visible-sm-block,
+.visible-sm-inline,
+.visible-sm-inline-block,
+.visible-md-block,
+.visible-md-inline,
+.visible-md-inline-block,
+.visible-lg-block,
+.visible-lg-inline,
+.visible-lg-inline-block {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .visible-xs {
+    display: block !important;
+  }
+  table.visible-xs {
+    display: table !important;
+  }
+  tr.visible-xs {
+    display: table-row !important;
+  }
+  th.visible-xs,
+  td.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (max-width: 767px) {
+  .visible-xs-block {
+    display: block !important;
+  }
+}
+@media (max-width: 767px) {
+  .visible-xs-inline {
+    display: inline !important;
+  }
+}
+@media (max-width: 767px) {
+  .visible-xs-inline-block {
+    display: inline-block !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm {
+    display: block !important;
+  }
+  table.visible-sm {
+    display: table !important;
+  }
+  tr.visible-sm {
+    display: table-row !important;
+  }
+  th.visible-sm,
+  td.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm-block {
+    display: block !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm-inline {
+    display: inline !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .visible-sm-inline-block {
+    display: inline-block !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md {
+    display: block !important;
+  }
+  table.visible-md {
+    display: table !important;
+  }
+  tr.visible-md {
+    display: table-row !important;
+  }
+  th.visible-md,
+  td.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md-block {
+    display: block !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md-inline {
+    display: inline !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .visible-md-inline-block {
+    display: inline-block !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg {
+    display: block !important;
+  }
+  table.visible-lg {
+    display: table !important;
+  }
+  tr.visible-lg {
+    display: table-row !important;
+  }
+  th.visible-lg,
+  td.visible-lg {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg-block {
+    display: block !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg-inline {
+    display: inline !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg-inline-block {
+    display: inline-block !important;
+  }
+}
+@media (max-width: 767px) {
+  .hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .hidden-lg {
+    display: none !important;
   }
 }

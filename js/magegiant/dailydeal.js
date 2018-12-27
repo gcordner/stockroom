@@ -101,10 +101,10 @@ DailydealTimeCounter.prototype = {
             mnth = (mnth + 12) % 12;
             yr--;
         }
-        var sectext = "sec";
-        var mintext = "min";
-        var hrtext = "hour";
-        var dytext = " days ";
+        var sectext = "";
+        var mintext = ":";
+        var hrtext = ":";
+        var dytext = " days, ";
         var mnthtext = " months ";
         var yrtext = " years ";
         if (yr == 1)
@@ -112,16 +112,37 @@ DailydealTimeCounter.prototype = {
         if (mnth == 1)
             mnthtext = " month ";
         if (dy == 1)
-            dytext = " day ";
+            dytext = " day, ";
         if (hr == 1)
-            hrtext = "hour";
+            hrtext = ":";
         if (min == 1)
-            mintext = "min";
+            mintext = ":";
         if (sec == 1)
-            sectext = "sec";
-
+            sectext = "";
+        if(jQuery("body").hasClass("catalog-product-view")) {
+            sectext = "seconds";
+            mintext = "minutes";
+            hrtext = "hours";
+            dytext = "days";
+            mnthtext = "months";
+            yrtext = "years";
+            if (yr == 1)
+                yrtext = "year";
+            if (mnth == 1)
+                mnthtext = "month";
+            if (dy == 1)
+                dytext = "day";
+            if (hr == 1)
+                hrtext = "hour";
+            if (min == 1)
+                mintext = "minute";
+            if (sec == 1)
+                sectext = "second";
+        }
+/*
         if (dy < 10)
             dy = '0' + dy;
+*/
         if (hr < 10)
             hr = '0' + hr;
         if (min < 10)

@@ -45,6 +45,29 @@ class Smartwave_Porto_Block_Html_Head extends Mage_Page_Block_Html_Head
     	parent::removeItem($type, $name);
     }
     
+     public function addMultipleConditionItem($type, $name, $params=null, $if=null, $cond=null, $sep=null, $if_2=null, $cond_2=null)
+    {
+        $val_if = Mage::getStoreConfig($if);
+        if(!isset($val_if) || !$val_if)
+            $val_if = 0;
+        $val_if_2 = Mage::getStoreConfig($if_2);
+        if(!isset($val_if_2) || !$val_if_2)
+            $val_if_2 = 0;
+        if($sep == 'and') {
+            if($val_if == $cond && $val_if_2 == $cond_2)
+                parent::addItem($type, $name, $params=null, null, null);
+        }
+        if($sep == 'or') {
+            if($val_if == $cond || $val_if_2 == $cond_2)
+                parent::addItem($type, $name, $params=null, null, null);
+        }
+    }
+
+    public function removeMultipleConditionItem($type, $name)
+    {
+        parent::removeItem($type, $name);
+    }
+    
     /**
      * Classify HTML head item and queue it into "lines" array
      *

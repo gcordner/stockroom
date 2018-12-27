@@ -4,8 +4,8 @@
  *
  * @category   Smartwave
  * @package    Smartwave_All
- * @author     SW-THEMES
- * @copyright  Copyright (c) 2014 Smartwave Co. (http://www.newsmartwave.net)
+ * @author     Porto
+ * @copyright  Copyright (c) 2018 Porto Co. (http://www.portotheme.com)
  */
 
 /**
@@ -13,7 +13,7 @@
  *
  * @category   Smartwave
  * @package    Smartwave_All
- * @author     SW-THEMES
+ * @author     Porto
  */
 class Smartwave_All_Model_Compiler
 {    

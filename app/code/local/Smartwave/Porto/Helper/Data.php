@@ -60,7 +60,7 @@ class Smartwave_Porto_Helper_Data extends Mage_Core_Helper_Abstract
         $ch = curl_init();
 
         // Set cURL options
-        curl_setopt($ch, CURLOPT_URL, "http://www.newsmartwave.net/envato/verify_purchase_new.php?item=9725864&version=m1&code=$code&domain=$domain&act=$act");
+        curl_setopt($ch, CURLOPT_URL, "http://www.portotheme.com/envato/verify_purchase_new.php?item=9725864&version=m1&code=$code&domain=$domain&act=$act");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, 'PORTO-PURCHASE-VERIFY');
 
@@ -328,7 +328,6 @@ class Smartwave_Porto_Helper_Data extends Mage_Core_Helper_Abstract
     public function isEnabledTab($type, $id, $product_id){
         $store = Mage::app()->getStore();
         $code  = $store->getCode();
-
         if(!$this->isEnabledonConfig($id)){
             return false;
         }

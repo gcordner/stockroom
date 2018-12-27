@@ -7,13 +7,13 @@
     </modules>
     <admin>
         <routers>
-            <adminhtml>
+            <magegiantcore>
+				<use>admin</use>
                 <args>
-                    <modules>
-                        <magegiantcore after="Mage_Adminhtml">Magegiant_Magegiantcore_Adminhtml</magegiantcore>
-                    </modules>
+                    <module>Magegiant_Magegiantcore</module>
+                        <frontName>magegiantcore</frontName>
                 </args>
-            </adminhtml>
+            </magegiantcore>
         </routers>
     </admin>
     <adminhtml>

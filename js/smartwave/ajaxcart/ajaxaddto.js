@@ -72,7 +72,7 @@ jQuery.noConflict();
 		initFancybox();
         jQuery('#fancybox'+id).trigger('click');
     }
-	
+
 	function initFancybox(){
 		jQuery.noConflict();
 		jQuery(document).ready(function(){
@@ -96,7 +96,7 @@ jQuery.noConflict();
                     jQuery(this.element).parent().parent().parent().children(".product-image-area").children(".loader-container").show();
                     jQuery(this.element).parent().children(".loader-container").show();
                 },
-                'afterLoad'        : function() {     
+                'afterLoad'        : function() {
                     jQuery("#fancybox_hide_loading_css").remove();
                     jQuery(".loader-container").hide();
                 },
@@ -108,7 +108,7 @@ jQuery.noConflict();
                 }
 			}
 		);
-		});   	
+		});
 	}
 	function ajaxCompare(el,url,id){
 	    url = url.replace("catalog/product_compare/add","ajaxcart/whishlist/compare");

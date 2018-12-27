@@ -165,6 +165,7 @@
         </general>
         <header>
             <type>16</type>
+			<new_skin>0</new_skin>
             <language_flag>0</language_flag>
             <static_block></static_block>
             <static_block_2></static_block_2>
@@ -209,7 +210,7 @@
             <footer_bottom_enabled>1</footer_bottom_enabled>
             <footer_bottom_socialicons>0</footer_bottom_socialicons>
             <footer_logo></footer_logo>
-            <copyrights><![CDATA[COPYRIGHT 2016 PORTO. ALL RIGHTS RESERVED.]]></copyrights>
+            <copyrights><![CDATA[COPYRIGHT 2018 PORTO. ALL RIGHTS RESERVED.]]></copyrights>
             <footer_bottom_custom_block>0</footer_bottom_custom_block>
             <footer_bottom_custom_block_id></footer_bottom_custom_block_id>
             <footer_bottom_custom_block_2>1</footer_bottom_custom_block_2>
@@ -250,7 +251,10 @@
             <thumbnail_image_type></thumbnail_image_type>
             <custom_block_id>porto_custom_block_product_for_demo1</custom_block_id>
             <page_layout>one_column</page_layout>
+            <custom_block_tab></custom_block_tab>
             <upsell_columns>5</upsell_columns>
+            <move_upsell>1</move_upsell>
+            <add_upsell_background>0</add_upsell_background>
         </product_view>
         <product_compare>
             <show_link>0</show_link>
@@ -272,22 +276,22 @@
             <latitude>-34.398</latitude>
             <longitude>150.884</longitude>
             <zoom>18</zoom>
-            <infoblock><![CDATA[                <div class="row"><div class="col-sm-12">
+            <infoblock><![CDATA[                <div class="row"><div class="col-md-12">
                 <i class="icon-phone"></i>
                 <p>0201 203 2032</p>
                 <p>0201 203 2032</p>
             </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-mobile"></i>
                     <p>201-123-3922</p>
                     <p>302-123-3928</p>
                 </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-mail-alt"></i>
                     <p>porto@gmail.com</p>
                     <p>porto@portotemplate.com</p>
                 </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-skype"></i>
                     <p>porto_skype</p>
                     <p>proto_template</p>
@@ -318,10 +322,10 @@
     border-bottom: 1px solid #dfdfdf;
 }
 .main-container > .container, .catalog-product-view .main-container > .container, .breadcrumbs > .container, .footer .container {
-    width: 100%;
+    max-width: 100%;
 }
 @media (min-width:1900px) {
-    .catalog-category-view .breadcrumbs > .container, .catalogsearch-result-index .breadcrumbs > .container, .breadcrumbs > .container, .main-container > .container, .catalog-category-view .main-container > .container, .catalogsearch-result-index .main-container > .container, .catalog-product-view .main-container > .container, .footer .container, .footer-bottom {
+    .breadcrumbs > .container, .main-container > .container, .footer .container, .footer-bottom {
         padding: 0 100px;
     }
     .main-container > .container > .row, .footer .container > .row {
@@ -338,7 +342,7 @@
     }
 }
 @media (max-width:1899px) {
-    .catalog-category-view .breadcrumbs > .container, .catalogsearch-result-index .breadcrumbs > .container, .breadcrumbs > .container, .main-container > .container, .catalog-category-view .main-container > .container, .catalogsearch-result-index .main-container > .container, .catalog-product-view .main-container > .container, .footer .container, .footer-bottom {
+    .breadcrumbs > .container, .main-container > .container, .footer .container, .footer-bottom {
         padding: 0 70px;
     }
     .main-container > .container > .row {
@@ -351,7 +355,7 @@
     }
 }
 @media (max-width:1199px) {
-    .catalog-category-view .breadcrumbs > .container, .catalogsearch-result-index .breadcrumbs > .container, .breadcrumbs > .container, .main-container > .container, .catalog-category-view .main-container > .container, .catalogsearch-result-index .main-container > .container, .catalog-product-view .main-container > .container, .footer .container, .footer-bottom {
+    .breadcrumbs > .container, .main-container > .container, .footer .container, .footer-bottom {
         padding: 0 30px;
     }
     .main-container > .container > .row {
@@ -364,7 +368,7 @@
     }
 }
 @media (max-width:767px) {
-    .catalog-category-view .breadcrumbs > .container, .catalogsearch-result-index .breadcrumbs > .container, .breadcrumbs > .container, .main-container > .container, .catalog-category-view .main-container > .container, .catalogsearch-result-index .main-container > .container, .catalog-product-view .main-container > .container, .footer .container, .footer-bottom {
+    .breadcrumbs > .container, .main-container > .container, .footer .container, .footer-bottom {
         padding: 0 15px;
     }
     .main-container > .container > .row {
@@ -545,7 +549,7 @@ a.quickview-icon {
 a.quickview-icon:hover > span {
     text-decoration: none;
 }
-a.quickview-icon > i {
+.products-grid a.quickview-icon > i {
     display: none;
 }
 .category-products .products-grid li.item .item-area:hover .product-image-area .product-image:before {
@@ -571,12 +575,16 @@ a.quickview-icon > i {
 #narrow-by-list dd .swatch-label img {
     border-color: transparent;
 }
-@media (min-width: 768px) {
-    .footer-middle .col-sm-2 {
-        width: 20%;
+@media (min-width: 992px) {
+    .footer-middle .col-lg-2 {
+        -ms-flex: 0 0 20%;
+        flex: 0 0 20%;
+        max-width: 20%;
     }
-    .footer-middle .col-sm-4 {
-        width: 40%;
+    .footer-middle .col-lg-4 {
+        -ms-flex: 0 0 40%;
+        flex: 0 0 40%;
+        max-width: 40%;
     }
 }
 .footer-middle input#newsletter {
@@ -623,6 +631,8 @@ a.quickview-icon > i {
 }
 .footer-bottom address {
     float: left;
+    font-family: "Oswald";
+    font-size: 12px;
 }
 .footer-bottom > .container {
     padding: 40px 0;
@@ -635,12 +645,15 @@ a.quickview-icon > i {
 }
 .product-view .product-img-box li.etalage_small_thumbs li {
     padding: 0;
-    border-color: #999;
+    border-color: #dfdfdf;
+}
+.product-view .product-img-box li.etalage_small_thumbs li.etalage_smallthumb_active {
+    border-color: #000;
 }
 .add-to-box, .col1-layout .product-shop .product-options-bottom, .col1-layout .add-to-box {
     border-bottom: 0;
 }
-@media (max-width: 767px) {
+@media (max-width: 991px) {
     .footer-middle input#newsletter, .footer-middle #newsletter+button.button {
         max-width: 300px;
     }
@@ -746,10 +759,7 @@ a.quickview-icon > i {
     vertical-align: middle;
     font-size: 16px;
 }
-.product-options-bottom .add-to-links {
-    margin: 0;
-}
-.product-view .product-shop .short-description, .product-view .product-info, .product-options, .product-options-bottom {
+.product-view .product-shop .short-description, .product-options, .product-options-bottom {
     border: 0;
 }
 .add-to-cart button.button {
@@ -884,9 +894,6 @@ h2.sidebar-title {
 .product-options-bottom .add-to-cart > .qty-holder {
     margin-bottom: 15px;
 }
-.product-options-bottom .add-to-links {
-    margin-bottom: 15px;
-}
 @media (max-width: 1679px) {
     .add-to-cart .qty-holder {
         margin-right: 30px;
@@ -901,11 +908,6 @@ h2.sidebar-title {
     }
     .add-to-cart button.button span {
         min-width: 150px;
-    }
-}
-@media (max-width: 1439px) {
-    body:not(.quickview-index-view) .product-view .product-shop .short-description {
-        display: none;
     }
 }
 @media (min-width: 1200px) {
@@ -1013,19 +1015,6 @@ button.button {
 }
 .sorter .view-mode {
     height: auto;
-    margin-bottom: 4px;
-}
-@media (max-width: 1440px) {
-    .header-container.type17 .main-nav .menu >li.menu-full-width .nav-sublist-dropdown .container ul >li >a.level1, .header-container.type17 .main-nav .menu >li.menu-static-width .nav-sublist-dropdown .container ul >li >a.level1 {
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-    }
-    .header-container.type17 .main-nav .menu > li.menu-full-width .nav-sublist-dropdown .container ul > li .nav-sublist a, .header-container.type17 .main-nav .menu > li.menu-static-width .nav-sublist-dropdown .container ul > li .nav-sublist a {
-        padding: 7px 0;
-    }
-    .header-container.type17 .main-nav .menu >li.menu-full-width .nav-sublist-dropdown, .header-container.type17 .main-nav .menu >li.menu-static-width .nav-sublist-dropdown {
-        padding: 20px 30px;
-    }
 }
 .cart .cart-table-wrap {
     border: 0;
@@ -1071,6 +1060,93 @@ button.button {
 .account-login h2 {
     font-size: 30px;
     color: #000;
+}
+a.quickviewlink.quickview-icon,a.quickviewlink.quickview-icon:hover {
+    color: #000;
+    border-color: #000;
+}
+.product-name a {
+    color: #000;
+}
+.block-main-layer .title-filter {
+    padding: 10.5px 35px;
+}
+.item .details-area .actions a.addtocart {
+    font-family: 'Oswald';
+    text-transform: uppercase;
+    font-size: 13px;
+}
+.product-options-bottom .add-to-cart {
+    vertical-align: top;
+}
+.product-view .product-options-bottom .add-to-links {
+    margin: 0;
+    margin-top: 5px;
+    margin-bottom: 25px;
+    vertical-align: top;
+}
+.product-view .product-options dt.swatch-attr {
+    margin-top: 13px;
+}
+
+.catalog-product-view .sidebar .custom-block {
+    border: none;
+    color: #6b7a83;
+    padding-bottom: 0;
+    margin-bottom: 33px;
+    background: none;
+}
+.catalog-product-view .sidebar .custom-block-1 {
+    margin-top: -25px;
+}
+.catalog-product-view .sidebar .block-manufacturer + .custom-block-1 {
+    margin-top: 0;
+}
+.catalog-product-view .sidebar .custom-block-1>div i {
+    border: none;
+    font-size: 40px;
+    margin-right: 22px;
+    margin-top: 6px;
+}
+.catalog-product-view .sidebar .custom-block-1>div {
+    min-height: 65px;
+    clear: both;
+    padding: 18px 0;
+    border-bottom: solid 1px #dee5e8;
+    margin-bottom: 0;
+}
+.catalog-product-view .sidebar .custom-block-1>div:last-child {
+    border-bottom-width: 0;
+}
+.block-manufacturer {
+    text-align: center;
+    padding: 10px 0 0;
+    margin-bottom: 0;
+}
+.block-manufacturer hr {
+    border-color: #dee5e8;
+    margin-bottom: 0;
+    border-top: 0;
+}
+.block.block-manufacturer a {
+    display: block;
+    margin-bottom: 30px;
+}
+.box-up-sell .item .details-area .actions {
+    display: none;
+}
+.catalog-category-view .sidebar .owl-top-narrow .sidebar-list .owl-controls {
+    right: -24px;
+}
+.catalog-category-view .sidebar .owl-top-narrow .sidebar-list .owl-controls .owl-buttons div {
+    margin: 0;
+}
+.col2-set {
+    margin: 0 -15px;
+}
+.catalog-category-view .sidebar .custom-block {
+    padding-left: 15px;
+    padding-right: 15px;
 }]]></custom_style>
         </custom_settings>
     </porto_settings>
@@ -1095,7 +1171,7 @@ button.button {
     </fullajax>
     <ajax_catalog>
         <price_slider_settings>
-            <price_slider_en>0</price_slider_en>
+            <price_slider_en>1</price_slider_en>
         </price_slider_settings>
         <price_slider_conf>
             <handle_color>#3b3b3b</handle_color>

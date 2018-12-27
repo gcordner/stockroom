@@ -14,7 +14,7 @@
             <default>porto</default>
         </theme>
         <header>
-            <logo_src>images/logo_white_plus.png</logo_src>
+            <logo_src>images/logo_new_white.png</logo_src>
         </header>
     </design>
     <cms>
@@ -64,7 +64,7 @@
             <custom_char_subset></custom_char_subset>
         </font>
         <header>
-            <custom>0</custom>
+            <custom>1</custom>
             <header_bgcolor></header_bgcolor>
             <header_bg_image></header_bg_image>
             <header_bordercolor></header_bordercolor>
@@ -89,7 +89,7 @@
             <header_search_bordercolor></header_search_bordercolor>
             <header_minicart_bgcolor></header_minicart_bgcolor>
             <header_minicart_color></header_minicart_color>
-            <header_minicart_icon_color></header_minicart_icon_color>
+            <header_minicart_icon_color>#ffffff</header_minicart_icon_color>
         </header>
         <footer>
             <custom>1</custom>
@@ -143,10 +143,12 @@
             <layout>full_width</layout>
             <border_radius>1</border_radius>
 			<show_notice>0</show_notice>
+            <breadcrumbs_below_header>0</breadcrumbs_below_header>
         </general>
         <header>
-            <type>22</type>
-            <language_flag>1</language_flag>
+            <type>8</type>
+			<new_skin>1</new_skin>
+            <language_flag>0</language_flag>
             <static_block>porto_custom_block_for_header_home13</static_block>
             <static_block_2></static_block_2>
             <menu_title></menu_title>
@@ -190,7 +192,7 @@
             <footer_bottom_socialicons>1</footer_bottom_socialicons>
             <footer_bottom_enabled>0</footer_bottom_enabled>
             <footer_logo>images/logo_footer_blue.png</footer_logo>
-            <copyrights><![CDATA[&copy;Copyright 2015 by SW-THEMES. All Rights Reserved.]]></copyrights>
+            <copyrights><![CDATA[&copy;Copyright 2018 by Porto. All Rights Reserved.]]></copyrights>
             <footer_bottom_custom_block>1</footer_bottom_custom_block>
             <footer_bottom_custom_block_id>porto_footer_bottom_custom_block</footer_bottom_custom_block_id>
             <footer_bottom_custom_block_2>0</footer_bottom_custom_block_2>
@@ -227,16 +229,24 @@
             <prev_next>1</prev_next>
             <prev_text><![CDATA[<i class="icon-left-open"></i>]]></prev_text>
             <next_text><![CDATA[<i class="icon-right-open"></i>]]></next_text>
+            <product_image_size>5</product_image_size>
             <disable_product_zoom>0</disable_product_zoom>
-            <upsell_columns>5</upsell_columns>
-            <add_upsell_background>1</add_upsell_background>
+            <move_custom_block>0</move_custom_block>
+            <move_product_tab>1</move_product_tab>
+            <add_upsell_background>0</add_upsell_background>
+            <move_upsell>1</move_upsell>
+            <move_custom_block>0</move_custom_block>
+            <custom_block_tab></custom_block_tab>
+            <custom_block_id></custom_block_id>
+            <page_layout>two_column_right</page_layout>
+            <upsell_columns>4</upsell_columns>
         </product_view>
         <product_compare>
             <show_link>0</show_link>
         </product_compare>
         <newsletter_popup>
             <enabled>1</enabled>
-            <show_logo>images/logo.png</show_logo>
+            <show_logo>images/logo_black7.png</show_logo>
             <newsletter_content><![CDATA[<h2>BE THE FIRST TO KNOW</h2><p>Subscribe to the Porto eCommerce newsletter to receive timely updates from your favorite products.</p>]]></newsletter_content>
             <newsletter_width>700px</newsletter_width>
             <newsletter_height>324px</newsletter_height>
@@ -250,22 +260,22 @@
             <latitude>-34.398</latitude>
             <longitude>150.884</longitude>
             <zoom>18</zoom>
-            <infoblock><![CDATA[                <div class="row"><div class="col-sm-12">
+            <infoblock><![CDATA[                <div class="row"><div class="col-md-12">
                 <i class="icon-phone"></i>
                 <p>0201 203 2032</p>
                 <p>0201 203 2032</p>
             </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-mobile"></i>
                     <p>201-123-3922</p>
                     <p>302-123-3928</p>
                 </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-mail-alt"></i>
                     <p>porto@gmail.com</p>
                     <p>porto@portotemplate.com</p>
                 </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-skype"></i>
                     <p>porto_skype</p>
                     <p>proto_template</p>
@@ -294,9 +304,6 @@
 }
 .icon-left-open:before {
     content: '\e819';
-}
-.full-width .main.container, .full-width .breadcrumbs .container, .full-width .bottom-container .container {
-    width: 100%;
 }
 .owl-theme .owl-controls .owl-page span {
     width: 15px;
@@ -361,14 +368,14 @@ p.fullwidth-filter-description {
 }
 .product-banner.owl-top-narrow .owl-controls .owl-buttons > div:hover i {
     color: #363636;
-}
+} 
 .filter-products .products:not(.small-list) div.item .item-area,
 .category-products .products-grid li.item .item-area{
     background-color: #fff;
 }
 .filter-products .products:not(.small-list) div.item:hover .item-area,
 .category-products .products-grid li.item:hover .item-area {
-    box-shadow: 0 2px 20px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 15px 0px rgba(0, 0, 0, 0.1);
 }
 .ratings {background: none;}
 .product-name a {
@@ -377,6 +384,7 @@ p.fullwidth-filter-description {
 .category-products .products-grid li.item .details-area .product-name a,
 .filter-products .products div.item .details-area .product-name a{
     font-size: 15px;
+    font-weight: 500;
 }
 .regular-price .price {
     font-family: 'Oswald';
@@ -410,10 +418,16 @@ span.new-product-icon,span.sale-product-icon {
 }
 a.addtocart i.icon-cart {
     font-size: 17px;
-    line-height: 29px;
+    vertical-align: middle;
 }
 a.addtocart i.icon-cart:before {
     content: "\e87f";
+}
+.item .details-area .actions a:not(.addtocart) {
+    width: 36px;
+    height: 36px;
+    line-height: 34px;
+    background-color: transparent;
 }
 .item .details-area .actions a.addtocart {
     text-transform: uppercase;
@@ -421,13 +435,12 @@ a.addtocart i.icon-cart:before {
     font-family: 'Oswald';
     font-weight: 400;
     letter-spacing: 0.025em;
-    color: #6f6e6c;
-    line-height: 28px;
-    background-color: #f4f4f4;
-    border-color: #f4f4f4;
+    color: #6a6a6d;
+    line-height: 34px;
+    height: 36px;
+    border-color: #dee5e8;
 }
 .item .details-area .actions a.addtocart span {
-    margin-top: -4px;
     display: inline-block;
     vertical-align: middle;
 }
@@ -444,8 +457,8 @@ a.addtowishlist,a.comparelink {
     content: '\e88a';
 }
 
-.category-products .products-grid { margin-left: -15px !important; margin-right: -15px !important; }
-.category-products .products-grid li.item, .filter-products .products div.item { padding-left: 15px !important; padding-right: 15px !important;padding-bottom: 25px !important; }
+.category-products .products-grid { margin-left: -10px !important; margin-right: -10px !important; }
+.category-products .products-grid li.item, .filter-products .products div.item { padding-left: 10px !important; padding-right: 10px !important;padding-bottom: 25px !important; }
 .product-image-area { padding: 0; border: 0; border-radius: 0; }
 .col-main .category-products .products-grid li.item .product-image { border-radius: 0; }
 .col-main .category-products .products-grid li.item .price-box {height: 18px;}
@@ -559,23 +572,18 @@ a.quickview-icon { border-radius: 0; }
     background-color: #fff;
     border: solid 1px #e9e9e9;
 }
-#narrow-by-list dd .swatch-link:hover .swatch-label {
-    border-color: #08c;
-    background-color: #08c;
-    color: #fff;
-}
 .block-layered-nav dt:before, .block-category-nav .block-title:before{
-    content:'\e81c';
+    content:'\e81b';
     border: 0;
     color: #21293c;
     font-size: 17px;
-    margin-top: -5px;
+    margin-top: -7px;
 }
 .block-category-nav .block-title:before{
     margin-top: 2px;
 }
 .block-layered-nav dt.closed:before, .block-category-nav .block-title.closed:before{
-    content:'\e81b';
+    content:'\e81c';
 }
 .block-layered-nav dt:hover:before, .block-category-nav .block-title:hover:before {
     background-color: transparent !important;
@@ -594,6 +602,12 @@ a.quickview-icon { border-radius: 0; }
 .price-filter-slider .text-box {
     margin: 0 -5px;
 }
+.owl-top-narrow .sidebar-list .owl-controls {
+    top: -28px;
+    right: -9px;
+}
+.owl-top-narrow .sidebar-list .owl-controls .owl-buttons div {color:#21293c;font-size:19px;}
+.owl-top-narrow .sidebar-list .owl-controls .owl-buttons div i:before {margin:0 2px;}
 .sidebar h2.sidebar-title {
     padding: 0 20px;
     font-size: 15px;
@@ -607,7 +621,7 @@ a.quickview-icon { border-radius: 0; }
     background-image: none;
     border-bottom: solid 1px #efefef;
     margin-bottom: 30px;
-    padding: 0 20px 15px;
+    padding: 0 10px 15px;
 }
 .sidebar-filterproducts.custom-block + h2 {
     font-size: 15px !important;
@@ -678,7 +692,7 @@ a.quickview-icon { border-radius: 0; }
     background-size: cover;
 }
 .toolbar .sorter {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .sorter .view-mode i {
     border: none;
@@ -690,7 +704,6 @@ a.quickview-icon { border-radius: 0; }
 }
 .toolbar .sorter .sort-by select {
     min-width: 100px;
-    margin-right: 10px;
 }
 .icon-mode-grid:before{
     content: "\e880";
@@ -702,17 +715,18 @@ a.quickview-icon { border-radius: 0; }
     background-color: transparent;
     color: #000;
 }
-.sorter .sort-by {
-    margin-bottom: 0;
-}
 .sorter .view-mode {
     float: right;
-    margin: 0;
     margin-right: 0;
-    line-height: 29px;
-    height: 30px;
+    line-height: 28px;
+    height: 28px;
     margin-left: 20px;
-    margin-top: 5px;
+    margin-top: 7px;
+}
+@media (max-width: 480px) {
+    .sorter .limiter label {
+        min-width: 47px;
+    }
 }
 .toolbar-bottom .pager .pages {
     display: block;
@@ -721,7 +735,7 @@ a.quickview-icon { border-radius: 0; }
     background: transparent;
     color: #706f6c;
     border: 0;
-    line-height: 29px;
+    line-height: 30px;
     height: 32px;
     width: 32px;
     display: inline-block;
@@ -734,13 +748,13 @@ a.quickview-icon { border-radius: 0; }
     line-height: 30px;
     width: 32px;
     font-size: 15px;
-    font-weight: 500;
-    border: solid 1px #e9e9e9;
     font-weight: 600;
 }
 .pager .pages li a {
     color: #706f6c;
     background: none;
+    display: block;
+    border: solid 1px #e9e9e9;
 }
 .toolbar .pages {
     display: none;
@@ -767,10 +781,11 @@ a.quickview-icon { border-radius: 0; }
 .pager .pages li a.i-next, .pager .pages li a.i-previous {
     color: #78755c;
     font-size: 20px;
-    line-height: 26px;
+    line-height: 28px;
     vertical-align: middle;
-    display: inline-block;
+    display: block;
     background: none;
+    border: 0;
 }
 .pager li >a:hover {
     background-color: transparent;
@@ -791,7 +806,7 @@ a.quickview-icon { border-radius: 0; }
 .product-view .product-img-box li.etalage_thumb, .product-view .product-img-box li.etalage_small_thumbs li {
     padding: 0;
     border-color: #dae2e6;
-    border-radius: 2px;
+    border-radius: 0;
 }
 .product-view .product-img-box li.etalage_small_thumbs li.etalage_smallthumb_active {
     border-color: #29363c;
@@ -839,9 +854,8 @@ a.quickview-icon { border-radius: 0; }
     font-weight: 400;
     letter-spacing: 0.005em;
     line-height: 27px;
-    border-bottom: solid 1px #dae2e6;
 }
-.product-view .product-info, .product-options-bottom {
+.product-options-bottom {
     border-bottom: none;
 }
 .product-view .product-shop .price-box .regular-price .price {
@@ -932,10 +946,11 @@ a.quickview-icon { border-radius: 0; }
     font-size: 14px;
     letter-spacing: 0.05em;
     font-weight: 400;
-    line-height: 43px;
+    line-height: 41px;
 }
 .add-to-cart button.button span i {
     font-size: 18px;
+    margin-right: 4px;
 }
 .add-to-cart button.button span i:before {
     content: '\e87f';
@@ -1026,7 +1041,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
 }
 .block-manufacturer {
     text-align: center;
-    padding: 10px 20px 0;
+    padding: 10px 10px 0;
     margin-bottom: 0;
 }
 .block-manufacturer hr {
@@ -1051,7 +1066,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
     text-transform: uppercase;
 }
 .block.block-related .owl-theme .owl-controls {
-    top: -78px;
+    top: -59px;
     right: 5px;
 }
 .block.block-related .owl-theme .owl-controls .owl-buttons div {
@@ -1061,10 +1076,11 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
     color: #21293c;
 }
 .block.block-related {
-    padding: 0 20px;
+    padding: 0 10px;
+    max-width:275px;
 }
 .block.block-related .product {
-    margin: 30px 0;
+    margin: 15px 0;
 }
 .block.block-related .product-name{
     font-size: 14px;
@@ -1076,7 +1092,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
 .block.block-related .product-name a{
     color:#7a7d82;
 }
-.block.block-related .col-xs-6 {
+.block.block-related .col-6 {
     width: 40%;
 }
 .block.block-related .product-details {
@@ -1131,7 +1147,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
 }
 
 
-.full-width .footer-top > .container { width: 100%; }
+.full-width .footer-top > .container { max-width: 100%; }
 .footer-top {
     text-align: left;
     padding: 15px 0 0;
@@ -1144,11 +1160,12 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
     font-weight: 400;
     letter-spacing: 0.025em;
 }
-.homepage-bar .col-md-4 {
+.homepage-bar .col-lg-4 {
     border-left: 1px solid #3d3d38;
 }
 .footer-top .footer-top-inner{
     border-top: 1px solid #3d3d38;
+    padding-bottom: 20px;
 }
 .footer-top .block .block-title {
     margin-bottom: 13px;
@@ -1166,6 +1183,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
     width: 100%;
     max-width: 320px;
     float: left;
+    margin-bottom: 20px;
 }
 .footer-container .validation-advice {
     position: absolute;
@@ -1196,6 +1214,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
     text-transform: uppercase;
     border-radius: 0 30px 30px 0;
     opacity: 1;
+    background-color: #585858;
 }
 .footer-top .block-content {
     display: inline-block;
@@ -1221,7 +1240,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
     padding:24px 0;
 }
 .full-width .footer-middle > .container {
-    width: 100%;
+    max-width: 100%;
 }
 .footer-middle .block .block-title {
     margin-bottom: 15px;
@@ -1306,12 +1325,20 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
     }
 }
 @media(max-width: 991px){
-    .homepage-bar .col-md-4 {
+    .homepage-bar .col-lg-4 {
         text-align: left !important;
         border:none !important;
     }
 }
+@media (min-width:768px) and (max-width:1200px) {
+    .product-banner.owl-top-narrow .owl-controls {
+        top: -88px;
+    }
+}
 @media(max-width:767px){
+    .header-container.type9 .header-right-area>div {
+        margin-right: 0;
+    }
     .product-banner.owl-top-narrow .owl-controls {
         top: -88px;
     }
@@ -1321,11 +1348,79 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
     #half-content-1:before,#half-content-2:before {
         display: none;
     }
+    .add-to-cart button.button {
+        width: 140px;
+    }
     .footer .social-icons {
         float: right;
         width: 100%;
         margin-top: 20px;
     }
+    .footer-top .homepage-bar .container {
+        padding: 0;
+    }
+    .footer-middle .block-bottom .custom-block {
+        float: left !important; 
+    } 
+    .footer-top .col-md-7 .block-content {
+        margin: 10px 0 0 !important;
+    }
+    .footer-middle .block .block-title {
+        padding-top: 25px;
+    }
+}
+@media (min-width:523px) and (max-width:767px) {
+    .product-banner.owl-top-narrow .owl-controls {
+        top: -67px;
+    }
+}
+@media(max-width:375px){
+    .product-view .product-options-bottom .add-to-links {
+        margin: 10px 0 0;
+    }
+    .product-view .add-to-links {
+        margin: 10px 0 0 -8px;
+    }
+}
+.rating-box .rating:before {
+    color: #6a6a6d;
+}
+.owl-top-narrow .owl-controls .owl-buttons div {
+    margin: 0 -3px;
+}
+.footer-top .input-box button span span {
+    padding: 0;
+}
+.footer address {
+    line-height: 36px;
+}
+.product-label span {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.catalog-product-view .sidebar .custom-block-1 {
+    margin-top: -25px;
+}
+.catalog-product-view .sidebar .block-manufacturer + .custom-block-1 {
+    margin-top: 0;
+}
+
+.block-manufacturer {
+    padding: 0 10px;
+}
+.block-manufacturer hr {
+    border-width: 0 0 1px 0;
+    margin-top: 25px;
+}
+.fixed-header .menu >li .nav-sublist-dropdown .container >ul .menu-item-has-children >a:before, .main-nav .menu >li .nav-sublist-dropdown .container >ul .menu-item-has-children >a:before {
+    margin-top: -9px;
+}
+.box-up-sell .details-area {
+    text-align: center;
+    padding: 10px 0;
+}
+.header-container.type9 .main-nav ul.menu>li:first-child>a {
+    padding-left: 0;
 }]]></custom_style>
         </custom_settings>
     </porto_settings>

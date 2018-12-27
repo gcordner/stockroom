@@ -34,13 +34,13 @@
     </frontend>
     <admin>
         <routers>
-            <adminhtml>
+            <dailydealadmin>
+                <use>admin</use>
                 <args>
-                    <modules>
-                        <dailydealadmin after="Mage_Adminhtml">Magegiant_Dailydeal_Adminhtml</dailydealadmin>
-                    </modules>
+                    <module>Magegiant_Dailydeal</module>
+                        <frontName>dailydealadmin</frontName>
                 </args>
-            </adminhtml>
+            </dailydealadmin>
         </routers>
     </admin>
     <adminhtml>

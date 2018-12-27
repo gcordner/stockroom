@@ -3,6 +3,9 @@
     $code  = $store->getCode();
     $_productCollection=$this->getLoadedProductCollection();
     $_helper = $this->helper('catalog/output');
+
+    $lazyload = Mage::getStoreConfig("porto_settings/optimization/lazyload",$code);
+
     $aspect_ratio = $this->getData("aspect_ratio");
     if($aspect_ratio == null) {
         $aspect_ratio = Mage::getStoreConfig("porto_settings/category/aspect_ratio",$code);
@@ -11,15 +14,17 @@
     if(!$ratio_width) {
         $ratio_width = Mage::getStoreConfig("porto_settings/category/ratio_width",$code);
     }
+    if(!$ratio_width)
+        $ratio_width = 300;
     $ratio_height = $this->getData("image_height");
+    if($aspect_ratio) {
+        $ratio_height = $ratio_width;
+    }
     if(!$ratio_height) {
         $ratio_height = Mage::getStoreConfig("porto_settings/category/ratio_height",$code);
     }
-    
-    if(!$ratio_width)
-        $ratio_width = 300;
     if(!$ratio_height)
-        $ratio_height = 400;
+        $ratio_height = 300;
 ?>
 <?php if(!$_productCollection->count()): ?>
 <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
@@ -32,7 +37,7 @@
             <div class="item"><div class="item-area">
                 <div class="product-image-area">
                     <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
-                        <img src="<?php if($aspect_ratio):?><?php echo $this->helper('catalog/image')->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" width="<?php echo $ratio_width; ?>" <?php if(!$aspect_ratio):?>height="<?php echo $ratio_height; ?>"<?php endif; ?> alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                        <img <?php if(!$lazyload): ?>class="porto-lazyload" data-<?php endif; ?>src="<?php if($aspect_ratio):?><?php echo $this->helper('catalog/image')->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" width="<?php echo $ratio_width; ?>" height="<?php echo $ratio_height; ?>"/>
                     </a>
                 </div>
                 <div class="details-area">
@@ -50,7 +55,7 @@
                                 <div class="rating" style="width:0"></div>
                             </div>
                         </div>
-                    <?php                            
+                    <?php
                         }
                     ?>
                     <?php else: ?>

@@ -149,7 +149,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
                             
                         //draw category menu items
                         $html[] = '<div class="block1 col-sm-'.$columnsWidth.'">';
-                        $html[] = '<div class="row">';                    
+                        $html[] = '<div class="sw-row">';                    
                         $html[] = '<ul>';
                         $html[] = $this->drawColumns($activeChildren, $columns, count($activeChildren),'', 'wide');
                         $html[] = '</ul>';
@@ -326,7 +326,7 @@ class Smartwave_Megamenu_Block_Navigation extends Mage_Catalog_Block_Navigation
 						$html .= '</div>';
 					}
 					//version 1.0.2 end
-                    $html.= '<a class="level' . $level . '" data-id="'.$child->getId().'" href="' . $this->getCategoryUrl($child) . '"><span>' . $name .$label. '</span></a>';    
+                    $html.= '<a class="level' . $level . '" data-id="'.$child->getId().'" href="' . $this->getCategoryUrl($child) . '"><span>' . $name .$label. '</span></a>';
                 } else {
                     $html .= '<li class="'.$class.' '.$active.'">';
                     $html .= '<a class="level' . $level . '" data-id="'.$child->getId().'" href="' . $this->getCategoryUrl($child) . '"><span>' . $name .$label. '</span></a>';

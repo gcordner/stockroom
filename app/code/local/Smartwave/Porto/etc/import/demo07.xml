@@ -80,15 +80,15 @@
             <header_menu_megamenu_bordercolor></header_menu_megamenu_bordercolor>
             <header_menu_megamenu_color></header_menu_megamenu_color>
             <header_menu_classicmenu_bgcolor></header_menu_classicmenu_bgcolor>
-            <header_menu_classicmenu_color>#ffffff</header_menu_classicmenu_color>
+            <header_menu_classicmenu_color>#777</header_menu_classicmenu_color>
             <header_menu_classicmenu_hover_bgcolor>#708da8</header_menu_classicmenu_hover_bgcolor>
-            <header_menu_classicmenu_hover_color></header_menu_classicmenu_hover_color>
+            <header_menu_classicmenu_hover_color>#fff</header_menu_classicmenu_hover_color>
             <header_search_bgcolor></header_search_bgcolor>
             <header_search_color></header_search_color>
             <header_search_text_color></header_search_text_color>
             <header_search_bordercolor></header_search_bordercolor>
             <header_minicart_bgcolor></header_minicart_bgcolor>
-            <header_minicart_color>#606669</header_minicart_color>
+            <header_minicart_color>#c4d0dc</header_minicart_color>
             <header_minicart_icon_color>#141a1f</header_minicart_icon_color>
         </header>
         <footer>
@@ -141,9 +141,11 @@
             <layout>0</layout>
             <border_radius>1</border_radius>
 			<show_notice>0</show_notice>
+            <breadcrumbs_below_header>0</breadcrumbs_below_header>
         </general>
         <header>
-            <type>21</type>
+            <type>5</type>
+            <new_skin>1</new_skin>
             <language_flag>1</language_flag>
             <static_block>porto_custom_block_for_header_home5</static_block>
             <static_block_2></static_block_2>
@@ -188,7 +190,7 @@
             <footer_bottom_socialicons>0</footer_bottom_socialicons>
             <footer_bottom_enabled>1</footer_bottom_enabled>
             <footer_logo></footer_logo>
-            <copyrights><![CDATA[© Porto eCommerce. 2016. All Rights Reserved]]></copyrights>
+            <copyrights><![CDATA[© Porto eCommerce. 2018. All Rights Reserved]]></copyrights>
             <footer_bottom_custom_block>0</footer_bottom_custom_block>
             <footer_bottom_custom_block_id></footer_bottom_custom_block_id>
             <footer_bottom_custom_block_2>1</footer_bottom_custom_block_2>
@@ -225,8 +227,15 @@
             <prev_next>1</prev_next>
             <prev_text><![CDATA[<i class="icon-left-open"></i>]]></prev_text>
             <next_text><![CDATA[<i class="icon-right-open"></i>]]></next_text>
+            <product_image_size>5</product_image_size>
             <disable_product_zoom>0</disable_product_zoom>
+            <move_custom_block>0</move_custom_block>
             <add_upsell_background>1</add_upsell_background>
+            <move_upsell>0</move_upsell>
+            <move_custom_block>0</move_custom_block>
+            <custom_block_tab></custom_block_tab>
+            <custom_block_id></custom_block_id>
+            <page_layout>two_column_right</page_layout>
         </product_view>
         <product_compare>
             <show_link>0</show_link>
@@ -247,22 +256,22 @@
             <latitude>-34.398</latitude>
             <longitude>150.884</longitude>
             <zoom>18</zoom>
-            <infoblock><![CDATA[                <div class="row"><div class="col-sm-12">
+            <infoblock><![CDATA[                <div class="row"><div class="col-md-12">
                 <i class="icon-phone"></i>
                 <p>0201 203 2032</p>
                 <p>0201 203 2032</p>
             </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-mobile"></i>
                     <p>201-123-3922</p>
                     <p>302-123-3928</p>
                 </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-mail-alt"></i>
                     <p>porto@gmail.com</p>
                     <p>porto@portotemplate.com</p>
                 </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-skype"></i>
                     <p>porto_skype</p>
                     <p>proto_template</p>
@@ -292,27 +301,30 @@
 }
 .icon-left-open:before {
     content: '\e819';
-}
+} 
 .header>.logo { margin-right: 20px; }
-.header-container.type22 .header .custom-block span {color:#65829d !important;}
-.header-container.type22 .header .custom-block span b {color:#141a1f !important;}
-.homepage-grid-banner .col-sm-1, .homepage-grid-banner .col-sm-2, .homepage-grid-banner .col-sm-3, .homepage-grid-banner .col-sm-4, .homepage-grid-banner .col-sm-5, .homepage-grid-banner .col-sm-6, .homepage-grid-banner .col-sm-7, .homepage-grid-banner .col-sm-8, .homepage-grid-banner .col-sm-9, .homepage-grid-banner .col-sm-10, .homepage-grid-banner .col-sm-11, .homepage-grid-banner .col-sm-12 {
+.header-container.type6.header-newskin .header .custom-block span {color:#65829d !important;}
+.header-container.type6.header-newskin .header .custom-block span b {color:#141a1f !important;}
+.header-container.type6.header-newskin .mini-cart .mybag-link {color:#606669;}
+.homepage-grid-banner .col-md-1, .homepage-grid-banner .col-md-2, .homepage-grid-banner .col-md-3, .homepage-grid-banner .col-md-4, .homepage-grid-banner .col-md-5, .homepage-grid-banner .col-md-6, .homepage-grid-banner .col-md-7, .homepage-grid-banner .col-md-8, .homepage-grid-banner .col-md-9, .homepage-grid-banner .col-md-10, .homepage-grid-banner .col-md-11, .homepage-grid-banner .col-md-12 {
     padding-left: 5px;
     padding-right: 5px;
 }
-.homepage-grid-banner .col-sm-margin {
+.homepage-grid-banner .col-md-margin {
     margin-bottom: 10px;
 }
-.header-container.type22.sticky-header .menu-wrapper .mybag-link i {
+.header-container.type6.header-newskin.sticky-header .menu-wrapper .mybag-link i {
     font-size: 30px;
     line-height: 30px;
     color: #141a1f;
+    display: block;
 }
 div.filter-title, h2.filter-title {
     position: relative;
     overflow: hidden;
     background: none;
     font-weight: 600;
+    color: #252525;
 }
 div.filter-title .content, h2.filter-title .content {
     z-index: 2;
@@ -336,6 +348,7 @@ div.filter-title .title_line, h2.filter-title .title_line {
 }
 .owl-top-narrow .owl-controls .owl-buttons div i:before {
     width: 15px;
+    margin: 0 2px;
 }
 .owl-side-narrow .owl-controls {margin: 0;}
 .owl-side-narrow .owl-controls .owl-buttons > div {
@@ -352,6 +365,7 @@ div.filter-title .title_line, h2.filter-title .title_line {
     right:-26px;
     left: auto;
 }
+#category-slider-demo-7 .item img {width: 100%;}
 .category-products .products-grid.columns6 {
     margin-left: -15px;
     margin-right: -15px;
@@ -370,6 +384,7 @@ div.filter-title .title_line, h2.filter-title .title_line {
     font-family: 'Oswald';
     color: #fff;
     font-weight: 400;
+    line-height: 1.2;
     position: absolute;
     top: 7px;
     left: 22px;
@@ -409,6 +424,7 @@ div.filter-title .title_line, h2.filter-title .title_line {
 .recent-posts .item .readmore {
     margin-left: 0;
     font-family: 'Oswald';
+    font-weight: 400;
     text-transform: uppercase;
     font-size: 12px;
     letter-spacing: 0.05em;
@@ -425,6 +441,7 @@ div.filter-title .title_line, h2.filter-title .title_line {
 }
 .recent-posts .item .postTitle h2 a {
     color: #2b2b2d;
+    font-weight: 600;
 }
 .cms-index-index .testimonial-author {
     margin: 8px 0 0;
@@ -480,11 +497,11 @@ div.filter-title .title_line, h2.filter-title .title_line {
     line-height: 20px;
 }
 .cms-index-index .testimonial-author p >strong {
-    text-transform: uppercase;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 600;
     letter-spacing: 0.0025em;
     color: #2b2b2d;
+    margin-bottom: 3px;
 }
 .cms-index-index blockquote.testimonial p{
     line-height: 24px;
@@ -524,8 +541,6 @@ div.filter-title .title_line, h2.filter-title .title_line {
 .owl-item.loading {
     min-height: 63px;
 }
-
-
 .top-container >.breadcrumbs {
     font-family: 'Oswald';
     font-size: 12px;
@@ -535,6 +550,7 @@ div.filter-title .title_line, h2.filter-title .title_line {
     border-bottom: #e6e6e6 solid 1px;
     padding: 7px 0;
     line-height: 30px;
+    margin-bottom: 10px;
 }
 .breadcrumbs li a {
     font-weight: 400;
@@ -611,21 +627,17 @@ div.filter-title .title_line, h2.filter-title .title_line {
     background-color: #fff;
     border: solid 1px #e9e9e9;
 }
-#narrow-by-list dd .swatch-link:hover .swatch-label {
-    border-color: #2f3946;
-    background-color: #2f3946;
-    color: #fff;
-}
 .block-layered-nav dt:before, .block-category-nav .block-title:before{
-    content:'\e873';
+    content:'\e874';
     border: 0;
     color: #000;
     right: 0;
     font-size: 12px;
     background-color: transparent;
+    margin-top: -12px;
 }
 .block-layered-nav dt.closed:before, .block-category-nav .block-title.closed:before{
-    content:'\e874';
+    content:'\e873';
 }
 .block-layered-nav dt:hover:before, .block-category-nav .block-title:hover:before {
     background-color: transparent !important;
@@ -643,10 +655,13 @@ div.filter-title .title_line, h2.filter-title .title_line {
 .price-filter-slider .text-box {
     margin: 0 -5px;
 }
+
 .owl-top-narrow .sidebar-list .owl-controls {
-    top:-35px;
+    top: -40px;
     right: 0;
 }
+.owl-top-narrow .sidebar-list .owl-controls .owl-buttons div {color:#000;font-size:19px;}
+.owl-top-narrow .sidebar-list .owl-controls .owl-buttons div i:before {margin:0 2px;}
 .sidebar h2.sidebar-title {
     border-bottom: 2px solid #ccc;
     padding-bottom: 10px;
@@ -698,8 +713,9 @@ div.filter-title .title_line, h2.filter-title .title_line {
     display: none;
 }
 .full-width-image-banner h2 {
-    font-size: 36px;
-    font-weight: 900;
+    font-family: 'Oswald';
+    font-size: 46px;
+    font-weight: 700;
     letter-spacing: -0.025em;
     text-transform: uppercase;
     line-height: 38px;
@@ -729,7 +745,7 @@ div.filter-title .title_line, h2.filter-title .title_line {
     background: none;
 }
 .rating-box:before {
-    color: #797876;
+    color: #575f68;
 }
 .filter-products .products div.item .details-area, .category-products .products-grid li.item .details-area {
     padding: 19px 10px;
@@ -740,7 +756,7 @@ div.filter-title .title_line, h2.filter-title .title_line {
 }
 .filter-products .products:not(.small-list) div.item:hover .product-image-area,
 .category-products .products-grid li.item:hover .product-image-area {
-    box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.2);
 }
 .filter-products .products div.item .details-area .product-name {
     margin: 0;
@@ -756,7 +772,7 @@ div.filter-title .title_line, h2.filter-title .title_line {
 }
 .filter-products .products div.item .details-area .product-name a {
     font-size: 15px;
-    color: #7a7d82;
+    color: #4a5157;
 }
 .filter-products .products.small-list div.item .details-area .product-name a {
     font-size: 14px;
@@ -771,7 +787,7 @@ div.filter-title .title_line, h2.filter-title .title_line {
     font-family: 'Oswald';
     font-size: 18px;
     letter-spacing: 0.005em;
-    color: #0e2f40;
+    color: #3b424b;
     font-weight: 400;
 }
 .special-price .price {
@@ -782,7 +798,7 @@ div.filter-title .title_line, h2.filter-title .title_line {
 }
 .old-price .price {
     font-family: 'Oswald';
-    color: #0e2f40;
+    color: #3b424b;
     font-size: 14px;
     font-weight: 400;
 }
@@ -806,29 +822,37 @@ a.quickview-icon i {
     display: none;
 }
 .move-action .item-area a.quickview-icon {
-    top: 0;
+    bottom: 0;
+    top: auto;
+}
+.product-image-area .actions {
+    top: 10px;
     bottom: auto;
+}
+.cms-index-index a.addtocart {
+    background-color: #e1e6ea;
+    color: #3b424b;
+    border: 0;
+    line-height: 30px;
 }
 a.addtocart {
     background-color: transparent;
-    color: #2b2b2d;
-    border-color: #d4d4d4;
-    font-size: 12.5px;
+    color: #3b424b;
+    border: 1px solid #d4d4d4;
+    font-size: 12px;
     font-family: 'Oswald';
-    font-weight: 300;
+    font-weight: 400;
     line-height: 28px;
     text-transform: uppercase;
     letter-spacing: 0.025em;
 }
 a.addtocart i.icon-cart {
     font-size: 17px;
-    line-height: 30px;
+    vertical-align: middle;
 }
 a.addtocart span {
     vertical-align: middle;
     display:inline-block;
-    line-height:1;
-    margin-top: -4px;
 }
 a.addtocart i:before {
     content: "\e87f";
@@ -872,7 +896,7 @@ a.comparelink .icon-compare:before {
 }
 
 .toolbar .sorter {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .sorter .view-mode i {
     border: none;
@@ -883,7 +907,6 @@ a.comparelink .icon-compare:before {
 }
 .toolbar .sorter .sort-by select {
     min-width: 100px;
-    margin-right: 10px;
 }
 .icon-mode-grid:before{
     content: "\e880";
@@ -895,17 +918,13 @@ a.comparelink .icon-compare:before {
     background-color: transparent;
     color: #000;
 }
-.sorter .sort-by {
-    margin-bottom: 0;
-}
 .sorter .view-mode {
     float: right;
-    margin: 0;
     margin-right: 0;
-    line-height: 29px;
-    height: 30px;
+    line-height: 28px;
+    height: 28px;
     margin-left: 20px;
-    margin-top: 5px;
+    margin-top: 7px;
 }
 .toolbar-bottom .pager .pages {
     display: block;
@@ -914,7 +933,7 @@ a.comparelink .icon-compare:before {
     background: transparent;
     color: #706f6c;
     border: 0;
-    line-height: 29px;
+    line-height: 30px;
     height: 32px;
     width: 32px;
     display: inline-block;
@@ -927,13 +946,13 @@ a.comparelink .icon-compare:before {
     line-height: 30px;
     width: 32px;
     font-size: 15px;
-    font-weight: 500;
-    border: solid 1px #e9e9e9;
     font-weight: 600;
 }
 .pager .pages li a {
     color: #706f6c;
     background: none;
+    display: block;
+    border: solid 1px #e9e9e9;
 }
 .toolbar .pages {
     display: none;
@@ -960,10 +979,11 @@ a.comparelink .icon-compare:before {
 .pager .pages li a.i-next, .pager .pages li a.i-previous {
     color: #78755c;
     font-size: 20px;
-    line-height: 26px;
+    line-height: 28px;
     vertical-align: middle;
-    display: inline-block;
+    display: block;
     background: none;
+    border: 0;
 }
 .pager li >a:hover {
     background-color: transparent;
@@ -977,7 +997,7 @@ a.comparelink .icon-compare:before {
 .product-view .product-img-box li.etalage_thumb, .product-view .product-img-box li.etalage_small_thumbs li {
     padding: 0;
     border-color: #dae2e6;
-    border-radius: 2px;
+    border-radius: 0;
 }
 .product-view .product-img-box li.etalage_small_thumbs li.etalage_smallthumb_active {
     border-color: #2f3946;
@@ -1025,9 +1045,8 @@ a.comparelink .icon-compare:before {
     font-weight: 400;
     letter-spacing: 0.005em;
     line-height: 27px;
-    border-bottom: solid 1px #dae2e6;
 }
-.product-view .product-info, .product-options-bottom {
+.product-options-bottom {
     border-bottom: none;
 }
 .product-view .product-shop .price-box .regular-price .price {
@@ -1043,7 +1062,7 @@ a.comparelink .icon-compare:before {
     line-height: 1;
 }
 .product-view .product-shop .availability {
-    color: #7b858a;
+    color: #000;
     font-weight: 400;
 }
 .product-view .product-options .swatch-attr label {
@@ -1107,7 +1126,7 @@ a.comparelink .icon-compare:before {
     content: '\e874';
 }
 .add-to-cart button.button {
-    height: 43px;
+    height: 43px; 
 }
 .add-to-cart button.button span {
     height: 43px;
@@ -1116,10 +1135,11 @@ a.comparelink .icon-compare:before {
     font-size: 14px;
     letter-spacing: 0.05em;
     font-weight: 400;
-    line-height: 43px;
+    line-height: 41px;
 }
 .add-to-cart button.button span i {
     font-size: 18px;
+    margin-right: 4px;
 }
 .add-to-cart button.button span i:before {
     content: '\e87f';
@@ -1137,8 +1157,8 @@ a.comparelink .icon-compare:before {
 }
 a.addtowishlist, .link-wishlist, a.comparelink, .link-compare,
 a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:hover{
-    border-color:#d8d8d6;
-    color: #302e2a;
+    border-color: #d4d4d4;
+    color: #0e2f40;
 }
 .product-tabs>ul li {
     border: none;
@@ -1193,7 +1213,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
     border: none;
     color: #6b7a83;
     margin-bottom: 33px;
-    padding:0 20px
+    padding:0 10px
 }
 .catalog-product-view .sidebar .custom-block-1>div i {
     color: #21293c;
@@ -1212,7 +1232,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
 }
 .block-manufacturer {
     text-align: center;
-    padding: 10px 20px 0;
+    padding: 10px 10px 0;
     margin-bottom: 0;
 }
 .block-manufacturer hr {
@@ -1237,7 +1257,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
     text-transform: uppercase;
 }
 .block.block-related .owl-theme .owl-controls {
-    top: -78px;
+    top: -59px;
     right: 5px;
 }
 .block.block-related .owl-theme .owl-controls .owl-buttons div {
@@ -1247,10 +1267,10 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
     color: #21293c;
 }
 .block.block-related {
-    padding: 0 20px;
+    padding: 0 10px;
 }
 .block.block-related .product {
-    margin: 30px 0;
+    margin: 15px 0;
 }
 .block.block-related .product-name{
     font-size: 14px;
@@ -1262,7 +1282,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
 .block.block-related .product-name a{
     color:#7a7d82;
 }
-.block.block-related .col-xs-6 {
+.block.block-related .col-6 {
     width: 40%;
 }
 .block.block-related .product-details {
@@ -1280,7 +1300,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
 .product-view .box-up-sell >h2 {
     font-family: 'Oswald';
     background: none;
-    font-size: 14px;
+    font-size: 16px;
     border-bottom: #e1e1e1 solid 1px;
     font-weight: 400;
     margin-bottom: 16px;
@@ -1331,8 +1351,7 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
 }
 .footer-middle a {
     font-size: 13px;
-    font-weight: 300;
-    letter-spacing: 0.005em;
+    letter-spacing: -0.5px;
 }
 .footer-middle, .footer-middle p {
     font-size: 13px;
@@ -1424,9 +1443,85 @@ a.addtowishlist:hover, .link-wishlist:hover, a.comparelink:hover, .link-compare:
     line-height: 35px;
 }
 @media(max-width:767px){
+    .add-to-cart button.button {
+        width: 140px;
+    }
 .owl-side-narrow .owl-controls {
     display:none!important;
 }
+.footer-bottom .block-bottom .social-icons {
+    float: left !important;
+    padding: 15px 0 0;
+}
+}
+@media(max-width:375px){
+    .product-view .product-options-bottom .add-to-links {
+        margin: 10px 0 0;
+    }
+    .product-view .add-to-links {
+        margin: 10px 0 0 -8px;
+    }
+}
+.filter-products .products:not(.small-list) .item .product-image-area .product-image:before,
+.category-products .products-grid .item .product-image-area .product-image:before {
+    content: "";
+    background: #000;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 1;
+    visibility: hidden;
+    transition: all 0.3s;
+}
+.filter-products .products:not(.small-list) .item:hover .product-image-area .product-image:before,
+.category-products .products-grid .item .item-area:hover .product-image-area .product-image:before {
+    opacity: 0.2;
+    visibility: visible;
+}
+.footer-middle ul.links li, .footer-middle ul.features li {
+    padding: 10px 0 0;
+}
+.footer-middle .col-md-3:first-child .block .block-title {
+    height: 0;
+    text-indent: -9999px;
+    margin-bottom: 0;
+}
+.topCartContent:before {
+    right: 30px;
+}
+@media (max-width: 480px) {
+    .sorter .limiter label {
+        min-width: 47px;
+    }
+}
+.catalog-product-view .sidebar .custom-block-1 {
+    margin-top: -25px;
+}
+.catalog-product-view .sidebar .block-manufacturer + .custom-block-1 {
+    margin-top: 0;
+}
+.block-manufacturer {
+    padding: 0 10px;
+}
+.block-manufacturer hr {
+    border-width: 0 0 1px 0;
+    margin-top: 25px;
+}
+.header-container.type6.header-newskin .header .menu-icon a, .header-container.type6.header-newskin .header a.search-icon {
+    color: #141a1f;
+}
+.catalog-category-view .sidebar .owl-top-narrow .sidebar-list .owl-controls {
+    right: -16px;
+}
+.catalog-category-view .sidebar .custom-block {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.box-up-sell.owl-top-narrow .owl-controls {
+    background-color: transparent;
 }]]></custom_style>
         </custom_settings>
     </porto_settings>

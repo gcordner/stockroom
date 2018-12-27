@@ -8,17 +8,17 @@
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <?php if($custom_block): ?>
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-md-12">
         <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId($custom_block)->toHtml(); ?>
     </div>
 </div>
 <?php endif; ?>
 <div class="row">
-    <div class="col-sm-8">
+    <div class="col-md-8">
 <form action="<?php echo $this->getFormAction(); ?>" id="contactForm" method="post">
     <h2 class="legend"><?php echo Mage::helper('contacts')->__('Leave') ?> <?php echo Mage::helper('contacts')->__('a') ?> <b><?php echo Mage::helper('contacts')->__('Message') ?></b></h2>
     <div class="row">
-        <ul class="form-list col-sm-6">
+        <ul class="form-list col-md-6">
             <li>
                 <label for="name" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Name') ?></label>
                 <div class="input-box">
@@ -38,7 +38,7 @@
                 </div>
             </li>
         </ul>
-        <ul class="form-list col-sm-6">
+        <ul class="form-list col-md-6">
             <li>
                 <label for="comment" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Comment') ?></label>
                 <div class="input-box input-textarea">
@@ -58,7 +58,7 @@
 //]]>
 </script>
     </div>
-    <div class="col-sm-4 contact-info">
+    <div class="col-md-4 contact-info">
         <h2 class="legend"><?php echo Mage::helper('contacts')->__('Contact') ?> <b><?php echo Mage::helper('contacts')->__('Details') ?></b></h2>
         <?php
             echo $_infoblock;

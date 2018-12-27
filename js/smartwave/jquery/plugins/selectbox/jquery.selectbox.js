@@ -58,7 +58,7 @@
 					var selectbox =
 						$('<span class="selectbox '+styleClass+'" style="display:inline-block;position:relative">'+
 								'<div class="select" style="float:left;position:relative;z-index:10000"><div class="text">' + optionText + '</div>'+
-									'<b class="trigger"><i class="icon-down-dir"></i></b>'+
+									'<b class="trigger"><i class="icon-angle-down"></i></b>'+
 								'</div>'+
 								'<div class="dropdown" style="position:absolute;z-index:9999;overflow:auto;overflow-x:hidden;list-style:none">'+
 									'<ul>' + ddlist + '</ul>'+

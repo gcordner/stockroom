@@ -8,12 +8,12 @@
                 <newdeal module="dailydeal" translate="title">
                     <title>Add a Deal</title>
                     <sort_order>0</sort_order>
-                    <action>adminhtml/dailydealadmin_dailydeal/new</action>
+                    <action>dailydealadmin/adminhtml_dailydeal/new</action>
                 </newdeal>
                 <dailydeal module="dailydeal" translate="title">
                     <title>Manage Deals</title>
                     <sort_order>2</sort_order>
-                    <action>adminhtml/dailydealadmin_dailydeal/index</action>
+                    <action>dailydealadmin/adminhtml_dailydeal/index</action>
                 </dailydeal>
                 <settings module="dailydeal" translate="title">
                     <title>Settings</title>
@@ -49,12 +49,12 @@
                             <newdeal module="dailydeal" translate="title">
                                 <title>Add a Deal</title>
                                 <sort_order>0</sort_order>
-                                <action>adminhtml/dailydealadmin_dailydeal/new</action>
+                                <action>dailydealadmin/adminhtml_dailydeal/new</action>
                             </newdeal>
                             <dailydeal module="dailydeal" translate="title">
                                 <title>Manage Deals</title>
                                 <sort_order>2</sort_order>
-                                <action>adminhtml/dailydealadmin_dailydeal</action>
+                                <action>dailydealadmin/adminhtml_dailydeal</action>
                             </dailydeal>
                             <settings module="dailydeal" translate="title">
                                 <title>Settings</title>

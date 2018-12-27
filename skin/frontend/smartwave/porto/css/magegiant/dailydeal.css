@@ -177,7 +177,8 @@
 }
 
 .timeleft li {
-    float: left;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 /*------- End Daily Deal sidebar left ------------------*/
@@ -294,7 +295,7 @@
 }
 
 .product-view .timeleft {
-    text-align: center;
+    text-align: left;
 }
 
 .product-view .wrap-timeleft-detail .text-time {
@@ -331,18 +332,21 @@
 }
 
 .product-view .product-shop .timeleft {
-    /*background: #f0f2f2;
-    border: 1px solid #ebe9e9;
     width: 100%;
-    float: left;
-    text-align: center;
-    color: #595959;
-    font-size: 13px;
-    text-transform: uppercase;
-    font-family: sans-serif;*/
-    float: left;
-    width: 100%;
-    /* font-weight: bold; */
+}
+
+.product-view .bottom-home-dailydeal ul.time-left {
+    background: transparent;
+    text-align: left;
+    padding: 0;
+}
+
+.product-view .bottom-home-dailydeal ul.time-left > span {
+    font-family: 'Open Sans';
+    font-size: 15px;
+    font-weight: 600;
+    color: #21293c;
+    margin-bottom: 7px;
 }
 .bottom-product-dailydeal{margin-bottom: 20px;float: left;width: 100%;}
 
@@ -481,35 +485,63 @@
     float: left;
     width: 100%;
     background: #f14141;
-    height: 53px;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box; /* Firefox, other Gecko */
     box-sizing: border-box; /* Opera/IE 8+ */
-    padding: 5px;
-
+    padding: 10px;
+    text-align: center;
+    font-family: 'Oswald';
 }
 
-.bottom-home-dailydeal ul.time-left li {
-    width: 25%;
+.bottom-home-dailydeal ul.time-left > span {
+    display: inline-block;
+    vertical-align: middle;
+    color: #fff;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.bottom-home-dailydeal ul.time-left div.timeleft {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -4px;
+}
+
+.product-view .bottom-home-dailydeal ul.time-left div.timeleft {
+    margin-top: 7px;
+    margin-left: -1px;
+}
+
+.bottom-home-dailydeal ul.time-left li.time-year span.text-time,.bottom-home-dailydeal ul.time-left li.time-month span.text-time,.bottom-home-dailydeal ul.time-left li.time-day span.text-time{
+    margin: 0 2px;
+    text-transform: uppercase;
 }
 
 .bottom-home-dailydeal ul.time-left li span {
-    font: normal 20px "Open Sans";
+    font-size: 13px;
+    font-weight: 600;
     color: #fff;
 }
 
 .bottom-home-dailydeal ul.time-left li span.timeleft-text {
-    display: block;
-    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 13px;
 }
 
 .bottom-home-dailydeal ul.time-left li span.text-time {
-    display: block;
-    text-align: center;
-    font-size: 11px;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 13px;
     color: #fff;
 }
 
+.product-view .bottom-home-dailydeal ul.time-left li span.text-time {
+    font-size: 10px;
+    display: block;
+    text-transform: uppercase;
+    font-weight: 400;
+}
 
 /*------- Daily Deal sidebar left2 ------------------*/
 

@@ -1,10 +1,11 @@
 <?php
 
-class Smartwave_Porto_Model_System_Config_Source_Setting_Product_Image_Size
+class Smartwave_Porto_Model_System_Config_Source_Setting_Product_Image_Size extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
     public function toOptionArray()
     {
         return array(
+            array('value' => '', 'label' => Mage::helper('porto')->__('Default')),
             array('value' => '1', 'label' => Mage::helper('porto')->__('1/12')),
             array('value' => '2', 'label' => Mage::helper('porto')->__('2/12')),
             array('value' => '3', 'label' => Mage::helper('porto')->__('3/12')),
@@ -17,5 +18,12 @@ class Smartwave_Porto_Model_System_Config_Source_Setting_Product_Image_Size
             array('value' => '10', 'label' => Mage::helper('porto')->__('10/12')),
             array('value' => '11', 'label' => Mage::helper('porto')->__('11/12'))
         );
+    }
+    public function getAllOptions()
+    {
+        if ($this->_options === null) {
+            $this->_options = $this->toOptionArray();
+        }
+        return $this->_options;
     }
 }

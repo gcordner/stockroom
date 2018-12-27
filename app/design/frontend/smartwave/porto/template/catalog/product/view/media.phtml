@@ -5,6 +5,9 @@
     $code  = $store->getCode();
 ?>
 <?php
+    $product_page_type = $_helper->productAttribute($_product, $_product->getData('product_page_type'), 'product_page_type');
+    if(!$product_page_type)
+        $product_page_type = Mage::getStoreConfig("porto_settings/product_view/type",$code);
     $aspect_ratio = Mage::getStoreConfig("porto_settings/product_view/aspect_ratio", $code);
     $ratio_width = 600;
     $ratio_height = 600;
@@ -22,7 +25,61 @@
     else
         $hide_smallthumb_single = "true";
 ?>
+<?php
+    $zoom_disabled = Mage::getStoreConfig("porto_settings/product_view/disable_product_zoom", $code);
+    $zoom_type = Mage::getStoreConfig("porto_settings/product_view/zoom_type", $code);
+    $thumb_type = Mage::getStoreConfig("porto_settings/product_view/thumbnail_image_type", $code);
+?>
 <?php if (count($this->getGalleryImages()) > 0): ?>
+    <?php if($product_page_type == 'carousel'): ?>
+    <div class="product-image-carousel owl-carousel owl-middle-narrow">
+<?php foreach ($this->getGalleryImages() as $_image): ?>
+    <?php if(substr($_image->getLabel(), -7) != "-swatch"): ?>
+        <div class="item">
+        <?php
+            if(!$aspect_ratio)
+                $image_src = $this->helper('catalog/image')->init($_product, 'thumbnail', $_image->getFile())->resize($ratio_width, $ratio_height);
+            else
+                $image_src = $this->helper('catalog/image')->init($_product, 'thumbnail', $_image->getFile())->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);
+        ?>
+            <img src="<?php echo $image_src; ?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>"/>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>
+    </div>
+    <?php elseif($product_page_type == 'grid'): ?>
+<div class="row">
+<?php foreach ($this->getGalleryImages() as $_image): ?>
+    <?php if(substr($_image->getLabel(), -7) != "-swatch"): ?>
+        <div class="col-sm-6">
+            <div class="product-image-grid">
+        <?php
+            if(!$aspect_ratio)
+                $image_src = $this->helper('catalog/image')->init($_product, 'thumbnail', $_image->getFile())->resize($ratio_width, $ratio_height);
+            else
+                $image_src = $this->helper('catalog/image')->init($_product, 'thumbnail', $_image->getFile())->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);
+        ?>
+                <img src="<?php echo $image_src; ?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>"/>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>
+</div>
+    <?php elseif($product_page_type == 'sticky_left_right' || $product_page_type == 'sticky_right'): ?>
+<?php foreach ($this->getGalleryImages() as $_image): ?>
+    <?php if(substr($_image->getLabel(), -7) != "-swatch"): ?>
+        <?php
+            if(!$aspect_ratio)
+                $image_src = $this->helper('catalog/image')->init($_product, 'thumbnail', $_image->getFile())->resize($ratio_width, $ratio_height);
+            else
+                $image_src = $this->helper('catalog/image')->init($_product, 'thumbnail', $_image->getFile())->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);
+        ?>
+            <div class="product-image-list">
+                <img src="<?php echo $image_src; ?>" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>"/>
+            </div>
+    <?php endif; ?>
+<?php endforeach; ?>
+    <?php else: ?>
 <ul id="etalage_<?php echo $rnd_str; ?>">
 <?php foreach ($this->getGalleryImages() as $_image): ?>
     <?php if(substr($_image->getLabel(), -7) != "-swatch"): ?>
@@ -40,7 +97,45 @@
     <?php endif; ?>
 <?php endforeach; ?>
 </ul>
+    <?php endif; ?>
 <?php else: ?>
+    <?php if($product_page_type == 'carousel'): ?>
+    <div class="product-image-carousel owl-carousel">
+        <div class="item">
+        <?php
+            if(!$aspect_ratio)
+                $image_src = $this->helper('catalog/image')->init($_product, 'image')->resize($ratio_width, $ratio_height);
+            else
+                $image_src = $this->helper('catalog/image')->init($_product, 'image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);
+        ?>
+            <img src="<?php echo $image_src; ?>"/>
+        </div>
+    </div>
+    <?php elseif($product_page_type == 'grid'): ?>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="product-image-grid">
+    <?php
+        if(!$aspect_ratio)
+            $image_src = $this->helper('catalog/image')->init($_product, 'image')->resize($ratio_width, $ratio_height);
+        else
+            $image_src = $this->helper('catalog/image')->init($_product, 'image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);
+    ?>
+            <img src="<?php echo $image_src; ?>"/>
+        </div>
+    </div>
+</div>
+    <?php elseif($product_page_type == 'sticky_left_right' || $product_page_type == 'sticky_right'): ?>
+    <?php
+        if(!$aspect_ratio)
+            $image_src = $this->helper('catalog/image')->init($_product, 'image')->resize($ratio_width, $ratio_height);
+        else
+            $image_src = $this->helper('catalog/image')->init($_product, 'image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);
+    ?>
+        <div class="product-image-list">
+            <img src="<?php echo $image_src; ?>"/>
+        </div>
+    <?php else: ?>
 <ul id="etalage_<?php echo $rnd_str; ?>" class="<?php echo $thumb_type; ?>">
     <li>
         <?php
@@ -54,7 +149,35 @@
         <img class="etalage_source_image" src="<?php echo (!$aspect_ratio)?$this->helper('catalog/image')->init($_product, 'image')->resize(100, $ratio_height/$ratio_width*100):$this->helper('catalog/image')->init($_product, 'image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(100);?>" alt="<?php echo $this->htmlEscape($this->getImageLabel()) ?>" />
     </li>
 </ul>
+    <?php endif; ?>
 <?php endif; ?>
+
+<?php if($product_page_type == 'carousel'): ?>
+<script type="text/javascript">
+    jQuery(function($){
+        $(".product-image-carousel.owl-carousel").owlCarousel({
+            itemsCustom: [ [0, 2], [320, 1], [480, 2], [768, 2], [992, 3], [1280, 3] ],
+            responsiveRefreshRate: 50,
+            slideSpeed: 200,
+            paginationSpeed: 500,
+            scrollPerPage: false,
+            stopOnHover: true,
+            rewindNav: true,
+            rewindSpeed: 600,
+            pagination: false,
+            navigation: true,
+            autoPlay: false,
+            navigationText:["<i class='icon-left-open'></i>","<i class='icon-right-open'></i>"]
+        });
+    });
+</script>
+<?php elseif($product_page_type == 'grid'): ?>
+<script type="text/javascript">
+</script>
+<?php elseif($product_page_type == 'sticky_right' || $product_page_type == 'sticky_left_right'): ?>
+<script type="text/javascript">
+</script>
+<?php else: ?>
 <div class="etalage-control">
 <?php if (!Mage::getStoreConfig("porto_settings/general/rtl",$code)) : ?>
     <a href="javascript:void(0)" class="etalage-prev"><i class="icon-angle-left"></i></a>
@@ -64,11 +187,6 @@
     <a href="javascript:void(0)" class="etalage-next"><i class="icon-angle-left"></i></a>
 <?php endif; ?>
 </div>
-<?php
-    $zoom_disabled = Mage::getStoreConfig("porto_settings/product_view/disable_product_zoom", $code);
-    $zoom_type = Mage::getStoreConfig("porto_settings/product_view/zoom_type", $code);
-    $thumb_type = Mage::getStoreConfig("porto_settings/product_view/thumbnail_image_type", $code);
-?>
 <div class="product-view-zoom-area">
 </div>
 <script type="text/javascript">
@@ -76,14 +194,16 @@
     var zoom_type = 0;
     jQuery(document).ready(function(){
         reloadEtalage();
-        <?php if(!$zoom_disabled): ?>
+        <?php if(!$zoom_disabled && $product_page_type != "fullwidth"): ?>
         jQuery(".product-img-box .etalage li.etalage_thumb").zoom({
         <?php if($zoom_type == 1): ?>
             target: jQuery(".product-view-zoom-area"),
         <?php endif; ?>
             touch:false
         });
+        <?php if($product_page_type != "fullwidth"): ?>
         zoom_enabled = true;
+        <?php endif; ?>
         <?php if($zoom_type == 1): ?>
         zoom_type = 1;
         <?php endif; ?>
@@ -103,7 +223,7 @@
             var ratio_height = <?php echo $ratio_height; ?>;
             var width, height, thumb_position, small_thumb_count;
             small_thumb_count = 4;
-            <?php if($thumb_type == "vertical"): ?>
+            <?php if(($thumb_type == "vertical" && $product_page_type != "fullwidth") || $product_page_type == "wide_grid"): ?>
             width = (jQuery(".product-view .product-img-box").width()-15)*small_thumb_count/(small_thumb_count+1);
             height = width*ratio_height/ratio_width;
             <?php if(!Mage::getStoreConfig("porto_settings/general/rtl", $code)): ?>
@@ -121,7 +241,7 @@
             height = "auto";
             thumb_position = "bottom";
             <?php endif; ?>
-            
+
             jQuery('#etalage_<?php echo $rnd_str; ?>').etalage({
                 thumb_image_width: width,
                 thumb_image_height: height,
@@ -133,6 +253,7 @@
                 small_thumbs:small_thumb_count,
                 smallthumb_hide_single: <?php echo $hide_smallthumb_single; ?>,
                 smallthumbs_position: thumb_position,
+                smallthumb_inactive_opacity: 1,
                 small_thumbs_width_offset: 0,
                 show_icon: false,
                 autoplay: false
@@ -148,7 +269,7 @@
 				jQuery('#etalage_<?php echo $rnd_str; ?>').removeClass("vertical");
 				jQuery(".product-view .product-img-box li.etalage_thumb").css({left:0});
 			}
-            <?php if($thumb_type != "vertical"): ?>
+            <?php if(($thumb_type != "vertical" || $product_page_type == "fullwidth") && $product_page_type != "wide_grid"): ?>
             var first_img = jQuery("#etalage_<?php echo $rnd_str; ?> img.etalage_thumb_image").first();
             var tmp_img = jQuery('<img src="" alt=""/>');
             tmp_img.attr("src",first_img.attr("src"));
@@ -162,5 +283,5 @@
         }
     });
 </script>
-<div class="clear"></div>
+<?php endif; ?>
 <?php echo $this->getChildHtml("after"); ?>

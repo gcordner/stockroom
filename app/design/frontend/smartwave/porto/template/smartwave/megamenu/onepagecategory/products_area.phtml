@@ -30,7 +30,7 @@
         $product_count = 12;
     $columns = $this->getData("columns");
     if(!$columns)
-        $columns = "[[0,1],[320,2],[480,2],[768,3],[992,4],[1280,5]]";
+        $columns = "[[0,2],[320,2],[480,2],[768,3],[992,4],[1280,5]]";
     $cat_id = $this->getData("category_id");
     $cat_model = Mage::getModel('catalog/category')->load($cat_id);
 ?>

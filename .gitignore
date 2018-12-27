@@ -77,3 +77,4 @@ wp/.htaccess
 wp/wp-content/uploads/
 skin/frontend/smartwave/porto/css/configed/design_posview.css
 skin/frontend/smartwave/porto/css/configed/settings_posview.css
+var/brute-force.ini

@@ -57,7 +57,7 @@ http://www.gnu.org/licenses/gpl.html
 				// Check if totally above or totally below viewport
 				if (top + height < pos || top > pos + windowHeight) {
 					return;
-				} 
+				}
 				if(pixelRatio == 1) {
 					$this.css('backgroundPosition', xpos + " " + Math.round((firstTop - pos) * speedFactor) + "px");
 				}else{

@@ -33,7 +33,7 @@ $code  = $store->getCode();
     google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 <?php
-    if(Mage::getStoreConfig("porto_settings/header/type",$code) == "10"){
+    if(Mage::getStoreConfig("porto_settings/header/type",$code) == "10" || Mage::getStoreConfig("porto_settings/header/type",$code) == "17" ){
 ?>
 <div class="page-header">&nbsp;</div>
 <?php

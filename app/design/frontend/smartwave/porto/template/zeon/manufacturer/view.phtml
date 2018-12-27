@@ -85,12 +85,12 @@ var i = 0;
                     <?php
                         if(Mage::getStoreConfig("porto_settings/category/alternative_image", $code)){
                     ?>
-                        <img id="product-collection-image-<?php echo $_product->getId(); ?>" class="defaultImage" src="<?php if($aspect_ratio):?><?php echo $_image_helper->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $_image_helper->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                        <img class="defaultImage" src="<?php if($aspect_ratio):?><?php echo $_image_helper->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $_image_helper->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
                         <img class="hoverImage" src="<?php if($aspect_ratio):?><?php echo $_image_helper->init($_product, 'thumbnail')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $_image_helper->init($_product, 'thumbnail')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'thumbnail'), null, true) ?>"/>
                     <?php
                         } else {
                     ?>
-                        <img id="product-collection-image-<?php echo $_product->getId(); ?>" src="<?php if($aspect_ratio):?><?php echo $_image_helper->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $_image_helper->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                        <img src="<?php if($aspect_ratio):?><?php echo $_image_helper->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $_image_helper->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
                     <?php
                         }
                     ?>
@@ -108,6 +108,7 @@ var i = 0;
                             </div>
                             <div class="bottom-product-dailydeal bottom-home-dailydeal">
                                 <ul class="time-left">
+                                    <span><?php echo $this->__('Ends In:'); ?></span>
                                     <div class="timeleft timeleft_<?php echo $_product->getId() ?>"> </div>
                                 </ul>
                             </div>
@@ -346,6 +347,7 @@ var i = 0;
                             </div>
                             <div class="bottom-product-dailydeal bottom-home-dailydeal">
                                 <ul class="time-left">
+                                    <span><?php echo $this->__('Ends In:'); ?></span>
                                     <div class="timeleft timeleft_<?php echo $_product->getId() ?>"> </div>
                                 </ul>
                             </div>

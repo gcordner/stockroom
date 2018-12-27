@@ -14,8 +14,10 @@
             <action method="addJs"><script>smartwave/jquery/jquery-1.11.3.min.js</script></action>
             <action method="addJs"><script>smartwave/jquery/jquery-migrate-1.2.1.min.js</script></action>
             <action method="addJs"><script>smartwave/jquery/jquery-noconflict.js</script></action>
-            <action method="addJs"><script>smartwave/jquery/jquery-ui.min.js</script></action>
-            <action method="addItem"><type>js_css</type><name>smartwave/jquery/jquery-ui.min.css</name></action>
+            <action method="addJs" ifconfig="porto_settings/optimization/jqueryui" condition="0"><script>smartwave/jquery/jquery-ui.optimized.min.js</script></action>
+            <action method="addJs" ifconfig="porto_settings/optimization/jqueryui" condition="1"><script>smartwave/jquery/jquery-ui.min.js</script></action>
+            <action method="addItem" ifconfig="porto_settings/optimization/jqueryui" condition="0"><type>js_css</type><name>smartwave/jquery/jquery-ui.optimized.min.css</name></action>
+            <action method="addItem" ifconfig="porto_settings/optimization/jqueryui" condition="1"><type>js_css</type><name>smartwave/jquery/jquery-ui.min.css</name></action>
 			<action method="addJs"><script>smartwave/jquery/plugins/fancybox/js/jquery.fancybox.js</script></action>
             <action method="addJs"><script>smartwave/jquery/plugins/fancybox/js/jquery.mousewheel-3.0.6.pack.js</script></action>
 			<action method="addCss"><stylesheet>fancybox/css/jquery.fancybox.css</stylesheet></action>
@@ -26,10 +28,10 @@
             <action method="addItem"><type>js</type><name>smartwave/jquery/plugins/lazyload/jquery.lazyload.min.js</name><params/></action>
             <action method="addJs"><script>smartwave/jquery/jquery.cookie.js</script></action>
             <action method="addItem"><type>js</type><name>smartwave/respond.min.js</name><params/><if>lt IE 9</if></action>
-            <action method="addItem" ifconfig="porto_settings/general/rtl" condition="0"><type>js_css</type><name>smartwave/bootstrap/css/bootstrap.min.css</name></action>
-            <action method="addItem" ifconfig="porto_settings/general/rtl" condition="1"><type>js_css</type><name>smartwave/bootstrap/css/bootstrap.rtl.min.css</name></action>
-            <action method="addItem" ifconfig="porto_settings/general/rtl" condition="0"><type>js_css</type><name>smartwave/bootstrap/css/bootstrap-theme.min.css</name></action>
-            <action method="addItem" ifconfig="porto_settings/general/rtl" condition="1"><type>js_css</type><name>smartwave/bootstrap/css/bootstrap-theme.rtl.min.css</name></action>
+            <action method="addMultipleConditionItem"><type>js_css</type><name>smartwave/bootstrap/css/bootstrap.min.css</name><params></params><if>porto_settings/optimization/bootstrap</if><cond>1</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>js_css</type><name>smartwave/bootstrap/css/bootstrap.rtl.min.css</name><params></params><if>porto_settings/optimization/bootstrap</if><cond>1</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>js_css</type><name>smartwave/bootstrap/css/bootstrap.optimized.min.css</name><params></params><if>porto_settings/optimization/bootstrap</if><cond>0</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>js_css</type><name>smartwave/bootstrap/css/bootstrap.rtl.optimized.min.css</name><params></params><if>porto_settings/optimization/bootstrap</if><cond>0</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
             <action method="addJs" ifconfig="porto_settings/general/rtl" condition="0"><script>smartwave/jquery/plugins/owl-carousel/owl.carousel.min.js</script></action>
             <action method="addJs" ifconfig="porto_settings/general/rtl" condition="1"><script>smartwave/jquery/plugins/owl-carousel/owl.carousel.rtl.min.js</script></action>
             <action method="addItem" ifconfig="porto_settings/general/rtl" condition="0"><type>js_css</type><name>smartwave/jquery/plugins/owl-carousel/owl.carousel.css</name></action>
@@ -37,10 +39,12 @@
             <action method="addItem"><type>js_css</type><name>smartwave/jquery/plugins/owl-carousel/owl.theme.css</name></action>
             <action method="addItem"><type>js_css</type><name>smartwave/jquery/plugins/owl-carousel/owl.transitions.css</name></action>
             <action method="addItem"><type>js_css</type><name>smartwave/jquery/plugins/selectbox/selectbox.css</name></action>
-            <action method="addCss"><stylesheet>css/animate.css</stylesheet></action>
-            <action method="addItem"><type>skin_js</type><name>js/porto.js</name></action>
-            <action method="addJs"><script>smartwave/bootstrap/js/bootstrap.min.js</script></action>
+            <action method="addCss" ifconfig="porto_settings/optimization/animate" condition="0"><stylesheet>css/animate.optimized.css</stylesheet></action>
+            <action method="addCss" ifconfig="porto_settings/optimization/animate" condition="1"><stylesheet>css/animate.css</stylesheet></action>
             <action method="addItem"><type>skin_js</type><name>js/lib/imagesloaded.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/porto.js</name></action>
+            <action method="addJs" ifconfig="porto_settings/optimization/bootstrap" condition="1"><script>smartwave/popper/umd/popper.min.js</script></action>
+            <action method="addJs" ifconfig="porto_settings/optimization/bootstrap" condition="1"><script>smartwave/bootstrap/js/bootstrap.min.js</script></action>
             
             <action method="removeItem"><type>skin_css</type><name>css/styles.css</name></action> 
             <action method="addCss"><stylesheet>icons/css/porto.css</stylesheet></action>
@@ -49,6 +53,48 @@
             <action method="addCss" ifconfig="porto_settings/general/rtl" condition="1"><stylesheet>css/rtl.css</stylesheet></action>
             <action method="addCss" ifconfig="porto_settings/general/rtl" condition="0"><stylesheet>css/responsive.css</stylesheet></action>
             <action method="addCss" ifconfig="porto_settings/general/rtl" condition="1"><stylesheet>css/rtl-responsive.css</stylesheet></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type1.css</name><params></params><if>porto_settings/header/type</if><cond>0</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type1_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>0</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type2.css</name><params></params><if>porto_settings/header/type</if><cond>1</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type2_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>1</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type3.css</name><params></params><if>porto_settings/header/type</if><cond>2</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type3_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>2</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type4.css</name><params></params><if>porto_settings/header/type</if><cond>3</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type4_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>3</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type5.css</name><params></params><if>porto_settings/header/type</if><cond>4</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type5_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>4</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type6.css</name><params></params><if>porto_settings/header/type</if><cond>5</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type6_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>5</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type7.css</name><params></params><if>porto_settings/header/type</if><cond>6</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type7_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>6</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type8.css</name><params></params><if>porto_settings/header/type</if><cond>7</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type8_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>7</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type9.css</name><params></params><if>porto_settings/header/type</if><cond>8</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type9_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>8</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type10.css</name><params></params><if>porto_settings/header/type</if><cond>9</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type10_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>9</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type11.css</name><params></params><if>porto_settings/header/type</if><cond>10</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type11_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>10</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type12.css</name><params></params><if>porto_settings/header/type</if><cond>11</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type12_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>11</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type13.css</name><params></params><if>porto_settings/header/type</if><cond>12</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type13_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>12</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type14.css</name><params></params><if>porto_settings/header/type</if><cond>13</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type14_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>13</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type15.css</name><params></params><if>porto_settings/header/type</if><cond>14</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type15_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>14</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type16.css</name><params></params><if>porto_settings/header/type</if><cond>15</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type16_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>15</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type17.css</name><params></params><if>porto_settings/header/type</if><cond>16</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type17_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>16</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type18.css</name><params></params><if>porto_settings/header/type</if><cond>17</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type18_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>17</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type19.css</name><params></params><if>porto_settings/header/type</if><cond>18</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type19_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>18</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type20.css</name><params></params><if>porto_settings/header/type</if><cond>19</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type20_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>19</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type21.css</name><params></params><if>porto_settings/header/type</if><cond>20</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>0</cond_2></action>
+            <action method="addMultipleConditionItem"><type>skin_css</type><name>css/header/type21_rtl.css</name><params></params><if>porto_settings/header/type</if><cond>20</cond><sep>and</sep><if_2>porto_settings/general/rtl</if_2><cond_2>1</cond_2></action>
             <action method="addCss" ifconfig="porto_settings/general/layout" condition="1024"><stylesheet>css/layout_1024.css</stylesheet></action>
             <action method="addCss" ifconfig="porto_settings/general/layout" condition="1280"><stylesheet>css/layout_1280.css</stylesheet></action>
 			<action method="removeItem" ifconfig="porto_settings/general/disable_responsive" condition="1"><type>skin_css</type><name>css/responsive.css</name></action>
@@ -82,8 +128,6 @@
             <action method="setTemplate" ifconfig="porto_settings/header/type" condition="18"><template>page/html/header_type19.phtml</template></action>
             <action method="setTemplate" ifconfig="porto_settings/header/type" condition="19"><template>page/html/header_type20.phtml</template></action>
             <action method="setTemplate" ifconfig="porto_settings/header/type" condition="20"><template>page/html/header_type21.phtml</template></action>
-            <action method="setTemplate" ifconfig="porto_settings/header/type" condition="21"><template>page/html/header_type22.phtml</template></action>
-            <action method="setTemplate" ifconfig="porto_settings/header/type" condition="22"><template>page/html/header_type23.phtml</template></action>
             <block type="directory/currency" name="store_currency" template="page/switch/currency.phtml"/>
 			<block type="catalog/product_compare_sidebar" name="compare_link">
 				<action method="setTemplate" ifconfig="porto_settings/product_compare/show_link"><template>catalog/product/compare/compare_link.phtml</template></action>
@@ -123,7 +167,6 @@
         <reference name="page.header">
             <action method="setTemplate" ifconfig="porto_settings/header/type" condition="10"><template>page/html/page_header_bg.phtml</template></action>
             <action method="setTemplate" ifconfig="porto_settings/header/type" condition="17"><template>page/html/page_header_bg.phtml</template></action>
-            <action method="setTemplate" ifconfig="porto_settings/header/type" condition="22"><template>page/html/page_header_bg.phtml</template></action>
         </reference>
         <reference name="left">
             <remove name="currency"/>
@@ -158,6 +201,9 @@
             <block type="core/template" name="category_list">
                 <action method="setTemplate" ifconfig="porto_settings/general/category_list_on_left"><template>smartwave/megamenu/onepagecategory/category_list.phtml</template></action>
             </block>
+            <block type="core/template" name="sidebar_sticky">
+                <action method="setTemplate"><template>smartwave/sidebar_sticky.phtml</template></action>
+            </block>
         </reference>
     </default>
     <catalog_category_default>
@@ -188,8 +234,8 @@
         </reference>
         <reference name="left">
             <remove name="tags_popular"/>
-            <block type="catalog/navigation" name="catalog.category" before="-" template="catalog/category/category_nav.phtml"/>
             <reference name="catalog.leftnav">
+                <block type="catalog/navigation" name="catalog.category" before="-" template="catalog/category/category_nav.phtml"/> 
                 <action method="unsetChild"><child>category_filter</child></action>
             </reference>
             <block type="cms/block" name="custom_side_block" after="-"><action method="setBlockId"><block_id>porto_left_side_category</block_id></action></block>
@@ -234,19 +280,19 @@
         </reference>
         <reference name="product.info">
             <block type="catalog/product_list_upsell" name="product.info.upsell" as="upsell_products">
-                <action method="setColumnCount"><columns>4</columns></action>
-                <action method="setItemLimit"><type>upsell</type><limit>4</limit></action>
+                <action method="setColumnCount"><columns>5</columns></action>
+                <action method="setItemLimit"><type>upsell</type><limit>5</limit></action>
             </block>
         </reference>
         <reference name="product.info.upsell">
-            <action method="setColumnCount"><columns>4</columns></action>
-            <action method="setItemLimit"><type>upsell</type><limit>4</limit></action>
+            <action method="setColumnCount"><columns>5</columns></action>
+            <action method="setItemLimit"><type>upsell</type><limit>5</limit></action>
             <action method="setTemplate" ifconfig="porto_settings/product_view/add_upsell_background" condition="0"><template>catalog/product/list/upsell.phtml</template></action>
         </reference>
         <reference name="bottom_container">
             <block type="catalog/product_list_upsell" name="product.bottom.upsell">
-                <action method="setColumnCount"><columns>4</columns></action>
-                <action method="setItemLimit"><type>upsell</type><limit>4</limit></action>
+                <action method="setColumnCount"><columns>5</columns></action>
+                <action method="setItemLimit"><type>upsell</type><limit>5</limit></action>
                 <action method="setTemplate" ifconfig="porto_settings/product_view/add_upsell_background" condition="1"><template>catalog/product/list/upsell.phtml</template></action>
             </block>
         </reference>

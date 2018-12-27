@@ -42,7 +42,6 @@
 
 	<default>
 		<reference name="head">
-			<action method="addItem"><type>skin_js</type><name>js/lib/imagesloaded.js</name></action>
 			<action method="addItem"><type>skin_js</type><name>js/configurableswatches/app.js</name></action>
 			<action method="addCss"><stylesheet>css/configurableswatches.css</stylesheet></action>
 		</reference>

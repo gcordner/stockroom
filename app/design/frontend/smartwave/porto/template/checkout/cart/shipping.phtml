@@ -74,7 +74,7 @@
             <div class="buttons-set">
                 <button type="button" title="<?php echo $this->__('Get a Quote') ?>" onclick="coShippingMethodForm.submit()" class="button"><span><span><?php echo $this->__('Get a Quote') ?></span></span></button>
             </div>
-        <?php echo $this->getBlockHtml("formkey") ?></form>
+        </form>
         <script type="text/javascript">
         //<![CDATA[
             new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>);
@@ -112,7 +112,7 @@
             <div class="buttons-set">
                 <button type="submit" title="<?php echo $this->__('Update Total') ?>" class="button" name="do" value="<?php echo $this->__('Update Total') ?>"><span><span><?php echo $this->__('Update Total') ?></span></span></button>
             </div>
-        <?php echo $this->getBlockHtml("formkey") ?></form>
+        </form>
         <?php endif; ?>
         <script type="text/javascript">
         //<![CDATA[

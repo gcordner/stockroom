@@ -15,7 +15,7 @@ class Smartwave_Porto_Block_Adminhtml_Button_Import_Cms extends Mage_Adminhtml_B
 		if (isset($data['label']))
 			$buttonSuffix = ' ' . $data['label'];
 
-		$url = $this->getUrl('adminhtml/porto_import/' . $process);
+		$url = $this->getUrl('porto/adminhtml_import/' . $process);
 		$click_event = "setLocation('$url'+'demo_version/'+document.getElementById('porto_settings_install_demo_version').value)+'/'";
         $button_class = "import-cms";
         $after_html = "";

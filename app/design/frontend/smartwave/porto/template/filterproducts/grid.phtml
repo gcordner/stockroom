@@ -5,6 +5,9 @@
     $store = Mage::app()->getStore();
     $code  = $store->getCode();
     $aspect_ratio = $this->getData("aspect_ratio");
+    
+    $lazyload = Mage::getStoreConfig("porto_settings/optimization/lazyload",$code);
+
     if($aspect_ratio == null) {
         $aspect_ratio = Mage::getStoreConfig("porto_settings/category/aspect_ratio",$code);
     }
@@ -12,15 +15,17 @@
     if(!$ratio_width) {
         $ratio_width = Mage::getStoreConfig("porto_settings/category/ratio_width",$code);
     }
+    if(!$ratio_width)
+        $ratio_width = 300;
     $ratio_height = $this->getData("image_height");
+    if($aspect_ratio) {
+        $ratio_height = $ratio_width;
+    }
     if(!$ratio_height) {
         $ratio_height = Mage::getStoreConfig("porto_settings/category/ratio_height",$code);
     }
-    
-    if(!$ratio_width)
-        $ratio_width = 300;
     if(!$ratio_height)
-        $ratio_height = 400;
+        $ratio_height = 300;
 ?>
 <?php if(!$_productCollection->count()): ?>
 <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
@@ -74,12 +79,12 @@
                     <?php
                         if(Mage::getStoreConfig("porto_settings/category/alternative_image", $code)){
                     ?>
-                        <img class="defaultImage" src="<?php if($aspect_ratio):?><?php echo $_image_helper->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $_image_helper->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" width="<?php echo $ratio_width; ?>" <?php if(!$aspect_ratio):?>height="<?php echo $ratio_height; ?>"<?php endif; ?> alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                        <img class="defaultImage <?php if(!$lazyload): ?>porto-lazyload<?php endif;?>" <?php if(!$lazyload): ?>data-<?php endif; ?>src="<?php if($aspect_ratio):?><?php echo $_image_helper->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $_image_helper->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" width="<?php echo $ratio_width; ?>" height="<?php echo $ratio_height; ?>"/>
                         <img class="hoverImage" src="<?php if($aspect_ratio):?><?php echo $_image_helper->init($_product, 'thumbnail')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $_image_helper->init($_product, 'thumbnail')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" width="<?php echo $ratio_width; ?>" <?php if(!$aspect_ratio):?>height="<?php echo $ratio_height; ?>"<?php endif; ?> alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'thumbnail'), null, true) ?>"/>
                     <?php
                         } else {
                     ?>
-                        <img src="<?php if($aspect_ratio):?><?php echo $_image_helper->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $_image_helper->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" width="<?php echo $ratio_width; ?>" <?php if(!$aspect_ratio):?>height="<?php echo $ratio_height; ?>"<?php endif; ?> alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                        <img <?php if(!$lazyload): ?>class="porto-lazyload" data-<?php endif; ?>src="<?php if($aspect_ratio):?><?php echo $_image_helper->init($_product, 'small_image')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $_image_helper->init($_product, 'small_image')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" width="<?php echo $ratio_width; ?>" height="<?php echo $ratio_height; ?>"/>
                     <?php
                         }
                     ?>
@@ -97,6 +102,7 @@
                             </div>
                             <div class="bottom-product-dailydeal bottom-home-dailydeal">
                                 <ul class="time-left">
+                                    <span><?php echo $this->__('Ends In:'); ?></span>
                                     <div class="timeleft timeleft_<?php echo $_product->getId() ?>"> </div>
                                 </ul>
                             </div>
@@ -207,7 +213,7 @@
                                 <div class="qty-field">
                                     <label for="qty"><?php echo $this->__('Qty:') ?></label>
                                     <div class="qty-holder">
-                                        <input type="text" name="qty" id="qty_<?php echo $_product->getId()."_".$rnd_str; ?>" maxlength="12" value="<?php echo $product->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+                                        <input type="text" name="qty" id="qty_<?php echo $_product->getId(); ?>" maxlength="12" value="<?php echo $product->getProductDefaultQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
                                         <div class="qty-changer">
                                             <a href="javascript:void(0)" class="qty_inc"><i class="icon-up-dir"></i></a>
                                             <a href="javascript:void(0)" class="qty_dec"><i class="icon-down-dir"></i></a>
@@ -225,7 +231,7 @@
                         <?php endif; ?>
                         <?php if($product->isSaleable()): ?>
                             <?php  if ( !($product->getTypeInstance(true)->hasOptions($product) || $product->isGrouped()) ) :  ?>
-                                <a href="<?php if(!Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code) && !Mage::getStoreConfig("porto_settings/category/qty_field", $code)): ?><?php echo $this->getAddToCartUrl($_product) ?><?php else: ?>javascript:void(0)<?php endif; ?>" class="addtocart" title="<?php echo $this->__('Add to Cart') ?>" <?php if(Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code)):?>onclick="setLocationAjax(this,'<?php echo $this->getAddToCartUrl($_product) ?>','<?php echo $_product->getId(); ?>')"<?php elseif(Mage::getStoreConfig("porto_settings/category/qty_field", $code)): ?>onclick="document.getElementById('addtocart_form_<?php echo $_product->getId(); ?>').submit()"<?php endif; ?>><i class="icon-cart"></i><span>&nbsp;<?php echo $this->__('Add to Cart') ?></span></a>
+                                <a href="<?php if(!Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code) && !Mage::getStoreConfig("porto_settings/category/qty_field", $code)): ?><?php echo $this->getAddToCartUrl($_product) ?><?php else: ?>javascript:void(0)<?php endif; ?>" class="addtocart" title="<?php echo $this->__('Add to Cart') ?>" <?php if(Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code)):?>onclick="setLocationAjax(this,'<?php echo $this->getAddToCartUrl($_product) ?>','<?php echo $_product->getId()."_".$rnd_str; ?>')"<?php elseif(Mage::getStoreConfig("porto_settings/category/qty_field", $code)): ?>onclick="document.getElementById('addtocart_form_<?php echo $_product->getId(); ?>').submit()"<?php endif; ?>><i class="icon-cart"></i><span>&nbsp;<?php echo $this->__('Add to Cart') ?></span></a>
                             <?php else : ?>
                                 <a href="<?php if(Mage::getStoreConfig("ajaxcart/addtocart/enablecategory", $code)):?>javascript:showOptions('<?php echo $_product->getId()?>')<?php else: ?><?php echo $this->getAddToCartUrl($_product) ?><?php endif; ?>" class="addtocart" title="<?php echo $this->__('Add to Cart') ?>"><i class="icon-cart"></i><span>&nbsp;<?php echo $this->__('Add to Cart') ?></span></a>
                                 <a href='<?php echo $this->getUrl('ajaxcart/index/options',array('product_id'=>$_product->getId()));?>' class='fancybox' id='fancybox<?php echo $_product->getId()?>' style='display:none'>Options</a>

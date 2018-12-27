@@ -141,9 +141,11 @@
             <layout>0</layout>
             <border_radius>0</border_radius>
 			<show_notice>0</show_notice>
+            <breadcrumbs_below_header>0</breadcrumbs_below_header>
         </general>
         <header>
             <type>2</type>
+			<new_skin>0</new_skin>
             <language_flag>1</language_flag>
             <static_block>porto_custom_block_for_header_home8</static_block>
             <static_block_2></static_block_2>
@@ -188,7 +190,7 @@
             <footer_bottom_socialicons>1</footer_bottom_socialicons>
             <footer_bottom_enabled>1</footer_bottom_enabled>
             <footer_logo>images/logo_footer.png</footer_logo>
-            <copyrights><![CDATA[&copy;Copyright 2015 by SW-THEMES. All Rights Reserved.]]></copyrights>
+            <copyrights><![CDATA[&copy;Copyright 2018 by Porto. All Rights Reserved.]]></copyrights>
             <footer_bottom_custom_block>1</footer_bottom_custom_block>
             <footer_bottom_custom_block_id>porto_footer_bottom_custom_block</footer_bottom_custom_block_id>
             <footer_bottom_custom_block_2>0</footer_bottom_custom_block_2>
@@ -224,7 +226,15 @@
             <prev_next>1</prev_next>
             <prev_text><![CDATA[<i class="icon-left-open"></i>]]></prev_text>
             <next_text><![CDATA[<i class="icon-right-open"></i>]]></next_text>
+            <product_image_size>5</product_image_size>
             <disable_product_zoom>0</disable_product_zoom>
+            <move_custom_block>0</move_custom_block>
+            <add_upsell_background>0</add_upsell_background>
+            <move_upsell>0</move_upsell>
+            <move_custom_block>0</move_custom_block>
+            <custom_block_tab></custom_block_tab>
+            <custom_block_id></custom_block_id>
+            <page_layout>two_column_right</page_layout>
         </product_view>
         <product_compare>
             <show_link>1</show_link>
@@ -245,22 +255,22 @@
             <latitude>-34.398</latitude>
             <longitude>150.884</longitude>
             <zoom>18</zoom>
-            <infoblock><![CDATA[                <div class="row"><div class="col-sm-12">
+            <infoblock><![CDATA[                <div class="row"><div class="col-md-12">
                 <i class="icon-phone"></i>
                 <p>0201 203 2032</p>
                 <p>0201 203 2032</p>
             </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-mobile"></i>
                     <p>201-123-3922</p>
                     <p>302-123-3928</p>
                 </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-mail-alt"></i>
                     <p>porto@gmail.com</p>
                     <p>porto@portotemplate.com</p>
                 </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-skype"></i>
                     <p>porto_skype</p>
                     <p>proto_template</p>
@@ -268,10 +278,13 @@
             ]]></infoblock>
         </contacts>
         <custom_settings>
-            <custom_style><![CDATA[
-			.header-container.type3.sticky-header .menu-wrapper .mybag-link i{color:#fff}
-			.header-container.type3.sticky-header .menu-wrapper .mybag-link .cart-qty{color:#000}
-			]]></custom_style>
+            <custom_style><![CDATA[.header-container.type3.sticky-header .menu-wrapper .mybag-link i{color:#fff}
+.header-container.type3.sticky-header .menu-wrapper .mybag-link .cart-qty{color:#000}
+.recent-posts .item .col-md-5, .recent-posts .item .col-md-7 {
+    max-width: 100%;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+}]]></custom_style>
         </custom_settings>
     </porto_settings>
     <homeslider>

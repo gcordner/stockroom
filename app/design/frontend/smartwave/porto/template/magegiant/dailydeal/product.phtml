@@ -31,6 +31,7 @@ if ($deal->getQuantity() - $deal->getSold() > 0) {
 		<?php $endTime = Mage::getModel('core/date')->timestamp(strtotime($deal->getCloseTime())); ?>
 		<div class="bottom-product-dailydeal bottom-home-dailydeal">
                         <ul class="time-left">
+                            <span><?php echo $this->__('Ends In:'); ?></span>
 							<li class="timeleft timeleft_<?php echo $_product->getId() ?>"> </li>
 						</ul>
     	 </div>

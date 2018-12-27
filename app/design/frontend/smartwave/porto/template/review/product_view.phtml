@@ -6,7 +6,7 @@
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="product-view">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
             <div class="product-essential">
                 <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
                     <?php echo $this->getBlockHtml('formkey') ?>
@@ -15,13 +15,13 @@
                         <input type="hidden" name="related_product" id="related-products-field" value="" />
                     </div>
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-md-12">
                             <div class="row">
-                                <div class="product-img-box col-sm-5">
+                                <div class="product-img-box col-md-5">
                                     <?php echo $this->getChildHtml('review_media') ?>
                                 </div>
 
-                                <div class="product-shop col-sm-7">
+                                <div class="product-shop col-md-7">
                                     <div class="product-name">
                                         <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
                                     </div>
@@ -126,7 +126,7 @@
 
             <div class="product-collateral">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-md-12">
                         <?php echo $this->getChildHtml('product_additional_data'); ?>
                     </div>
                 </div>

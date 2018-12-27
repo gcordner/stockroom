@@ -25,7 +25,8 @@ class Smartwave_Porto_Model_System_Config_Source_Setting_Installation_Demoversio
             array('value' => 'demo17', 'label' => Mage::helper('porto')->__('Demo 17')),
             array('value' => 'demo18', 'label' => Mage::helper('porto')->__('Demo 18')),
             array('value' => 'demo19', 'label' => Mage::helper('porto')->__('Demo 19')),
-            array('value' => 'demo20', 'label' => Mage::helper('porto')->__('Demo 20'))
+            array('value' => 'demo20', 'label' => Mage::helper('porto')->__('Demo 20')),
+            array('value' => 'demo21', 'label' => Mage::helper('porto')->__('Demo 21'))
         );
     }
 }

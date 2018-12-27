@@ -378,7 +378,7 @@ class Smartwave_Ajaxcatalog_Block_Catalog_Layer_Filter_Price extends Mage_Catalo
 			
 			$html .= '.ui-slider{';
 			if($bgSlider){$html .= 'background:'.$bgSlider.';';}
-			$html .= ' width:'.$sliderWidth.'px; height:'.$sliderHeight.'px; border:none; border-radius: 0; -moz-border-radius: 0; -webkit-border-radius: 0; cursor: pointer; margin: 5px 5px 20px 8px; }';
+			$html .= ' width:'.$sliderWidth.'px; height:'.$sliderHeight.'px; border:none; border-radius: 0; -moz-border-radius: 0; -webkit-border-radius: 0; cursor: pointer; margin: 5px 1px 20px 9px; }';
 			
 			$html .= '.ui-slider .ui-slider-range{';
 			if($bgRange){$html .= 'background:'.$bgRange.';';}

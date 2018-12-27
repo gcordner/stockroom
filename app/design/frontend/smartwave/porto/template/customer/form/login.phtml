@@ -6,7 +6,7 @@
     <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
         <?php echo $this->getBlockHtml('formkey'); ?>
         <div class="row">
-            <div class="col-sm-6 new-users">
+            <div class="col-md-6 new-users">
                 <div class="content">
                     <h2><?php echo $this->__('New Customers') ?></h2>
                     <p><?php echo $this->__('By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.') ?></p>
@@ -15,7 +15,7 @@
                     <button type="button" title="<?php echo $this->__('Create an Account') ?>" class="button" onclick="window.location='<?php echo Mage::helper('persistent')->getCreateAccountUrl($this->getCreateAccountUrl()) ?>';"><span><span><?php echo $this->__('Create an Account') ?></span></span></button>
                 </div>
             </div>
-            <div class="col-sm-6 registered-users">
+            <div class="col-md-6 registered-users">
                 <div class="content">
                     <h2><?php echo $this->__('Registered Customers') ?></h2>
                     <p><?php echo $this->__('If you have an account with us, please log in.') ?></p>

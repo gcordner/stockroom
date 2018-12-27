@@ -3,8 +3,8 @@
 /**
  * @category	Smartwave
  * @package		Smartwave_Smartwave
- * @author		SW-THEMES
- * @copyright	Copyright 2014 Smartwave
+ * @author		Porto
+ * @copyright	Copyright 2018 Porto Co.
  */
 -->
 <config>
@@ -71,7 +71,7 @@
     <default>
         <swall>
             <adminnotification>
-                <feed_url>www.newsmartwave.net/envato/porto1_notifications.rss</feed_url>
+                <feed_url>www.portotheme.com/envato/porto1_notifications.rss</feed_url>
                 <use_https>0</use_https>
                 <frequency>1</frequency>
                 <last_update>0</last_update>

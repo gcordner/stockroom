@@ -14,14 +14,14 @@ class Smartwave_Filterproducts_Block_Featured_Home_List extends Smartwave_Filter
 {
 		protected function _getProductCollection()
     	{
-        
+
         $storeId    = Mage::app()->getStore()->getId();
-        
+
         $category_id = $this->getCategoryId();
         $products = Mage::getResourceModel('catalog/product_collection');
         if($category_id) {
-            $category = Mage::getModel('catalog/category')->load($category_id);    
-            
+            $category = Mage::getModel('catalog/category')->load($category_id);
+
             $products = $this->_addProductAttributesAndPrices($products)
             ->addCategoryFilter($category)
             ->addAttributeToFilter(array(array('attribute' => 'featured', 'eq' => '1')))
@@ -39,7 +39,7 @@ class Smartwave_Filterproducts_Block_Featured_Home_List extends Smartwave_Filter
         }
         $products->getSelect()->order(new Zend_Db_Expr("RAND()"));
         $product_count = $this->getProductCount();
-            
+
         if($product_count)
         {
             $products->setPageSize($product_count);
@@ -51,16 +51,16 @@ class Smartwave_Filterproducts_Block_Featured_Home_List extends Smartwave_Filter
         $store = Mage::app()->getStore();
         $code  = $store->getCode();
         if(!Mage::getStoreConfig("cataloginventory/options/show_out_of_stock", $code))
-            Mage::getSingleton('cataloginventory/stock')->addInStockFilterToCollection($products); 
+            Mage::getSingleton('cataloginventory/stock')->addInStockFilterToCollection($products);
 
         $this->_productCollection = $products;
 
         return $this->_productCollection;
     	}
-		
-		
+
+
 		public function getToolbarHtml()
     	{
-        
+
     	}
 }

@@ -45,16 +45,16 @@
         <div class="main-container col3-layout">
             <div class="main container">
                 <div class="row">
-                    <div class="col-wrapper col-sm-9 f-left">
+                    <div class="col-wrapper col-lg-9">
                         <div class="row">
-                            <div class="col-main col-sm-8 f-right">
+                            <div class="col-main col-lg-8 lg-order-12">
                                 <?php echo $this->getChildHtml('global_messages') ?>
                                 <?php echo $this->getChildHtml('content') ?>
                             </div>
-                            <div class="col-left sidebar col-sm-4 f-left"><?php echo $this->getChildHtml('left') ?></div>
+                            <div class="col-left sidebar col-lg-4"><?php echo $this->getChildHtml('left') ?></div>
                         </div>
                     </div>
-                    <div class="col-right sidebar col-sm-3 f-right"><?php echo $this->getChildHtml('right') ?></div>
+                    <div class="col-right sidebar col-lg-3 lg-order-12"><?php echo $this->getChildHtml('right') ?></div>
                 </div>
             </div>
         </div>

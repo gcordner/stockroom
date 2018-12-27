@@ -6,6 +6,11 @@
     $tab_style = Mage::getStoreConfig("porto_settings/product_view/product_tab_style", $code);
     if(!$tab_style)
         $tab_style = "horizontal";
+    $product_page_type = $this->helper('catalog/output')->productAttribute(Mage::registry("current_product"), Mage::registry("current_product")->getData('product_page_type'), 'product_page_type');
+    if(!$product_page_type)
+        $product_page_type = Mage::getStoreConfig("porto_settings/product_view/type",$code);
+    if($product_page_type == 'wide_grid')
+        $tab_style = "vertical";
 ?>
 <?php if($tab_style!="accordion"): ?>
 <div class="product-tabs <?php echo $tab_style; ?>">
@@ -125,7 +130,7 @@
                 <a data-toggle="collapse" data-parent="#product_tab_accordion" <?php if($i>0): ?>class="collapsed"<?php endif; ?> href="#tab_<?php echo $_tab['alias'] ?>"><?php echo $_tab['title']?></a>
             </h4>
         </div>
-        <div id="tab_<?php echo $_tab['alias'] ?>" class="panel-collapse collapse <?php if($i==0): ?>in<?php endif; ?>">
+        <div id="tab_<?php echo $_tab['alias'] ?>" class="panel-collapse collapse <?php if($i==0): ?>in show<?php endif; ?>">
             <div class="panel-body">
                 <?php echo $this->getChildHtml($_tab['alias']) ?>
             </div>

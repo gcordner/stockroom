@@ -12,7 +12,7 @@
         <div class="footer-top">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-md-12">
                     <?php
                         $area = 'footer_top_block';
                         $type = $footer[$area];
@@ -49,7 +49,7 @@
                         $area = 'footer_middle_column_'.$i;
                         $type = $footer[$area];
                         if( $type ){
-                            echo '<div class="col-sm-'.$footer[$area.'_size'].'">';
+                            echo '<div class="col-lg-'.$footer[$area.'_size'].'">';
                         }
                         if( $type == 'custom' ){
                             echo $this->getLayout()->createBlock('cms/block')->setBlockId($footer[$area.'_custom'])->toHtml();
@@ -89,7 +89,7 @@
                         $area = 'footer_middle_2_column_'.$i;
                         $type = $footer[$area];
                         if( $type ){
-                            echo '<div class="col-sm-'.$footer[$area.'_size'].'">';
+                            echo '<div class="col-lg-'.$footer[$area.'_size'].'">';
                         }
                         if( $type == 'custom' ){
                             echo $this->getLayout()->createBlock('cms/block')->setBlockId($footer[$area.'_custom'])->toHtml();

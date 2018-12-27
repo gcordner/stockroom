@@ -142,9 +142,11 @@
             <layout>0</layout>
             <border_radius>0</border_radius>
 			<show_notice>0</show_notice>
+            <breadcrumbs_below_header>0</breadcrumbs_below_header>
         </general>
         <header>
             <type>7</type>
+			<new_skin>0</new_skin>
             <language_flag>0</language_flag>
             <static_block></static_block>
             <static_block_2></static_block_2>
@@ -189,7 +191,7 @@
             <footer_bottom_socialicons>1</footer_bottom_socialicons>
             <footer_bottom_enabled>1</footer_bottom_enabled>
             <footer_logo>images/logo_footer_black.png</footer_logo>
-            <copyrights><![CDATA[&copy;Copyright 2015 by SW-THEMES. All Rights Reserved.]]></copyrights>
+            <copyrights><![CDATA[&copy;Copyright 2018 by Porto. All Rights Reserved.]]></copyrights>
             <footer_bottom_custom_block>1</footer_bottom_custom_block>
             <footer_bottom_custom_block_id>porto_footer_bottom_custom_block</footer_bottom_custom_block_id>
             <footer_bottom_custom_block_2>0</footer_bottom_custom_block_2>
@@ -225,7 +227,15 @@
             <prev_next>1</prev_next>
             <prev_text><![CDATA[<i class="icon-left-open"></i>]]></prev_text>
             <next_text><![CDATA[<i class="icon-right-open"></i>]]></next_text>
+            <product_image_size>4</product_image_size>
             <disable_product_zoom>0</disable_product_zoom>
+            <move_custom_block>0</move_custom_block>
+            <add_upsell_background>0</add_upsell_background>
+            <move_upsell>0</move_upsell>
+            <move_custom_block>0</move_custom_block>
+            <custom_block_tab></custom_block_tab>
+            <custom_block_id></custom_block_id>
+            <page_layout>two_column_right</page_layout>
         </product_view>
         <product_compare>
             <show_link>1</show_link>
@@ -252,22 +262,22 @@
             <latitude>-34.398</latitude>
             <longitude>150.884</longitude>
             <zoom>18</zoom>
-            <infoblock><![CDATA[                <div class="row"><div class="col-sm-12">
+            <infoblock><![CDATA[                <div class="row"><div class="col-md-12">
                 <i class="icon-phone"></i>
                 <p>0201 203 2032</p>
                 <p>0201 203 2032</p>
             </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-mobile"></i>
                     <p>201-123-3922</p>
                     <p>302-123-3928</p>
                 </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-mail-alt"></i>
                     <p>porto@gmail.com</p>
                     <p>porto@portotemplate.com</p>
                 </div></div>
-                <div class="row"><div class="col-sm-12">
+                <div class="row"><div class="col-md-12">
                     <i class="icon-skype"></i>
                     <p>porto_skype</p>
                     <p>proto_template</p>
@@ -290,31 +300,31 @@
   text-transform: uppercase;
 }
 .cms-index-index .header-container.type8 {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	border-bottom: 1px solid rgba(255,255,255,.25);
-	z-index: 20;
-	background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px solid rgba(255,255,255,.25);
+    z-index: 20;
+    background-color: transparent;
 }
 @media(min-width:768px){
-	.cms-index-index .header-container.type8 .header.container {
-		width: auto !important;
-		padding-left: 30px;
-		padding-right: 30px;
-	}
-	.cms-index-index .main-nav .container {
-		width: auto !important;
-	}
-	.cms-index-index .cart-area {
-		right: 30px;
-	}
+    .cms-index-index .header-container.type8 .header.container {
+        max-width: 100%;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    .cms-index-index .main-nav .container {
+        max-width: 100%;
+    }
+    .cms-index-index .cart-area {
+        right: 30px;
+    }
 }
 @media(max-width: 991px){
-	.cms-index-index  .header-container.sticky-header.type8 {
-		background-color: #5c616e;
-	}
+    .cms-index-index  .header-container.sticky-header.type8 {
+        background-color: #5c616e;
+    }
 }]]></custom_style>
         </custom_settings>
     </porto_settings>

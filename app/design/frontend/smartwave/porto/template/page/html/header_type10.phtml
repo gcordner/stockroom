@@ -4,7 +4,7 @@ $store = Mage::app()->getStore();
 $code  = $store->getCode();
 $custom_block = Mage::getStoreConfig('porto_settings/header/static_block', $code);
 ?>
-    <div class="header-container type10">
+    <div class="header-container type10 <?php if(Mage::getStoreConfig('porto_settings/header/new_skin', $code)): ?>header-newskin<?php endif; ?>">
         <div class="top-links-container">
             <div class="top-links container">
 				<?php
