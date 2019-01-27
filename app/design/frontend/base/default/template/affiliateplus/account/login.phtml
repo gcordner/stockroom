@@ -1,3 +1,4 @@
+<!--
 <?php
 $store_id = Mage::app()->getStore()->getStoreId();
 $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_enable', $store_id);
@@ -6,27 +7,16 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
  else
      $class_name = 'col-lg-9 col-md-9 col-sm-9 col-xs-9';
 ?>
-
-<!--CHA CHA CHA MUTHAFUCKAH-->
-
-<div class="aff-main-content <?php echo $class_name; ?>">
+-->
+<!--EL FEROZ FERNANDO VARGAS -->
+<div class="aff-main-content col-lg-9 col-md-9 col-sm-12 col-xs-12">
 <div class="account-login">
     <div class="aff-title">
         <h1><?php echo $this->__('Login or Create an Account') ?></h1>
     </div>
     
-    <div class="container">
-    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-    
-    	<p>Welcome to the Stockroom Affiliate Program!</p>
-    	
-    
-   
-    <div class="row">
-     
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        
-        <div class="lable-title">
+   <div class="col-lg-6 col-md-12 col-sm-12">
+   <div class="lable-title">
          <h2 class="legend"><?php echo $this->__('New Account') ?></h2>
         </div>
         
@@ -36,11 +26,12 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
         </button>
     </div>
    
-    
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        
-        <div class="lable-title">
-         <h2 class="legend"><?php echo $this->__('Registered Customers') ?></h2>
+   
+   
+   </div>
+   <div class="col-lg-6 col-md-12 col-sm-12">
+   <div class="lable-title">
+         <h2 class="legend"><?php echo $this->__('Registered Affiliates') ?></h2>
         </div>
         
         <form style="border: 0; box-shadow: none;" action="<?php echo $this->getUrl('affiliateplus/account/loginPost') ?>" method="post" id="login-form" role="form">
@@ -63,13 +54,10 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
                     </span>
                 </button>                 
          </form>
-    </div>
-    
+   </div>
+   
+
 </div>
-
-</div><!--this is the end of the row-->
-
-</div><!--this is the end of the container-->
 
 </div>
 
@@ -77,3 +65,5 @@ $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_
 <script type="text/javascript">
     var loginAffiliateAccountForm = new VarienForm('login-form', true);
 </script>
+</div>
+<!--ADIOS, MUCHACHOS-->

@@ -1,9 +1,12 @@
+<!--HOLA GUAPA-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
+
+<div class="container">
 <?php
 $store_id = Mage::app()->getStore()->getStoreId();
 $check_responsvie = Mage::getStoreConfig('affiliateplus/style_config/responsive_enable', $store_id);
 ?>
-
-<div class="navbar-default affiliate-navigation col-lg-3 col-md-3 <?php if ($check_responsvie): ?>hidden-sm hidden-xs<?php else: ?>col-sm-3 col-xs-3<?php endif; ?> " role="navigation">
+<div class="navbar-default affiliate-navigation col-lg-3 col-md-3 col-sm-12 col-xs-12">    
     <div class="container-fluid">
 
         <div class="collapse1 navbar-collapse-aff" id="nav-aff" >
