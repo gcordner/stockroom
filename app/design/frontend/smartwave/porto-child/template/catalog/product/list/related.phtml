@@ -46,6 +46,7 @@
                             <p class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->escapeHtml($_item->getName()) ?></a></p>
                             <?php if(Mage::getStoreConfig("porto_settings/category/rating_star", $code)):?>
                             <?php if (Mage::helper('catalog')->isModuleEnabled('Mage_Review')): ?>
+                            <!--
                             <?php 
                                 $review_html = $this->getReviewsSummaryHtml($_item, 'short');
                                 if($review_html){
@@ -60,6 +61,8 @@
                             <?php                            
                                 }
                             ?>
+                            -->
+                            <!--
                             <?php else: ?>
                                 <div class="ratings">
                                     <div class="rating-box">
@@ -67,6 +70,7 @@
                                     </div>
                                 </div>
                             <?php endif; ?>
+                            -->
                             <?php endif; ?>
                             <?php if(Mage::getStoreConfig("porto_settings/category/product_price", $code)):?>
                             <?php echo $this->getPriceHtml($_item, true, '-related') ?>
