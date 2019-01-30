@@ -16,6 +16,9 @@
         <strong><span><?php echo $this->__('Related Products') ?></span></strong>
     </div>
     <div class="block-content">
+    <!--
+        <p class="block-subtitle"><?php echo $this->__('Check items to add to cart or') ?>&nbsp;<a href="#" onclick="selectAllRelated(this); return false;"><?php echo $this->__('select all') ?></a></p>
+    -->
         <div class="owl-carousel owl-theme" id="block-related">
         <?php
             $i = 0;
@@ -25,17 +28,21 @@
             <div class="item">
         <?php foreach($items as $_item): ?>
         <?php
-	    // Skip out of stock products from display [#120793541]
-	    if(!$_item->isSaleable())
-		continue;
             $i++;
         ?>
                 <div class="product">
+                    <?php if(!$_item->isComposite() && $_item->isSaleable()): ?>
+                    <!--
+                        <?php if (!$_item->getRequiredOptions()): ?>
+                            <input type="checkbox" class="checkbox related-checkbox" id="related-checkbox<?php echo $_item->getId() ?>" name="related_products[]" value="<?php echo $_item->getId() ?>" />
+                        <?php endif; ?>
+                      -->  
+                    <?php endif; ?>
                     <div class="row">
-                        <div class="col-xs-6">
+                        <div class="col-5">
                             <a href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>" class="product-image"><img src="<?php if($aspect_ratio):?><?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($ratio_width);?><?php else: ?><?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize($ratio_width,$ratio_height); ?><?php endif; ?>" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" /></a>
                         </div>
-                        <div class="product-details col-xs-6">
+                        <div class="product-details col-7">
                             <p class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->escapeHtml($_item->getName()) ?></a></p>
                             <?php if(Mage::getStoreConfig("porto_settings/category/rating_star", $code)):?>
                             <?php if (Mage::helper('catalog')->isModuleEnabled('Mage_Review')): ?>
