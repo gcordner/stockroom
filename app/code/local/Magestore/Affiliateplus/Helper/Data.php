@@ -25,7 +25,8 @@ class Magestore_Affiliateplus_Helper_Data extends Mage_Core_Helper_Abstract {
         $senderEmailConfiguration = array();
         $emailConfiguration = Mage::getStoreConfig('affiliateplus/email/email_sender', $storeId);
         $nameConfiguration = Mage::getStoreConfig('affiliateplus/email/name_sender', $storeId);
-        $senderDefault = Mage::getStoreConfig(self::XML_PATH_ADMIN_EMAIL_IDENTITY, $storeId);
+        //$senderDefault = Mage::getStoreConfig(self::XML_PATH_ADMIN_EMAIL_IDENTITY, $storeId);
+        $senderDefault = "geoffcordner@gmail.com";
         if (!$emailConfiguration) {
             if (!$nameConfiguration) {
                 $senderEmailConfiguration = $senderDefault;
