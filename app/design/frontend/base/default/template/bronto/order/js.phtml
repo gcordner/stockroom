@@ -1,0 +1,12 @@
+<?php /** @var Bronto_Order_Block_Bta $this */ ?>
+
+<?php if (Mage::helper('bronto_order')->isEnabled()): ?>
+
+<script type="text/javascript" src="//p.bm23.com/bta.js"></script>
+<script type="text/javascript">
+    //<![CDATA[
+    var bta = new __bta('<?php echo $this->getKey() ?>');
+    //]]>
+</script>
+
+<?php endif; ?>
