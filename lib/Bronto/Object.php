@@ -159,7 +159,17 @@ class Bronto_Object implements JsonSerializable
      */
     public function toJSON()
     {
-        return json_encode($this->_data);
+        $json = json_encode($this->_data);
+        if ($json === false) {
+            throw new \InvalidArgumentException(sprintf(
+                "Object data could not be JSON encoded due to the following reason [%s] %s\nData:\n%s",
+                json_last_error(),
+                json_last_error_msg(),
+                var_export($this->_data, true)
+            ));
+        }
+
+        return $json;
     }
 
     /**

@@ -351,16 +351,20 @@ class Bronto_Common_Model_AbstractRestClient extends \Zend_Rest_Client
     }
 
     /**
-     * @param Zend_Http_Response $response
+     * @param Zend_Http_Response [null] $response
+     *  Responses have the possibility of being null if there was a failure in prepping the request.
+     *
      * @return bool
      */
-    protected function handleResponse(\Zend_Http_Response $response)
+    protected function handleResponse(\Zend_Http_Response $response = null)
     {
-        if ($response->getStatus() >= 200 && $response->getStatus() < 300) {
-            return true;
+        if ($response === null) {
+            throw new \Bronto_Api_Exception('A problem occurred while generating the request');
+        } elseif ($response->getStatus() < 200 || $response->getStatus() >= 300) {
+            throw new \Bronto_Api_Exception($this->getErrorResponseReason(), $response->getStatus());
         }
 
-        throw new \Bronto_Api_Exception($this->getErrorResponseReason(), $response->getStatus());
+        return true;
     }
 
     /**

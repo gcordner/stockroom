@@ -55,19 +55,6 @@ class Bronto_Order_Model_Order_Observer
         $orderRow = Mage::getModel('bronto_order/queue')
             ->getOrderRow($order->getId(), $order->getQuoteId(), $order->getStoreId());
 
-        $managedKey = Mage::helper('bronto_order')->getTidKey();
-
-        foreach (Mage::getModel('core/cookie')->get() as $key => $value) {
-            // If managed key was found, use it; otherwise
-            // If an original key was found, use that instead
-            if ($key == 'tid_' . $managedKey) {
-                $orderRow->setBrontoTid($value);
-                break;
-            } else if (preg_match('/^tid_/', $key)) {
-                $orderRow->setBrontoTid($value);
-            }
-        }
-
         $orderRow
             ->setCreatedAt($order->getCreatedAt())
             ->setUpdatedAt($order->getUpdatedAt())

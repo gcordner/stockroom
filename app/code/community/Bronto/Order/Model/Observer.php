@@ -475,12 +475,19 @@ class Bronto_Order_Model_Observer
 
             $this->_helper->writeDebug("  Processing Order ID: {$order->getId()} \t #{$order->getIncrementId()}");
 
-            $orderDto = \Bronto_Order_Api_Rest_DtoFactory::getInstance()->buildFromOrderQueue(
-                $orderQueueItem,
-                $order,
-                $this->_helper,
-                $productHelper
-            );
+            try {
+                $orderDto = \Bronto_Order_Api_Rest_DtoFactory::getInstance()->buildFromOrderQueue(
+                    $orderQueueItem,
+                    $order,
+                    $this->_helper,
+                    $productHelper
+                );
+            } catch (\InvalidArgumentException $e) {
+                $errMsg = "Error occurred while building Order data object ({$order->getId()}) for importing.";
+                $this->_skipOrder($order, $orderQueueItem, "{$errMsg} {$e->getMessage()}\n{$e->getTraceAsString()}");
+                $result['error']++;
+                continue;
+            }
 
             if (!$orderDto->getCustomerOrderId()) {
                 $this->_skipOrder($order, $orderQueueItem, "Invalid increment ID");
@@ -517,13 +524,13 @@ class Bronto_Order_Model_Observer
             $restClient->addOrUpdateOrder($orderDto);
             $orderQueueItem->setBrontoImported($processDate)->save();
             return true;
-        } catch (\Bronto_Api_Exception $bae) {
+        } catch (\Exception $e) {
             $this->_helper->writeInfo(
-                ($bae->getMessage()
-                . ($bae->getPrevious() ? "\n " . $bae->getPrevious()->getMessage() : '')
-                . "\n " . $bae->getTraceAsString())
+                ($e->getMessage()
+                . ($e->getPrevious() ? "\n " . $e->getPrevious()->getMessage() : '')
+                . "\n " . $e->getTraceAsString())
             );
-            $orderQueueItem->setBrontoImported(null)->setBrontoSuppressed("{$bae->getMessage()}")->save();
+            $orderQueueItem->setBrontoImported(null)->setBrontoSuppressed("{$e->getMessage()}")->save();
             return false;
         }
     }
