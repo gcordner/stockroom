@@ -17,11 +17,7 @@ class Bronto_Order_Api_Rest_Dto extends Bronto_Common_Api_Rest_AbstractDto
             )
         ),
         'discountAmount' => array(
-            'validators' => array(
-                array(
-                    'class' => 'Zend_Validate_Float'
-                )
-            )
+            'validators' => array()
         ),
         'emailAddress' => array(
             'validators' => array(
@@ -32,11 +28,7 @@ class Bronto_Order_Api_Rest_Dto extends Bronto_Common_Api_Rest_AbstractDto
             )
         ),
         'grandTotal' => array(
-            'validators' => array(
-                array(
-                    'class' => 'Zend_Validate_Float'
-                )
-            )
+            'validators' => array()
         ),
         'deliveryId' => array(
             'validators' => array(
@@ -68,11 +60,7 @@ class Bronto_Order_Api_Rest_Dto extends Bronto_Common_Api_Rest_AbstractDto
             'validators' => array()
         ),
         'shippingAmount' => array(
-            'validators' => array(
-                array(
-                    'class' => 'Zend_Validate_Float'
-                )
-            )
+            'validators' => array()
         ),
         'shippingDate' => array(
             'validators' => array(
@@ -89,18 +77,10 @@ class Bronto_Order_Api_Rest_Dto extends Bronto_Common_Api_Rest_AbstractDto
             'validators' => array()
         ),
         'subtotal' => array(
-            'validators' => array(
-                array(
-                    'class' => 'Zend_Validate_Float'
-                )
-            )
+            'validators' => array()
         ),
         'taxAmount' => array(
-            'validators' => array(
-                array(
-                    'class' => 'Zend_Validate_Float'
-                )
-            )
+            'validators' => array()
         ),
         'trackingCookieName' => array(
             'validators' => array(
@@ -164,7 +144,10 @@ class Bronto_Order_Api_Rest_Dto extends Bronto_Common_Api_Rest_AbstractDto
                     'class' => 'Bronto_Validate_Array'
                 )
             )
-        )
+        ),
+        'orderSource' => array(
+            'validators' => array()
+        ),
     );
 
     /**
@@ -180,6 +163,7 @@ class Bronto_Order_Api_Rest_Dto extends Bronto_Common_Api_Rest_AbstractDto
         $includeShipping = $orderHelper->isShippingIncluded('store', $order->getStoreId());
         $orderComplete = $order->getState() == \Mage_Sales_Model_Order::STATE_COMPLETE;
         $hasShipments = $order->hasShipments();
+        $this->setOrderSource('WEBSITE');
 
         $brontoOrderStatus = $orderHelper->getBrontoOrderStatus('store', $order->getStoreId());
         $this->setStates(array(
