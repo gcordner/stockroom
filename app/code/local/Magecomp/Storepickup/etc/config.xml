@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+    	<Magecomp_Storepickup>
+      		<version>1.0.0</version>
+    	</Magecomp_Storepickup>
+  	</modules>
+	<global>
+    	<models>
+      		<storepickupmodule>
+        		<class>Magecomp_Storepickup_Model</class>
+      		</storepickupmodule>
+    	</models>
+   		<helpers>
+      		<storepickupmodule>
+        		<class>Magecomp_Storepickup_Helper</class>
+      		</storepickupmodule>
+    	</helpers>
+		<resources>
+      		<storepickupmodule_setup>
+				<setup>
+					<module>Magecomp_Storepickup</module>
+				</setup>
+				<connection>
+					<use>core_setup</use>
+				</connection>
+      		</storepickupmodule_setup>
+    	</resources>
+	</global>
+  	<default>
+		<carriers>
+			<storepickupmodule>
+				<active>1</active>
+				<allowed_methods>pickup01,pickup02,pickup03,pickup04,pickup05,pickup06,pickup07,pickup08,pickup09,pickup10,pickup11,pickup12,pickup13,pickup14,pickup15</allowed_methods>
+				<methods>pickup01,pickup02,pickup03,pickup04,pickup05,pickup06,pickup07,pickup08,pickup09,pickup10,pickup11,pickup12,pickup13,pickup14,pickup15</methods>
+				<sallowspecific>0</sallowspecific>
+<model>Magecomp_Storepickup_Model_Carrier_ShippingMethod</model>
+                <name>Multi Store Pickup</name>
+                <title>Multi Store Pickup</title>
+                <specificerrmsg>This shipping method is currently unavailable.If you would like to ship using this shipping
+method, please contact us.</specificerrmsg>
+				<handling_type>F</handling_type>
+            </storepickupmodule>
+        </carriers>
+    </default>
+</config>
