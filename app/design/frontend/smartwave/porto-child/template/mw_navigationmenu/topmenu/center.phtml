@@ -30,7 +30,7 @@ $row_number = (int)($cat_row/$row)+1;
                         <?php endforeach;?>
                         <?php if (($a<=count($categories3))&($config['view_more_category']==1)):?>
                         <li>
-                            <a class="mw_nm nm_category_url" aria-label="link to michelin guide" href="<?php echo($category2['url']);?>">
+                            <a class="mw_nm nm_category_url" aria-label="link to michelin guide v1" href="<?php echo($category2['url']);?>">
                                 <span><?php echo(Mage::helper('navigationmenu')->__('More..'));?></span>
                             </a>
                         </li>
