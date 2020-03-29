@@ -17,7 +17,7 @@ $code  = $store->getCode();
 <div class="social-icons">
 <?php
    foreach($_links as $_link){
-       echo '<a href="'.$_link['url'].'" style="background-position:'.$_link['image_position'].'; width:'.$_width.'; height:'.$_height.';" class="'.$_link['class'].'" aria-label="'.$_link['title'].'" target="_blank">&nbsp;</a>';
+       echo '<a href="'.$_link['url'].'" style="background-position:'.$_link['image_position'].'; width:'.$_width.'; height:'.$_height.';" class="'.$_link['class'].'" aria-label="link to '.$_link['title'].' profile" target="_blank">&nbsp;</a>';
    }
 ?>
 </div>
