@@ -227,7 +227,6 @@ if($enable_addtocart_sticky){
                 <?php if ($_product->getShortDescription()):?>
                     <div class="short-description <?php if($move_custom_block):?>no-border<?php endif;?>"">
                         <h2><?php echo $this->__('Quick Overview') ?></h2>
-                        <p>TIME FOR FOOTBALL!!</p>
                         <div class="std" <?php if($enabled_richsnippets): ?>itemprop="description"<?php endif; ?>><?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?></div>
                     </div>
                 <?php endif;?>
