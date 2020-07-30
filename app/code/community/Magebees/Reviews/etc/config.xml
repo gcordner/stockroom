@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Magebees_Reviews>
+		  <version>1.0.0</version>
+		</Magebees_Reviews>
+	</modules>
+	<global>
+		<helpers>
+			<reviews>
+				<class>Magebees_Reviews_Helper</class>
+			</reviews>
+		</helpers>
+		<blocks>
+            <reviews>
+                <class>Magebees_Reviews_Block</class>
+            </reviews>
+        </blocks>
+	</global>
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<reviews after="Mage_Adminhtml">Magebees_Reviews_Adminhtml</reviews>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>        
+	</admin>
+	<adminhtml>
+		<menu>
+			<cws module="reviews">
+				<title>MageBees</title>
+				<sort_order>70</sort_order>
+				<children>
+					<impexpreviews module="reviews">
+						<title>Import Export Product Reviews</title>
+						<sort_order>70</sort_order>   	
+						<children>
+							<importreviews module="reviews">
+								<title>Import Product Reviews</title>
+								<sort_order>0</sort_order>
+								<action>adminhtml/importreviews</action>
+							</importreviews>
+							<exportreviews module="reviews">
+								<title>Export Product Reviews</title>
+								<sort_order>10</sort_order>
+								<action>adminhtml/exportreviews</action>
+							</exportreviews>
+						</children>
+					</impexpreviews>
+				</children>	
+			</cws>
+		</menu>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<cws module="reviews">
+						<title>MageBees</title>
+						<sort_order>100</sort_order>
+						<children>
+							<impexpreviews module="reviews">
+								<title>Import Export Product Reviews</title>
+								<sort_order>70</sort_order>   	
+								<children>
+									<importreviews module="reviews">
+										<title>Import Product Reviews</title>
+										<sort_order>0</sort_order>
+									</importreviews>
+									<exportreviews module="reviews">
+										<title>Export Product Reviews</title>
+										<sort_order>10</sort_order>
+									</exportreviews>
+								</children>
+							</impexpreviews>
+						</children>	
+					</cws>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<impexpreviews>
+											<title>Import Export Product Reviews Section</title>
+										</impexpreviews>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+		  </resources>
+		</acl>
+		<layout>
+			<updates>
+				<reviews>
+					<file>reviews.xml</file>
+				</reviews>
+			</updates>
+		</layout>
+	</adminhtml>
+</config> 

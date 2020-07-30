@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<adminhtml_importreviews_index>
+		<reference name="content">
+			<block type="core/template" name="importreviews" template="reviews/import.phtml"/>
+		</reference>
+	</adminhtml_importreviews_index>
+	<adminhtml_exportreviews_index>
+		<reference name="content">
+			<block type="core/template" name="exportreviews" template="reviews/export.phtml"/>
+		</reference>
+	</adminhtml_exportreviews_index>
+</layout>

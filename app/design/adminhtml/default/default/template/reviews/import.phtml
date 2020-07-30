@@ -1,0 +1,102 @@
+<div id="anchor-content" class="middle">
+    <div id="page:main-container">
+        <div class="columns ">
+            <div id="page:left" class="side-col">
+                <h3>Import/Export Product Reviews</h3>
+				<ul class="tabs" id="import_tabs">
+					<li>
+						<a class="tab-item-link active" title="Import Product Reviews" name="sample_csv" id="import_tabs_sample_csv" href="#">
+							<span><span title="The information in this tab has been changed." class="changed"></span><span title="This tab contains invalid data. Please solve the problem before saving." class="error"></span>Import Product Reviews</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+            <div id="content" class="main-col">
+			   <div id="result"></div>
+                <div class="main-col-inner">
+                 
+					
+					<div class="content-header">
+						<h3 class="icon-head head-adminhtml">Import Product Reviews</h3>   
+					</div>
+					<div class="entry-edit">
+					  	<div id="messages">
+							<ul class="messages">
+								<li class="notice-msg">
+									<ul>
+										<li><?php echo $this->__('Make sure that data encoding in the file is consistent and saved in CSV (comma separated only) with supported encodings (UTF-8 or ANSI).')?></li>
+                                    </ul>
+                                </li>
+                                <li class="notice-msg">
+                                    <ul>
+                                        <li><?php echo $this->__('Before import the product reviews please refere sample csv files')?></li>
+                                    </ul>
+                                </li> 
+                            </ul>
+                        </div> 
+                        <form action="<?php // echo  Mage::helper("adminhtml")->getUrl("adminhtml/importreviews/import/");?>" method="post" enctype="multipart/form-data" id="reviewsform">
+                            <legend><?php echo $this->__("Upload File") ?></legend>
+                            <fieldset>
+                                <table height="80">
+                                <tr>
+                                    <td>
+                                        <label for="filename"><?php echo $this->__("Select your CSV (Comma delimited) File :") ?></label>
+                                    </td>
+                                    <td>
+                                        <input type="file" class="required-entry required-entry" id="filename" name="filename"  />
+                                        <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>"  />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>                            
+                                        <button style="" onclick="valid()";  type="button" class="scalable save"  title="Run Profile in Popup" ><span><?php echo $this->__("Click on for Import Product Reviews") ?></span></button>
+                                    </td>
+                                </tr>
+                                </table>                            
+                            </fieldset>
+                        </form>
+                        
+                
+                    <script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS)."reviews/jquery-1.10.2.min.js" ?>"></script>
+                    <script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS)."reviews/noconflict.js" ?>"></script>
+                        <script>                        
+                            function valid() 
+                            {
+                                var formkey = "<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>";
+                                var importurl = "<?php  echo  Mage::helper("adminhtml")->getUrl("adminhtml/importreviews/import/");?>";
+                                var file = document.getElementById("filename");
+                                var formData = new FormData();
+                                formData.append("filename", file.files[0]);
+                                formData.append('form_key', formkey);
+                                var filename = jQuery('#filename').val();
+								if(filename.toLowerCase().lastIndexOf(".csv")==-1) 	{
+									alert("Please upload only .csv extention file");
+									return false;
+								}
+                                if(filename) {
+                                    jQuery.ajax({
+                                        url : importurl,
+                                         contentType: false,
+                                        processData: false, 
+                                        data: formData,                         
+                                        type: 'post',
+                                        beforeSend: function() {
+                                            jQuery("#loading-mask").show();
+                                        },
+                                        success: function(data){
+                                            jQuery("#loading-mask").hide();
+                                            jQuery('#result').html(data);
+                                        }
+                                    });
+                                }else{
+                                    alert("Please Upload CSV File");
+                                }
+                            }                            
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

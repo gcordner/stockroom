@@ -1,0 +1,59 @@
+<div id="anchor-content" class="middle">
+    <div id="page:main-container">
+        <div class="columns ">
+            <div id="page:left" class="side-col">
+                <h3>Import/Export Product Reviews</h3>
+				<ul class="tabs" id="import_tabs">
+					<li>
+						<a class="tab-item-link active" title="Import Product Reviews" name="sample_csv" id="import_tabs_sample_csv" href="#">
+							<span><span title="The information in this tab has been changed." class="changed"></span><span title="This tab contains invalid data. Please solve the problem before saving." class="error"></span>Export Product Reviews</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+            <div id="content" class="main-col">
+                <div class="main-col-inner">
+					<div id="result"></div>                    
+					<div class="content-header">
+						<h3 class="icon-head head-adminhtml">Export Product Reviews</h3>   
+					</div>
+					<div class="entry-edit">
+					  	<div id="messages">
+							<ul class="messages">
+								<li class="notice-msg">
+									<ul>
+										<li><?php echo $this->__('Exported file will be save in var/export directory.')?></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div> 
+                        <form action="<?php // echo  Mage::helper("adminhtml")->getUrl("adminhtml/exportreviews/export/");?>" id="exportreview" method="post">
+                            <fieldset>
+                                <table height="30">                                
+                                    <tr>                                
+                                        <td>
+                                            <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>"  />                                    
+                                            <button style="" onclick="valid()"; class="scalable save" type="button" title="Run Profile in Popup" ><span><?php echo $this->__("Click on for Export Product Reviews") ?></span></button>
+                                        </td>
+                                    </tr>
+                                </table>                            
+                            </fieldset>                            
+                        </form>                    
+                        <script>                        
+                            function valid() {
+                                var url = "<?php echo  Mage::helper("adminhtml")->getUrl("adminhtml/exportreviews/export/");?>";
+                                new Ajax.Request(url,{
+                                    method:'POST',
+                                    requestHeaders: {Accept: 'application/json'},
+                                    onSuccess:function(transport){
+                                        var response=transport.responseText.evalJSON(true);
+                                        document.getElementById('result').innerHTML = response;                                    }.bind(this)
+                                });
+                            }                            
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
